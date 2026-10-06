@@ -283,4 +283,22 @@ const DP_SIMS = [
     description: "Shine light on a metal and knock electrons out: explore threshold frequency, stopping voltage and Einstein's equation E_max = hf − Φ, then build I–V and stopping-voltage graphs to measure Planck's constant.",
     file: "sims/photoelectric-effect.html"
   },
+  {
+    id: "electric-potential",
+    title: "Electric Potential & Potential Energy",
+    icon: "🔋",
+    topic: "D.2",
+    topicName: "Electric & Magnetic Fields (HL)",
+    description: "Build the energy picture of the electric field: the potential energy of a pair of charges, the scalar potential V = kQ/r, the potential gradient E = −ΔV/Δr, and the work done moving charges across equipotentials — with step-by-step derivations, worked examples and a quiz.",
+    file: "sims/electric-potential.html"
+  },
+  {
+    id: "rigid-body-torque",
+    title: "Rigid Body 1 · Torque & Rotational Equilibrium",
+    icon: "🔩",
+    topic: "A.4",
+    topicName: "Rigid Body Mechanics (HL)",
+    description: "Part 1 of 4. Explore torque τ = Fr sinθ with a live turning-effect gauge, the lever-arm view, moment of inertia across shapes, rotational equilibrium on a draggable beam, and unbalanced torque leading to τ = Iα — with derivations, worked examples and a quiz.",
+    file: "sims/rigid-body-torque.html"
+  },
 ];

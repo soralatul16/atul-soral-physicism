@@ -301,4 +301,13 @@ const DP_SIMS = [
     description: "Part 1 of 4. Explore torque τ = Fr sinθ with a live turning-effect gauge, the lever-arm view, moment of inertia across shapes, rotational equilibrium on a draggable beam, and unbalanced torque leading to τ = Iα — with derivations, worked examples and a quiz.",
     file: "sims/rigid-body-torque.html"
   },
+  {
+    id: "rigid-body-kinematics",
+    title: "Rigid Body 2 · Rotational Kinematics",
+    icon: "🌀",
+    topic: "A.4",
+    topicName: "Rigid Body Mechanics (HL)",
+    description: "Part 2 of 4. Angular displacement and the radian, angular velocity and v = rω, angular acceleration and a = rα, the four equations of uniform angular acceleration with a live predictor, and the linear ↔ rotational link via a rolling wheel — with derivations, worked examples and a quiz.",
+    file: "sims/rigid-body-kinematics.html"
+  },
 ];

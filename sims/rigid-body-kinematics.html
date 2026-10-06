@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Rotational Kinematics</title>
+<style>
+:root{
+  --c1:#e11d48; --c2:#0d9488; --c3:#d97706; --c4:#059669; --c5:#ca8a04; --c6:#4d7c0f; --c7:#0f766e;
+  --accent:var(--c1); --accent-soft:rgba(225,29,72,.12);
+  --ink:#2a2420; --muted:#8a7f73; --line:rgba(42,36,32,.13); --card:#fffdfb;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#fdf6f1 0%,#f4f8f2 50%,#eef8f4 100%)}
+body[data-page="1"]{background:linear-gradient(140deg,#fdeef0 0%,#fdf4ee 45%,#fbf1ea 100%)}
+body[data-page="2"]{background:linear-gradient(140deg,#e7f6f1 0%,#eef9f1 45%,#f4faee 100%)}
+body[data-page="3"]{background:linear-gradient(140deg,#fdf2e3 0%,#fdf6e8 45%,#fdf4e4 100%)}
+body[data-page="4"]{background:linear-gradient(140deg,#e6f7ec 0%,#eef9ec 45%,#f4f9e6 100%)}
+body[data-page="5"]{background:linear-gradient(140deg,#fdf6e2 0%,#fcf7e5 45%,#f8f8e3 100%)}
+body[data-page="6"]{background:linear-gradient(140deg,#f0f6de 0%,#eef5df 45%,#edf4e2 100%)}
+body[data-page="7"]{background:linear-gradient(140deg,#e3f4ee 0%,#e9f5ea 45%,#eff5e6 100%)}
+body[data-page="8"]{background:linear-gradient(140deg,#fdeef0 0%,#fdf4ee 45%,#fbf1ea 100%)}
+body.dark{--ink:#ece6df;--muted:#b2a89b;--line:rgba(236,230,223,.16);--card:#241f1b;--tan:#3a322a;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#17130f 0%,#141511 55%,#121613 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(28,24,20,.86)}
+body.dark .brand{color:#f6f1ea}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox,body.dark .workcard{background:#241f1b}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#1b1713}
+body.dark .qexp{background:rgba(13,148,136,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#d8cfc3}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .qexp,body.dark .dstep .cap,body.dark .pq .stem,body.dark .intro{color:#d8cfc3}
+body.dark .gatebox .mark{color:#f6f1ea}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#f6f4ef}
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,253,251,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#2a2420;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#0d9488;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,253,251,.6);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fffdfb;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .hl{display:inline-flex;align-items:center;gap:4px}
+.dotHL{width:9px;height:9px;border-radius:3px;background:#e11d48}
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:760px;font-size:15px}
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,253,251,.86);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.hl{background:rgba(225,29,72,.12);color:#e11d48}
+.lead{font-size:16px;color:#4a4038;max-width:800px;margin-bottom:14px}
+.intro{background:var(--accent-soft);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;
+  padding:13px 16px;margin-bottom:18px;font-size:13.5px;color:#4a4038;max-width:900px}
+.intro .t{display:block;font-weight:800;color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.intro b{color:var(--ink)}
+.intro p{margin:0 0 6px}
+.intro p:last-child{margin:0}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.workcard{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.workcard .wgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+@media(max-width:720px){.workcard .wgrid{grid-template-columns:1fr}}
+.workcard h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.workcard h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,40vh,400px);overflow:hidden;border-radius:12px;background:linear-gradient(160deg,#fffefb 0%,#fbfbf6 100%);border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.ghost{background:#fffdfb;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fffdfb;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.7;color:var(--ink)}
+.fml .op{color:var(--muted);margin:0 4px}
+.fml sub{font-size:.66em;vertical-align:-.28em}
+.fml sup{font-size:.66em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 2px}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+.fml .cst{font-size:12.5px;font-family:var(--fm);color:var(--muted);margin-left:6px}
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#4a4038}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+.prose p{margin-bottom:11px;font-size:14.5px;color:#4a4038}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fffdf7;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+.deriv{border-top:3px solid var(--accent)!important}
+.deriv .dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dctrls{display:flex;gap:8px}
+.dintro{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.dstep{opacity:0;max-height:0;overflow:hidden;transform:translateY(6px);transition:opacity .35s ease,max-height .5s ease,transform .35s ease}
+.dstep.show{opacity:1;max-height:460px;transform:none;margin:12px 0}
+.dstep .eqbox{margin:0}
+.dstep .cap{font-size:13px;color:#4a4038;margin-top:6px}
+.dstep .cap b{color:var(--accent)}
+.dstep .sidx{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--accent);border-radius:5px;padding:2px 7px;margin-bottom:6px;text-transform:uppercase}
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#4a4038;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#4a4038;background:#fbf8f3;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+.we{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#4a4038;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c3)}
+.mcard .wrong{font-size:13px;color:#b45309;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"✗ ";}
+.mcard .right{font-size:13.5px;color:#15803d;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"✓ ";}
+.mcard p{font-size:13px;color:#4a4038;margin-top:5px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fffdf9;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#4a4038;background:#f0fbf5;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#fdf6f1,#f4f8f2,#eef8f4);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fffdfb;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(42,36,32,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#2a2420}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:#fff;border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body data-page="1">
+
+<!-- NAME GATE -->
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Rotational Kinematics</h2>
+    <p>Theme A.4 Rigid Body Mechanics · Part 2 of 4 · Higher Level</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive IB physics lesson</div>
+  </div>
+</div>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../index.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../index.html#dp">DP</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<!-- CHAPTER BAR -->
+<div class="chapterbar">
+  <span class="chaptag">A.4 Rigid Body</span>
+  <div class="parts">
+    <a class="partlink" href="rigid-body-torque.html">Part 1 · Torque &amp; Equilibrium<span class="pl">HL</span></a>
+    <a class="partlink here" href="rigid-body-kinematics.html">Part 2 · Rotational Kinematics<span class="pl">HL</span></a>
+    <a class="partlink" href="rigid-body-inertia.html">Part 3 · Moment of Inertia<span class="pl">HL</span></a>
+    <a class="partlink" href="rigid-body-angular-momentum.html">Part 4 · Angular Momentum<span class="pl">HL</span></a>
+  </div>
+  <div class="legend">
+    <span class="hl"><span class="dotHL"></span>All parts Higher Level</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">A.4 · Higher Level</div>
+  <h1 id="heroTitle">Describing how things spin</h1>
+  <p id="heroLede">Straight-line motion has displacement, velocity and acceleration. Spinning motion has exact partners: angular displacement, angular velocity and angular acceleration. Meet all three, then watch them obey the same equations of motion you already know.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : ANGULAR DISPLACEMENT & THE RADIAN -->
+<section class="page active" data-p="0">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">Measuring a turn</span>
+    <p>To describe spinning, we first need a clean way to say <b>how far</b> something has turned. Degrees work, but physics prefers the <b>radian</b> — because it ties the angle directly to the arc the body sweeps out. One radian is the angle at which the arc length equals the radius, so a full turn (circumference 2πr) is exactly <b>2π radians</b>.</p>
+    <p>That single choice makes everything downstream simple: arc length is just <b>s = rθ</b>, and the whole machinery of rotational motion falls out without stray conversion factors. The quantity θ here is the <b>angular displacement</b> — the rotational twin of straight-line displacement — and like all our quantities it carries a sense: counter-clockwise or clockwise.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Sweeping out an angle</h3>
+      <div class="canvas-wrap"><canvas id="angCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Angular displacement θ <b id="angThv">90°</b></label>
+        <input type="range" id="angTh" min="0" max="360" step="1" value="90">
+      </div>
+      <div class="ctl">
+        <label>Radius r <b id="angRv">0.60 m</b></label>
+        <input type="range" id="angR" min="0.30" max="1.00" step="0.05" value="0.60">
+      </div>
+      <p class="note">Drag the <b>moving spoke</b> or use the slider to sweep the angle. The highlighted arc is the distance a point on the rim travels — watch <b>s = rθ</b> update. The faint gold tick marks exactly <b>one radian</b> (≈ 57.3°), where the arc first equals the radius.</p>
+    </div>
+    <div class="card deriv" data-sim="ang">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · the radian &amp; s = rθ</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Define the angle from the arc it subtends, then read off the arc-length rule.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · define the radian</span><div class="eqbox fml">θ <span class="op">=</span><span class="frac"><span class="num">s</span><span class="den">r</span></span><span class="cst">θ in radians</span></div><div class="cap">The angle in radians is the <b>arc length divided by the radius</b>. Both are lengths, so a radian is a pure number — it has no unit.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · one full turn</span><div class="eqbox fml">θ<sub>full</sub> <span class="op">=</span><span class="frac"><span class="num">2πr</span><span class="den">r</span></span><span class="op">=</span>2π rad</div><div class="cap">Go all the way round and the arc is the whole circumference 2πr. So <b>360° = 2π rad</b>, which gives the conversion 1 rad ≈ 57.3°.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · rearrange for arc length</span><div class="eqbox fml" style="font-weight:700">s = r θ</div><div class="cap">Multiply through by r. The distance a rim point travels is simply radius × angle (in radians) — the bridge between turning and travelling.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · angular displacement Δθ</span><div class="eqbox fml">Δθ = θ<sub>f</sub> − θ<sub>i</sub></div><div class="cap">A <b>change</b> in angle is the angular displacement — the rotational partner of Δx. Counter-clockwise is taken as positive, clockwise as negative.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="angReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">s = r θ<span class="cst">θ in rad</span></div>
+        <div class="out" id="angOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="ang-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A wheel of radius 0.40 m is rotated so that a point on its rim travels an arc of 0.50 m.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the angular displacement in radians. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">θ = <span class="frac"><span class="num">s</span><span class="den">r</span></span> = <span class="frac"><span class="num">0.50</span><span class="den">0.40</span></span> <span class="op">=</span><b>1.25 rad</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Convert this angle to degrees. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">1.25 × <span class="frac"><span class="num">180</span><span class="den">π</span></span> <span class="op">=</span><b>71.6°</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The wheel now completes 3 full revolutions. State its angular displacement in radians. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Each revolution is 2π rad, so Δθ = 3 × 2π = <b>6π ≈ 18.8 rad</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : ANGULAR VELOCITY -->
+<section class="page" data-p="1">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">How fast it turns</span>
+    <p><b>Angular velocity ω</b> is how quickly the angular displacement changes — radians swept per second. It is the rotational twin of ordinary velocity: where v tells you metres per second along a line, ω tells you radians per second around an axis. One trip round takes a time called the <b>period T</b>, so ω = 2π/T = 2πf.</p>
+    <p>Here is the elegant part. Every point on a rigid body shares the <b>same ω</b> — the whole thing turns together. But a point far from the axis still has to cover a longer arc in that same time, so its <b>linear speed</b> is larger: v = rω. That is why the rim of a wheel whizzes while the hub barely moves.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>One ω, many speeds</h3>
+      <div class="canvas-wrap"><canvas id="omegaCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Angular velocity ω <b id="omWv">3.0 rad s⁻¹</b></label>
+        <input type="range" id="omW" min="0.5" max="8" step="0.1" value="3">
+      </div>
+      <div class="ctl">
+        <label>Radius of marked point r <b id="omRv">0.60 m</b></label>
+        <input type="range" id="omR" min="0.20" max="1.00" step="0.05" value="0.60">
+      </div>
+      <p class="note">The disc spins at the rate you set. The <b>red dot</b> sits a distance r from the axis; its green arrow is the <b>linear velocity v = rω</b>, always tangent to the circle. Slide r outward and the arrow grows — same ω, faster point.</p>
+    </div>
+    <div class="card deriv" data-sim="om">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · ω = 2π/T and v = rω</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Start from the definition of angular velocity, then connect it to linear speed through s = rθ.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · define ω</span><div class="eqbox fml">ω <span class="op">=</span><span class="frac"><span class="num">Δθ</span><span class="den">Δt</span></span><span class="cst">rad s⁻¹</span></div><div class="cap">Angular velocity is angular displacement per unit time — exactly how fast the angle is growing.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · one whole revolution</span><div class="eqbox fml">ω <span class="op">=</span><span class="frac"><span class="num">2π</span><span class="den">T</span></span><span class="op">=</span>2πf</div><div class="cap">In one period T the body turns 2π rad. Since f = 1/T, this also gives ω = 2πf.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · bring in arc length</span><div class="eqbox fml">v <span class="op">=</span><span class="frac"><span class="num">s</span><span class="den">t</span></span><span class="op">=</span><span class="frac"><span class="num">r Δθ</span><span class="den">Δt</span></span></div><div class="cap">The point's linear speed is arc travelled per time. Substitute s = rΔθ and r stays constant for a rigid body.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · the link</span><div class="eqbox fml" style="font-weight:700">v = r ω</div><div class="cap">Pull Δθ/Δt out as ω. Linear speed equals radius × angular velocity — bigger r, faster point, for the <b>same</b> ω.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="omReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">ω = <span class="frac"><span class="num">2π</span><span class="den">T</span></span><span class="op">,</span>v = rω</div>
+        <div class="out" id="omOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="om-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A fan blade completes 1 revolution every 0.25 s. A point sits 0.18 m from the axis.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the angular velocity of the blade. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">ω = <span class="frac"><span class="num">2π</span><span class="den">T</span></span> = <span class="frac"><span class="num">2π</span><span class="den">0.25</span></span> <span class="op">=</span><b>25.1 rad s⁻¹</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Calculate the linear speed of that point. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">v = rω = (0.18)(25.1) <span class="op">=</span><b>4.5 m s⁻¹</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) A second point sits twice as far out. State its angular velocity and its linear speed relative to the first. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Angular velocity is <b>identical</b> (25.1 rad s⁻¹) — the whole blade turns together. But its linear speed is <b>double</b> (9.0 m s⁻¹), since v = rω and r has doubled.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : ANGULAR ACCELERATION -->
+<section class="page" data-p="2">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">Speeding up the spin</span>
+    <p>If ω itself is changing, the body has an <b>angular acceleration α</b> — radians per second, per second. It is the rotational twin of linear acceleration: a resultant force gives a, a resultant torque gives α. Spin a wheel up from rest and ω climbs steadily; brake it and α points the other way, bleeding ω back down.</p>
+    <p>And just as one ω gives every point its own v, one α gives every point its own <b>tangential acceleration a = rα</b> — the part of the acceleration that speeds the point along its arc. Farther from the axis means a larger a for the very same α.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Watch ω climb</h3>
+      <div class="canvas-wrap"><canvas id="alphaCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Angular acceleration α <b id="alAv">1.5 rad s⁻²</b></label>
+        <input type="range" id="alA" min="-3" max="3" step="0.1" value="1.5">
+      </div>
+      <div class="ctl">
+        <label>Starting angular velocity ω<sub>i</sub> <b id="alWiv">0.0 rad s⁻¹</b></label>
+        <input type="range" id="alWi" min="0" max="4" step="0.1" value="0">
+      </div>
+      <div class="btnrow"><button class="btn ghost" id="alReset">↻ Restart</button></div>
+      <p class="note">The wheel starts at ω<sub>i</sub> and gains speed at the rate α you set. The lower graph plots <b>ω against t</b> — a straight line whose <b>slope is α</b>. A negative α tips the line downward: the wheel slows, stops, then spins the other way.</p>
+    </div>
+    <div class="card deriv" data-sim="al">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · α and a = rα</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Define α from the change in ω, then differentiate v = rω to find the tangential acceleration.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · define α</span><div class="eqbox fml">α <span class="op">=</span><span class="frac"><span class="num">Δω</span><span class="den">Δt</span></span><span class="cst">rad s⁻²</span></div><div class="cap">Angular acceleration is the rate of change of angular velocity — how fast the spin rate itself is changing.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · start from v = rω</span><div class="eqbox fml">v = r ω</div><div class="cap">A rim point's linear speed is tied to ω through the fixed radius r.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · change over time</span><div class="eqbox fml">a <span class="op">=</span><span class="frac"><span class="num">Δv</span><span class="den">Δt</span></span><span class="op">=</span>r<span class="frac"><span class="num">Δω</span><span class="den">Δt</span></span></div><div class="cap">Divide the change in v by time. Because r is constant it comes straight out of the fraction.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · tangential acceleration</span><div class="eqbox fml" style="font-weight:700">a = r α</div><div class="cap">This is the <b>tangential</b> acceleration — it speeds the point along its path. (A spinning point also needs a separate centripetal acceleration v²/r just to keep curving.)</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="alReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">α = <span class="frac"><span class="num">Δω</span><span class="den">Δt</span></span><span class="op">,</span>a = rα</div>
+        <div class="out" id="alOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="al-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A turntable speeds up uniformly from rest to 33.0 rad s⁻¹ in 4.0 s.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate its angular acceleration. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">α = <span class="frac"><span class="num">Δω</span><span class="den">Δt</span></span> = <span class="frac"><span class="num">33.0 − 0</span><span class="den">4.0</span></span> <span class="op">=</span><b>8.25 rad s⁻²</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) A speck of dust sits 0.12 m from the centre. Find its tangential acceleration. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">a = rα = (0.12)(8.25) <span class="op">=</span><b>0.99 m s⁻²</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The power is cut and the turntable coasts to rest in 12 s. State the sign of α now and why. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>α is <b>negative</b> (a deceleration): ω is decreasing, so Δω is negative over the time interval. Its magnitude is 33.0/12 = 2.75 rad s⁻².</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 4 : EQUATIONS OF UNIFORM ANGULAR ACCELERATION -->
+<section class="page" data-p="3">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">The rotational equations of motion</span>
+    <p>When α is <b>constant</b>, the four straight-line "suvat" equations carry over wholesale — just swap each linear symbol for its angular partner. Displacement s becomes angular displacement Δθ, initial and final velocities u, v become ω<sub>i</sub>, ω<sub>f</sub>, and acceleration a becomes α. The algebra is identical because the definitions are identical.</p>
+    <p>Set the initial spin, the angular acceleration and a time below, and the predictor runs all four equations at once — showing the final angular velocity, the angle turned, and the two graphs that go with them: a straight ω–t line and a curved θ–t parabola.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Predict the motion</h3>
+      <div class="canvas-wrap"><canvas id="predCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Initial angular velocity ω<sub>i</sub> <b id="prWiv">1.0 rad s⁻¹</b></label>
+        <input type="range" id="prWi" min="0" max="6" step="0.1" value="1">
+      </div>
+      <div class="ctl">
+        <label>Angular acceleration α <b id="prAv">1.0 rad s⁻²</b></label>
+        <input type="range" id="prA" min="-2" max="3" step="0.1" value="1">
+      </div>
+      <div class="ctl">
+        <label>Elapsed time t <b id="prTv">3.0 s</b></label>
+        <input type="range" id="prT" min="0" max="10" step="0.1" value="3">
+      </div>
+      <p class="note">Scrub the <b>time</b> slider to move the marker along both graphs. The wheel above shows the <b>angle turned</b> so far; the left graph is ω against t (slope α), the right graph is θ against t (a parabola when α ≠ 0).</p>
+    </div>
+    <div class="card deriv" data-sim="pr">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Deriving the four equations</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Everything follows from the definition of α and the average angular velocity.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Equation 1 · from the definition of α</span><div class="eqbox fml">α = <span class="frac"><span class="num">ω<sub>f</sub> − ω<sub>i</sub></span><span class="den">t</span></span> <span class="op">⟹</span><b>ω<sub>f</sub> = ω<sub>i</sub> + αt</b></div><div class="cap">Rearrange the definition of angular acceleration. The final spin rate is the initial one plus the gain αt.</div></div>
+        <div class="dstep"><span class="sidx">Equation 2 · average angular velocity</span><div class="eqbox fml"><b>Δθ = <span class="frac"><span class="num">ω<sub>i</sub> + ω<sub>f</sub></span><span class="den">2</span></span> t</b></div><div class="cap">With uniform α the average of ω is just (ω<sub>i</sub>+ω<sub>f</sub>)/2. Angle turned = average angular velocity × time.</div></div>
+        <div class="dstep"><span class="sidx">Equation 3 · substitute Eq 1 into Eq 2</span><div class="eqbox fml">Δθ = <span class="frac"><span class="num">ω<sub>i</sub> + (ω<sub>i</sub>+αt)</span><span class="den">2</span></span> t <span class="op">⟹</span><b>Δθ = ω<sub>i</sub>t + ½αt²</b></div><div class="cap">Replace ω<sub>f</sub> with ω<sub>i</sub>+αt and simplify. This gives the angle directly from the initial spin and α.</div></div>
+        <div class="dstep"><span class="sidx">Equation 4 · eliminate t</span><div class="eqbox fml">t = <span class="frac"><span class="num">ω<sub>f</sub>−ω<sub>i</sub></span><span class="den">α</span></span> into Eq 2 <span class="op">⟹</span><b>ω<sub>f</sub>² = ω<sub>i</sub>² + 2αΔθ</b></div><div class="cap">Substitute t from Eq 1 into Eq 2 and tidy. The time-free equation — perfect when t is neither given nor wanted.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="prReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">ω<sub>f</sub> = ω<sub>i</sub> + αt</div>
+        <div class="eqbox fml">Δθ = ω<sub>i</sub>t + ½αt²</div>
+        <div class="out" id="prOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="pr-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A flywheel starts at 2.0 rad s⁻¹ and accelerates uniformly at 3.0 rad s⁻² for 4.0 s.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Find its final angular velocity. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">ω<sub>f</sub> = ω<sub>i</sub> + αt = 2.0 + (3.0)(4.0) <span class="op">=</span><b>14 rad s⁻¹</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Find the angle it turns through in that time. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">Δθ = ω<sub>i</sub>t + ½αt² = (2.0)(4.0) + ½(3.0)(4.0²) <span class="op">=</span><b>32 rad</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) Check part (b) using the time-free equation. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">ω<sub>f</sub>² = ω<sub>i</sub>² + 2αΔθ <span class="op">⟹</span> 14² = 2.0² + 2(3.0)Δθ</div>196 − 4 = 6Δθ, so Δθ = 192/6 = <b>32 rad ✓</b> — the two methods agree.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 : LINEAR ↔ ROTATIONAL -->
+<section class="page" data-p="4">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <div class="intro">
+    <span class="t">The same physics, two languages</span>
+    <p>Rotational kinematics isn't a new subject — it's linear kinematics wearing different symbols. Every linear quantity has an angular partner, and the bridge between them is the radius: <b>s = rθ</b>, <b>v = rω</b>, <b>a = rα</b>. Learn the dictionary once and every suvat result you already trust becomes a rotational result for free.</p>
+    <p>A wheel <b>rolling without slipping</b> shows the whole dictionary at once. In one full turn (θ = 2π) it lays down an arc equal to its circumference and so advances a distance 2πr — meaning the distance rolled equals rθ, and the centre moves at exactly v = rω. Watch it below.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Rolling without slipping</h3>
+      <div class="canvas-wrap"><canvas id="linkCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Angular velocity ω <b id="lkWv">2.5 rad s⁻¹</b></label>
+        <input type="range" id="lkW" min="0.5" max="5" step="0.1" value="2.5">
+      </div>
+      <div class="ctl">
+        <label>Wheel radius r <b id="lkRv">0.50 m</b></label>
+        <input type="range" id="lkR" min="0.30" max="0.80" step="0.05" value="0.50">
+      </div>
+      <div class="btnrow"><button class="btn ghost" id="lkReset">↻ Restart</button></div>
+      <p class="note">The wheel turns at ω and rolls without slipping, so its centre glides at <b>v = rω</b>. The gold track is the distance travelled; the readouts confirm it stays equal to the arc <b>rθ</b> as the wheel turns.</p>
+    </div>
+    <div class="card deriv" data-sim="lk">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>The linear ↔ angular dictionary</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Each line differentiates the one above — the same step that turns s into v into a.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Displacement</span><div class="eqbox fml">s = r θ</div><div class="cap">Distance along the arc = radius × angle. The anchor of the whole dictionary.</div></div>
+        <div class="dstep"><span class="sidx">Velocity</span><div class="eqbox fml">v = r ω</div><div class="cap">Rate of change of each side. For a rolling wheel this is the speed of the centre.</div></div>
+        <div class="dstep"><span class="sidx">Acceleration</span><div class="eqbox fml">a = r α</div><div class="cap">Differentiate once more. The tangential (and here, forward) acceleration.</div></div>
+        <div class="dstep"><span class="sidx">The suvat map</span><div class="eqbox fml" style="font-size:13.5px">x↔θ&nbsp;&nbsp; u↔ω<sub>i</sub>&nbsp;&nbsp; v↔ω<sub>f</sub>&nbsp;&nbsp; a↔α&nbsp;&nbsp; t↔t</div><div class="cap">Swap symbols and every linear equation of motion becomes its rotational twin — <b>same algebra, different letters</b>.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="lkReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">s = rθ<span class="op">,</span>v = rω<span class="op">,</span>a = rα</div>
+        <div class="out" id="lkOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="lk-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A bicycle wheel of radius 0.33 m rolls without slipping. Its centre moves at 6.0 m s⁻¹.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Find the wheel's angular velocity. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">ω = <span class="frac"><span class="num">v</span><span class="den">r</span></span> = <span class="frac"><span class="num">6.0</span><span class="den">0.33</span></span> <span class="op">=</span><b>18.2 rad s⁻¹</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) The bike travels 50 m. Through what angle has the wheel turned? <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">θ = <span class="frac"><span class="num">s</span><span class="den">r</span></span> = <span class="frac"><span class="num">50</span><span class="den">0.33</span></span> <span class="op">=</span><b>152 rad</b></div>(about 24 revolutions, since 152 ÷ 2π ≈ 24.)</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The brakes give the wheel an angular deceleration of 9.0 rad s⁻². How long to stop? <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">ω<sub>f</sub> = ω<sub>i</sub> + αt <span class="op">⟹</span> 0 = 18.2 + (−9.0)t</div>t = 18.2 / 9.0 = <b>2.0 s</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 : WORKED EXAMPLES -->
+<section class="page" data-p="5">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <p class="lead">Five exam-style problems that stitch the whole chapter together — from radians through the equations of motion to the rolling link. Try each before revealing the full solution.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example 1 · angular velocity</div>
+    <div class="q">A compact disc spins at 540 revolutions per minute. Find its angular velocity in rad s⁻¹ and the period of rotation.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Convert revolutions per minute to revolutions per second: 540 / 60 = 9.0 rev s⁻¹. Each revolution is 2π rad.</p>
+      <div class="eqbox fml">ω = 9.0 × 2π <span class="op">=</span><b>56.5 rad s⁻¹</b></div>
+      <div class="eqbox fml">T = <span class="frac"><span class="num">1</span><span class="den">f</span></span> = <span class="frac"><span class="num">1</span><span class="den">9.0</span></span> <span class="op">=</span><b>0.11 s</b></div>
+      <p>Always drop to rev s⁻¹ (= frequency f) first — then ω = 2πf is one clean step.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 2 · equations of motion</div>
+    <div class="q">A drill bit accelerates uniformly from rest to 1200 rad s⁻¹ in 2.5 s. (a) Find the angular acceleration. (b) Find the number of revolutions made during this time.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">α = <span class="frac"><span class="num">ω<sub>f</sub> − ω<sub>i</sub></span><span class="den">t</span></span> = <span class="frac"><span class="num">1200 − 0</span><span class="den">2.5</span></span> <span class="op">=</span><b>480 rad s⁻²</b></div>
+      <p>For the angle, use the average angular velocity (clean since α is uniform):</p>
+      <div class="eqbox fml">Δθ = <span class="frac"><span class="num">ω<sub>i</sub>+ω<sub>f</sub></span><span class="den">2</span></span>t = <span class="frac"><span class="num">0+1200</span><span class="den">2</span></span>(2.5) <span class="op">=</span>1500 rad</div>
+      <div class="eqbox fml">revolutions = <span class="frac"><span class="num">1500</span><span class="den">2π</span></span> <span class="op">≈</span><b>239 rev</b></div>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 3 · time-free equation</div>
+    <div class="q">A grinding wheel spinning at 60 rad s⁻¹ is switched off and decelerates uniformly at 4.0 rad s⁻². Through what angle does it turn before stopping?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Time isn't asked for, so use the time-free equation with ω<sub>f</sub> = 0 and α = −4.0 rad s⁻².</p>
+      <div class="eqbox fml">ω<sub>f</sub>² = ω<sub>i</sub>² + 2αΔθ <span class="op">⟹</span> 0 = 60² + 2(−4.0)Δθ</div>
+      <div class="eqbox fml">Δθ = <span class="frac"><span class="num">60²</span><span class="den">8.0</span></span> = <span class="frac"><span class="num">3600</span><span class="den">8.0</span></span> <span class="op">=</span><b>450 rad</b></div>
+      <p>Keeping α negative (it opposes the motion) is what makes the arithmetic come out positive.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 4 · rolling link</div>
+    <div class="q">A car tyre of radius 0.31 m rolls without slipping. The car accelerates from 10 m s⁻¹ to 25 m s⁻¹ over 300 m. Find the tyre's angular acceleration.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Translate every linear quantity to angular using the radius:</p>
+      <div class="eqbox fml">ω<sub>i</sub> = <span class="frac"><span class="num">10</span><span class="den">0.31</span></span> = 32.3,&nbsp; ω<sub>f</sub> = <span class="frac"><span class="num">25</span><span class="den">0.31</span></span> = 80.6 rad s⁻¹</div>
+      <div class="eqbox fml">Δθ = <span class="frac"><span class="num">s</span><span class="den">r</span></span> = <span class="frac"><span class="num">300</span><span class="den">0.31</span></span> = 968 rad</div>
+      <div class="eqbox fml">ω<sub>f</sub>² = ω<sub>i</sub>² + 2αΔθ <span class="op">⟹</span> α = <span class="frac"><span class="num">80.6² − 32.3²</span><span class="den">2(968)</span></span> <span class="op">=</span><b>2.8 rad s⁻²</b></div>
+      <p>Equivalently you could find the linear a first and use α = a/r — same answer, since the dictionary is self-consistent.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 5 · two-phase motion</div>
+    <div class="q">A centrifuge accelerates from rest at 50 rad s⁻² for 6.0 s, then holds that speed for 10 s. Find the total angle turned.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p><b>Phase 1 (accelerating):</b> use Δθ = ω<sub>i</sub>t + ½αt² with ω<sub>i</sub> = 0.</p>
+      <div class="eqbox fml">Δθ₁ = ½(50)(6.0²) = <b>900 rad</b>,&nbsp; ω<sub>f</sub> = 50 × 6.0 = 300 rad s⁻¹</div>
+      <p><b>Phase 2 (constant ω):</b> α = 0, so Δθ = ωt.</p>
+      <div class="eqbox fml">Δθ₂ = (300)(10) = <b>3000 rad</b></div>
+      <div class="eqbox fml">Δθ<sub>total</sub> = 900 + 3000 <span class="op">=</span><b>3900 rad</b></div>
+      <p>Split the motion wherever α changes, then add the angles. The handover speed from Phase 1 becomes the constant speed of Phase 2.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 7 : MISCONCEPTIONS -->
+<section class="page" data-p="6">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <p class="lead">The traps that cost marks in rotational kinematics. Each one is a small habit — fix it once and it stays fixed.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"Points far from the axis turn through a bigger angle."</div>
+      <p>Every point of a rigid body sweeps the <b>same angle</b> in the same time — that's what "rigid" means. They share one θ, one ω and one α.</p>
+      <div class="right">Far-out points travel a longer <i>arc</i> (s = rθ) and move faster (v = rω), but the <i>angle</i> is identical.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"I can use the suvat equations with ω in rev/s."</div>
+      <p>The equations of motion only work in <b>consistent units</b>, and they're built on the radian. Mixing in revolutions or degrees breaks them.</p>
+      <div class="right">Convert everything to <b>radians and seconds</b> first: ω in rad s⁻¹, α in rad s⁻², θ in rad.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Angular acceleration means the wheel is speeding up."</div>
+      <p>α is just the <b>rate of change of ω</b>. If α opposes the spin, the wheel slows down — α is negative, a deceleration.</p>
+      <div class="right">Pick a positive sense (usually counter-clockwise) and let the signs of ω and α tell the story.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"a = rα is the whole acceleration of a rim point."</div>
+      <p>a = rα is only the <b>tangential</b> part — the bit that changes the speed. A point going in a circle also needs a <b>centripetal</b> acceleration v²/r pointing inward.</p>
+      <div class="right">Tangential rα speeds it up along the arc; centripetal v²/r keeps it curving. They're perpendicular.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"The radian is a unit like the metre, so it carries through formulas."</div>
+      <p>A radian is a <b>ratio of two lengths</b> (arc ÷ radius), so it's dimensionless. That's exactly why s = rθ gives a length in metres, not "metre-radians".</p>
+      <div class="right">Treat "rad" as a bookkeeping label: keep it on ω and α, but it quietly disappears in s = rθ and v = rω.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Δθ = ½(ω<sub>i</sub>+ω<sub>f</sub>)t works for any motion."</div>
+      <p>The average-velocity shortcut assumes <b>uniform α</b>, so ω changes linearly. If α varies (a non-constant torque), the average isn't the midpoint.</p>
+      <div class="right">Only reach for the four equations when the angular acceleration is <b>constant</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 8 : QUIZ -->
+<section class="page" data-p="7">
+  <span class="levelchip hl">HL · Higher Level</span>
+  <p class="lead">Six questions across the whole chapter. One attempt each — pick carefully, then read why.</p>
+  <div id="quiz"></div>
+  <div class="out" style="margin-top:14px"><b id="quizScore">Score: 0 / 6</b> · Reload the page to try again with a clear head.</div>
+</section>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> · A.4 Rigid Body Mechanics · Part 2 of 4 · Higher Level<br>
+  Next up — <b>Part 3 · Moment of Inertia &amp; Newton's Second Law for Rotation (τ = Iα)</b>.
+</footer>
+
+</main>
+
+<script>
+"use strict";
+const $=(s,r)=>(r||document).querySelector(s);
+const $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+
+/* ---------- gate ---------- */
+(function(){
+  const gate=$('#gate'), inp=$('#gateName'), btn=$('#gateBtn'), err=$('#gateErr');
+  function go(){
+    const v=inp.value.trim();
+    if(v.length<2){err.hidden=false;return;}
+    $('#profileName').textContent=v.split(' ')[0].toLowerCase().slice(0,12)||'student';
+    gate.style.opacity='0'; gate.style.transition='opacity .4s'; setTimeout(()=>gate.style.display='none',400);
+  }
+  btn.onclick=go; inp.addEventListener('keydown',e=>{if(e.key==='Enter')go();});
+  setTimeout(()=>inp.focus(),200);
+})();
+
+/* ---------- clock ---------- */
+(function(){
+  const el=$('#clock');
+  function t(){const d=new Date();el.textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+  t(); setInterval(t,1000);
+})();
+
+/* ---------- dark toggle ---------- */
+(function(){
+  const b=$('#sunbtn');
+  b.onclick=()=>{const d=document.body.classList.toggle('dark');b.innerHTML=d?'&#9790;':'&#9728;';b.title=d?'Switch to light mode':'Switch to dark mode';};
+})();
+
+/* ---------- tab engine ---------- */
+const PAGES=[
+ {name:'Angular Displacement',lvl:'HL',c:'#e11d48',soft:'rgba(225,29,72,.12)',k:'A.4 · Angular displacement',htitle:'Measuring a turn in radians',pre:'Angle, arc and the radian — the clean way to say how far a body has turned, and the rule s = rθ that links turning to travelling.'},
+ {name:'Angular Velocity',lvl:'HL',c:'#0d9488',soft:'rgba(13,148,136,.12)',k:'A.4 · Angular velocity',htitle:'How fast it turns: angular velocity',pre:'Radians per second, the period T, and why one shared ω still gives every point its own linear speed v = rω.'},
+ {name:'Angular Acceleration',lvl:'HL',c:'#d97706',soft:'rgba(217,119,6,.12)',k:'A.4 · Angular acceleration',htitle:'Changing the spin: angular acceleration',pre:'When ω itself changes, α measures how fast — and every point picks up a tangential acceleration a = rα.'},
+ {name:'Equations of Motion',lvl:'HL',c:'#059669',soft:'rgba(5,150,105,.12)',k:'A.4 · Uniform angular acceleration',htitle:'The rotational equations of motion',pre:'Constant α, four equations — the exact twins of suvat. Set the conditions and predict the whole motion.'},
+ {name:'Linear ↔ Rotational',lvl:'HL',c:'#ca8a04',soft:'rgba(202,138,4,.12)',k:'A.4 · The linear–angular link',htitle:'One physics, two languages',pre:'The linear ↔ angular dictionary s = rθ, v = rω, a = rα — shown by a wheel rolling without slipping.'},
+ {name:'Worked Examples',lvl:'HL',c:'#4d7c0f',soft:'rgba(77,124,15,.12)',k:'A.4 · Worked examples',htitle:'Worked examples',pre:'Five exam-style problems, radians through to rolling, each with a full step-by-step solution.'},
+ {name:'Misconceptions',lvl:'HL',c:'#d97706',soft:'rgba(217,119,6,.12)',k:'A.4 · Common misconceptions',htitle:'Common misconceptions',pre:'The habitual slips in rotational kinematics — and the quick fixes that make them stick.'},
+ {name:'Quiz',lvl:'HL',c:'#0f766e',soft:'rgba(15,118,110,.12)',k:'A.4 · Check your understanding',htitle:'Check your understanding',pre:'Six questions spanning the whole chapter. One attempt each, then read the reasoning.'}
+];
+let active=0;
+const nav=$('#nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML='<span class="num">'+(i+1)+'</span> '+p.name+' <span class="lvl">'+p.lvl+'</span>';
+  b.onclick=()=>goPage(i);
+  nav.appendChild(b);
+});
+function setAccent(i){
+  const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.c);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=i+1;
+  $('#kicker').textContent=p.k;
+  $('#heroTitle').textContent=p.htitle;
+  $('#heroLede').textContent=p.pre;
+}
+function goPage(i){
+  active=i;
+  $$('.page').forEach((el,j)=>el.classList.toggle('active',j===i));
+  $$('.tab').forEach((el,j)=>el.classList.toggle('active',j===i));
+  setAccent(i);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+setAccent(0);
+
+/* ---------- derivation steppers ---------- */
+$$('.deriv').forEach(d=>{
+  const steps=$$('.dstep',d), next=$('.dnext',d), reset=$('.dreset',d);
+  let n=0;
+  function render(){
+    steps.forEach((s,i)=>s.classList.toggle('show',i<n));
+    next.textContent=n===0?'Reveal step':(n>=steps.length?'All shown':'Next step');
+    next.disabled=n>=steps.length;
+    reset.hidden=n===0;
+  }
+  next.onclick=()=>{if(n<steps.length){n++;render();}};
+  reset.onclick=()=>{n=0;render();};
+  render();
+});
+
+/* ---------- progressive questions ---------- */
+$$('.pq').forEach(pq=>{
+  const parts=$$('.qpart',pq);
+  parts.forEach((part,i)=>{
+    const btn=$('.preveal',part), ans=$('.pans',part);
+    btn.onclick=()=>{
+      ans.hidden=false; btn.disabled=true; btn.style.opacity='.5';
+      if(parts[i+1]) parts[i+1].hidden=false;
+      else { const done=document.createElement('div'); done.className='pdone'; done.textContent='✓ All parts complete'; pq.appendChild(done); }
+    };
+  });
+});
+
+/* ---------- worked example reveals ---------- */
+$$('.we .reveal').forEach(btn=>{
+  const ans=btn.nextElementSibling;
+  btn.onclick=()=>{const open=!ans.hidden; ans.hidden=open; btn.textContent=open?'Show solution':'Hide solution';};
+});
+
+/* ---------- canvas infra ---------- */
+const sizes=new Map();
+function fit(cv,id){
+  const dpr=Math.min(window.devicePixelRatio||1,2);
+  const r=cv.getBoundingClientRect();
+  const w=Math.max(10,r.width), h=Math.max(10,r.height);
+  cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
+  cv.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  sizes.set(id,{w,h});
+}
+function dim(id){return sizes.get(id)||{w:300,h:300};}
+function ctxOf(id){const cv=document.getElementById(id);return cv?cv.getContext('2d'):null;}
+['angCanvas','omegaCanvas','alphaCanvas','predCanvas','linkCanvas'].forEach(id=>{
+  const cv=document.getElementById(id); if(!cv)return;
+  new ResizeObserver(()=>fit(cv,id)).observe(cv); fit(cv,id);
+});
+
+/* ---------- palette + helpers ---------- */
+const INK='#2a2420', GRY='#8a7f73', MUT='#b8ab9c';
+const C1='#e11d48',C2='#0d9488',C3='#d97706',C4='#059669',C5='#ca8a04',C6='#4d7c0f',C7='#0f766e';
+const PIVOT='#6f6557', GOLD='#c99a1a', SPOKE='rgba(111,101,87,.42)', FAINT='rgba(111,101,87,.22)';
+function arrow(ctx,x1,y1,x2,y2,col,lw,hs){
+  hs=hs||9; ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=lw||3;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath(); ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-hs*Math.cos(a-0.42), y2-hs*Math.sin(a-0.42));
+  ctx.lineTo(x2-hs*Math.cos(a+0.42), y2-hs*Math.sin(a+0.42));
+  ctx.closePath(); ctx.fill();
+}
+function spin(ctx,cx,cy,r,ccw,col){
+  ctx.strokeStyle=col; ctx.lineWidth=3;
+  const start=-Math.PI*0.5, sweep=Math.PI*1.5;
+  const end=ccw? start-sweep : start+sweep;
+  ctx.beginPath(); ctx.arc(cx,cy,r,start,end,ccw); ctx.stroke();
+  const ex=cx+Math.cos(end)*r, ey=cy+Math.sin(end)*r;
+  let tx=-Math.sin(end), ty=Math.cos(end); if(ccw){tx=-tx;ty=-ty;}
+  const nx=Math.cos(end), ny=Math.sin(end);
+  ctx.fillStyle=col; ctx.beginPath();
+  ctx.moveTo(ex+tx*10,ey+ty*10);
+  ctx.lineTo(ex-tx*2+nx*6,ey-ty*2+ny*6);
+  ctx.lineTo(ex-tx*2-nx*6,ey-ty*2-ny*6);
+  ctx.closePath(); ctx.fill();
+}
+function ro3(k,v){return '<div class="ro"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+function ro3hi(k,v){return '<div class="ro hi"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+
+/* ========== TAB 1 : ANGULAR DISPLACEMENT ========== */
+let angTh=90, angR=0.60;
+function angUpdate(){
+  angTh=parseFloat($('#angTh').value); angR=parseFloat($('#angR').value);
+  $('#angThv').textContent=angTh.toFixed(0)+'°';
+  $('#angRv').textContent=angR.toFixed(2)+' m';
+  const rad=angTh*Math.PI/180, s=angR*rad;
+  $('#angReadouts').innerHTML=
+    ro3('Angle θ (degrees)',angTh.toFixed(0)+'°')+
+    ro3('Angle θ (radians)',rad.toFixed(3)+' rad')+
+    ro3('Radius r',angR.toFixed(2)+' m')+
+    ro3hi('Arc length s = rθ',s.toFixed(3)+' m');
+  $('#angOut').innerHTML='θ = '+angTh.toFixed(0)+'° = <b>'+rad.toFixed(3)+' rad</b>, so a rim point travels an arc s = rθ = ('+angR.toFixed(2)+')('+rad.toFixed(3)+') = <b>'+s.toFixed(3)+' m</b>. Sense: counter-clockwise (positive).';
+}
+['angTh','angR'].forEach(id=>document.getElementById(id).addEventListener('input',angUpdate));
+function drawAng(){
+  const ctx=ctxOf('angCanvas'); if(!ctx)return; const {w,h}=dim('angCanvas'); ctx.clearRect(0,0,w,h);
+  const cx=w*0.42, cy=h*0.54, R=Math.min(w,h)*0.33*(0.72+0.46*(angR-0.3)/0.7);
+  const rad=angTh*Math.PI/180;
+  /* full circle */
+  ctx.strokeStyle=FAINT; ctx.lineWidth=1.4; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+  /* one-radian tick */
+  ctx.strokeStyle='rgba(201,154,26,.5)'; ctx.lineWidth=1.4; ctx.setLineDash([4,4]);
+  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(-1)*R,cy+Math.sin(-1)*R); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=GOLD; ctx.font='10px sans-serif'; ctx.textAlign='left';
+  ctx.fillText('1 rad',cx+Math.cos(-1)*(R+6),cy+Math.sin(-1)*(R+6));
+  /* swept arc */
+  ctx.strokeStyle=C1; ctx.lineWidth=6; ctx.beginPath(); ctx.arc(cx,cy,R,0,-rad,true); ctx.stroke();
+  /* reference + moving spoke */
+  ctx.strokeStyle=ROD_COL(); ctx.lineWidth=3; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+R,cy); ctx.stroke();
+  const ex=cx+Math.cos(-rad)*R, ey=cy+Math.sin(-rad)*R;
+  ctx.strokeStyle=C1; ctx.lineWidth=3.5; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(ex,ey); ctx.stroke();
+  /* angle arc inner */
+  ctx.strokeStyle=C2; ctx.lineWidth=1.6; ctx.beginPath(); ctx.arc(cx,cy,24,0,-rad,true); ctx.stroke();
+  /* dot + hub */
+  ctx.fillStyle=C1; ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(ex,ey,6,0,7); ctx.fill(); ctx.stroke();
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cx,cy,5,0,7); ctx.fill();
+  /* labels */
+  ctx.font='600 12px sans-serif';
+  ctx.fillStyle=GRY; ctx.textAlign='center'; ctx.fillText('r = '+angR.toFixed(2)+' m',cx+Math.cos(-rad/2)*R*0.55,cy+Math.sin(-rad/2)*R*0.55-6);
+  ctx.fillStyle=C2; ctx.fillText('θ',cx+34*Math.cos(-rad/2),cy+34*Math.sin(-rad/2));
+  const ma=-rad/2;
+  ctx.fillStyle=C1; ctx.fillText('s = rθ = '+(angR*rad).toFixed(2)+' m',cx+Math.cos(ma)*(R+34),cy+Math.sin(ma)*(R+16));
+  ctx.fillStyle=GRY; ctx.font='11px sans-serif'; ctx.textAlign='left'; ctx.fillText('θ = 0 (reference)',cx+R*0.3,cy+16);
+  ctx.textAlign='center'; ctx.fillStyle=GRY; ctx.font='10px sans-serif'; ctx.fillText('drag the red spoke',cx,h-8);
+}
+function ROD_COL(){return 'rgba(159,176,167,.9)';}
+(function(){
+  const cv=document.getElementById('angCanvas'); if(!cv)return;
+  let drag=false; cv.style.cursor='grab';
+  function pos(e){const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
+  function setFrom(mx,my){
+    const {w,h}=dim('angCanvas'); const cx=w*0.42, cy=h*0.54;
+    let a=Math.atan2(my-cy,mx-cx); let deg=(-a)*180/Math.PI; if(deg<0)deg+=360;
+    $('#angTh').value=Math.round(deg); angUpdate();
+  }
+  cv.addEventListener('pointerdown',e=>{drag=true;cv.setPointerCapture(e.pointerId);cv.style.cursor='grabbing';const[x,y]=pos(e);setFrom(x,y);});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;const[x,y]=pos(e);setFrom(x,y);});
+  const stop=()=>{drag=false;cv.style.cursor='grab';};
+  cv.addEventListener('pointerup',stop); cv.addEventListener('pointercancel',stop);
+})();
+
+/* ========== TAB 2 : ANGULAR VELOCITY ========== */
+let omW=3.0, omR=0.60, omPhase=0, omLast=0;
+function omUpdate(){
+  omW=parseFloat($('#omW').value); omR=parseFloat($('#omR').value);
+  $('#omWv').textContent=omW.toFixed(1)+' rad s⁻¹';
+  $('#omRv').textContent=omR.toFixed(2)+' m';
+  const T=2*Math.PI/omW, f=1/T, v=omR*omW;
+  $('#omReadouts').innerHTML=
+    ro3('Angular velocity ω',omW.toFixed(1)+' rad s⁻¹')+
+    ro3('Period T = 2π/ω',T.toFixed(2)+' s')+
+    ro3('Frequency f = 1/T',f.toFixed(2)+' Hz')+
+    ro3('Radius r',omR.toFixed(2)+' m')+
+    ro3hi('Linear speed v = rω',v.toFixed(2)+' m s⁻¹');
+  $('#omOut').innerHTML='Every point shares ω = <b>'+omW.toFixed(1)+' rad s⁻¹</b> (period '+T.toFixed(2)+' s). The marked point at r = '+omR.toFixed(2)+' m moves at v = rω = <b>'+v.toFixed(2)+' m s⁻¹</b>.';
+}
+['omW','omR'].forEach(id=>document.getElementById(id).addEventListener('input',omUpdate));
+function drawOmega(ts){
+  const ctx=ctxOf('omegaCanvas'); if(!ctx)return; const {w,h}=dim('omegaCanvas'); ctx.clearRect(0,0,w,h);
+  if(!omLast)omLast=ts; let dt=(ts-omLast)/1000; omLast=ts; if(dt>0.05)dt=0.05;
+  omPhase+=omW*dt;
+  const cx=w*0.5, cy=h*0.52, Rmax=Math.min(w,h)*0.36;
+  /* disc */
+  ctx.fillStyle='rgba(13,148,136,.07)'; ctx.beginPath(); ctx.arc(cx,cy,Rmax,0,7); ctx.fill();
+  ctx.strokeStyle=C2; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(cx,cy,Rmax,0,7); ctx.stroke();
+  /* spokes */
+  ctx.strokeStyle=SPOKE; ctx.lineWidth=3;
+  for(let i=0;i<6;i++){const a=omPhase+i*Math.PI/3; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*Rmax,cy+Math.sin(a)*Rmax); ctx.stroke();}
+  /* marked point */
+  const rpx=Rmax*(omR/1.0);
+  const px=cx+Math.cos(omPhase)*rpx, py=cy+Math.sin(omPhase)*rpx;
+  ctx.strokeStyle=FAINT; ctx.lineWidth=1.2; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.arc(cx,cy,rpx,0,7); ctx.stroke(); ctx.setLineDash([]);
+  /* velocity arrow (tangent) */
+  const v=omR*omW, sc=(Rmax*0.95)/8;
+  const tx=-Math.sin(omPhase), ty=Math.cos(omPhase);
+  arrow(ctx,px,py,px+tx*v*sc,py+ty*v*sc,C4,3,9);
+  ctx.fillStyle=C1; ctx.strokeStyle='#fff'; ctx.lineWidth=2; ctx.beginPath(); ctx.arc(px,py,6,0,7); ctx.fill(); ctx.stroke();
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cx,cy,6,0,7); ctx.fill();
+  /* labels */
+  ctx.font='700 12px sans-serif'; ctx.textAlign='center';
+  ctx.fillStyle=C4; ctx.fillText('v = rω = '+v.toFixed(1)+' m s⁻¹',px+tx*v*sc*0.5,py+ty*v*sc*0.5-10);
+  ctx.fillStyle=GRY; ctx.fillText('r = '+omR.toFixed(2)+' m',(cx+px)/2+6,(cy+py)/2-4);
+  ctx.fillStyle=C2; ctx.font='700 11px sans-serif'; ctx.fillText('ω = '+omW.toFixed(1)+' rad s⁻¹  (shared by every point)',cx,h-10);
+}
+
+/* ========== TAB 3 : ANGULAR ACCELERATION ========== */
+let alA=1.5, alWi=0, alOmega=0, alT=0, alPhase=0, alLast=0;
+const AL_TMAX=8, AL_RDEMO=0.50;
+function alUpdate(){
+  alA=parseFloat($('#alA').value); alWi=parseFloat($('#alWi').value);
+  $('#alAv').textContent=alA.toFixed(1)+' rad s⁻²';
+  $('#alWiv').textContent=alWi.toFixed(1)+' rad s⁻¹';
+  const at=AL_RDEMO*alA;
+  $('#alReadouts').innerHTML=
+    ro3('Angular acceleration α',alA.toFixed(1)+' rad s⁻²')+
+    ro3('Elapsed time t',alT.toFixed(1)+' s')+
+    ro3('Current angular velocity ω',alOmega.toFixed(2)+' rad s⁻¹')+
+    ro3hi('Tangential a = rα (r = 0.50 m)',at.toFixed(2)+' m s⁻²');
+  $('#alOut').innerHTML='Slope of the ω–t line is α = <b>'+alA.toFixed(1)+' rad s⁻²</b>. '+(alA<0?'Negative α: the wheel is slowing (and may reverse).':(alA==0?'α = 0: ω holds constant — a flat line.':'Positive α: ω climbs steadily from ω<sub>i</sub>.'));
+}
+['alA','alWi'].forEach(id=>document.getElementById(id).addEventListener('input',()=>{alUpdate();}));
+$('#alReset').onclick=()=>{alOmega=alWi;alT=0;alPhase=0;alUpdate();};
+function drawAlpha(ts){
+  const ctx=ctxOf('alphaCanvas'); if(!ctx)return; const {w,h}=dim('alphaCanvas'); ctx.clearRect(0,0,w,h);
+  if(!alLast)alLast=ts; let dt=(ts-alLast)/1000; alLast=ts; if(dt>0.05)dt=0.05;
+  if(alT<AL_TMAX){ alT=Math.min(AL_TMAX,alT+dt); alOmega=alWi+alA*alT; alPhase+=alOmega*dt; }
+  const topH=h*0.52, cx=w*0.5, cy=topH*0.5, R=Math.min(w,topH)*0.36;
+  /* wheel */
+  ctx.fillStyle='rgba(217,119,6,.07)'; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fill();
+  ctx.strokeStyle=C3; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+  ctx.strokeStyle=SPOKE; ctx.lineWidth=3;
+  for(let i=0;i<6;i++){const a=alPhase+i*Math.PI/3; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R); ctx.stroke();}
+  if(Math.abs(alOmega)>0.05) spin(ctx,cx,cy,R*0.5,alOmega<0,'rgba(202,138,4,.85)');
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cx,cy,6,0,7); ctx.fill();
+  ctx.fillStyle=GRY; ctx.font='700 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('ω = '+alOmega.toFixed(2)+' rad s⁻¹   ( t = '+alT.toFixed(1)+' s )',cx,topH-6);
+  /* graph omega vs t */
+  const gy0=topH+8, gh=h-gy0-28, gx0=52, gw=w-gx0-18;
+  const tMax=AL_TMAX;
+  const wEnd=alWi+alA*tMax, wVals=[alWi,wEnd,0];
+  let wmin=Math.min.apply(null,wVals), wmax=Math.max.apply(null,wVals); if(wmax-wmin<1){wmax+=0.5;wmin-=0.5;}
+  function Y(val){return gy0+gh-(val-wmin)/(wmax-wmin)*gh;}
+  function X(t){return gx0+t/tMax*gw;}
+  /* axes */
+  ctx.strokeStyle=FAINT; ctx.lineWidth=1.2;
+  ctx.beginPath(); ctx.moveTo(gx0,gy0); ctx.lineTo(gx0,gy0+gh); ctx.lineTo(gx0+gw,gy0+gh); ctx.stroke();
+  if(wmin<0&&wmax>0){ctx.strokeStyle='rgba(42,36,32,.2)';ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(gx0,Y(0));ctx.lineTo(gx0+gw,Y(0));ctx.stroke();ctx.setLineDash([]);}
+  /* line */
+  ctx.strokeStyle=C3; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(X(0),Y(alWi)); ctx.lineTo(X(tMax),Y(wEnd)); ctx.stroke();
+  /* marker */
+  const mt=Math.min(alT,tMax);
+  ctx.fillStyle=GOLD; ctx.beginPath(); ctx.arc(X(mt),Y(alWi+alA*mt),5,0,7); ctx.fill();
+  /* titles */
+  ctx.fillStyle=INK; ctx.font='700 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('Angular velocity ω against time t  —  slope = α',gx0+gw/2,gy0-1);
+  ctx.fillStyle=GRY; ctx.font='10px sans-serif'; ctx.fillText('t (s)',gx0+gw/2,gy0+gh+22);
+  ctx.textAlign='right'; ctx.fillText('0',gx0-5,gy0+gh+3);
+  ctx.save(); ctx.translate(gx0-34,gy0+gh/2); ctx.rotate(-Math.PI/2); ctx.textAlign='center'; ctx.fillText('ω (rad s⁻¹)',0,0); ctx.restore();
+}
+
+/* ========== TAB 4 : EQUATIONS OF MOTION (PREDICTOR) ========== */
+let prWi=1.0, prA=1.0, prT=3.0;
+const PR_TMAX=10;
+function prUpdate(){
+  prWi=parseFloat($('#prWi').value); prA=parseFloat($('#prA').value); prT=parseFloat($('#prT').value);
+  $('#prWiv').textContent=prWi.toFixed(1)+' rad s⁻¹';
+  $('#prAv').textContent=prA.toFixed(1)+' rad s⁻²';
+  $('#prTv').textContent=prT.toFixed(1)+' s';
+  const wf=prWi+prA*prT, dth=prWi*prT+0.5*prA*prT*prT;
+  $('#prReadouts').innerHTML=
+    ro3('Initial ωᵢ',prWi.toFixed(1)+' rad s⁻¹')+
+    ro3('Angular acceleration α',prA.toFixed(1)+' rad s⁻²')+
+    ro3('Time t',prT.toFixed(1)+' s')+
+    ro3('Final ωₑ = ωᵢ + αt',wf.toFixed(2)+' rad s⁻¹')+
+    ro3hi('Angle Δθ = ωᵢt + ½αt²',dth.toFixed(2)+' rad');
+  const check=prWi*prWi+2*prA*dth;
+  $('#prOut').innerHTML='At t = '+prT.toFixed(1)+' s: ω<sub>f</sub> = <b>'+wf.toFixed(2)+' rad s⁻¹</b>, Δθ = <b>'+dth.toFixed(2)+' rad</b>. Time-free check: ω<sub>i</sub>² + 2αΔθ = '+check.toFixed(1)+', and ω<sub>f</sub>² = '+(wf*wf).toFixed(1)+' ✓';
+}
+['prWi','prA','prT'].forEach(id=>document.getElementById(id).addEventListener('input',prUpdate));
+function drawPred(){
+  const ctx=ctxOf('predCanvas'); if(!ctx)return; const {w,h}=dim('predCanvas'); ctx.clearRect(0,0,w,h);
+  const wf=prWi+prA*prT, dth=prWi*prT+0.5*prA*prT*prT;
+  const topH=h*0.46, cx=w*0.5, cy=topH*0.5, R=Math.min(w,topH)*0.38;
+  /* wheel oriented at Δθ */
+  ctx.fillStyle='rgba(5,150,105,.07)'; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.fill();
+  ctx.strokeStyle=C4; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
+  ctx.strokeStyle=SPOKE; ctx.lineWidth=3;
+  for(let i=0;i<6;i++){const a=-dth+i*Math.PI/3; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(a)*R,cy+Math.sin(a)*R); ctx.stroke();}
+  /* highlight reference spoke */
+  ctx.strokeStyle=C1; ctx.lineWidth=3.5; ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+Math.cos(-dth)*R,cy+Math.sin(-dth)*R); ctx.stroke();
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cx,cy,6,0,7); ctx.fill();
+  ctx.fillStyle=GRY; ctx.font='700 11px sans-serif'; ctx.textAlign='center'; ctx.fillText('turned Δθ = '+dth.toFixed(2)+' rad  ( '+(dth/(2*Math.PI)).toFixed(2)+' rev )',cx,topH-4);
+  /* two graphs */
+  const gy0=topH+16, gh=h-gy0-26, half=w/2, gx0=46, gw=half-gx0-14, gx0b=half+30, gwb=w-gx0b-14;
+  /* sample for ranges */
+  let wmn=0,wmx=0,tmn=0,tmx=0;
+  for(let i=0;i<=40;i++){const t=i/40*PR_TMAX; const wv=prWi+prA*t; const th=prWi*t+0.5*prA*t*t; wmn=Math.min(wmn,wv);wmx=Math.max(wmx,wv);tmn=Math.min(tmn,th);tmx=Math.max(tmx,th);}
+  if(wmx-wmn<1){wmx+=0.5;wmn-=0.5;} if(tmx-tmn<1){tmx+=1;}
+  /* graph A: omega-t */
+  function XA(t){return gx0+t/PR_TMAX*gw;} function YA(v){return gy0+gh-(v-wmn)/(wmx-wmn)*gh;}
+  ctx.strokeStyle=FAINT; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(gx0,gy0); ctx.lineTo(gx0,gy0+gh); ctx.lineTo(gx0+gw,gy0+gh); ctx.stroke();
+  if(wmn<0&&wmx>0){ctx.strokeStyle='rgba(42,36,32,.18)';ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(gx0,YA(0));ctx.lineTo(gx0+gw,YA(0));ctx.stroke();ctx.setLineDash([]);}
+  ctx.strokeStyle=C4; ctx.lineWidth=2.3; ctx.beginPath(); ctx.moveTo(XA(0),YA(prWi)); ctx.lineTo(XA(PR_TMAX),YA(prWi+prA*PR_TMAX)); ctx.stroke();
+  ctx.setLineDash([3,3]); ctx.strokeStyle='rgba(42,36,32,.3)'; ctx.beginPath(); ctx.moveTo(XA(prT),gy0+gh); ctx.lineTo(XA(prT),YA(wf)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=GOLD; ctx.beginPath(); ctx.arc(XA(prT),YA(wf),4.5,0,7); ctx.fill();
+  ctx.fillStyle=INK; ctx.font='700 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('ω vs t  (line)',gx0+gw/2,gy0-2);
+  ctx.fillStyle=GRY; ctx.font='9px sans-serif'; ctx.fillText('t (s)',gx0+gw/2,gy0+gh+18);
+  /* graph B: theta-t */
+  function XB(t){return gx0b+t/PR_TMAX*gwb;} function YB(v){return gy0+gh-(v-tmn)/(tmx-tmn)*gh;}
+  ctx.strokeStyle=FAINT; ctx.lineWidth=1.2; ctx.beginPath(); ctx.moveTo(gx0b,gy0); ctx.lineTo(gx0b,gy0+gh); ctx.lineTo(gx0b+gwb,gy0+gh); ctx.stroke();
+  ctx.strokeStyle=C5; ctx.lineWidth=2.3; ctx.beginPath();
+  for(let i=0;i<=60;i++){const t=i/60*PR_TMAX; const th=prWi*t+0.5*prA*t*t; const x=XB(t),y=YB(th); if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}
+  ctx.stroke();
+  ctx.setLineDash([3,3]); ctx.strokeStyle='rgba(42,36,32,.3)'; ctx.beginPath(); ctx.moveTo(XB(prT),gy0+gh); ctx.lineTo(XB(prT),YB(dth)); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle=GOLD; ctx.beginPath(); ctx.arc(XB(prT),YB(dth),4.5,0,7); ctx.fill();
+  ctx.fillStyle=INK; ctx.font='700 10px sans-serif'; ctx.textAlign='center'; ctx.fillText('θ vs t  (parabola)',gx0b+gwb/2,gy0-2);
+  ctx.fillStyle=GRY; ctx.font='9px sans-serif'; ctx.fillText('t (s)',gx0b+gwb/2,gy0+gh+18);
+}
+
+/* ========== TAB 5 : LINEAR ↔ ROTATIONAL (ROLLING) ========== */
+let lkW=2.5, lkR=0.50, lkPhase=0, lkTheta=0, lkX=0, lkLast=0, lkPPM=1;
+function lkUpdate(){
+  lkW=parseFloat($('#lkW').value); lkR=parseFloat($('#lkR').value);
+  $('#lkWv').textContent=lkW.toFixed(1)+' rad s⁻¹';
+  $('#lkRv').textContent=lkR.toFixed(2)+' m';
+  const v=lkR*lkW, s=lkR*lkTheta;
+  $('#lkReadouts').innerHTML=
+    ro3('Angular velocity ω',lkW.toFixed(1)+' rad s⁻¹')+
+    ro3('Wheel radius r',lkR.toFixed(2)+' m')+
+    ro3('Angle turned θ',lkTheta.toFixed(2)+' rad')+
+    ro3('Centre speed v = rω',v.toFixed(2)+' m s⁻¹')+
+    ro3hi('Distance rolled s = rθ',s.toFixed(2)+' m');
+  $('#lkOut').innerHTML='Rolling without slipping: distance rolled s = rθ = <b>'+s.toFixed(2)+' m</b> exactly matches the arc that has touched the ground, and the centre glides at v = rω = <b>'+v.toFixed(2)+' m s⁻¹</b>.';
+}
+['lkW','lkR'].forEach(id=>document.getElementById(id).addEventListener('input',lkUpdate));
+$('#lkReset').onclick=()=>{lkPhase=0;lkTheta=0;lkX=0;lkUpdate();};
+function drawLink(ts){
+  const ctx=ctxOf('linkCanvas'); if(!ctx)return; const {w,h}=dim('linkCanvas'); ctx.clearRect(0,0,w,h);
+  if(!lkLast)lkLast=ts; let dt=(ts-lkLast)/1000; lkLast=ts; if(dt>0.05)dt=0.05;
+  const ground=h*0.78;
+  lkPPM=(h*0.26)/0.5;
+  const Rpx=lkR*lkPPM;
+  lkTheta+=lkW*dt; lkPhase+=lkW*dt; lkX+=lkR*lkW*lkPPM*dt;
+  const startX=Rpx+14;
+  let cxp=startX+lkX;
+  if(cxp>w-Rpx-6){ lkX=0; lkTheta=0; cxp=startX; }
+  const cy=ground-Rpx;
+  /* ground */
+  ctx.strokeStyle=FAINT; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(10,ground); ctx.lineTo(w-10,ground); ctx.stroke();
+  /* track travelled */
+  ctx.strokeStyle=GOLD; ctx.lineWidth=4; ctx.beginPath(); ctx.moveTo(startX,ground); ctx.lineTo(cxp,ground); ctx.stroke();
+  /* wheel */
+  ctx.fillStyle='rgba(202,138,4,.08)'; ctx.beginPath(); ctx.arc(cxp,cy,Rpx,0,7); ctx.fill();
+  ctx.strokeStyle=C5; ctx.lineWidth=2.5; ctx.beginPath(); ctx.arc(cxp,cy,Rpx,0,7); ctx.stroke();
+  ctx.strokeStyle=SPOKE; ctx.lineWidth=3;
+  for(let i=0;i<6;i++){const a=lkPhase+i*Math.PI/3; ctx.beginPath(); ctx.moveTo(cxp,cy); ctx.lineTo(cxp+Math.cos(a)*Rpx,cy+Math.sin(a)*Rpx); ctx.stroke();}
+  /* contact point marker */
+  ctx.fillStyle=C1; ctx.beginPath(); ctx.arc(cxp+Math.cos(lkPhase+Math.PI/2)*Rpx,cy+Math.sin(lkPhase+Math.PI/2)*Rpx,4,0,7); ctx.fill();
+  ctx.fillStyle=PIVOT; ctx.beginPath(); ctx.arc(cxp,cy,5,0,7); ctx.fill();
+  /* centre velocity arrow */
+  const v=lkR*lkW, sc=(lkPPM*0.6);
+  arrow(ctx,cxp,cy,cxp+v*sc*0.5,cy,C4,3,9);
+  ctx.fillStyle=C4; ctx.font='700 11px sans-serif'; ctx.textAlign='left'; ctx.fillText('v = rω',cxp+6,cy-8);
+  /* labels */
+  ctx.fillStyle=GOLD; ctx.font='600 11px sans-serif'; ctx.textAlign='center';
+  ctx.fillText('s = rθ = '+(lkR*lkTheta).toFixed(2)+' m',(startX+cxp)/2,ground+16);
+  ctx.fillStyle=GRY; ctx.font='10px sans-serif'; ctx.fillText('one lap resets the counter',w*0.5,h-6);
+}
+
+/* ========== QUIZ ========== */
+const QUIZ=[
+  {q:'One radian corresponds to an arc length equal to the:',o:['radius','diameter','circumference','half-radius'],a:0,
+   e:'By definition θ = s/r, so θ = 1 rad exactly when the arc s equals the radius r. (Answer A)'},
+  {q:'In terms of the period T, the angular velocity ω equals:',o:['2πT','2π / T','πT','T / π'],a:1,
+   e:'One revolution is 2π rad in a time T, so ω = 2π/T = 2πf. (Answer B)'},
+  {q:'Every point of a rigid rotating body shares the same:',o:['linear speed','arc length','tangential acceleration','angular velocity'],a:3,
+   e:'The whole body turns together: θ, ω and α are shared. Linear speed v = rω differs with r. (Answer D)'},
+  {q:'The time-free equation of rotational motion is:',o:['ωf² = ωi² + 2αΔθ','ωf = ωi + αt','Δθ = ωit + ½αt²','Δθ = ½(ωi+ωf)t'],a:0,
+   e:'Only ωf² = ωi² + 2αΔθ contains no t — use it when time is neither given nor wanted. (Answer A)'},
+  {q:'For a wheel rolling without slipping, the speed of its centre is:',o:['rω²','ω / r','rω','r / ω'],a:2,
+   e:'Rolling links linear and angular motion through v = rω. (Answer C)'},
+  {q:'A spinning wheel’s angular velocity decreases uniformly. Its angular acceleration is:',o:['zero','positive','perpendicular to the spin','negative (a deceleration)'],a:3,
+   e:'α = Δω/Δt; if ω falls, Δω is negative, so α is negative — opposing the motion. (Answer D)'}
+];
+let qScore=0, qAnswered=new Set();
+const quizEl=$('#quiz');
+QUIZ.forEach((item,qi)=>{
+  const card=document.createElement('div'); card.className='q';
+  let opts='<div class="opts">';
+  item.o.forEach((o,oi)=>{opts+='<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+o+'</button>';});
+  opts+='</div>';
+  card.innerHTML='<div class="qq">'+(qi+1)+'. '+item.q+'</div>'+opts+'<div class="qexp">'+item.e+'</div>';
+  quizEl.appendChild(card);
+});
+quizEl.addEventListener('click',e=>{
+  const btn=e.target.closest('.opt'); if(!btn)return;
+  const qi=+btn.dataset.q, oi=+btn.dataset.o;
+  if(qAnswered.has(qi))return; qAnswered.add(qi);
+  const card=btn.closest('.q'); const correct=QUIZ[qi].a;
+  card.querySelectorAll('.opt').forEach(b=>{const bo=+b.dataset.o; b.style.pointerEvents='none'; if(bo===correct)b.classList.add('correct'); else if(bo===oi)b.classList.add('wrong');});
+  card.querySelector('.qexp').classList.add('show');
+  if(oi===correct)qScore++;
+  $('#quizScore').textContent='Score: '+qScore+' / '+QUIZ.length;
+});
+
+/* ---------- master loop ---------- */
+function masterLoop(ts){
+  if(active===0)drawAng();
+  else if(active===1)drawOmega(ts||0);
+  else if(active===2)drawAlpha(ts||0);
+  else if(active===3)drawPred();
+  else if(active===4)drawLink(ts||0);
+  if(active!==1)omLast=0;
+  if(active!==2)alLast=0;
+  if(active!==4)lkLast=0;
+  requestAnimationFrame(masterLoop);
+}
+angUpdate(); omUpdate(); alUpdate(); prUpdate(); lkUpdate();
+requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>
