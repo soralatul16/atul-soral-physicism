@@ -1,17 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Electric Fields</title>
+<style>
+:root{
+  --c1:#e11d48; --c2:#0d9488; --c3:#d97706; --c4:#059669; --c5:#ca8a04; --c6:#4d7c0f; --c7:#0f766e;
+  --accent:var(--c1); --accent-soft:rgba(225,29,72,.12);
+  --ink:#2a2420; --muted:#8a7f73; --line:rgba(42,36,32,.13); --card:#fffdfb;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#fdf6f1 0%,#f4f8f2 50%,#eef8f4 100%)}
+body[data-page="1"]{background:linear-gradient(140deg,#e7f6f1 0%,#eef9f1 45%,#f4faee 100%)}
+body[data-page="2"]{background:linear-gradient(140deg,#e3f4ee 0%,#e9f5ea 45%,#eff5e6 100%)}
+body[data-page="3"]{background:linear-gradient(140deg,#fdf2e3 0%,#fdf6e8 45%,#fdf4e4 100%)}
+body[data-page="4"]{background:linear-gradient(140deg,#e6f7ec 0%,#eef9ec 45%,#f4f9e6 100%)}
+body[data-page="5"]{background:linear-gradient(140deg,#f0f6de 0%,#eef5df 45%,#edf4e2 100%)}
+body[data-page="6"]{background:linear-gradient(140deg,#fdf2e3 0%,#fdf6e8 45%,#fdf4e4 100%)}
+body[data-page="7"]{background:linear-gradient(140deg,#e3f4ee 0%,#e9f5ea 45%,#eff5e6 100%)}
+body.dark{--ink:#ece6df;--muted:#b2a89b;--line:rgba(236,230,223,.16);--card:#241f1b;--tan:#3a322a;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#17130f 0%,#141511 55%,#121613 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(28,24,20,.86)}
+body.dark .brand{color:#f6f1ea}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox,body.dark .workcard{background:#241f1b}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#1b1713}
+body.dark .qexp{background:rgba(13,148,136,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#d8cfc3}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .qexp,body.dark .dstep .cap,body.dark .pq .stem,body.dark .intro{color:#d8cfc3}
+body.dark .gatebox .mark{color:#f6f1ea}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#f6f4ef}
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,253,251,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#2a2420;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#0d9488;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,253,251,.6);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fffdfb;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .hl{display:inline-flex;align-items:center;gap:4px}
+.dotHL{width:9px;height:9px;border-radius:3px;background:#e11d48}
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:760px;font-size:15px}
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,253,251,.86);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.hl{background:rgba(225,29,72,.12);color:#e11d48}
+.levelchip.sl{background:rgba(13,148,136,.14);color:#0d9488}
+.dotSL{width:9px;height:9px;border-radius:3px;background:#0d9488}
+.lead{font-size:16px;color:#4a4038;max-width:800px;margin-bottom:14px}
+.intro{background:var(--accent-soft);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;
+  padding:13px 16px;margin-bottom:18px;font-size:13.5px;color:#4a4038;max-width:900px}
+.intro .t{display:block;font-weight:800;color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.intro b{color:var(--ink)}
+.intro p{margin:0 0 6px}
+.intro p:last-child{margin:0}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.workcard{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.workcard .wgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+@media(max-width:720px){.workcard .wgrid{grid-template-columns:1fr}}
+.workcard h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.workcard h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,40vh,400px);overflow:hidden;border-radius:12px;background:linear-gradient(160deg,#fffefb 0%,#fbfbf6 100%);border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.ghost{background:#fffdfb;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fffdfb;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.7;color:var(--ink)}
+.fml .op{color:var(--muted);margin:0 4px}
+.fml sub{font-size:.66em;vertical-align:-.28em}
+.fml sup{font-size:.66em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 2px}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+.fml .cst{font-size:12.5px;font-family:var(--fm);color:var(--muted);margin-left:6px}
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#4a4038}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+.prose p{margin-bottom:11px;font-size:14.5px;color:#4a4038}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fffdf7;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+.deriv{border-top:3px solid var(--accent)!important}
+.deriv .dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dctrls{display:flex;gap:8px}
+.dintro{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.dstep{opacity:0;max-height:0;overflow:hidden;transform:translateY(6px);transition:opacity .35s ease,max-height .5s ease,transform .35s ease}
+.dstep.show{opacity:1;max-height:460px;transform:none;margin:12px 0}
+.dstep .eqbox{margin:0}
+.dstep .cap{font-size:13px;color:#4a4038;margin-top:6px}
+.dstep .cap b{color:var(--accent)}
+.dstep .sidx{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--accent);border-radius:5px;padding:2px 7px;margin-bottom:6px;text-transform:uppercase}
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#4a4038;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#4a4038;background:#fbf8f3;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+.we{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#4a4038;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c3)}
+.mcard .wrong{font-size:13px;color:#b45309;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"✗ ";}
+.mcard .right{font-size:13.5px;color:#15803d;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"✓ ";}
+.mcard p{font-size:13px;color:#4a4038;margin-top:5px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fffdf9;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#4a4038;background:#f0fbf5;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#fdf6f1,#f4f8f2,#eef8f4);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fffdfb;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(42,36,32,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#2a2420}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c2)}
+.gatebox .btn{width:100%;background:var(--c2);color:#fff;border-color:var(--c2);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body data-page="1">
+
+<!-- NAME GATE -->
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Electric Fields</h2>
+    <p>Theme D.2 Fields · Part 2 of 4 · Standard Level</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive IB physics lesson</div>
+  </div>
+</div>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../index.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../index.html#dp">DP</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<!-- CHAPTER BAR -->
+<div class="chapterbar">
+  <span class="chaptag">D.2 Fields</span>
+  <div class="parts">
+    <a class="partlink" href="electric-charge-coulombs-law.html">Part 1 · Charge &amp; Coulomb's Law<span class="pl">SL</span></a>
+    <a class="partlink here" href="electric-fields.html">Part 2 · Electric Fields<span class="pl">SL</span></a>
+    <a class="partlink" href="magnetic-fields.html">Part 3 · Magnetic Fields<span class="pl">SL</span></a>
+    <a class="partlink" href="electric-potential.html">Part 4 · Electric Potential<span class="pl">HL</span></a>
+  </div>
+  <div class="legend">
+    <span class="hl"><span class="dotSL"></span>SL core</span>
+    <span class="hl"><span class="dotHL"></span>HL extension</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">D.2 · Standard Level</div>
+  <h1 id="heroTitle">Electric fields</h1>
+  <p id="heroLede">Every charge reshapes the space around it. Measure that influence as field strength E = F/q, map it with field lines, build the uniform field between parallel plates, and balance a charged oil drop the way Millikan first weighed the electron's charge.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : FIELD STRENGTH -->
+<section class="page active" data-p="0">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>Electric field strength E</b> is the force per unit positive charge at a point: E = F/q. It describes the influence a source charge has on the space around it, before any test charge is even placed there.</p>
+    <p>For a point charge the field obeys an inverse-square law, E = kQ/r², and it is a <b>vector</b> — it points away from positive charges and towards negative ones. Drag the sliders and watch both the strength and the direction respond.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Field of a point charge</h3>
+      <div class="canvas-wrap"><canvas id="esCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Source charge Q <b id="esQv">+5.0 nC</b></label>
+        <input type="range" id="esQ" min="-10" max="10" step="0.5" value="5">
+      </div>
+      <div class="ctl">
+        <label>Distance r <b id="esRv">0.15 m</b></label>
+        <input type="range" id="esR" min="0.05" max="0.30" step="0.01" value="0.15">
+      </div>
+      <p class="note">The arrow at the test point shows the field there: longer where the field is stronger, pointing <b>away</b> from a positive Q and <b>towards</b> a negative Q. The lower graph is the inverse-square fall-off E = kQ/r².</p>
+    </div>
+    <div class="card deriv" data-sim="es">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · E = kQ / r²</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Combine the definition of field strength with Coulomb's law.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · definition</span><div class="eqbox fml">E = <span class="frac"><span class="num">F</span><span class="den">q</span></span></div><div class="cap">Field strength is the force per unit positive test charge q placed at the point.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · Coulomb's law</span><div class="eqbox fml">F = k<span class="frac"><span class="num">Q q</span><span class="den">r²</span></span></div><div class="cap">The force between the source Q and the test charge q a distance r away (Part 1).</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · substitute</span><div class="eqbox fml">E = <span class="frac"><span class="num">1</span><span class="den">q</span></span> · k<span class="frac"><span class="num">Q q</span><span class="den">r²</span></span></div><div class="cap">Divide the Coulomb force by the test charge q.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · the test charge cancels</span><div class="eqbox fml" style="font-weight:700">E = k<span class="frac"><span class="num">Q</span><span class="den">r²</span></span><span class="cst">unit N C⁻¹</span></div><div class="cap">q cancels — proof the field belongs to the source and position alone, not to the test charge.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="esReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">E = k<span class="frac"><span class="num">Q</span><span class="den">r²</span></span><span class="cst">k = 8.99×10⁹</span></div>
+        <div class="out" id="esOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="es-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A small sphere carries a charge of +8.0 nC.</div>
     <div class="qpart" data-i="0">
-      <div class="ptext">(a) Calculate the electric field strength between the plates. <span class="mks">[2]</span></div>
+      <div class="ptext">(a) Calculate the field strength 0.20 m from it. <span class="mks">[2]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden><div class="fml">E = <span class="frac"><span class="num">V</span><span class="den">d</span></span><span class="op">=</span><span class="frac"><span class="num">600</span><span class="den">0.020</span></span><span class="op">=</span><b>3.0 × 10⁴ V m⁻¹</b></div></div>
+      <div class="pans" hidden><div class="fml">E = k<span class="frac"><span class="num">Q</span><span class="den">r²</span></span> = <span class="frac"><span class="num">(8.99×10⁹)(8.0×10⁻⁹)</span><span class="den">(0.20)²</span></span> <span class="op">=</span><b>1.8 × 10³ N C⁻¹</b></div></div>
     </div>
     <div class="qpart" data-i="1" hidden>
-      <div class="ptext">(b) An electron is released at the negative plate. Find the energy it gains, in eV, on reaching the positive plate. <span class="mks">[1]</span></div>
+      <div class="ptext">(b) State its direction. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><b>Radially away</b> from the sphere, since the charge is positive.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The distance is doubled to 0.40 m. State the new field strength. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Inverse-square: double r divides E by four → <b>4.5 × 10² N C⁻¹</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : FIELD LINES -->
+<section class="page" data-p="1">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p><b>Field lines</b> are a map of the field. Their arrow shows the direction of the force on a positive charge, and their spacing shows the strength — crowded lines mean a strong field.</p>
+    <p>Choose a configuration below to see the pattern. Lines always leave positive charges and enter negative ones, they never cross, and between parallel plates they become straight and evenly spaced — a uniform field.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Field-line patterns</h3>
+      <div class="canvas-wrap"><canvas id="flCanvas"></canvas></div>
+      <div class="seg" id="flSeg"></div>
+      <p class="note">Switch between a single charge, a dipole, and parallel plates. Notice how the arrows and spacing change — and that lines never touch or cross.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Reading field lines</h3>
+      <div class="prose">
+        <p><b>Direction.</b> An arrow on a line gives the direction of the force a small positive charge would feel there — away from +, towards −.</p>
+        <p><b>Strength.</b> Where lines bunch together the field is strong; where they spread apart it is weak. For a point charge they crowd near the charge, matching E = kQ/r².</p>
+        <p><b>Rules.</b> Lines start on positive charge and end on negative charge (or at infinity), and <b>never cross</b> — the field has a single, definite direction at every point.</p>
+        <p><b>Uniform field.</b> Between parallel plates the lines are straight, parallel and equally spaced: the field is the same everywhere between them.</p>
+      </div>
+      <div class="out" id="flOut"></div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="fl-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A student sketches the field around two point charges.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) State one rule that tells you field lines can never cross. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>At any point the field has a single direction; crossing lines would give two directions at once, which is impossible.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) How does the diagram show where the field is strongest? <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Where the lines are <b>closest together</b> (most crowded) — near the charges.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) Describe the field pattern between two oppositely charged parallel plates. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Straight, parallel, equally spaced lines running from the positive to the negative plate — a <b>uniform</b> field (edge effects aside).</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : PARALLEL PLATES -->
+<section class="page" data-p="2">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p>Two parallel plates with a voltage V across them, a distance d apart, create a <b>uniform field</b> — the same strength and direction everywhere between them: E = V/d.</p>
+    <p>This is how real devices (capacitors, ink-jet printers, oscilloscopes) steer charges with a known, constant force. Change V or d and watch the field respond, measured in V m⁻¹ (identical to N C⁻¹).</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>The uniform field</h3>
+      <div class="canvas-wrap"><canvas id="ppCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Plate voltage V <b id="ppVv">200 V</b></label>
+        <input type="range" id="ppV" min="20" max="500" step="10" value="200">
+      </div>
+      <div class="ctl">
+        <label>Plate separation d <b id="ppDv">4.0 cm</b></label>
+        <input type="range" id="ppD" min="1" max="10" step="0.5" value="4">
+      </div>
+      <p class="note">The arrows are straight, parallel and equal — the hallmark of a uniform field. Raising V or squeezing the plates closer (smaller d) packs the lines tighter and strengthens E = V/d.</p>
+    </div>
+    <div class="card deriv" data-sim="pp">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · E = V / d</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Move a charge across the gap and write the work two ways.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · work from the field</span><div class="eqbox fml">W = F d = (q E) d</div><div class="cap">The uniform force on a charge is qE; moving it the full gap d does work qEd.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · work from the voltage</span><div class="eqbox fml">W = q V</div><div class="cap">By definition of potential difference, moving charge q across voltage V does work qV.</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · equate</span><div class="eqbox fml">q E d = q V</div><div class="cap">Both expressions are the same work, so set them equal; the charge q cancels.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · result</span><div class="eqbox fml" style="font-weight:700">E = <span class="frac"><span class="num">V</span><span class="den">d</span></span><span class="cst">unit V m⁻¹ = N C⁻¹</span></div><div class="cap">The field is the voltage divided by the plate separation — uniform throughout the gap.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>The working</h3>
+        <div id="ppReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">E = <span class="frac"><span class="num">V</span><span class="den">d</span></span></div>
+        <div class="out" id="ppOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="pp-q">
+    <div class="tagq">Question</div>
+    <div class="stem">Two parallel plates 2.0 cm apart have a potential difference of 600 V across them.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the field strength between the plates. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">E = <span class="frac"><span class="num">V</span><span class="den">d</span></span> = <span class="frac"><span class="num">600</span><span class="den">0.020</span></span> <span class="op">=</span><b>3.0 × 10⁴ V m⁻¹</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) An electron is released at the negative plate. State the energy, in eV, it gains at the positive plate. <span class="mks">[1]</span></div>
       <button class="preveal">Reveal answer</button>
       <div class="pans" hidden>It crosses the full 600 V, so it gains <b>600 eV</b>.</div>
     </div>
     <div class="qpart" data-i="2" hidden>
       <div class="ptext">(c) Express that energy in joules. <span class="mks">[2]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden><div class="fml">W = qV = (1.60 × 10⁻¹⁹)(600) <span class="op">=</span><b>9.6 × 10⁻¹⁷ J</b></div></div>
+      <div class="pans" hidden><div class="fml">W = qV = (1.60×10⁻¹⁹)(600) <span class="op">=</span><b>9.6 × 10⁻¹⁷ J</b></div></div>
     </div>
   </div>
 </section>
@@ -19,42 +457,71 @@
 <!-- PAGE 4 : MILLIKAN -->
 <section class="page" data-p="3">
   <span class="levelchip sl">SL · Standard Level</span>
-  <p class="lead">Millikan balanced charged oil drops between parallel plates. When the upward electric force exactly cancels gravity, the drop hangs still — and the charge needed always turns out to be a whole number of electron charges.</p>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p>Millikan balanced a charged oil drop between parallel plates. When the upward electric force exactly cancels gravity, the drop hangs motionless: <b>qE = mg</b>.</p>
+    <p>Measuring the balancing voltage gives the drop's charge — and every drop turns out to carry a <b>whole-number</b> multiple of the elementary charge e. That is the evidence that charge is quantised.</p>
+  </div>
   <div class="grid">
     <div class="card">
       <h3><span class="pin"></span>Balance the oil drop</h3>
       <div class="canvas-wrap"><canvas id="mkCanvas"></canvas></div>
       <div class="ctl">
-        <label>Plate voltage V <b id="mkVv">0 V</b></label>
-        <input type="range" id="mkV" min="0" max="900" step="2" value="0">
+        <label>Excess electrons on drop <b id="mkNv">3</b></label>
+        <input type="range" id="mkN" min="1" max="8" step="1" value="3">
       </div>
-      <div class="btnrow"><button class="btn primary" id="mkNew">New drop</button></div>
-      <p class="note">Adjust V until the drop floats, then read off its charge. Try several drops — the charge is always a multiple of e.</p>
+      <div class="ctl">
+        <label>Plate voltage V <b id="mkVv">0 V</b></label>
+        <input type="range" id="mkV" min="0" max="1200" step="5" value="0">
+      </div>
+      <p class="note">The drop is negative, so the upward electric force is qE = qV/d (d = 1.0 cm). Raise V until the drop floats — then qE = mg. The balancing voltage depends on how many electrons it carries.</p>
     </div>
-    <div class="card">
-      <h3><span class="pin"></span>At balance</h3>
-      <div id="mkReadouts"></div>
-      <div class="eqbox fml">mg = qE = <span class="frac"><span class="num">qV</span><span class="den">d</span></span><span class="op">⟹</span>q = <span class="frac"><span class="num">mgd</span><span class="den">V</span></span></div>
-      <div class="out" id="mkOut"></div>
+    <div class="card deriv" data-sim="mk">
+      <div class="dhead">
+        <h3 style="margin:0"><span class="pin"></span>Derivation · finding the charge</h3>
+        <div class="dctrls">
+          <button class="btn ghost dnext">Reveal step</button>
+          <button class="btn ghost dreset" hidden>Reset</button>
+        </div>
+      </div>
+      <p class="dintro">Set the two forces equal at balance.</p>
+      <div class="dsteps">
+        <div class="dstep"><span class="sidx">Step 1 · forces balance</span><div class="eqbox fml">q E = m g</div><div class="cap">At rest the upward electric force equals the downward weight.</div></div>
+        <div class="dstep"><span class="sidx">Step 2 · field between plates</span><div class="eqbox fml">E = <span class="frac"><span class="num">V</span><span class="den">d</span></span> <span class="op">⟹</span> q<span class="frac"><span class="num">V</span><span class="den">d</span></span> = m g</div><div class="cap">The field between the plates is uniform, E = V/d (Tab 3).</div></div>
+        <div class="dstep"><span class="sidx">Step 3 · solve for q</span><div class="eqbox fml" style="font-weight:700">q = <span class="frac"><span class="num">m g d</span><span class="den">V</span></span></div><div class="cap">Rearrange for the charge measured from the balancing voltage V.</div></div>
+        <div class="dstep"><span class="sidx">Step 4 · quantisation</span><div class="eqbox fml">q = n e<span class="cst">n = 1, 2, 3 …</span></div><div class="cap">Every drop's charge is a whole-number multiple of e = 1.60×10⁻¹⁹ C — charge is quantised.</div></div>
+      </div>
     </div>
   </div>
-  <div class="card pq" data-pq="mk">
+  <div class="workcard">
+    <div class="wgrid">
+      <div>
+        <h3><span class="pin"></span>Forces on the drop</h3>
+        <div id="mkReadouts"></div>
+      </div>
+      <div>
+        <div class="eqbox fml">q E = m g <span class="op">⟹</span> q = <span class="frac"><span class="num">m g d</span><span class="den">V</span></span></div>
+        <div class="out" id="mkOut"></div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="mk-q">
     <div class="tagq">Question</div>
     <div class="stem">An oil drop of weight 3.2 × 10⁻¹⁴ N hangs stationary between plates 1.0 cm apart with 500 V across them.</div>
     <div class="qpart" data-i="0">
-      <div class="ptext">(a) State the relationship between the forces on the drop at balance. <span class="mks">[1]</span></div>
+      <div class="ptext">(a) State the condition on the forces at balance. <span class="mks">[1]</span></div>
       <button class="preveal">Reveal answer</button>
       <div class="pans" hidden>The upward electric force equals the downward weight: qE = mg, i.e. qV/d = mg.</div>
     </div>
     <div class="qpart" data-i="1" hidden>
       <div class="ptext">(b) Calculate the charge on the drop. <span class="mks">[2]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden><div class="fml">q = <span class="frac"><span class="num">mgd</span><span class="den">V</span></span><span class="op">=</span><span class="frac"><span class="num">(3.2 × 10⁻¹⁴)(0.010)</span><span class="den">500</span></span><span class="op">=</span><b>6.4 × 10⁻¹⁹ C</b></div></div>
+      <div class="pans" hidden><div class="fml">q = <span class="frac"><span class="num">mg·d</span><span class="den">V</span></span> = <span class="frac"><span class="num">(3.2×10⁻¹⁴)(0.010)</span><span class="den">500</span></span> <span class="op">=</span><b>6.4 × 10⁻¹⁹ C</b></div></div>
     </div>
     <div class="qpart" data-i="2" hidden>
-      <div class="ptext">(c) How many excess electrons does the drop carry? <span class="mks">[2]</span></div>
+      <div class="ptext">(c) How many excess electrons does it carry? <span class="mks">[2]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden><div class="fml">n = <span class="frac"><span class="num">q</span><span class="den">e</span></span><span class="op">=</span><span class="frac"><span class="num">6.4 × 10⁻¹⁹</span><span class="den">1.60 × 10⁻¹⁹</span></span><span class="op">=</span><b>4 electrons</b></div>A whole number — evidence that charge is quantized.</div>
+      <div class="pans" hidden><div class="fml">n = <span class="frac"><span class="num">q</span><span class="den">e</span></span> = <span class="frac"><span class="num">6.4×10⁻¹⁹</span><span class="den">1.60×10⁻¹⁹</span></span> <span class="op">=</span><b>4 electrons</b></div>A whole number — evidence that charge is quantised.</div>
     </div>
   </div>
 </section>
@@ -62,53 +529,56 @@
 <!-- PAGE 5 : WORKED EXAMPLES -->
 <section class="page" data-p="4">
   <span class="levelchip sl">SL · Standard Level</span>
-  <p class="lead">Five original problems across field strength, radial fields, parallel plates and energy. Try each before revealing the solution.</p>
+  <p class="lead">Five problems across field strength, forces, parallel plates and the balanced oil drop. Try each before revealing the full solution.</p>
 
   <div class="we">
-    <div class="meta">Worked Example · Field strength from force</div>
-    <div class="q">A test charge of 5.0 nC feels a force of 2.0 × 10⁻⁴ N at a point in a field. Find the field strength there.</div>
+    <div class="meta">Worked example 1 · Field of a point charge</div>
+    <div class="q">Find the electric field strength 0.10 m from a +5.0 nC point charge in air.</div>
     <button class="reveal">Show solution</button>
     <div class="answer" hidden>
-      <div class="eqbox fml">E = <span class="frac"><span class="num">F</span><span class="den">q</span></span><span class="op">=</span><span class="frac"><span class="num">2.0 × 10⁻⁴</span><span class="den">5.0 × 10⁻⁹</span></span><span class="op">=</span><b>4.0 × 10⁴ N C⁻¹</b></div>
+      <div class="eqbox fml">E = k<span class="frac"><span class="num">Q</span><span class="den">r²</span></span> = <span class="frac"><span class="num">(8.99×10⁹)(5.0×10⁻⁹)</span><span class="den">(0.10)²</span></span> <span class="op">≈</span> 4.5 × 10³ N C⁻¹</div>
+      <p>Directed radially <b>away</b> from the charge, since Q is positive.</p>
     </div>
   </div>
 
   <div class="we">
-    <div class="meta">Worked Example · Radial field</div>
-    <div class="q">Find the electric field strength 0.50 m from a +4.0 µC point charge in air.</div>
+    <div class="meta">Worked example 2 · Force from a field</div>
+    <div class="q">A charge of −3.0 nC sits at a point where the field strength is 2.0 × 10³ N C⁻¹. Find the force on it, and its direction relative to the field.</div>
     <button class="reveal">Show solution</button>
     <div class="answer" hidden>
-      <div class="eqbox fml">E = k<span class="frac"><span class="num">Q</span><span class="den">r<sup>2</sup></span></span><span class="op">=</span><span class="frac"><span class="num">(8.99 × 10⁹)(4.0 × 10⁻⁶)</span><span class="den">(0.50)<sup>2</sup></span></span><span class="op">≈</span><b>1.4 × 10⁵ N C⁻¹</b></div>
-      <p>Pointing away from the charge, since Q is positive.</p>
+      <div class="eqbox fml">F = qE = (3.0×10⁻⁹)(2.0×10³) <span class="op">=</span> 6.0 × 10⁻⁶ N</div>
+      <p>The magnitude is <b>6.0 µN</b>. Because the charge is negative, the force points <b>opposite</b> to the field direction.</p>
     </div>
   </div>
 
   <div class="we">
-    <div class="meta">Worked Example · Parallel plates</div>
-    <div class="q">Parallel plates are 4.0 cm apart with 1.2 kV across them. Find the field strength between them.</div>
+    <div class="meta">Worked example 3 · Parallel plates</div>
+    <div class="q">Parallel plates are 4.0 cm apart with 1.2 kV across them. Find the field between them.</div>
     <button class="reveal">Show solution</button>
     <div class="answer" hidden>
-      <div class="eqbox fml">E = <span class="frac"><span class="num">V</span><span class="den">d</span></span><span class="op">=</span><span class="frac"><span class="num">1200</span><span class="den">0.040</span></span><span class="op">=</span><b>3.0 × 10⁴ V m⁻¹</b></div>
+      <div class="eqbox fml">E = <span class="frac"><span class="num">V</span><span class="den">d</span></span> = <span class="frac"><span class="num">1200</span><span class="den">0.040</span></span> <span class="op">=</span> 3.0 × 10⁴ V m⁻¹</div>
+      <p>Uniform everywhere between the plates (ignoring the edges).</p>
     </div>
   </div>
 
   <div class="we">
-    <div class="meta">Worked Example · Energy of an electron</div>
-    <div class="q">An electron is accelerated from rest through a potential difference of 250 V. Find the energy it gains in eV and in joules.</div>
+    <div class="meta">Worked example 4 · Balanced oil drop</div>
+    <div class="q">An oil drop of mass 3.3 × 10⁻¹⁵ kg is held stationary between plates 6.0 mm apart. It carries 2 excess electrons. Find the balancing voltage. (g = 9.8 m s⁻²)</div>
     <button class="reveal">Show solution</button>
     <div class="answer" hidden>
-      <p>Crossing 250 V gives the electron <b>250 eV</b>.</p>
-      <div class="eqbox fml">W = qV = (1.60 × 10⁻¹⁹)(250) <span class="op">=</span><b>4.0 × 10⁻¹⁷ J</b></div>
+      <div class="eqbox fml">q = 2e = 3.2 × 10⁻¹⁹ C &nbsp;&nbsp; mg = (3.3×10⁻¹⁵)(9.8) = 3.23 × 10⁻¹⁴ N</div>
+      <div class="eqbox fml">V = <span class="frac"><span class="num">mg·d</span><span class="den">q</span></span> = <span class="frac"><span class="num">(3.23×10⁻¹⁴)(0.0060)</span><span class="den">3.2×10⁻¹⁹</span></span> <span class="op">≈</span> 6.1 × 10² V</div>
     </div>
   </div>
 
   <div class="we">
-    <div class="meta">Worked Example · Balanced oil drop</div>
-    <div class="q">An oil drop of mass 5.1 × 10⁻¹⁵ kg floats between plates 8.0 mm apart with 250 V across them. Find its charge. (g = 9.8 m s⁻²)</div>
+    <div class="meta">Worked example 5 · Superposition</div>
+    <div class="q">Two equal +4.0 nC charges are fixed 0.20 m apart. Find the resultant field at the midpoint between them.</div>
     <button class="reveal">Show solution</button>
     <div class="answer" hidden>
-      <div class="eqbox fml">q = <span class="frac"><span class="num">mgd</span><span class="den">V</span></span><span class="op">=</span><span class="frac"><span class="num">(5.1 × 10⁻¹⁵)(9.8)(0.0080)</span><span class="den">250</span></span><span class="op">≈</span><b>1.6 × 10⁻¹⁸ C</b></div>
-      <p>That is 1.6 × 10⁻¹⁸ / 1.60 × 10⁻¹⁹ = <b>10 electrons</b>.</p>
+      <p>Each charge produces a field at the midpoint of equal size but pointing in <b>opposite</b> directions (each points away from its own charge).</p>
+      <div class="eqbox fml">E<sub>net</sub> = E₁ − E₂ = 0</div>
+      <p>The resultant field at the midpoint is <b>zero</b> — the two contributions cancel by symmetry.</p>
     </div>
   </div>
 </section>
@@ -116,37 +586,37 @@
 <!-- PAGE 6 : MISCONCEPTIONS -->
 <section class="page" data-p="5">
   <span class="levelchip sl">SL · Standard Level</span>
-  <p class="lead">The usual traps on electric fields. Each card pairs the wrong idea with the correct physics.</p>
+  <p class="lead">The usual traps on electric fields. Each card pairs the tempting wrong idea with the correct physics.</p>
   <div class="mis">
     <div class="mcard">
-      <div class="wrong">"A bigger test charge sits in a stronger field."</div>
-      <p>E = F/q is independent of the test charge. A bigger q feels a bigger force, but the ratio — the field strength — is the same.</p>
-      <div class="right">E depends on the source and position only.</div>
-    </div>
-    <div class="mcard">
-      <div class="wrong">"Field lines are real, solid lines."</div>
-      <p>They are a drawing tool. Their direction shows the force on a positive charge and their spacing shows the strength.</p>
+      <div class="wrong">"Field lines are real, physical threads."</div>
+      <p>They are a drawing tool. Their direction shows the force on a positive charge; their spacing shows the strength.</p>
       <div class="right">Lines are a model, not objects.</div>
     </div>
     <div class="mcard">
-      <div class="wrong">"The field inside a charged metal sphere is strong."</div>
-      <p>Inside a conductor the field is zero; all the charge sits on the outer surface.</p>
-      <div class="right">E = 0 inside a conductor.</div>
+      <div class="wrong">"A bigger test charge sits in a stronger field."</div>
+      <p>E = F/q is independent of the test charge. A bigger q feels a bigger force, but the ratio — the field strength — is unchanged.</p>
+      <div class="right">E depends on the source and position only.</div>
     </div>
     <div class="mcard">
       <div class="wrong">"Between parallel plates the field is stronger near a plate."</div>
-      <p>The field is uniform — same strength and direction everywhere between the plates (apart from the edges).</p>
+      <p>The field is uniform — the same strength and direction everywhere between the plates (apart from the edges).</p>
       <div class="right">Uniform field: E = V/d throughout.</div>
     </div>
     <div class="mcard">
+      <div class="wrong">"The field points the way a negative charge moves."</div>
+      <p>Field direction is the force on a <b>positive</b> test charge. A negative charge is pushed the opposite way.</p>
+      <div class="right">E is defined for a positive test charge.</div>
+    </div>
+    <div class="mcard">
       <div class="wrong">"N C⁻¹ and V m⁻¹ are different quantities."</div>
-      <p>They are the same unit for field strength. E = F/q gives N C⁻¹; E = V/d gives V m⁻¹; they are identical.</p>
+      <p>They are the same unit for field strength. E = F/q gives N C⁻¹; E = V/d gives V m⁻¹; the two are identical.</p>
       <div class="right">N C⁻¹ = V m⁻¹.</div>
     </div>
     <div class="mcard">
-      <div class="wrong">"Field lines can cross where two charges meet."</div>
-      <p>The resultant field has one direction at each point, so lines never cross — they bend around instead.</p>
-      <div class="right">Lines never intersect.</div>
+      <div class="wrong">"No test charge there means no field there."</div>
+      <p>The field exists in the space around a source whether or not a charge is placed in it — it is a property of the source.</p>
+      <div class="right">The field is there regardless.</div>
     </div>
   </div>
 </section>
@@ -154,524 +624,375 @@
 <!-- PAGE 7 : QUIZ -->
 <section class="page" data-p="6">
   <span class="levelchip sl">SL · Standard Level</span>
-  <p class="lead">Six original questions. Pick an answer to see whether it is right and why.</p>
-  <div id="quiz"></div>
-  <div class="card" style="margin-top:4px;text-align:center">
-    <div id="quizScore" style="font-weight:800;font-size:16px;color:var(--accent)">Score: 0 / 6</div>
-  </div>
+  <p class="lead">Six questions on fields, field lines, parallel plates and Millikan. Pick an answer to see whether it's right and why.</p>
+  <div id="quizWrap"></div>
+  <div class="out" id="quizScore" style="margin-top:4px"></div>
 </section>
 
+<footer>
+  <p>D.2 Fields · Part 2 of 4 · <b>Electric Fields</b> · Standard Level</p>
+  <p style="margin-top:6px">Back to <a href="electric-charge-coulombs-law.html" style="color:var(--c2);font-weight:700">Part 1 · Charge &amp; Coulomb's Law</a> &nbsp;·&nbsp; next <a href="magnetic-fields.html" style="color:var(--c3);font-weight:700">Part 3 · Magnetic Fields</a> &nbsp;·&nbsp; <b>ATUL SORAL PHYSICISM</b></p>
+</footer>
 </main>
 
-<footer>
-  <b>ATUL SORAL PHYSICISM</b> · Theme D.2 Electric and Magnetic Fields · Part 2 of 4 · Standard Level<br>
-  Back to <a href="electric-charge-coulombs-law.html" style="color:var(--c1);font-weight:700">Part 1</a> &nbsp;·&nbsp; next <a href="magnetic-fields.html" style="color:var(--c3);font-weight:700">Part 3 · Magnetic Fields</a>
-</footer>
-
 <script>
-'use strict';
-
-/* ---------- constants & helpers ---------- */
-const KQ=8.99e9, E_CH=1.60e-19;
-const SUPS={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};
-function sup(n){return String(n).split('').map(c=>SUPS[c]||c).join('');}
-function sci(v,dp){
-  if(v===0) return '0';
-  const neg=v<0; v=Math.abs(v);
-  let e=Math.floor(Math.log10(v));
-  let m=v/Math.pow(10,e);
-  if(m>=9.9995){m/=10;e++;}
-  const ms=m.toFixed(dp==null?2:dp);
-  const s=(e<=-1||e>=4)? ms+' × 10'+sup(e) : (v>=1? v.toPrecision(3).replace(/\.?0+$/,'') : v.toFixed(Math.max(0,-e+2)));
-  return (neg?'−':'')+s;
-}
-const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-
-/* ---------- canvas DPR sizing ---------- */
-const sizes=new Map(), ctxs=new Map();
-function ctxOf(id){ let c=ctxs.get(id); if(!c){const cv=document.getElementById(id); if(!cv)return null; c=cv.getContext('2d'); ctxs.set(id,c);} return c; }
-const ro=new ResizeObserver(entries=>{
-  for(const e of entries){
-    const cv=e.target, dpr=Math.min(2,window.devicePixelRatio||1);
-    const w=e.contentRect.width, h=e.contentRect.height;
-    cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
-    const ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
-    sizes.set(cv.id,{w,h});
-    if(cv.id==='flCanvas') flDirty=true;
-  }
-});
-['feCanvas','flCanvas','ppCanvas','mkCanvas'].forEach(id=>{const cv=document.getElementById(id); if(cv)ro.observe(cv);});
-function dim(id){return sizes.get(id)||{w:600,h:360};}
-
-function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
-function arrow(ctx,x1,y1,x2,y2,col,lw,head){
-  ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=lw||2;
-  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
-  const a=Math.atan2(y2-y1,x2-x1), hs=head||7;
-  ctx.beginPath(); ctx.moveTo(x2,y2);
-  ctx.lineTo(x2-hs*Math.cos(a-0.4),y2-hs*Math.sin(a-0.4));
-  ctx.lineTo(x2-hs*Math.cos(a+0.4),y2-hs*Math.sin(a+0.4));
-  ctx.closePath(); ctx.fill();
-}
-function plusDot(ctx,x,y,r,col){ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-r*0.5,y);ctx.lineTo(x+r*0.5,y);ctx.moveTo(x,y-r*0.5);ctx.lineTo(x,y+r*0.5);ctx.stroke();}
-function minusDot(ctx,x,y,r,col){ctx.fillStyle=col;ctx.beginPath();ctx.arc(x,y,r,0,7);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(x-r*0.5,y);ctx.lineTo(x+r*0.5,y);ctx.stroke();}
-function ro3(k,v){return '<div class="ro"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
-function ro3hi(k,v){return '<div class="ro hi"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
-
-/* ---------- tab engine ---------- */
-const PAGES=[
-  {name:'Field Strength',lvl:'SL',c:'var(--c1)',soft:'rgba(37,99,235,.12)',k:'The field around a charge'},
-  {name:'Field Lines',lvl:'SL',c:'var(--c2)',soft:'rgba(8,145,178,.12)',k:'Mapping the field'},
-  {name:'Parallel Plates',lvl:'SL',c:'var(--c3)',soft:'rgba(124,58,237,.12)',k:'The uniform field'},
-  {name:"Millikan's Experiment",lvl:'SL',c:'var(--c4)',soft:'rgba(219,39,119,.12)',k:'Measuring the electron'},
-  {name:'Worked Examples',lvl:'SL',c:'var(--c5)',soft:'rgba(13,148,136,.12)',k:'Practice problems'},
-  {name:'Misconceptions',lvl:'SL',c:'var(--c6)',soft:'rgba(217,119,6,.12)',k:'Common traps'},
-  {name:'Quiz',lvl:'SL',c:'var(--c7)',soft:'rgba(5,150,105,.12)',k:'Check yourself'}
-];
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const C1='#e11d48',C2='#0d9488',C3='#d97706',C4='#059669',C5='#ca8a04',C6='#4d7c0f',C7='#0f766e';
+const INK='#2a2420',GRY='#8a7f73',FAINT='rgba(111,101,87,.26)',BLUE='#2563eb';
+const KQ=8.99e9, ECH=1.60e-19;
+const TAU=Math.PI*2;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function sup(n){const S={'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'};return String(n).split('').map(c=>S[c]||c).join('');}
+function sci(v,dp){if(v===0)return '0';const neg=v<0;v=Math.abs(v);let e=Math.floor(Math.log10(v));let m=v/Math.pow(10,e);if(m>=9.9995){m/=10;e++;}const ms=m.toFixed(dp==null?1:dp);const s=(e<=-1||e>=4)?ms+' × 10'+sup(e):(+v.toPrecision(3)).toString();return (neg?'−':'')+s;}
 let active=0;
+
+/* ---------- PAGES ---------- */
+const PAGES=[
+ {name:'Field Strength',lvl:'SL',c:C2,soft:'rgba(13,148,136,.12)',k:'D.2 · Standard Level',htitle:'Electric field strength',pre:'Field strength E = F/q is the force per unit positive charge. For a point charge it follows the inverse-square law E = kQ/r² and points away from + and towards −.'},
+ {name:'Field Lines',lvl:'SL',c:C7,soft:'rgba(15,118,110,.12)',k:'D.2 · Standard Level',htitle:'Mapping the field with lines',pre:'Field lines picture the field: their arrows give its direction and their spacing its strength. They leave +, enter −, and never cross.'},
+ {name:'Parallel Plates',lvl:'SL',c:C3,soft:'rgba(217,119,6,.12)',k:'D.2 · Standard Level',htitle:'The uniform field',pre:'Two parallel plates a distance d apart with voltage V make a uniform field E = V/d — the same strength and direction everywhere between them.'},
+ {name:"Millikan's Drop",lvl:'SL',c:C4,soft:'rgba(5,150,105,.12)',k:'D.2 · Standard Level',htitle:"Millikan's oil-drop experiment",pre:'Balance a charged oil drop so qE = mg. The balancing voltage reveals its charge — always a whole-number multiple of the elementary charge e.'},
+ {name:'Worked Examples',lvl:'SL',c:C6,soft:'rgba(77,124,15,.12)',k:'D.2 · Standard Level',htitle:'Worked examples',pre:'Five problems across field strength, forces, parallel plates and the balanced oil drop.'},
+ {name:'Misconceptions',lvl:'SL',c:C3,soft:'rgba(217,119,6,.12)',k:'D.2 · Standard Level',htitle:'Common misconceptions',pre:'The traps that cost marks: field lines as objects, the test charge, uniform fields, and the sign conventions.'},
+ {name:'Quiz',lvl:'SL',c:C7,soft:'rgba(15,118,110,.12)',k:'D.2 · Standard Level',htitle:'Check your understanding',pre:'Six questions on fields, field lines, parallel plates and Millikan. Choose an answer to see the reasoning.'}
+];
+
+/* ---------- NAV ---------- */
 const nav=$('#nav');
 PAGES.forEach((p,i)=>{
   const b=document.createElement('button');
-  b.className='tab'+(i===0?' active':''); b.style.setProperty('--tabc',p.c);
-  b.innerHTML='<span class="num">'+(i+1)+'</span>'+p.name+' <span class="lvl">'+p.lvl+'</span>';
-  b.onclick=()=>goPage(i); nav.appendChild(b);
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML=`<span class="num">${i+1}</span>${p.name}<span class="lvl">${p.lvl}</span>`;
+  b.addEventListener('click',()=>goPage(i));
+  nav.appendChild(b);
 });
-function setAccent(i){const p=PAGES[i];document.documentElement.style.setProperty('--accent',p.c);document.documentElement.style.setProperty('--accent-soft',p.soft);document.body.dataset.page=i+1;$('#kicker').textContent='D.2 · '+p.k;}
+const tabs=$$('.tab'),pages=$$('.page');
+function setAccent(i){
+  const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.c);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=i+1;
+  $('#kicker').textContent=p.k;
+  $('#heroTitle').textContent=p.htitle;
+  $('#heroLede').textContent=p.pre;
+}
 function goPage(i){
   active=i;
-  $$('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
-  $$('.page').forEach((pg,j)=>pg.classList.toggle('active',j===i));
+  tabs.forEach((t,j)=>t.classList.toggle('active',j===i));
+  pages.forEach((p,j)=>p.classList.toggle('active',j===i));
   setAccent(i);
-  if(i===1)flDirty=true;
+  mkLast=0;
   window.scrollTo({top:0,behavior:'smooth'});
 }
-setAccent(0);
 
-/* ---------- name gate ---------- */
-function enterName(){
-  const v=$('#gateName').value.trim();
-  if(v.length<2){$('#gateErr').hidden=false;return;}
-  $('#profileName').textContent=v.split(' ')[0];
-  $('#gate').style.display='none';
+/* ---------- CANVAS FRAMEWORK ---------- */
+const sizes=new Map();
+function fit(cv){
+  if(!cv)return;
+  const r=cv.getBoundingClientRect();
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  if(r.width<2||r.height<2)return;
+  cv.width=Math.round(r.width*dpr);
+  cv.height=Math.round(r.height*dpr);
+  cv.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  sizes.set(cv.id,{w:r.width,h:r.height});
 }
-$('#gateBtn').onclick=enterName;
-$('#gateName').addEventListener('keydown',e=>{if(e.key==='Enter')enterName();});
+function dim(id){return sizes.get(id)||{w:600,h:360};}
+function ctxOf(id){const cv=document.getElementById(id);return cv?cv.getContext('2d'):null;}
+const CANV=['esCanvas','flCanvas','ppCanvas','mkCanvas'];
+function fitAll(){CANV.forEach(id=>fit(document.getElementById(id)));}
+window.addEventListener('resize',fitAll);
+if(window.ResizeObserver){CANV.forEach(id=>{const cv=document.getElementById(id);if(cv)new ResizeObserver(()=>fit(cv)).observe(cv);});}
 
-/* ---------- clock ---------- */
-function tick(){const d=new Date();const p=n=>String(n).padStart(2,'0');
-  $('#clock').textContent=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
-tick(); setInterval(tick,1000);
+/* ---------- DRAW HELPERS ---------- */
+function arrow(ctx,x1,y1,x2,y2,col,lw=2,hs=8){
+  ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath();ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-hs*Math.cos(a-0.42),y2-hs*Math.sin(a-0.42));
+  ctx.lineTo(x2-hs*Math.cos(a+0.42),y2-hs*Math.sin(a+0.42));
+  ctx.closePath();ctx.fill();
+}
+function chargeDot(ctx,x,y,r,pos){
+  ctx.fillStyle=pos?C1:BLUE;ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();
+  ctx.strokeStyle='#fff';ctx.lineWidth=2.4;ctx.beginPath();
+  ctx.moveTo(x-r*0.5,y);ctx.lineTo(x+r*0.5,y);
+  if(pos){ctx.moveTo(x,y-r*0.5);ctx.lineTo(x,y+r*0.5);}
+  ctx.stroke();
+}
+function ro3(k,v){return `<div class="ro"><span class="k">${k}</span><span class="v">${v}</span></div>`;}
+function ro3hi(k,v){return `<div class="ro hi"><span class="k">${k}</span><span class="v">${v}</span></div>`;}
 
-/* ---------- dark mode ---------- */
-$('#sunbtn').onclick=function(){
+/* ========== TAB 1 : FIELD STRENGTH ========== */
+function esVals(){const Q=+$('#esQ').value,r=+$('#esR').value;const E=KQ*Math.abs(Q*1e-9)/(r*r);return{Q,r,E};}
+function drawEs(){
+  const ctx=ctxOf('esCanvas');if(!ctx)return;const{w,h}=dim('esCanvas');
+  ctx.clearRect(0,0,w,h);
+  const{Q,r,E}=esVals(),pos=Q>=0,col=pos?C1:BLUE;
+  const topH=h*0.60,cx=w*0.22,cy=topH*0.5,rr=Math.min(w*0.42,topH*0.46);
+  for(let i=0;i<12;i++){const a=i/12*TAU;
+    ctx.strokeStyle=FAINT;ctx.lineWidth=1.3;ctx.beginPath();
+    ctx.moveTo(cx+Math.cos(a)*20,cy+Math.sin(a)*20);ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);ctx.stroke();
+    const mx=cx+Math.cos(a)*rr*0.6,my=cy+Math.sin(a)*rr*0.6;
+    if(pos)arrow(ctx,mx-Math.cos(a)*6,my-Math.sin(a)*6,mx+Math.cos(a)*6,my+Math.sin(a)*6,'rgba(111,101,87,.55)',1.3,6);
+    else arrow(ctx,mx+Math.cos(a)*6,my+Math.sin(a)*6,mx-Math.cos(a)*6,my-Math.sin(a)*6,'rgba(111,101,87,.55)',1.3,6);
+  }
+  chargeDot(ctx,cx,cy,15,pos);
+  ctx.fillStyle=INK;ctx.font='600 12px sans-serif';ctx.textAlign='center';ctx.fillText('Q',cx,cy-24);
+  const maxpx=w-cx-60,px=cx+40+((r-0.05)/0.25)*maxpx*0.78;
+  ctx.setLineDash([4,4]);ctx.strokeStyle='rgba(111,101,87,.45)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(px,cy);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=GRY;ctx.font='11px sans-serif';ctx.fillText('r = '+r.toFixed(2)+' m',(cx+px)/2,cy-9);
+  ctx.fillStyle=C4;ctx.beginPath();ctx.arc(px,cy,7,0,TAU);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='700 10px sans-serif';ctx.fillText('+q',px,cy+3.5);
+  const L=clamp(16+22*Math.log10(E/300+1),12,80);
+  if(pos)arrow(ctx,px,cy,px+L,cy,col,3,9);else arrow(ctx,px,cy,px-L,cy,col,3,9);
+  ctx.fillStyle=col;ctx.font='700 12px sans-serif';ctx.textAlign=pos?'left':'right';
+  ctx.fillText('E',pos?px+L+6:px-L-6,cy-6);ctx.textAlign='center';
+  const gy0=topH+12,gh=h-gy0-22,gx0=46,gw=w-gx0-18;
+  ctx.strokeStyle='rgba(111,101,87,.5)';ctx.lineWidth=1.2;
+  ctx.beginPath();ctx.moveTo(gx0,gy0);ctx.lineTo(gx0,gy0+gh);ctx.lineTo(gx0+gw,gy0+gh);ctx.stroke();
+  const Eref=KQ*Math.abs(Q*1e-9)/(0.05*0.05)||1;
+  ctx.strokeStyle=col;ctx.lineWidth=2.2;ctx.beginPath();
+  for(let i=0;i<=100;i++){const rv=0.05+(i/100)*0.25,Ev=KQ*Math.abs(Q*1e-9)/(rv*rv),gx=gx0+(i/100)*gw,gy=gy0+gh-Math.min(gh,(Ev/Eref)*gh);if(i===0)ctx.moveTo(gx,gy);else ctx.lineTo(gx,gy);}
+  ctx.stroke();
+  const mgx=gx0+((r-0.05)/0.25)*gw,mgy=gy0+gh-Math.min(gh,(E/Eref)*gh);
+  ctx.fillStyle=C4;ctx.beginPath();ctx.arc(mgx,mgy,4.5,0,TAU);ctx.fill();
+  ctx.fillStyle=INK;ctx.font='700 11px sans-serif';ctx.fillText('E against r  (inverse-square)',gx0+gw/2,gy0-2);
+  ctx.fillStyle=GRY;ctx.font='10px sans-serif';ctx.fillText('r',gx0+gw,gy0+gh+14);
+}
+function esUpdate(){
+  const{Q,r,E}=esVals();
+  $('#esQv').textContent=(Q>=0?'+':'−')+Math.abs(Q).toFixed(1)+' nC';
+  $('#esRv').textContent=r.toFixed(2)+' m';
+  const dir=Q>=0?'away from Q':'towards Q',F=E*2e-9;
+  $('#esReadouts').innerHTML=ro3('Source charge Q',(Q>=0?'+':'−')+Math.abs(Q).toFixed(1)+' nC')+ro3('Distance r',r.toFixed(2)+' m')+ro3hi('Field strength E',sci(E)+' N C⁻¹');
+  $('#esOut').innerHTML=`A field of <b>${sci(E)} N C⁻¹</b> pointing <b>${dir}</b>. A +2.0 nC test charge here would feel a force F = qE = <b>${sci(F)} N</b>.`;
+}
+
+/* ========== TAB 2 : FIELD LINES ========== */
+let flMode='single+';
+const FL_MODES=[['single+','Single +'],['single-','Single −'],['dipole','Dipole + −'],['plates','Parallel plates']];
+function drawFl(){
+  const ctx=ctxOf('flCanvas');if(!ctx)return;const{w,h}=dim('flCanvas');
+  ctx.clearRect(0,0,w,h);
+  if(flMode==='plates'){
+    const pyT=h*0.2,pyB=h*0.8,px0=w*0.2,px1=w*0.8,n=9;
+    ctx.fillStyle=C1;ctx.fillRect(px0,pyT-8,px1-px0,8);
+    ctx.fillStyle=BLUE;ctx.fillRect(px0,pyB,px1-px0,8);
+    for(let i=0;i<n;i++){const x=px0+(i+0.5)/n*(px1-px0);
+      ctx.strokeStyle='rgba(111,101,87,.5)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(x,pyT);ctx.lineTo(x,pyB);ctx.stroke();
+      arrow(ctx,x,(pyT+pyB)/2-9,x,(pyT+pyB)/2+9,'rgba(111,101,87,.72)',1.4,7);}
+    ctx.fillStyle='#fff';ctx.font='700 12px sans-serif';ctx.textAlign='center';
+    ctx.fillText('+  +  +  +  +  +',(px0+px1)/2,pyT-1);ctx.fillText('−  −  −  −  −  −',(px0+px1)/2,pyB+8);
+    ctx.fillStyle=INK;ctx.font='600 12px sans-serif';ctx.fillText('Uniform field — straight, parallel, evenly spaced',(px0+px1)/2,h-10);
+  }else if(flMode==='dipole'){
+    const cy=h*0.5,lx=w*0.34,rx=w*0.66;
+    const bulges=[0,42,-42,88,-88,140,-140];
+    bulges.forEach(b=>{ctx.strokeStyle='rgba(111,101,87,.55)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(lx+13,cy);ctx.quadraticCurveTo((lx+rx)/2,cy+b,rx-13,cy);ctx.stroke();
+      const mx=(lx+rx)/2,my=cy+b*0.5;arrow(ctx,mx-7,my,mx+7,my,'rgba(111,101,87,.72)',1.3,6);});
+    chargeDot(ctx,lx,cy,15,true);chargeDot(ctx,rx,cy,15,false);
+    ctx.fillStyle=INK;ctx.font='600 12px sans-serif';ctx.textAlign='center';
+    ctx.fillText('Lines run from + to − and never cross',w/2,h-10);
+  }else{
+    const pos=flMode==='single+',cx=w*0.5,cy=h*0.5,col=pos?C1:BLUE,rr=Math.min(w,h)*0.42;
+    for(let i=0;i<16;i++){const a=i/16*TAU;
+      ctx.strokeStyle='rgba(111,101,87,.5)';ctx.lineWidth=1.4;ctx.beginPath();
+      ctx.moveTo(cx+Math.cos(a)*18,cy+Math.sin(a)*18);ctx.lineTo(cx+Math.cos(a)*rr,cy+Math.sin(a)*rr);ctx.stroke();
+      const mx=cx+Math.cos(a)*rr*0.62,my=cy+Math.sin(a)*rr*0.62;
+      if(pos)arrow(ctx,mx-Math.cos(a)*7,my-Math.sin(a)*7,mx+Math.cos(a)*7,my+Math.sin(a)*7,'rgba(111,101,87,.72)',1.4,6);
+      else arrow(ctx,mx+Math.cos(a)*7,my+Math.sin(a)*7,mx-Math.cos(a)*7,my-Math.sin(a)*7,'rgba(111,101,87,.72)',1.4,6);}
+    chargeDot(ctx,cx,cy,16,pos);
+    ctx.fillStyle=INK;ctx.font='600 12px sans-serif';ctx.textAlign='center';
+    ctx.fillText(pos?'Lines point radially outward from +':'Lines point radially inward to −',w/2,h-10);
+  }
+}
+function flUpdate(){
+  const map={'single+':'A single <b>positive</b> charge: lines radiate outward, crowding near the charge where the field is strongest.','single-':'A single <b>negative</b> charge: identical pattern but lines point inward, towards the charge.','dipole':'A <b>dipole</b> (+ and −): lines leave the + charge and curve round into the − charge; the field is strongest in the gap between them.','plates':'<b>Parallel plates</b>: straight, parallel, evenly spaced lines — a uniform field, the same everywhere between the plates.'};
+  $('#flOut').innerHTML=map[flMode];
+}
+
+/* ========== TAB 3 : PARALLEL PLATES ========== */
+function ppVals(){const V=+$('#ppV').value,dcm=+$('#ppD').value,d=dcm/100,E=V/d;return{V,dcm,d,E};}
+function drawPp(){
+  const ctx=ctxOf('ppCanvas');if(!ctx)return;const{w,h}=dim('ppCanvas');
+  ctx.clearRect(0,0,w,h);
+  const{V,dcm,d,E}=ppVals(),cx=w*0.5,cyc=h*0.5;
+  const gap=h*0.56*clamp(dcm/10,0.12,1),pyT=cyc-gap/2,pyB=cyc+gap/2,px0=w*0.16,px1=w*0.84;
+  ctx.fillStyle=C1;ctx.fillRect(px0,pyT-8,px1-px0,8);
+  ctx.fillStyle=BLUE;ctx.fillRect(px0,pyB,px1-px0,8);
+  ctx.fillStyle='#fff';ctx.font='700 12px sans-serif';ctx.textAlign='center';
+  ctx.fillText('+  +  +  +  +  +',cx,pyT-1);ctx.fillText('−  −  −  −  −  −',cx,pyB+8);
+  const nn=Math.max(5,Math.min(13,Math.round(5+E/8000)));
+  for(let i=0;i<nn;i++){const x=px0+(i+0.5)/nn*(px1-px0);
+    ctx.strokeStyle='rgba(13,148,136,.5)';ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(x,pyT);ctx.lineTo(x,pyB);ctx.stroke();
+    arrow(ctx,x,(pyT+pyB)/2-10,x,(pyT+pyB)/2+10,C2,1.6,7);}
+  ctx.strokeStyle='rgba(111,101,87,.6)';ctx.setLineDash([3,3]);ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(px1+14,pyT);ctx.lineTo(px1+14,pyB);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=GRY;ctx.font='11px sans-serif';ctx.save();ctx.translate(px1+26,cyc);ctx.rotate(-Math.PI/2);ctx.fillText('d = '+dcm.toFixed(1)+' cm',0,0);ctx.restore();
+  ctx.fillStyle=INK;ctx.font='700 12px sans-serif';ctx.textAlign='center';ctx.fillText('E = V/d = '+sci(E)+' V m⁻¹',cx,h-10);
+}
+function ppUpdate(){
+  const{V,dcm,d,E}=ppVals();
+  $('#ppVv').textContent=V.toFixed(0)+' V';
+  $('#ppDv').textContent=dcm.toFixed(1)+' cm';
+  $('#ppReadouts').innerHTML=ro3('Voltage V',V.toFixed(0)+' V')+ro3('Separation d',dcm.toFixed(1)+' cm')+ro3hi('Field E = V/d',sci(E)+' V m⁻¹');
+  const F=E*1e-9;
+  $('#ppOut').innerHTML=`The field is <b>${sci(E)} V m⁻¹</b>, uniform everywhere between the plates. A +1.0 nC charge feels F = qE = <b>${sci(F)} N</b>.`;
+}
+
+/* ========== TAB 4 : MILLIKAN ========== */
+const MK_D=0.010,MK_G=9.8,MK_M=3.3e-15;
+let mkY=0.5,mkLast=0;
+function mkVals(){const n=+$('#mkN').value,V=+$('#mkV').value,q=n*ECH,E=V/MK_D,Fup=q*E,mg=MK_M*MK_G;return{n,V,q,E,Fup,mg,net:Fup-mg};}
+function drawMk(dt){
+  const ctx=ctxOf('mkCanvas');if(!ctx)return;const{w,h}=dim('mkCanvas');
+  ctx.clearRect(0,0,w,h);
+  const v=mkVals(),px0=w*0.14,px1=w*0.86,pyT=h*0.16,pyB=h*0.84,cx=w*0.5;
+  ctx.fillStyle=C1;ctx.fillRect(px0,pyT-8,px1-px0,8);
+  ctx.fillStyle=BLUE;ctx.fillRect(px0,pyB,px1-px0,8);
+  ctx.fillStyle='#fff';ctx.font='700 11px sans-serif';ctx.textAlign='center';
+  ctx.fillText('+ + + + + +',cx,pyT-1);ctx.fillText('− − − − − −',cx,pyB+8);
+  const rel=v.net/v.mg,bal=Math.abs(rel)<0.03&&v.V>0;
+  mkY+=(-rel)*0.5*(dt||0.016);
+  mkY=clamp(mkY,0.1,0.9);
+  if(bal)mkY+=(0.5-mkY)*0.05;
+  const dy=pyT+(pyB-pyT)*mkY;
+  ctx.fillStyle=bal?C4:C3;ctx.beginPath();ctx.arc(cx,dy,11,0,TAU);ctx.fill();
+  ctx.fillStyle='#fff';ctx.font='700 10px sans-serif';ctx.fillText('−'+v.n+'e',cx,dy+3.5);
+  arrow(ctx,cx+24,dy,cx+24,dy+34,GRY,2.4,8);
+  ctx.fillStyle=GRY;ctx.font='10px sans-serif';ctx.textAlign='left';ctx.fillText('mg',cx+30,dy+22);
+  if(v.V>0){const up=clamp(34*v.Fup/v.mg,6,70);arrow(ctx,cx-24,dy,cx-24,dy-up,C2,2.4,8);ctx.fillStyle=C2;ctx.textAlign='right';ctx.fillText('qE',cx-30,dy-up/2);}
+  ctx.textAlign='center';ctx.fillStyle=INK;ctx.font='700 12px sans-serif';
+  ctx.fillText(bal?'⚖ Balanced — floating':(v.net>0?'↑ Rising':'↓ Falling'),cx,h-9);
+}
+function mkUpdate(){
+  const v=mkVals(),bal=Math.abs(v.net/v.mg)<0.03&&v.V>0,Vbal=v.mg*MK_D/v.q;
+  $('#mkNv').textContent=v.n;
+  $('#mkVv').textContent=v.V.toFixed(0)+' V';
+  $('#mkReadouts').innerHTML=ro3('Charge q = ne',sci(v.q)+' C')+ro3('Field E = V/d',sci(v.E)+' N C⁻¹')+ro3('Electric force qE',sci(v.Fup)+' N')+ro3('Weight mg',sci(v.mg)+' N')+ro3hi('State',bal?'⚖ Balanced':(v.net>0?'↑ Rising':'↓ Falling'));
+  $('#mkOut').innerHTML=`This drop carries <b>${v.n}</b> electron${v.n>1?'s':''} (q = ${sci(v.q)} C). It floats when qE = mg — at V = mgd/q = <b>${Vbal.toFixed(0)} V</b>.`;
+}
+
+/* ---------- MASTER LOOP ---------- */
+function masterLoop(ts){
+  if(active===0)drawEs();
+  else if(active===1)drawFl();
+  else if(active===2)drawPp();
+  else if(active===3){const dt=mkLast?(ts-mkLast)/1000:0;mkLast=ts;drawMk(clamp(dt,0,0.05));}
+  requestAnimationFrame(masterLoop);
+}
+
+/* ---------- DERIVATION STEPPERS ---------- */
+$$('.deriv').forEach(d=>{
+  const steps=$$('.dstep',d),next=$('.dnext',d),reset=$('.dreset',d);
+  let i=0;
+  next.addEventListener('click',()=>{
+    if(i<steps.length){steps[i].classList.add('show');i++;}
+    if(i>=steps.length){next.setAttribute('hidden','');reset.removeAttribute('hidden');}
+  });
+  reset.addEventListener('click',()=>{steps.forEach(s=>s.classList.remove('show'));i=0;reset.setAttribute('hidden','');next.removeAttribute('hidden');});
+});
+
+/* ---------- PROGRESSIVE QUESTIONS ---------- */
+$$('.pq').forEach(pq=>{
+  const parts=$$('.qpart',pq);
+  $$('.preveal',pq).forEach((btn,idx)=>{
+    btn.addEventListener('click',()=>{
+      const part=btn.closest('.qpart');
+      $('.pans',part).removeAttribute('hidden');
+      btn.setAttribute('hidden','');
+      if(idx+1<parts.length)parts[idx+1].removeAttribute('hidden');
+      else{const done=document.createElement('div');done.className='pdone';done.textContent='✓ All parts complete';pq.appendChild(done);}
+    });
+  });
+});
+
+/* ---------- WORKED EXAMPLE REVEAL ---------- */
+$$('.we .reveal').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const a=btn.nextElementSibling;
+    if(a.hasAttribute('hidden')){a.removeAttribute('hidden');btn.textContent='Hide solution';}
+    else{a.setAttribute('hidden','');btn.textContent='Show solution';}
+  });
+});
+
+/* ---------- QUIZ ---------- */
+const QUIZ=[
+ {q:'Electric field strength at a point is defined as:',o:['the force per unit positive charge','the charge per unit force','force × charge','energy per unit charge'],a:0,e:'E = F/q — force per unit positive test charge, measured in N C⁻¹.'},
+ {q:'The field around a single positive point charge points:',o:['radially inward','radially outward','in circles','everywhere parallel'],a:1,e:'Field lines leave positive charges, so the field points radially outward.'},
+ {q:'Between two oppositely charged parallel plates the field is:',o:['radial','zero everywhere','uniform','circular'],a:2,e:'Straight, parallel, evenly spaced lines — a uniform field, E = V/d.'},
+ {q:'The field strength between parallel plates is given by:',o:['E = V·d','E = d/V','E = q/V','E = V/d'],a:3,e:'E = V/d: the voltage divided by the plate separation.'},
+ {q:"In Millikan's experiment an oil drop hangs stationary when:",o:['qE = mg','qE > mg','qE < mg','E = 0'],a:0,e:'The upward electric force exactly balances the weight: qE = mg.'},
+ {q:'Electric field strength is:',o:['a scalar','a vector','a unit of charge','a form of energy'],a:1,e:'It has magnitude and direction — a vector, in N C⁻¹ (= V m⁻¹).'}
+];
+const qw=$('#quizWrap');let answered=0,correct=0;
+QUIZ.forEach((item,qi)=>{
+  const card=document.createElement('div');card.className='q';
+  card.innerHTML=`<div class="qq">${qi+1}. ${item.q}</div>`;
+  const opts=document.createElement('div');opts.className='opts';
+  const letters=['A','B','C','D'];
+  item.o.forEach((o,oi)=>{
+    const b=document.createElement('button');b.className='opt';b.innerHTML=`<b>${letters[oi]}.</b> ${o}`;
+    b.addEventListener('click',()=>{
+      if(card.dataset.done)return;card.dataset.done='1';answered++;
+      if(oi===item.a){b.classList.add('correct');correct++;}
+      else{b.classList.add('wrong');opts.children[item.a].classList.add('correct');}
+      $('.qexp',card).classList.add('show');
+      $('#quizScore').innerHTML=`Score: <b>${correct} / ${answered}</b> answered${answered===QUIZ.length?' · quiz complete':''}.`;
+    });
+    opts.appendChild(b);
+  });
+  card.appendChild(opts);
+  const exp=document.createElement('div');exp.className='qexp';exp.innerHTML=`<b>Answer ${letters[item.a]}.</b> ${item.e}`;
+  card.appendChild(exp);
+  qw.appendChild(card);
+});
+
+/* ---------- NAME GATE ---------- */
+const gate=$('#gate');
+function enter(){
+  const n=$('#gateName').value.trim();
+  if(n.length<2){$('#gateErr').removeAttribute('hidden');return;}
+  $('#profileName').textContent=n.split(' ')[0];
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>{gate.style.display='none';fitAll();esUpdate();},400);
+}
+$('#gateBtn').addEventListener('click',enter);
+$('#gateName').addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+
+/* ---------- CLOCK ---------- */
+function tick(){const d=new Date();const p=n=>String(n).padStart(2,'0');$('#clock').textContent=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+tick();setInterval(tick,1000);
+
+/* ---------- DARK TOGGLE ---------- */
+$('#sunbtn').addEventListener('click',function(){
   const dark=document.body.classList.toggle('dark');
   this.innerHTML=dark?'&#9790;':'&#9728;';
   this.title=dark?'Switch to light mode':'Switch to dark mode';
-};
-
-/* ---------- progressive questions ---------- */
-$$('.pq').forEach(pq=>{
-  const parts=Array.from(pq.querySelectorAll('.qpart'));
-  parts.forEach((part,i)=>{
-    const btn=part.querySelector('.preveal'), ans=part.querySelector('.pans');
-    btn.onclick=()=>{
-      ans.hidden=false; btn.disabled=true; btn.textContent='Answer shown';
-      if(i+1<parts.length){ parts[i+1].hidden=false; }
-      else if(!pq.querySelector('.pdone')){
-        const d=document.createElement('div'); d.className='pdone'; d.textContent='✓ All parts complete.'; pq.appendChild(d);
-      }
-    };
-  });
 });
 
-/* ---------- worked example reveal ---------- */
-$$('.we .reveal').forEach(btn=>{
-  btn.onclick=()=>{const a=btn.nextElementSibling;a.hidden=false;btn.style.display='none';};
-});
-
-/* ---------- derivation stepper ---------- */
-$$('.deriv').forEach(d=>{
-  const steps=Array.from(d.querySelectorAll('.dstep'));
-  const next=d.querySelector('.dnext'), reset=d.querySelector('.dreset');
-  let shown=0;
-  next.onclick=()=>{
-    if(shown<steps.length){steps[shown].classList.add('show');shown++;}
-    next.textContent=shown>=steps.length?'All steps shown':'Reveal next step';
-    if(shown>=steps.length)next.disabled=true;
-    if(shown>0)reset.hidden=false;
-  };
-  reset.onclick=()=>{steps.forEach(s=>s.classList.remove('show'));shown=0;next.disabled=false;next.textContent='Reveal first step';reset.hidden=true;};
-});
-
-/* ========== SIM 1 : FIELD STRENGTH ========== */
-let feQ=4, feR=30;
-function feUpdate(){
-  feQ=parseFloat($('#feQ').value); feR=parseFloat($('#feR').value);
-  $('#feQv').textContent=(feQ>=0?'+':'−')+Math.abs(feQ).toFixed(1)+' µC';
-  $('#feRv').textContent=feR.toFixed(0)+' cm';
-  const Q=feQ*1e-6, r=feR/100;
-  const E=KQ*Math.abs(Q)/(r*r);
-  const dir=feQ>=0?'away from the charge':'towards the charge';
-  $('#feReadouts').innerHTML=
-    ro3('Source charge Q',(feQ>=0?'+':'−')+Math.abs(feQ).toFixed(1)+' µC')+
-    ro3('Distance r',feR.toFixed(0)+' cm')+
-    ro3hi('Field strength E',sci(E,2)+' N C⁻¹');
-  $('#feOut').innerHTML='A field of <b>'+sci(E,2)+' N C⁻¹</b> points <b>'+dir+'</b>. A +1 nC test charge here would feel a force of '+sci(E*1e-9,2)+' N.';
-}
-['feQ','feR'].forEach(id=>document.getElementById(id).addEventListener('input',feUpdate));
-function drawFe(){
-  const ctx=ctxOf('feCanvas'); if(!ctx)return; const {w,h}=dim('feCanvas');
-  ctx.clearRect(0,0,w,h);
-  const topH=h*0.6;
-  const cx=w*0.22, cy=topH*0.5;
-  const pos=feQ>=0;
-  const col=pos?'#dc2626':'#2563eb';
-  // field lines radiating
-  ctx.save();
-  for(let i=0;i<12;i++){
-    const a=i/12*Math.PI*2;
-    const x1=cx+Math.cos(a)*22, y1=cy+Math.sin(a)*22;
-    const x2=cx+Math.cos(a)*Math.min(w-cx-12,topH*0.46), y2=cy+Math.sin(a)*Math.min(w-cx-12,topH*0.46);
-    ctx.strokeStyle='rgba(100,116,139,.35)'; ctx.lineWidth=1.4;
-    ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
-    const mx=cx+Math.cos(a)*((topH*0.46)*0.6), my=cy+Math.sin(a)*((topH*0.46)*0.6);
-    if(pos) arrow(ctx,mx-Math.cos(a)*6,my-Math.sin(a)*6,mx+Math.cos(a)*6,my+Math.sin(a)*6,'rgba(100,116,139,.6)',1.4,6);
-    else arrow(ctx,mx+Math.cos(a)*6,my+Math.sin(a)*6,mx-Math.cos(a)*6,my-Math.sin(a)*6,'rgba(100,116,139,.6)',1.4,6);
-  }
-  ctx.restore();
-  // source charge
-  if(pos) plusDot(ctx,cx,cy,15,col); else minusDot(ctx,cx,cy,15,col);
-  ctx.fillStyle='#1b2440'; ctx.font='600 12px sans-serif'; ctx.textAlign='center';
-  ctx.fillText('Q',cx,cy-24);
-  // test point along horizontal at distance ~ feR
-  const maxpx=w-cx-40;
-  const px=cx+ (feR/60)*maxpx;
-  const py=cy;
-  ctx.setLineDash([4,4]); ctx.strokeStyle='rgba(100,116,139,.5)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(px,py); ctx.stroke(); ctx.setLineDash([]);
-  // r label
-  ctx.fillStyle='#64748b'; ctx.font='11px sans-serif';
-  ctx.fillText('r = '+feR.toFixed(0)+' cm',(cx+px)/2,cy-8);
-  // test charge
-  ctx.fillStyle='#059669'; ctx.beginPath(); ctx.arc(px,py,7,0,7); ctx.fill();
-  ctx.fillStyle='#fff'; ctx.font='700 10px sans-serif'; ctx.fillText('+q',px,py+3.5);
-  // E arrow at test point
-  const Q=feQ*1e-6, r=feR/100, E=KQ*Math.abs(Q)/(r*r);
-  const alen=Math.max(14,Math.min(70,18*Math.log10(E/1e4+1)+14));
-  if(pos) arrow(ctx,px,py,px+alen,py,'#dc2626',3,9); else arrow(ctx,px,py,px-alen,py,'#2563eb',3,9);
-  ctx.fillStyle=pos?'#dc2626':'#2563eb'; ctx.font='700 12px sans-serif'; ctx.textAlign=pos?'left':'right';
-  ctx.fillText('E',pos?px+alen+6:px-alen-6,py-6);
-  ctx.textAlign='center';
-  // ---- lower band : E vs r graph ----
-  const gy0=topH+10, gh=h-gy0-24, gx0=46, gw=w-gx0-18;
-  ctx.strokeStyle='rgba(100,116,139,.5)'; ctx.lineWidth=1.2;
-  ctx.beginPath(); ctx.moveTo(gx0,gy0); ctx.lineTo(gx0,gy0+gh); ctx.lineTo(gx0+gw,gy0+gh); ctx.stroke();
-  // E(r) curve, normalise to r=5cm
-  const Eref=KQ*Math.abs(Q)/(0.05*0.05);
-  ctx.strokeStyle=pos?'#dc2626':'#2563eb'; ctx.lineWidth=2.2; ctx.beginPath();
-  for(let i=0;i<=100;i++){
-    const rr=0.05+ (i/100)*(0.60-0.05);
-    const Ev=KQ*Math.abs(Q)/(rr*rr);
-    const gx=gx0+(i/100)*gw;
-    const gy=gy0+gh-Math.min(gh,(Ev/ (Eref||1))*gh);
-    if(i===0)ctx.moveTo(gx,gy); else ctx.lineTo(gx,gy);
-  }
-  ctx.stroke();
-  // marker at current r
-  const frac=(feR/100-0.05)/(0.55);
-  const mgx=gx0+frac*gw;
-  const mE=KQ*Math.abs(Q)/(r*r);
-  const mgy=gy0+gh-Math.min(gh,(mE/(Eref||1))*gh);
-  ctx.fillStyle='#059669'; ctx.beginPath(); ctx.arc(mgx,mgy,4.5,0,7); ctx.fill();
-  ctx.fillStyle='#1b2440'; ctx.font='700 11px sans-serif';
-  ctx.fillText('E against r  (inverse-square)',gx0+gw/2,gy0-1);
-  ctx.fillStyle='#64748b'; ctx.font='10px sans-serif';
-  ctx.save(); ctx.translate(gx0-32,gy0+gh/2); ctx.rotate(-Math.PI/2); ctx.fillText('E',0,0); ctx.restore();
-  ctx.fillText('r',gx0+gw,gy0+gh+14);
-}
-
-/* ========== SIM 2 : FIELD LINES (interactive) ========== */
-let flMode='charges';
-let flList=[{fx:0.5,fy:0.5,q:1}];   // normalized positions so they survive resize
-let flDrag=-1, flDirty=true;
-const flPresets=[
-  {id:'single+',label:'Single +',set:()=>{flMode='charges';flList=[{fx:0.5,fy:0.5,q:1}];}},
-  {id:'single-',label:'Single −',set:()=>{flMode='charges';flList=[{fx:0.5,fy:0.5,q:-1}];}},
-  {id:'dipole',label:'Dipole + −',set:()=>{flMode='charges';flList=[{fx:0.35,fy:0.5,q:1},{fx:0.65,fy:0.5,q:-1}];}},
-  {id:'twolike',label:'Two +',set:()=>{flMode='charges';flList=[{fx:0.35,fy:0.5,q:1},{fx:0.65,fy:0.5,q:1}];}},
-  {id:'plates',label:'Parallel plates',set:()=>{flMode='plates';}}
-];
+/* ---------- FIELD-LINE SEGMENT BUTTONS ---------- */
 const flSeg=$('#flSeg');
-flPresets.forEach((p,idx)=>{
-  const b=document.createElement('button'); b.textContent=p.label; b.className=idx===0?'on':'';
-  b.onclick=()=>{p.set();flDirty=true;$$('#flSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');};
+FL_MODES.forEach(([id,label],idx)=>{
+  const b=document.createElement('button');b.textContent=label;b.className=idx===0?'on':'';
+  b.addEventListener('click',()=>{flMode=id;$$('#flSeg button').forEach(x=>x.classList.remove('on'));b.classList.add('on');flUpdate();});
   flSeg.appendChild(b);
 });
-function flPresetOff(){$$('#flSeg button').forEach(x=>x.classList.remove('on'));}
-const flTools=$('#flTools');
-function flTool(label,fn){const b=document.createElement('button');b.className='btn ghost';b.textContent=label;b.onclick=fn;flTools.appendChild(b);}
-flTool('+ Add positive',()=>{if(flMode==='plates'){flMode='charges';flList=[];}if(flList.length<7){flPresetOff();flList.push({fx:0.25+Math.random()*0.5,fy:0.25+Math.random()*0.5,q:1});flDirty=true;}});
-flTool('− Add negative',()=>{if(flMode==='plates'){flMode='charges';flList=[];}if(flList.length<7){flPresetOff();flList.push({fx:0.25+Math.random()*0.5,fy:0.25+Math.random()*0.5,q:-1});flDirty=true;}});
-flTool('Clear',()=>{flMode='charges';flPresetOff();flList=[];flDirty=true;});
 
-function fieldAt(x,y,chs){
-  let ex=0,ey=0;
-  for(const c of chs){const dx=x-c.x,dy=y-c.y;let r2=dx*dx+dy*dy;if(r2<64)r2=64;const r=Math.sqrt(r2);const e=c.q/r2;ex+=e*dx/r;ey+=e*dy/r;}
-  return [ex,ey];
-}
-function nrm(ex,ey){const m=Math.hypot(ex,ey)||1;return [ex/m,ey/m];}
-function streamline(ctx,sx,sy,chs,dir,w,h){
-  let x=sx,y=sy; ctx.beginPath(); ctx.moveTo(x,y);
-  const pts=[[x,y]];
-  let pdx=0,pdy=0,have=false;
-  for(let s=0;s<1400;s++){
-    let [ex,ey]=fieldAt(x,y,chs);
-    const mag=Math.hypot(ex,ey); if(mag<1e-7)break;   // reached a null — stop
-    const nx=ex/mag, ny=ey/mag;
-    const tx=dir*nx, ty=dir*ny;                       // travel direction
-    if(have && (tx*pdx+ty*pdy)<0) break;              // flipped >90° near a null — stop before it crosses
-    // RK2 midpoint for smooth, non-crossing curves
-    const mxp=x+tx*0.8, myp=y+ty*0.8;
-    let [ex2,ey2]=fieldAt(mxp,myp,chs); const m2=Math.hypot(ex2,ey2)||1;
-    x+=(tx + dir*ex2/m2)*0.7; y+=(ty + dir*ey2/m2)*0.7;
-    ctx.lineTo(x,y); pts.push([x,y]);
-    pdx=tx; pdy=ty; have=true;
-    if(x<-20||x>w+20||y<-20||y>h+20)break;
-    let hit=false; for(const c of chs){if(Math.hypot(x-c.x,y-c.y)<9){hit=true;break;}} if(hit)break;
-  }
-  ctx.stroke();
-  return pts;
-}
-function pxCharges(w,h){return flList.map(c=>({x:c.fx*w,y:c.fy*h,q:c.q}));}
-function drawFl(){
-  const ctx=ctxOf('flCanvas'); if(!ctx)return; const {w,h}=dim('flCanvas');
-  ctx.clearRect(0,0,w,h);
-  if(flMode==='plates'){
-    const px0=w*0.2, px1=w*0.8, pyT=h*0.2, pyB=h*0.8;
-    ctx.fillStyle='#dc2626'; roundRect(ctx,px0,pyT-9,px1-px0,9,3); ctx.fill();
-    ctx.fillStyle='#2563eb'; roundRect(ctx,px0,pyB,px1-px0,9,3); ctx.fill();
-    ctx.fillStyle='#fff'; ctx.font='700 13px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('+ + + + + + + +',(px0+px1)/2,pyT-1.5);
-    ctx.fillText('− − − − − − − −',(px0+px1)/2,pyB+8);
-    const n=9;
-    for(let i=0;i<n;i++){
-      const x=px0+ (i+0.5)/n*(px1-px0);
-      ctx.strokeStyle='rgba(100,116,139,.55)'; ctx.lineWidth=1.6;
-      ctx.beginPath(); ctx.moveTo(x,pyT); ctx.lineTo(x,pyB); ctx.stroke();
-      arrow(ctx,x,(pyT+pyB)/2-9,x,(pyT+pyB)/2+9,'#64748b',1.6,7);
-    }
-    ctx.fillStyle='#1b2440'; ctx.font='600 12px sans-serif';
-    ctx.fillText('Uniform field — evenly spaced, parallel lines',(px0+px1)/2,h-10);
-    return;
-  }
-  const chs=pxCharges(w,h);
-  if(chs.length===0){
-    ctx.fillStyle='#94a3b8'; ctx.font='13px sans-serif'; ctx.textAlign='center';
-    ctx.fillText('Add charges with the buttons below, or pick a preset.',w/2,h/2);
-    return;
-  }
-  ctx.strokeStyle='rgba(100,116,139,.5)'; ctx.lineWidth=1.4;
-  const hasPos=chs.some(c=>c.q>0);   // lines start on + charges; seed from − only if there are no + charges
-  const seeds=13;
-  for(const c of chs){
-    const seed = hasPos ? (c.q>0) : (c.q<0);
-    if(!seed) continue;
-    const dir=c.q>0?1:-1;
-    for(let i=0;i<seeds;i++){
-      const a=i/seeds*Math.PI*2;
-      const pts=streamline(ctx,c.x+Math.cos(a)*12,c.y+Math.sin(a)*12,chs,dir,w,h);
-      if(pts.length>18){
-        const [px,py]=pts[18];
-        let [ex,ey]=nrm(...fieldAt(px,py,chs));   // arrowhead points along the real field
-        arrow(ctx,px-ex*5,py-ey*5,px+ex*5,py+ey*5,'#64748b',1.3,6);
-      }
-    }
-  }
-  for(const c of chs){ if(c.q>0) plusDot(ctx,c.x,c.y,14,'#dc2626'); else minusDot(ctx,c.x,c.y,14,'#2563eb'); }
-  ctx.fillStyle='#1b2440'; ctx.font='600 12px sans-serif'; ctx.textAlign='center';
-  ctx.fillText('Drag a charge to move it · '+chs.length+' charge'+(chs.length>1?'s':''),w/2,h-10);
-}
-/* pointer dragging */
-(function(){
-  const cv=document.getElementById('flCanvas');
-  function pos(e){const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
-  cv.style.cursor='grab';
-  cv.addEventListener('pointerdown',e=>{
-    if(flMode!=='charges')return; const {w,h}=dim('flCanvas'); const [mx,my]=pos(e);
-    for(let i=0;i<flList.length;i++){const c=flList[i]; if(Math.hypot(mx-c.fx*w,my-c.fy*h)<17){flDrag=i;cv.style.cursor='grabbing';cv.setPointerCapture(e.pointerId);break;}}
-  });
-  cv.addEventListener('pointermove',e=>{
-    if(flDrag<0)return; const {w,h}=dim('flCanvas'); const [mx,my]=pos(e);
-    flList[flDrag].fx=Math.max(0.05,Math.min(0.95,mx/w));
-    flList[flDrag].fy=Math.max(0.08,Math.min(0.9,my/h));
-    flDirty=true;
-  });
-  const stop=()=>{flDrag=-1;cv.style.cursor='grab';};
-  cv.addEventListener('pointerup',stop);
-  cv.addEventListener('pointercancel',stop);
-})();
+/* ---------- WIRE SLIDERS ---------- */
+['esQ','esR'].forEach(id=>$('#'+id).addEventListener('input',esUpdate));
+['ppV','ppD'].forEach(id=>$('#'+id).addEventListener('input',ppUpdate));
+['mkN','mkV'].forEach(id=>$('#'+id).addEventListener('input',mkUpdate));
 
-
-/* ========== SIM 3 : PARALLEL PLATES ========== */
-let ppV=600, ppD=20;
-function ppUpdate(){
-  ppV=parseFloat($('#ppV').value); ppD=parseFloat($('#ppD').value);
-  $('#ppVv').textContent=ppV>=1000?(ppV/1000).toFixed(1)+' kV':ppV.toFixed(0)+' V';
-  $('#ppDv').textContent=(ppD/10).toFixed(1)+' cm';
-  const d=ppD/1000; const E=ppV/d;
-  const W=E_CH*ppV;
-  $('#ppReadouts').innerHTML=
-    ro3('Voltage V',ppV>=1000?(ppV/1000).toFixed(1)+' kV':ppV.toFixed(0)+' V')+
-    ro3('Separation d',(ppD/10).toFixed(1)+' cm')+
-    ro3hi('Field strength E',sci(E,2)+' V m⁻¹');
-  $('#ppOut').innerHTML='The field is <b>'+sci(E,2)+' V m⁻¹</b>, the same everywhere between the plates. An electron crossing the full gap gains <b>'+ppV.toFixed(0)+' eV</b> = '+sci(W,2)+' J.';
-}
-['ppV','ppD'].forEach(id=>document.getElementById(id).addEventListener('input',ppUpdate));
-function drawPp(){
-  const ctx=ctxOf('ppCanvas'); if(!ctx)return; const {w,h}=dim('ppCanvas');
-  ctx.clearRect(0,0,w,h);
-  const px0=w*0.16, px1=w*0.84;
-  const cy=h*0.5, maxgap=h*0.56;
-  const gap=maxgap*(ppD/100);
-  const pyT=cy-gap/2, pyB=cy+gap/2;
-  // plates
-  ctx.fillStyle='#dc2626'; roundRect(ctx,px0,pyT-9,px1-px0,9,3); ctx.fill();
-  ctx.fillStyle='#2563eb'; roundRect(ctx,px0,pyB,px1-px0,9,3); ctx.fill();
-  ctx.fillStyle='#fff'; ctx.font='700 12px sans-serif'; ctx.textAlign='center';
-  ctx.fillText('+  +  +  +  +  +  +',(px0+px1)/2,pyT-1.5);
-  ctx.fillText('−  −  −  −  −  −  −',(px0+px1)/2,pyB+8);
-  // field lines — density grows with E
-  const E=ppV/(ppD/1000);
-  const n=Math.max(5,Math.min(13,Math.round(5+E/5e4)));
-  for(let i=0;i<n;i++){
-    const x=px0+ (i+0.5)/n*(px1-px0);
-    ctx.strokeStyle='rgba(124,58,237,.5)'; ctx.lineWidth=1.6;
-    ctx.beginPath(); ctx.moveTo(x,pyT); ctx.lineTo(x,pyB); ctx.stroke();
-    arrow(ctx,x,(pyT+pyB)/2-10,x,(pyT+pyB)/2+10,'#7c3aed',1.6,7);
-  }
-  // d label
-  ctx.strokeStyle='rgba(100,116,139,.6)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
-  ctx.beginPath(); ctx.moveTo(px1+14,pyT); ctx.lineTo(px1+14,pyB); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='#64748b'; ctx.font='11px sans-serif'; ctx.save(); ctx.translate(px1+26,cy); ctx.rotate(-Math.PI/2);
-  ctx.fillText('d = '+(ppD/10).toFixed(1)+' cm',0,0); ctx.restore();
-  ctx.fillStyle='#1b2440'; ctx.font='700 12px sans-serif';
-  ctx.fillText('E = '+sci(E,2)+' V m⁻¹',(px0+px1)/2,h-10);
-}
-
-/* ========== SIM 4 : MILLIKAN ========== */
-const MK_D=0.010, MK_G=9.8;    // 1 cm gap
-const MK_MASS=1.306e-15;        // fixed drop mass: V_balance = mgd/(n·e) = 800/n volts
-let mkN=4, mkMass=MK_MASS, mkV=0;
-function mkNewDrop(){
-  mkN=1+Math.floor(Math.random()*6);
-  $('#mkV').value=0; mkUpdate();
-}
-function mkUpdate(){
-  mkV=parseFloat($('#mkV').value);
-  $('#mkVv').textContent=mkV.toFixed(0)+' V';
-  const weight=mkMass*MK_G;
-  const elec=mkN*E_CH*mkV/MK_D; // upward electric force
-  const net=elec-weight;
-  const bal=Math.abs(net)<weight*0.02 && mkV>0;
-  $('#mkReadouts').innerHTML=
-    ro3('Weight  mg',sci(weight,2)+' N')+
-    ro3('Electric force  qE',sci(elec,2)+' N')+
-    ro3hi('State',bal?'⚖ Balanced — floating':(net>0?'↑ Rising':'↓ Falling'));
-  if(bal){
-    const qmeas=weight*MK_D/mkV;
-    $('#mkOut').innerHTML='Balanced at <b>'+mkV.toFixed(0)+' V</b>. Charge q = mgd/V = <b>'+sci(qmeas,2)+' C</b> = '+mkN+' × e. The drop carries <b>'+mkN+' electron'+(mkN>1?'s':'')+'</b> — a whole number.';
-  }else{
-    $('#mkOut').innerHTML='Not balanced. Adjust V until the electric force cancels the weight, then read the charge.';
-  }
-}
-$('#mkV').addEventListener('input',mkUpdate);
-$('#mkNew').onclick=mkNewDrop;
-let mkYoff=0;
-function drawMk(dt){
-  const ctx=ctxOf('mkCanvas'); if(!ctx)return; const {w,h}=dim('mkCanvas');
-  ctx.clearRect(0,0,w,h);
-  const px0=w*0.14, px1=w*0.86, pyT=h*0.16, pyB=h*0.84, cx=w/2;
-  // plates
-  ctx.fillStyle='#dc2626'; roundRect(ctx,px0,pyT-9,px1-px0,9,3); ctx.fill();
-  ctx.fillStyle='#2563eb'; roundRect(ctx,px0,pyB,px1-px0,9,3); ctx.fill();
-  ctx.fillStyle='#fff'; ctx.font='700 11px sans-serif'; ctx.textAlign='center';
-  ctx.fillText('+ + + + + + +',cx,pyT-1.5);
-  ctx.fillText('− − − − − − −',cx,pyB+8);
-  // dynamics for drop position
-  const weight=mkMass*MK_G, elec=mkN*E_CH*mkV/MK_D, net=elec-weight;
-  const bal=Math.abs(net)<weight*0.02 && mkV>0;
-  mkYoff += (net/ (weight||1)) * (dt||0.016) * 60;
-  if(mkYoff>(pyB-pyT)/2-16)mkYoff=(pyB-pyT)/2-16;
-  if(mkYoff<-((pyB-pyT)/2-16))mkYoff=-((pyB-pyT)/2-16);
-  if(bal)mkYoff*=0.9;
-  const dy=(pyT+pyB)/2 - mkYoff;
-  // oil drop
-  ctx.fillStyle=bal?'#059669':'#d97706'; ctx.beginPath(); ctx.arc(cx,dy,11,0,7); ctx.fill();
-  ctx.fillStyle='#fff'; ctx.font='700 10px sans-serif'; ctx.fillText(mkN+'e',cx,dy+3.5);
-  // force arrows
-  arrow(ctx,cx+22,dy,cx+22,dy+Math.min(50,weight/ (weight||1)*34),'#64748b',2.4,8); // weight down (fixed length)
-  ctx.fillStyle='#64748b'; ctx.font='10px sans-serif'; ctx.textAlign='left'; ctx.fillText('mg',cx+28,dy+30);
-  if(mkV>0){
-    const up=Math.min(60,34*elec/(weight||1));
-    arrow(ctx,cx-22,dy,cx-22,dy-up,'#7c3aed',2.4,8);
-    ctx.fillStyle='#7c3aed'; ctx.textAlign='right'; ctx.fillText('qE',cx-28,dy-up/2);
-  }
-  ctx.textAlign='center';
-  ctx.fillStyle='#1b2440'; ctx.font='700 12px sans-serif';
-  ctx.fillText(bal?'⚖ Balanced at '+mkV.toFixed(0)+' V':(mkV>0?'V = '+mkV.toFixed(0)+' V':'Switch on the voltage'),cx,h-8);
-}
-
-/* ========== QUIZ ========== */
-const QUIZ=[
-  {q:'The electric field strength at a point is defined as the force per unit:',o:['positive test charge','mass','area','distance'],a:0,
-   e:'E = F/q — force per unit positive test charge, measured in N C⁻¹. (Answer A)'},
-  {q:'A 2 nC test charge in a field is replaced by a 6 nC charge at the same point. The field strength there:',o:['triples','doubles','is unchanged','falls to a third'],a:2,
-   e:'E depends on the source and position, not the test charge. Only the force changes. (Answer C)'},
-  {q:'The distance from a point charge is doubled. The field strength becomes:',o:['double','one quarter','half','four times'],a:1,
-   e:'E = kQ/r² is inverse-square, so doubling r divides E by 4. (Answer B)'},
-  {q:'Two plates 5.0 cm apart have 1000 V across them. The field between them is:',o:['50 V m⁻¹','200 V m⁻¹','5.0 × 10⁴ V m⁻¹','2.0 × 10⁴ V m⁻¹'],a:3,
-   e:'E = V/d = 1000 / 0.050 = 2.0 × 10⁴ V m⁻¹. (Answer D)'},
-  {q:'Inside a solid charged metal sphere, the electric field is:',o:['zero','strongest at the centre','infinite','equal to the surface value'],a:0,
-   e:'The field inside a conductor is zero; charge sits on the outer surface. (Answer A)'},
-  {q:'Millikan found the measured charges on oil drops were always:',o:['the same single value','whole-number multiples of e','randomly distributed','proportional to the drop size'],a:1,
-   e:'Charges came in multiples of e — evidence that charge is quantized. (Answer B)'}
-];
-let qScore=0, qAnswered=new Set();
-const quizEl=$('#quiz');
-QUIZ.forEach((item,qi)=>{
-  const card=document.createElement('div'); card.className='q';
-  let opts='<div class="opts">';
-  item.o.forEach((o,oi)=>{opts+='<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+o+'</button>';});
-  opts+='</div>';
-  card.innerHTML='<div class="qq">'+(qi+1)+'. '+item.q+'</div>'+opts+'<div class="qexp">'+item.e+'</div>';
-  quizEl.appendChild(card);
-});
-quizEl.addEventListener('click',e=>{
-  const btn=e.target.closest('.opt'); if(!btn)return;
-  const qi=+btn.dataset.q, oi=+btn.dataset.o;
-  if(qAnswered.has(qi))return; qAnswered.add(qi);
-  const card=btn.closest('.q'); const correct=QUIZ[qi].a;
-  card.querySelectorAll('.opt').forEach(b=>{
-    const bo=+b.dataset.o; b.style.pointerEvents='none';
-    if(bo===correct)b.classList.add('correct');
-    else if(bo===oi)b.classList.add('wrong');
-  });
-  card.querySelector('.qexp').classList.add('show');
-  if(oi===correct)qScore++;
-  $('#quizScore').textContent='Score: '+qScore+' / '+QUIZ.length;
-});
-
-/* ---------- master loop ---------- */
-let last=performance.now();
-function masterLoop(now){
-  const dt=Math.min(0.05,(now-last)/1000); last=now;
-  if(active===0)drawFe();
-  else if(active===1){ if(flDirty){drawFl();flDirty=false;} }
-  else if(active===2)drawPp();
-  else if(active===3)drawMk(dt);
-  requestAnimationFrame(masterLoop);
-}
-feUpdate(); ppUpdate(); mkNewDrop();
+/* ---------- INIT ---------- */
+setAccent(0);
+esUpdate();ppUpdate();mkUpdate();flUpdate();
+window.addEventListener('load',()=>{fitAll();esUpdate();});
 requestAnimationFrame(masterLoop);
 </script>
 </body>

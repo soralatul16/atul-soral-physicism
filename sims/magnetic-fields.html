@@ -1,29 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Magnetic Fields</title>
+<style>
+:root{
+  --c1:#e11d48; --c2:#0d9488; --c3:#d97706; --c4:#059669; --c5:#ca8a04; --c6:#4d7c0f; --c7:#0f766e;
+  --accent:var(--c1); --accent-soft:rgba(225,29,72,.12);
+  --ink:#2a2420; --muted:#8a7f73; --line:rgba(42,36,32,.13); --card:#fffdfb;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#fdf6f1 0%,#f4f8f2 50%,#eef8f4 100%)}
+body[data-page="1"]{background:linear-gradient(140deg,#e7f6f1 0%,#eef9f1 45%,#f4faee 100%)}
+body[data-page="2"]{background:linear-gradient(140deg,#e3f4ee 0%,#e9f5ea 45%,#eff5e6 100%)}
+body[data-page="3"]{background:linear-gradient(140deg,#fdf2e3 0%,#fdf6e8 45%,#fdf4e4 100%)}
+body[data-page="4"]{background:linear-gradient(140deg,#e6f7ec 0%,#eef9ec 45%,#f4f9e6 100%)}
+body[data-page="5"]{background:linear-gradient(140deg,#f0f6de 0%,#eef5df 45%,#edf4e2 100%)}
+body[data-page="6"]{background:linear-gradient(140deg,#fdf2e3 0%,#fdf6e8 45%,#fdf4e4 100%)}
+body[data-page="7"]{background:linear-gradient(140deg,#e3f4ee 0%,#e9f5ea 45%,#eff5e6 100%)}
+body.dark{--ink:#ece6df;--muted:#b2a89b;--line:rgba(236,230,223,.16);--card:#241f1b;--tan:#3a322a;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#17130f 0%,#141511 55%,#121613 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(28,24,20,.86)}
+body.dark .brand{color:#f6f1ea}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox,body.dark .workcard{background:#241f1b}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#1b1713}
+body.dark .qexp{background:rgba(13,148,136,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#d8cfc3}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .qexp,body.dark .dstep .cap,body.dark .pq .stem,body.dark .intro{color:#d8cfc3}
+body.dark .gatebox .mark{color:#f6f1ea}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#f6f4ef}
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,253,251,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#2a2420;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#0d9488;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,253,251,.6);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fffdfb;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .hl{display:inline-flex;align-items:center;gap:4px}
+.dotHL{width:9px;height:9px;border-radius:3px;background:#e11d48}
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:760px;font-size:15px}
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,253,251,.86);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.hl{background:rgba(225,29,72,.12);color:#e11d48}
+.levelchip.sl{background:rgba(13,148,136,.14);color:#0d9488}
+.dotSL{width:9px;height:9px;border-radius:3px;background:#0d9488}
+.proplist{display:flex;flex-direction:column;gap:7px;margin-bottom:10px}
+.propitem{text-align:left;font-family:var(--fs);background:#fffdf9;border:1px solid var(--line);border-left:3px solid var(--line);border-radius:10px;padding:9px 12px;cursor:pointer;transition:.15s;display:block;width:100%}
+.propitem:hover{border-color:var(--accent)}
+.propitem.on{border-left-color:var(--accent);background:var(--accent-soft)}
+.propitem .pt{display:block;font-weight:800;font-size:13px;color:var(--ink)}
+.propitem .pd{display:block;font-size:12px;color:var(--muted);margin-top:2px}
+.propitem.on .pt{color:var(--accent)}
+body.dark .propitem{background:rgba(255,255,255,.05)}
+body.dark .propitem .pd{color:#b2a89b}
+.lead{font-size:16px;color:#4a4038;max-width:800px;margin-bottom:14px}
+.intro{background:var(--accent-soft);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:12px;
+  padding:13px 16px;margin-bottom:18px;font-size:13.5px;color:#4a4038;max-width:900px}
+.intro .t{display:block;font-weight:800;color:var(--accent);font-size:11px;text-transform:uppercase;letter-spacing:.6px;margin-bottom:5px}
+.intro b{color:var(--ink)}
+.intro p{margin:0 0 6px}
+.intro p:last-child{margin:0}
+.grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.workcard{margin-top:18px;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(42,36,32,.5)}
+.workcard .wgrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:center}
+@media(max-width:720px){.workcard .wgrid{grid-template-columns:1fr}}
+.workcard h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.workcard h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,40vh,400px);overflow:hidden;border-radius:12px;background:linear-gradient(160deg,#fffefb 0%,#fbfbf6 100%);border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.ghost{background:#fffdfb;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fffdfb;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.7;color:var(--ink)}
+.fml .op{color:var(--muted);margin:0 4px}
+.fml sub{font-size:.66em;vertical-align:-.28em}
+.fml sup{font-size:.66em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 2px}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+.fml .cst{font-size:12.5px;font-family:var(--fm);color:var(--muted);margin-left:6px}
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#4a4038}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+.prose p{margin-bottom:11px;font-size:14.5px;color:#4a4038}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fffdf7;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+.deriv{border-top:3px solid var(--accent)!important}
+.deriv .dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dctrls{display:flex;gap:8px}
+.dintro{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.dstep{opacity:0;max-height:0;overflow:hidden;transform:translateY(6px);transition:opacity .35s ease,max-height .5s ease,transform .35s ease}
+.dstep.show{opacity:1;max-height:460px;transform:none;margin:12px 0}
+.dstep .eqbox{margin:0}
+.dstep .cap{font-size:13px;color:#4a4038;margin-top:6px}
+.dstep .cap b{color:var(--accent)}
+.dstep .sidx{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--accent);border-radius:5px;padding:2px 7px;margin-bottom:6px;text-transform:uppercase}
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#4a4038;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#4a4038;background:#fbf8f3;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+.we{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#4a4038;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c3)}
+.mcard .wrong{font-size:13px;color:#b45309;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"✗ ";}
+.mcard .right{font-size:13.5px;color:#15803d;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"✓ ";}
+.mcard p{font-size:13px;color:#4a4038;margin-top:5px}
+.q{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fffdf9;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#4a4038;background:#f0fbf5;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#fdf6f1,#f4f8f2,#eef8f4);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fffdfb;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(42,36,32,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#2a2420}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c2)}
+.gatebox .btn{width:100%;background:var(--c2);color:#fff;border-color:var(--c2);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+</style>
+</head>
+<body data-page="1">
+
+<!-- NAME GATE -->
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Magnetic Fields</h2>
+    <p>Theme D.2 Fields · Part 3 of 4 · Standard Level</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive IB physics lesson</div>
+  </div>
+</div>
+
+<!-- TOP NAV -->
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../index.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../index.html#dp">DP</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<!-- CHAPTER BAR -->
+<div class="chapterbar">
+  <span class="chaptag">D.2 Fields</span>
+  <div class="parts">
+    <a class="partlink" href="electric-charge-coulombs-law.html">Part 1 · Charge &amp; Coulomb's Law<span class="pl">SL</span></a>
+    <a class="partlink" href="electric-fields.html">Part 2 · Electric Fields<span class="pl">SL</span></a>
+    <a class="partlink here" href="magnetic-fields.html">Part 3 · Magnetic Fields<span class="pl">SL</span></a>
+    <a class="partlink" href="electric-potential.html">Part 4 · Electric Potential<span class="pl">HL</span></a>
+  </div>
+  <div class="legend">
+    <span class="hl"><span class="dotSL"></span>SL core</span>
+    <span class="hl"><span class="dotHL"></span>HL extension</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">D.2 · Standard Level</div>
+  <h1 id="heroTitle">Magnetic fields</h1>
+  <p id="heroLede">Magnets and currents both fill space with a magnetic field. See the looping pattern of a bar magnet, the circles around a current-carrying wire, the field through a coil, and the bar-magnet-like field of a solenoid — and use the right-hand rules to find their direction.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+
+<!-- PAGE 1 : BAR MAGNET -->
+<section class="page active" data-p="0">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p>A <b>magnetic field</b> is the region where a magnetic force acts. Around a bar magnet it forms closed loops that leave the <b>north</b> pole and return to the <b>south</b> pole outside the magnet, continuing north again inside.</p>
+    <p>A small compass placed in the field lines up with it — that is exactly how we trace the pattern. Flip the poles below and watch every arrow reverse.</p>
+  </div>
+  <div class="grid">
     <div class="card">
-      <h3><span class="pin"></span>Reading the coil's field</h3>
-      <div class="prose">
-        <p>Through the centre the field is straight and perpendicular to the plane of the coil — this is where it is strongest.</p>
-        <p>Outside, the lines loop around from one face to the other, exactly like a bar magnet. One face acts as a north pole, the other as a south pole.</p>
-        <p>Reverse the current and the two faces swap: the field through the centre points the other way.</p>
+      <h3><span class="pin"></span>Field of a bar magnet</h3>
+      <div class="canvas-wrap"><canvas id="bmCanvas"></canvas></div>
+      <div class="btnrow">
+        <button class="btn" id="bmFlip">Flip the poles</button>
+        <button class="btn ghost" id="bmComp">Toggle compass</button>
       </div>
+      <p class="note">Field lines run <b>N → S outside</b> the magnet and are most crowded at the poles, where the field is strongest. The little compass needle always lines up along the local field direction.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Properties of magnetic field lines</h3>
+      <p class="note" style="margin:0 0 8px">Click a property — it is demonstrated live on the diagram. Click again to turn it off; opening another switches the first off automatically.</p>
+      <div class="proplist" id="propList">
+        <button class="propitem" data-mode="direction"><span class="pt">1 · Direction (N → S)</span><span class="pd">Dots flow along every line, out of N and into S.</span></button>
+        <button class="propitem" data-mode="loops"><span class="pt">2 · Closed loops</span><span class="pd">One line is traced all the way round — including S → N back through the magnet.</span></button>
+        <button class="propitem" data-mode="nocross"><span class="pt">3 · Never cross or touch</span><span class="pd">Two neighbours are coloured so you can see they stay apart.</span></button>
+        <button class="propitem" data-mode="spacing"><span class="pt">4 · Spacing shows strength</span><span class="pd">Drag the strength meter — the reading rises where lines crowd.</span></button>
+        <button class="propitem" data-mode="rightangle"><span class="pt">5 · Leave at right angles</span><span class="pd">90° markers appear where lines meet each pole face.</span></button>
+        <button class="propitem" data-mode="repel"><span class="pt">6 · They repel sideways</span><span class="pd">Arrows show neighbouring lines pushing apart.</span></button>
+      </div>
+      <div class="out" id="bmOut"></div>
     </div>
   </div>
-  <div class="card pq" data-pq="cc">
+  <div class="card pq" data-pq="bm-q">
     <div class="tagq">Question</div>
-    <div class="stem">A flat circular coil carries a steady current.</div>
+    <div class="stem">A student maps the field around a bar magnet with a plotting compass.</div>
     <div class="qpart" data-i="0">
-      <div class="ptext">(a) Describe the field at the centre of the coil. <span class="mks">[2]</span></div>
+      <div class="ptext">(a) State the direction a field line points outside the magnet. <span class="mks">[1]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden>Straight and perpendicular to the plane of the coil, passing through the centre; this is where the field is strongest.</div>
+      <div class="pans" hidden>From the <b>north</b> pole to the <b>south</b> pole (the direction a compass N-pole points).</div>
     </div>
     <div class="qpart" data-i="1" hidden>
-      <div class="ptext">(b) State what the coil's field resembles when viewed from a distance. <span class="mks">[1]</span></div>
+      <div class="ptext">(b) Where is the field strongest, and how does the diagram show it? <span class="mks">[2]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden>That of a short bar magnet — one face is a north pole, the other a south pole.</div>
+      <div class="pans" hidden>At the <b>poles</b>, shown by the field lines being <b>closest together</b> there.</div>
     </div>
     <div class="qpart" data-i="2" hidden>
-      <div class="ptext">(c) The current is reversed. State the effect on the field through the centre. <span class="mks">[1]</span></div>
+      <div class="ptext">(c) Explain why two field lines can never cross. <span class="mks">[1]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden>It points in the opposite direction; the north and south faces swap.</div>
+      <div class="pans" hidden>The field has a single direction at each point; crossing lines would give two directions at once.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : STRAIGHT WIRE -->
+<section class="page" data-p="1">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p>An electric current makes its own magnetic field. Around a long <b>straight wire</b> the field forms <b>concentric circles</b> centred on the wire — there are no poles.</p>
+    <p>The direction is given by the <b>right-hand grip rule</b>: point your right thumb along the current and your fingers curl the way the field circles. Reverse the current and the circles reverse too.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Field around a wire</h3>
+      <div class="canvas-wrap"><canvas id="swCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Current I <b id="swIv">5 A</b></label>
+        <input type="range" id="swI" min="1" max="10" step="1" value="5">
+      </div>
+      <div class="btnrow">
+        <button class="btn" id="swDir">Reverse the current</button>
+      </div>
+      <p class="note">The wire runs straight through the page: a <b>dot</b> means current flows out towards you, a <b>cross</b> means it flows away. The circles crowd nearer the wire, where the field B ∝ I / r is strongest.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>The right-hand grip rule</h3>
+      <div class="prose">
+        <p><b>Thumb along the current, fingers curl with the field.</b> Point your right thumb in the direction the current flows; your curling fingers show the way the circular field lines point around the wire.</p>
+        <p><b>Current out of the page</b> (dot): the field circles <b>anticlockwise</b>.</p>
+        <p><b>Current into the page</b> (cross): the field circles <b>clockwise</b>.</p>
+        <p><b>Strength.</b> The field weakens with distance and grows with current.</p>
+      </div>
+      <div class="eqbox fml">B = <span class="frac"><span class="num">μ₀ I</span><span class="den">2π r</span></span></div>
+      <p class="note">Why the pattern changes: B ∝ I, so a larger current adds <b>more</b> field lines (they get denser). B ∝ 1/r, so the circles sit <b>close near the wire</b> (strong) and <b>spread apart</b> farther out (weak) — the spacing is <b>not</b> uniform.</p>
+      <div class="out" id="swOut"></div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="sw-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A long straight vertical wire carries a current directly upward.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Describe the shape of its magnetic field. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Concentric <b>circles</b> in horizontal planes, centred on the wire.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) The current points out of the page. State the direction the field circles. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><b>Anticlockwise</b>, by the right-hand grip rule.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The current is doubled and you move twice as far away. State the overall effect on B. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>B ∝ I/r: doubling I doubles B, doubling r halves it — so B is <b>unchanged</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : CIRCULAR COIL -->
+<section class="page" data-p="2">
+  <span class="levelchip sl">SL · Standard Level</span>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p>Bend the wire into a <b>loop</b> and the circular fields of each part add together through the middle, giving a concentrated field along the axis. One face of the loop acts like a <b>north</b> pole, the other like a <b>south</b>.</p>
+    <p>Use the right-hand grip rule the other way round: curl your fingers along the current and your thumb points along the field through the centre — out of the north face.</p>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Field through a coil</h3>
+      <div class="canvas-wrap"><canvas id="ccCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Current I <b id="ccIv">5 A</b></label>
+        <input type="range" id="ccI" min="1" max="10" step="1" value="5">
+      </div>
+      <div class="btnrow">
+        <button class="btn" id="ccDir">Reverse the current</button>
+      </div>
+      <p class="note">The coil is seen <b>face-on</b>: the arrows show the current running round the loop. A central <b>dot</b> means the field points out of the page (towards you), a <b>cross</b> means into it. Raise the current and more field threads the centre.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>The axial field</h3>
+      <div class="prose">
+        <p><b>Adding up.</b> Every segment of the loop contributes a circular field; inside the loop these all point the same way, reinforcing into a strong axial field.</p>
+        <p><b>Poles.</b> Field lines emerge from one face (north) and enter the other (south) — the loop behaves like a tiny magnet.</p>
+        <p><b>Right-hand rule.</b> Curl the right-hand fingers along the current; the thumb points out of the north face, along the field through the centre.</p>
+        <p><b>Reversing.</b> Reverse the current and the two faces swap: north becomes south.</p>
+      </div>
+      <div class="eqbox fml">B = <span class="frac"><span class="num">μ₀ N I</span><span class="den">2 r</span></span></div>
+      <p class="note">At the centre of the coil B ∝ I and ∝ N (number of turns), so more current or more turns means a <b>stronger</b> field — shown here by more field dots. A smaller radius r strengthens it too.</p>
+      <div class="out" id="ccOut"></div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="cc-q">
+    <div class="tagq">Question</div>
+    <div class="stem">A single circular loop carries a current.</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Describe the field at the centre of the loop. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>A straight, concentrated field directed along the <b>axis</b>, perpendicular to the plane of the loop.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) How would you find which face is the north pole? <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Curl the right-hand fingers along the current direction; the <b>thumb points out of the north face</b> (right-hand grip rule).</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The current is reversed. State the effect on the poles. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>The poles <b>swap</b> — the former north face becomes south and vice versa.</div>
     </div>
   </div>
 </section>
@@ -31,127 +438,147 @@
 <!-- PAGE 4 : SOLENOID -->
 <section class="page" data-p="3">
   <span class="levelchip sl">SL · Standard Level</span>
-  <p class="lead">Stack many coils into an air-core solenoid and the fields add to give a strong, almost uniform field inside, looping around the outside from one end to the other — just like a bar magnet.</p>
+  <div class="intro">
+    <span class="t">What it means &amp; why it matters</span>
+    <p>Stack many loops into a <b>solenoid</b> and their fields combine into a strong, <b>uniform</b> field along the inside — and the whole coil behaves exactly like a <b>bar magnet</b>, with a north pole at one end and a south at the other.</p>
+    <p>This is the basis of the electromagnet: switch the current off and the field vanishes; reverse it and the poles swap. Add turns and the field grows.</p>
+  </div>
   <div class="grid">
     <div class="card">
-      <h3><span class="pin"></span>Field of an air-core solenoid</h3>
+      <h3><span class="pin"></span>Field of a solenoid</h3>
       <div class="canvas-wrap"><canvas id="soCanvas"></canvas></div>
       <div class="ctl">
-        <label>Number of turns <b id="soTurnsv">8 turns</b></label>
-        <input type="range" id="soTurns" min="4" max="14" step="1" value="8">
+        <label>Number of turns <b id="soTv">6</b></label>
+        <input type="range" id="soTurns" min="4" max="10" step="1" value="6">
       </div>
       <div class="ctl">
         <label>Current I <b id="soIv">5 A</b></label>
         <input type="range" id="soI" min="1" max="10" step="1" value="5">
       </div>
-      <div class="btnrow"><button class="btn ghost" id="soDir">Reverse current</button></div>
-      <p class="note">Add turns to pack the interior field tighter; raise the current for faster flow. Each line is a closed loop. Drag the compass to probe. Reverse to swap the poles.</p>
+      <div class="btnrow">
+        <button class="btn" id="soDir">Reverse the current</button>
+      </div>
+      <p class="note">Dots along the top and crosses along the bottom show the current circulating. Inside, the field arrows are <b>straight, parallel and evenly spaced</b> — uniform — then spread out at the ends like a bar magnet's poles.</p>
     </div>
     <div class="card">
-      <h3><span class="pin"></span>The solenoid grip rule</h3>
+      <h3><span class="pin"></span>Like a bar magnet</h3>
       <div class="prose">
-        <p>Curl your right fingers the way the conventional current flows around the coils; your thumb points to the solenoid's <b>north</b> pole.</p>
-        <p>Looking at one end: if the current appears to flow <b>anticlockwise</b>, that end is a north pole; <b>clockwise</b> means a south pole.</p>
-        <p>Inside, the field is strong and nearly uniform; outside, it matches a bar magnet.</p>
+        <p><b>Inside.</b> The field is strong and uniform, pointing straight along the axis from the south end to the north end inside the coil.</p>
+        <p><b>Outside.</b> The lines loop from the north end round to the south end — identical to a bar magnet.</p>
+        <p><b>Finding the poles.</b> Look at an end: if the current runs anticlockwise it is a north pole, clockwise a south pole.</p>
+        <p><b>Making it stronger.</b> More turns, a larger current, or an iron core all increase the field.</p>
       </div>
+      <div class="eqbox fml">B = μ₀ n I<span class="cst">n = turns per metre</span></div>
+      <p class="note">Inside the solenoid B ∝ n and ∝ I, so adding turns or current adds <b>more</b> field lines. The inside lines are <b>evenly spaced</b> — that even spacing is what "uniform field" means; they only fan out and weaken at the ends.</p>
+      <div class="out" id="soOut"></div>
     </div>
   </div>
-  <div class="card pq" data-pq="so">
+  <div class="card pq" data-pq="so-q">
     <div class="tagq">Question</div>
-    <div class="stem">An air-core solenoid carries a current. Looking at its right-hand end, the current appears to flow clockwise.</div>
+    <div class="stem">A solenoid is connected to a battery.</div>
     <div class="qpart" data-i="0">
-      <div class="ptext">(a) State the magnetic polarity of the right-hand end. <span class="mks">[1]</span></div>
+      <div class="ptext">(a) Describe the field inside the solenoid. <span class="mks">[1]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden>A south pole (clockwise as viewed from that end).</div>
+      <div class="pans" hidden>Strong and <b>uniform</b>, directed along the axis of the coil.</div>
     </div>
     <div class="qpart" data-i="1" hidden>
-      <div class="ptext">(b) Describe the field inside the solenoid. <span class="mks">[2]</span></div>
+      <div class="ptext">(b) The field outside resembles that of which object? <span class="mks">[1]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden>Strong and almost uniform — the field lines are straight, parallel and evenly spaced, pointing from the S end towards the N end inside.</div>
+      <div class="pans" hidden>A <b>bar magnet</b> — lines loop from the north end to the south end.</div>
     </div>
     <div class="qpart" data-i="2" hidden>
-      <div class="ptext">(c) State how the external field compares with that of a bar magnet. <span class="mks">[1]</span></div>
+      <div class="ptext">(c) State two ways to increase the field strength. <span class="mks">[2]</span></div>
       <button class="preveal">Reveal answer</button>
-      <div class="pans" hidden>It is the same pattern — lines loop from the N end round to the S end.</div>
+      <div class="pans" hidden>Any two of: more <b>turns</b>, a larger <b>current</b>, or adding an <b>iron core</b>.</div>
     </div>
   </div>
 </section>
 
-<!-- PAGE 5 : SKETCHING PRACTICE -->
+<!-- PAGE 5 : WORKED EXAMPLES -->
 <section class="page" data-p="4">
   <span class="levelchip sl">SL · Standard Level</span>
-  <p class="lead">Five sketching-and-interpretation tasks across the four required patterns. Decide your answer, then reveal it.</p>
+  <p class="lead">Five short problems applying the field patterns and the right-hand rules. Try each before revealing the solution.</p>
 
   <div class="we">
-    <div class="meta">Task · Bar magnet</div>
-    <div class="q">Describe the magnetic field pattern around a bar magnet.</div>
-    <button class="reveal">Show answer</button>
-    <div class="answer" hidden>Field lines run from the north pole to the south pole outside the magnet, forming continuous closed loops (S→N inside). They are closest together at the poles, where the field is strongest, and never cross.</div>
+    <div class="meta">Worked example 1 · Grip rule</div>
+    <div class="q">A current flows out of the page in a straight wire. Which way do the magnetic field circles point?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Point the right thumb out of the page (towards you); the fingers curl <b>anticlockwise</b>. So the field circles anticlockwise around the wire.</p>
+    </div>
   </div>
 
   <div class="we">
-    <div class="meta">Task · Straight wire</div>
-    <div class="q">A vertical wire carries a current upwards. State the shape and direction of its magnetic field.</div>
-    <button class="reveal">Show answer</button>
-    <div class="answer" hidden>Concentric horizontal circles around the wire. By the right-hand grip rule (thumb up), the field is anticlockwise when viewed from above.</div>
+    <div class="meta">Worked example 2 · Solenoid poles</div>
+    <div class="q">Looking at one end of a solenoid, the current runs clockwise. Is that end a north or a south pole?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Clockwise current viewed from an end makes that face a <b>south</b> pole (anticlockwise would make it north). A handy memory: the letters of <b>S</b> and <b>N</b> drawn with arrowheads show the circulation sense.</p>
+    </div>
   </div>
 
   <div class="we">
-    <div class="meta">Task · Straight wire (into page)</div>
-    <div class="q">A straight wire carries current into the page. State the direction of its field lines.</div>
-    <button class="reveal">Show answer</button>
-    <div class="answer" hidden>Clockwise circles (grip rule: thumb into the page → fingers curl clockwise).</div>
+    <div class="meta">Worked example 3 · Compass near a wire</div>
+    <div class="q">A plotting compass sits beneath a wire. When a large current is switched on, the needle swings. Explain why.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>The current creates a circular magnetic field around the wire. Beneath the wire this field has a horizontal component that adds to the Earth's field, so the compass needle turns to line up with the <b>resultant</b> field instead of pointing north.</p>
+    </div>
   </div>
 
   <div class="we">
-    <div class="meta">Task · Solenoid</div>
-    <div class="q">The current in a solenoid flows clockwise when viewed from the right-hand end. Which end is the north pole?</div>
-    <button class="reveal">Show answer</button>
-    <div class="answer" hidden>The right-hand end is a south pole (clockwise = south), so the left-hand end is the north pole. Right-hand grip rule: fingers follow the current, thumb points to N.</div>
+    <div class="meta">Worked example 4 · Comparing fields</div>
+    <div class="q">How is the field pattern of a solenoid different from that of a single straight wire?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>A straight wire gives <b>concentric circles</b> with no poles. A solenoid combines many loops into a <b>uniform axial field</b> inside and a <b>bar-magnet pattern</b> outside, with a distinct north and south pole.</p>
+    </div>
   </div>
 
   <div class="we">
-    <div class="meta">Task · Circular coil</div>
-    <div class="q">Describe the field at and near the centre of a flat circular coil.</div>
-    <button class="reveal">Show answer</button>
-    <div class="answer" hidden>At the centre the field is straight and perpendicular to the plane of the coil, and strongest there. The coil's overall field looks like that of a short bar magnet, with a north face and a south face.</div>
+    <div class="meta">Worked example 5 · Field strength</div>
+    <div class="q">Where is a bar magnet's field strongest, and how is that shown on a field diagram?</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>At the <b>poles</b>. On a diagram this is shown by the field lines being <b>most closely spaced</b> there — crowded lines mean a strong field.</p>
+    </div>
   </div>
 </section>
 
 <!-- PAGE 6 : MISCONCEPTIONS -->
 <section class="page" data-p="5">
   <span class="levelchip sl">SL · Standard Level</span>
-  <p class="lead">The usual traps on magnetic field patterns. Each card pairs the wrong idea with the correct physics.</p>
+  <p class="lead">The usual traps on magnetic fields. Each card pairs the tempting wrong idea with the correct physics.</p>
   <div class="mis">
     <div class="mcard">
-      <div class="wrong">"Field lines run from south to north outside the magnet."</div>
-      <p>Outside the magnet the lines run from north to south. They continue south-to-north inside to form closed loops.</p>
-      <div class="right">Outside: N → S.</div>
+      <div class="wrong">"Field lines start at N and simply stop at S."</div>
+      <p>Magnetic field lines are continuous loops: N→S outside the magnet and S→N inside it.</p>
+      <div class="right">They form closed loops with no ends.</div>
     </div>
     <div class="mcard">
-      <div class="wrong">"Magnetic field lines start and stop, like electric ones."</div>
-      <p>Magnetic field lines have no beginning or end — they are always continuous closed loops.</p>
-      <div class="right">Closed loops, no ends.</div>
+      <div class="wrong">"Only magnets make magnetic fields."</div>
+      <p>Any electric current produces a magnetic field — concentric circles around a wire, an axial field through a coil.</p>
+      <div class="right">Moving charge (current) is a source of magnetism.</div>
     </div>
     <div class="mcard">
-      <div class="wrong">"The field of a straight wire points straight out (radial)."</div>
-      <p>The field forms concentric circles around the wire, not radial lines.</p>
-      <div class="right">Concentric circles.</div>
+      <div class="wrong">"A solenoid's field is strongest at its ends."</div>
+      <p>Inside a long solenoid the field is strong and <b>uniform</b> throughout; it only spreads and weakens at the open ends.</p>
+      <div class="right">Uniform inside, weaker outside.</div>
     </div>
     <div class="mcard">
-      <div class="wrong">"Field lines can cross where two fields overlap."</div>
-      <p>The resultant field has one direction at each point, so magnetic field lines never cross.</p>
-      <div class="right">Lines never intersect.</div>
+      <div class="wrong">"Field lines can cross where the field is strong."</div>
+      <p>They never cross — the field has one definite direction at every point in space.</p>
+      <div class="right">Crossing would mean two directions at once.</div>
     </div>
     <div class="mcard">
-      <div class="wrong">"The field is the same strength all around a magnet."</div>
-      <p>It is strongest where the lines are most crowded — at the poles — and weaker where they spread out.</p>
-      <div class="right">Strongest at the poles.</div>
+      <div class="wrong">"Reversing the current leaves the field unchanged."</div>
+      <p>Reversing the current reverses the field everywhere, swapping the north and south poles of a coil or solenoid.</p>
+      <div class="right">Reverse I → reverse B.</div>
     </div>
     <div class="mcard">
-      <div class="wrong">"Use the left hand to find a wire's field direction."</div>
-      <p>Use the right-hand grip rule to get the field direction from the current. (The left hand is for the force on a current — that's D.3.)</p>
-      <div class="right">Right-hand grip rule for field.</div>
+      <div class="wrong">"A compass points to true (geographic) north."</div>
+      <p>It aligns with the local magnetic field, pointing to magnetic north — which differs from true north by the local declination.</p>
+      <div class="right">It follows the magnetic field, not geography.</div>
     </div>
   </div>
 </section>
@@ -159,396 +586,432 @@
 <!-- PAGE 7 : QUIZ -->
 <section class="page" data-p="6">
   <span class="levelchip sl">SL · Standard Level</span>
-  <p class="lead">Six questions on magnetic field patterns and directions. Pick an answer to see whether it is right and why.</p>
-  <div id="quiz"></div>
-  <div class="card" style="margin-top:4px;text-align:center">
-    <div id="quizScore" style="font-weight:800;font-size:16px;color:var(--accent)">Score: 0 / 6</div>
-  </div>
+  <p class="lead">Six questions on magnets, wires, coils and solenoids. Pick an answer to see whether it's right and why.</p>
+  <div id="quizWrap"></div>
+  <div class="out" id="quizScore" style="margin-top:4px"></div>
 </section>
 
+<footer>
+  <p>D.2 Fields · Part 3 of 4 · <b>Magnetic Fields</b> · Standard Level</p>
+  <p style="margin-top:6px">Back to <a href="electric-fields.html" style="color:var(--c2);font-weight:700">Part 2 · Electric Fields</a> &nbsp;·&nbsp; next <a href="electric-potential.html" style="color:var(--c1);font-weight:700">Part 4 · Electric Potential</a> &nbsp;·&nbsp; <b>ATUL SORAL PHYSICISM</b></p>
+</footer>
 </main>
 
-<footer>
-  <b>ATUL SORAL PHYSICISM</b> · Theme D.2 Electric and Magnetic Fields · Part 3 of 4 · Standard Level<br>
-  Back to <a href="electric-fields.html" style="color:var(--c1);font-weight:700">Part 2</a> &nbsp;·&nbsp; next <a href="electric-potential.html" style="color:var(--c4);font-weight:700">Part 4 · Electric Potential (HL)</a>
-</footer>
-
 <script>
-'use strict';
-
-/* ---------- helpers ---------- */
-const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const sizes=new Map(), ctxs=new Map();
-function ctxOf(id){ let c=ctxs.get(id); if(!c){const cv=document.getElementById(id); if(!cv)return null; c=cv.getContext('2d'); ctxs.set(id,c);} return c; }
-const ro=new ResizeObserver(entries=>{
-  for(const e of entries){
-    const cv=e.target, dpr=Math.min(2,window.devicePixelRatio||1);
-    const w=e.contentRect.width, h=e.contentRect.height;
-    cv.width=Math.round(w*dpr); cv.height=Math.round(h*dpr);
-    const ctx=cv.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0);
-    sizes.set(cv.id,{w,h});
-    bmDirty=ccDirty=soDirty=true;
-  }
-});
-['bmCanvas','swCanvas','ccCanvas','soCanvas'].forEach(id=>{const cv=document.getElementById(id); if(cv)ro.observe(cv);});
-function dim(id){return sizes.get(id)||{w:600,h:360};}
-function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}
-function arrow(ctx,x1,y1,x2,y2,col,lw,head){
-  ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=lw||2;
-  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
-  const a=Math.atan2(y2-y1,x2-x1), hs=head||7;
-  ctx.beginPath(); ctx.moveTo(x2,y2);
-  ctx.lineTo(x2-hs*Math.cos(a-0.4),y2-hs*Math.sin(a-0.4));
-  ctx.lineTo(x2-hs*Math.cos(a+0.4),y2-hs*Math.sin(a+0.4));
-  ctx.closePath(); ctx.fill();
-}
-
-/* shared dipole-field tracer + animation helpers */
-let tms=0;                                   // animation clock (ms)
-const cache={bm:null,cc:null,so:null};
-let bmDirty=true, ccDirty=true, soDirty=true;
-function fieldAt(x,y,list){
-  let ex=0,ey=0;
-  for(const c of list){const dx=x-c.x,dy=y-c.y;let r2=dx*dx+dy*dy;if(r2<55)r2=55;const r=Math.sqrt(r2);const e=c.q/r2;ex+=e*dx/r;ey+=e*dy/r;}
-  return [ex,ey];
-}
-function trace(sx,sy,list,dir,w,h){
-  let x=sx,y=sy; const pts=[[x,y]]; let pdx=0,pdy=0,have=false;
-  for(let s=0;s<2600;s++){
-    let [ex,ey]=fieldAt(x,y,list); const mag=Math.hypot(ex,ey); if(mag<1e-7)break;
-    const nx=ex/mag, ny=ey/mag; const tx=dir*nx, ty=dir*ny;
-    if(have && (tx*pdx+ty*pdy)<0) break;
-    const mxp=x+tx*0.8, myp=y+ty*0.8;
-    let [ex2,ey2]=fieldAt(mxp,myp,list); const m2=Math.hypot(ex2,ey2)||1;
-    x+=(tx+dir*ex2/m2)*0.65; y+=(ty+dir*ey2/m2)*0.65;
-    pts.push([x,y]); pdx=tx; pdy=ty; have=true;
-    if(x<-40||x>w+40||y<-40||y>h+40)break;
-    let hit=false; for(const c of list){if(Math.hypot(x-c.x,y-c.y)<8){hit=true;break;}} if(hit)break;
-  }
-  return pts;
-}
-function buildLines(ox,oy,list,n,w,h){const out=[];for(let i=0;i<n;i++){const a=i/n*Math.PI*2;out.push(trace(ox+Math.cos(a)*11,oy+Math.sin(a)*11,list,1,w,h));}return out;}
-/* seed field lines from BOTH poles so N and S both show lines; all stored in N→S order so the flow is consistent */
-function buildDipole(Npos,Spos,list,n,w,h){
-  const out=[];
-  for(let i=0;i<n;i++){const a=i/n*Math. PI*2; out.push(trace(Npos.x+Math.cos(a)*11,Npos.y+Math.sin(a)*11,list,1,w,h));}
-  for(let i=0;i<n;i++){const a=i/n*Math.PI*2; const p=trace(Spos.x+Math.cos(a)*11,Spos.y+Math.sin(a)*11,list,-1,w,h); p.reverse(); out.push(p);}
-  return out;
-}
-function strokeLines(ctx,lines,offset,col){
-  ctx.strokeStyle=col; ctx.lineWidth=1.6; ctx.setLineDash([7,7]); ctx.lineDashOffset=offset;
-  for(const pts of lines){if(!pts||pts.length<2)continue;ctx.beginPath();ctx.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)ctx.lineTo(pts[i][0],pts[i][1]);ctx.stroke();}
-  ctx.setLineDash([]); ctx.lineDashOffset=0;
-}
-function lineHeads(ctx,lines,list,col){
-  for(const pts of lines){ if(!pts) continue; [0.3,0.7].forEach(f=>{const idx=Math.floor(pts.length*f);if(idx>1&&idx<pts.length){const[px,py]=pts[idx];let[ex,ey]=fieldAt(px,py,list);const m=Math.hypot(ex,ey)||1;arrow(ctx,px-ex/m*4,py-ey/m*4,px+ex/m*4,py+ey/m*4,col,1.2,5);}}); }
-}
-function drawCompass(ctx,x,y,ex,ey){
-  const m=Math.hypot(ex,ey)||1; ex/=m; ey/=m;
-  ctx.beginPath(); ctx.arc(x,y,14,0,7); ctx.fillStyle='rgba(255,255,255,.92)'; ctx.fill();
-  ctx.strokeStyle='#94a3b8'; ctx.lineWidth=1.5; ctx.stroke();
-  arrow(ctx,x-ex*10,y-ey*10,x+ex*10,y+ey*10,'#dc2626',2.4,6);
-  ctx.strokeStyle='#2563eb'; ctx.lineWidth=2.4; ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x-ex*10,y-ey*10); ctx.stroke();
-}
-function wireDot(ctx,x,y,out){
-  ctx.beginPath(); ctx.arc(x,y,13,0,7); ctx.fillStyle='#334155'; ctx.fill();
-  ctx.strokeStyle='#fff'; ctx.lineWidth=2.6;
-  if(out){ctx.beginPath();ctx.arc(x,y,4,0,7);ctx.fillStyle='#fff';ctx.fill();}
-  else{ctx.beginPath();ctx.moveTo(x-7,y-7);ctx.lineTo(x+7,y+7);ctx.moveTo(x+7,y-7);ctx.lineTo(x-7,y+7);ctx.stroke();}
-}
-function attachProbe(canvasId,probe){
-  const cv=document.getElementById(canvasId); if(!cv)return;
-  function pos(e){const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
-  let drag=false; cv.style.cursor='grab';
-  cv.addEventListener('pointerdown',e=>{const {w,h}=dim(canvasId);const [mx,my]=pos(e);if(Math.hypot(mx-probe.fx*w,my-probe.fy*h)<20){drag=true;cv.style.cursor='grabbing';cv.setPointerCapture(e.pointerId);}});
-  cv.addEventListener('pointermove',e=>{if(!drag)return;const {w,h}=dim(canvasId);const [mx,my]=pos(e);probe.fx=Math.max(0.05,Math.min(0.95,mx/w));probe.fy=Math.max(0.06,Math.min(0.88,my/h));});
-  const stop=()=>{drag=false;cv.style.cursor='grab';};
-  cv.addEventListener('pointerup',stop); cv.addEventListener('pointercancel',stop);
-}
-
-/* ---------- tab engine ---------- */
-const PAGES=[
-  {name:'Bar Magnet',lvl:'SL',c:'var(--c1)',soft:'rgba(37,99,235,.12)',k:'Magnetic field patterns'},
-  {name:'Straight Wire',lvl:'SL',c:'var(--c2)',soft:'rgba(8,145,178,.12)',k:'Field from a current — direction'},
-  {name:'Circular Coil',lvl:'SL',c:'var(--c3)',soft:'rgba(124,58,237,.12)',k:'Field of a circular coil'},
-  {name:'Solenoid',lvl:'SL',c:'var(--c4)',soft:'rgba(219,39,119,.12)',k:'The air-core solenoid'},
-  {name:'Sketching Practice',lvl:'SL',c:'var(--c5)',soft:'rgba(13,148,136,.12)',k:'Draw and interpret'},
-  {name:'Misconceptions',lvl:'SL',c:'var(--c6)',soft:'rgba(217,119,6,.12)',k:'Common traps'},
-  {name:'Quiz',lvl:'SL',c:'var(--c7)',soft:'rgba(5,150,105,.12)',k:'Check yourself'}
-];
+const $=(s,r=document)=>r.querySelector(s);
+const $$=(s,r=document)=>Array.from(r.querySelectorAll(s));
+const C1='#e11d48',C2='#0d9488',C3='#d97706',C4='#059669',C5='#ca8a04',C6='#4d7c0f',C7='#0f766e';
+const INK='#2a2420',GRY='#8a7f73',FAINT='rgba(111,101,87,.26)',BLUE='#2563eb',SLATE='#334155';
+const TAU=Math.PI*2;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 let active=0;
+
+/* ---------- PAGES ---------- */
+const PAGES=[
+ {name:'Bar Magnet',lvl:'SL',c:C2,soft:'rgba(13,148,136,.12)',k:'D.2 · Standard Level',htitle:'The field of a bar magnet',pre:'A magnetic field loops from the north pole to the south pole outside a magnet, crowding at the poles where it is strongest. Flip the poles and every arrow reverses.'},
+ {name:'Straight Wire',lvl:'SL',c:C7,soft:'rgba(15,118,110,.12)',k:'D.2 · Standard Level',htitle:'Field around a current-carrying wire',pre:'A current makes concentric circular field lines around a straight wire. The right-hand grip rule gives their direction; reverse the current and they reverse.'},
+ {name:'Circular Coil',lvl:'SL',c:C3,soft:'rgba(217,119,6,.12)',k:'D.2 · Standard Level',htitle:'Field of a circular coil',pre:'Bend the wire into a loop and the field concentrates through the centre. One face becomes a north pole, the other a south — a tiny magnet.'},
+ {name:'Solenoid',lvl:'SL',c:C4,soft:'rgba(5,150,105,.12)',k:'D.2 · Standard Level',htitle:'Field of a solenoid',pre:'Stack many loops and the field inside becomes strong and uniform, with the whole coil acting exactly like a bar magnet. The electromagnet in action.'},
+ {name:'Worked Examples',lvl:'SL',c:C6,soft:'rgba(77,124,15,.12)',k:'D.2 · Standard Level',htitle:'Worked examples',pre:'Five short problems applying the field patterns and the right-hand rules.'},
+ {name:'Misconceptions',lvl:'SL',c:C3,soft:'rgba(217,119,6,.12)',k:'D.2 · Standard Level',htitle:'Common misconceptions',pre:'The traps that cost marks: closed loops, currents as sources, uniform solenoid fields, and compass behaviour.'},
+ {name:'Quiz',lvl:'SL',c:C7,soft:'rgba(15,118,110,.12)',k:'D.2 · Standard Level',htitle:'Check your understanding',pre:'Six questions on magnets, wires, coils and solenoids. Choose an answer to see the reasoning.'}
+];
+
+/* ---------- NAV ---------- */
 const nav=$('#nav');
 PAGES.forEach((p,i)=>{
   const b=document.createElement('button');
-  b.className='tab'+(i===0?' active':''); b.style.setProperty('--tabc',p.c);
-  b.innerHTML='<span class="num">'+(i+1)+'</span>'+p.name+' <span class="lvl">'+p.lvl+'</span>';
-  b.onclick=()=>goPage(i); nav.appendChild(b);
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML=`<span class="num">${i+1}</span>${p.name}<span class="lvl">${p.lvl}</span>`;
+  b.addEventListener('click',()=>goPage(i));
+  nav.appendChild(b);
 });
-function setAccent(i){const p=PAGES[i];document.documentElement.style.setProperty('--accent',p.c);document.documentElement.style.setProperty('--accent-soft',p.soft);document.body.dataset.page=i+1;$('#kicker').textContent='D.2 · '+p.k;}
+const tabs=$$('.tab'),pages=$$('.page');
+function setAccent(i){
+  const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.c);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=i+1;
+  $('#kicker').textContent=p.k;
+  $('#heroTitle').textContent=p.htitle;
+  $('#heroLede').textContent=p.pre;
+}
 function goPage(i){
   active=i;
-  $$('.tab').forEach((t,j)=>t.classList.toggle('active',j===i));
-  $$('.page').forEach((pg,j)=>pg.classList.toggle('active',j===i));
+  tabs.forEach((t,j)=>t.classList.toggle('active',j===i));
+  pages.forEach((p,j)=>p.classList.toggle('active',j===i));
   setAccent(i);
   window.scrollTo({top:0,behavior:'smooth'});
 }
-setAccent(0);
 
-/* ---------- name gate ---------- */
-function enterName(){
-  const v=$('#gateName').value.trim();
-  if(v.length<2){$('#gateErr').hidden=false;return;}
-  $('#profileName').textContent=v.split(' ')[0];
-  $('#gate').style.display='none';
+/* ---------- CANVAS FRAMEWORK ---------- */
+const sizes=new Map();
+function fit(cv){
+  if(!cv)return;
+  const r=cv.getBoundingClientRect();
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  if(r.width<2||r.height<2)return;
+  cv.width=Math.round(r.width*dpr);
+  cv.height=Math.round(r.height*dpr);
+  cv.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  sizes.set(cv.id,{w:r.width,h:r.height});
 }
-$('#gateBtn').onclick=enterName;
-$('#gateName').addEventListener('keydown',e=>{if(e.key==='Enter')enterName();});
+function dim(id){return sizes.get(id)||{w:600,h:360};}
+function ctxOf(id){const cv=document.getElementById(id);return cv?cv.getContext('2d'):null;}
+const CANV=['bmCanvas','swCanvas','ccCanvas','soCanvas'];
+function fitAll(){CANV.forEach(id=>fit(document.getElementById(id)));}
+window.addEventListener('resize',fitAll);
+if(window.ResizeObserver){CANV.forEach(id=>{const cv=document.getElementById(id);if(cv)new ResizeObserver(()=>fit(cv)).observe(cv);});}
 
-/* ---------- clock ---------- */
-function tick(){const d=new Date();const p=n=>String(n).padStart(2,'0');
-  $('#clock').textContent=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
-tick(); setInterval(tick,1000);
-
-/* ---------- dark mode ---------- */
-$('#sunbtn').onclick=function(){
-  const dark=document.body.classList.toggle('dark');
-  this.innerHTML=dark?'&#9790;':'&#9728;';
-  this.title=dark?'Switch to light mode':'Switch to dark mode';
-};
-
-/* ---------- progressive questions ---------- */
-$$('.pq').forEach(pq=>{
-  const parts=Array.from(pq.querySelectorAll('.qpart'));
-  parts.forEach((part,i)=>{
-    const btn=part.querySelector('.preveal'), ans=part.querySelector('.pans');
-    btn.onclick=()=>{
-      ans.hidden=false; btn.disabled=true; btn.textContent='Answer shown';
-      if(i+1<parts.length){ parts[i+1].hidden=false; }
-      else if(!pq.querySelector('.pdone')){
-        const d=document.createElement('div'); d.className='pdone'; d.textContent='✓ All parts complete.'; pq.appendChild(d);
-      }
-    };
-  });
-});
-
-/* ---------- worked example reveal ---------- */
-$$('.we .reveal').forEach(btn=>{
-  btn.onclick=()=>{const a=btn.nextElementSibling;a.hidden=false;btn.style.display='none';};
-});
-
-/* ========== TAB 1 : BAR MAGNET (draggable) + IRON FILINGS ========== */
-let bmFlipped=false, bmN=20, mag={fx:0.5,fy:0.44}, bmDragM=false;
-$('#bmFlip').onclick=()=>{bmFlipped=!bmFlipped;bmDirty=true;};
-$('#bmLines').addEventListener('input',function(){bmN=+this.value;$('#bmLinesv').textContent=bmN+' lines';bmDirty=true;});
-function bmPoles(w,h){
-  const cx=mag.fx*w, cy=mag.fy*h, mw=w*0.26, mh=h*0.13;
-  const left={x:cx-mw*0.5+mh*0.45, y:cy}, right={x:cx+mw*0.5-mh*0.45, y:cy};
-  const Npos = bmFlipped?right:left, Spos = bmFlipped?left:right;
-  return {cx,cy,mw,mh,Npos,Spos,list:[{x:Npos.x,y:Npos.y,q:1},{x:Spos.x,y:Spos.y,q:-1}]};
+/* ---------- DRAW HELPERS ---------- */
+function arrow(ctx,x1,y1,x2,y2,col,lw=2,hs=8){
+  ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath();ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-hs*Math.cos(a-0.42),y2-hs*Math.sin(a-0.42));
+  ctx.lineTo(x2-hs*Math.cos(a+0.42),y2-hs*Math.sin(a+0.42));
+  ctx.closePath();ctx.fill();
 }
+function wireDot(ctx,x,y,out){
+  ctx.beginPath();ctx.arc(x,y,13,0,TAU);ctx.fillStyle=SLATE;ctx.fill();
+  ctx.strokeStyle='#fff';ctx.lineWidth=2.4;
+  if(out){ctx.beginPath();ctx.arc(x,y,4,0,TAU);ctx.fillStyle='#fff';ctx.fill();}
+  else{ctx.beginPath();ctx.moveTo(x-7,y-7);ctx.lineTo(x+7,y+7);ctx.moveTo(x+7,y-7);ctx.lineTo(x-7,y+7);ctx.stroke();}
+}
+function compass(ctx,x,y,fx,fy){
+  const m=Math.hypot(fx,fy)||1;fx/=m;fy/=m;
+  ctx.beginPath();ctx.arc(x,y,13,0,TAU);ctx.fillStyle='rgba(255,255,255,.92)';ctx.fill();
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=1.4;ctx.stroke();
+  arrow(ctx,x-fx*9,y-fy*9,x+fx*9,y+fy*9,C1,2.2,6);
+  ctx.strokeStyle=BLUE;ctx.lineWidth=2.2;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x-fx*9,y-fy*9);ctx.stroke();
+}
+function ro3(k,v){return `<div class="ro"><span class="k">${k}</span><span class="v">${v}</span></div>`;}
+function ro3hi(k,v){return `<div class="ro hi"><span class="k">${k}</span><span class="v">${v}</span></div>`;}
+
+/* ========== TAB 1 : BAR MAGNET (interactive properties) ========== */
+let bmFlip=false,bmComp=false,bmMode=null,bmProbe={fx:0.5,fy:0.22};
+function bezPt(p0,c1,c2,p3,t){const u=1-t,a=u*u*u,b=3*u*u*t,c=3*u*t*t,d=t*t*t;
+  return {x:a*p0.x+b*c1.x+c*c2.x+d*p3.x, y:a*p0.y+b*c1.y+c*c2.y+d*p3.y};}
+function bmField(px,py,poleNx,poleSx,cy){
+  let bx=0,by=0;
+  [[poleNx,cy,1],[poleSx,cy,-1]].forEach(p=>{
+    const dx=px-p[0],dy=py-p[1];let r2=dx*dx+dy*dy;if(r2<160)r2=160;const r=Math.sqrt(r2),f=p[2]/r2;
+    bx+=f*dx/r;by+=f*dy/r;});
+  return {bx,by,mag:Math.hypot(bx,by)};
+}
+function bmGeom(){
+  const{w,h}=dim('bmCanvas');
+  const cx=w*0.5,cy=h*0.5,mw=Math.min(w*0.4,260),mh=Math.min(h*0.16,64);
+  const leftN=!bmFlip,poleNx=leftN?cx-mw/2:cx+mw/2,poleSx=leftN?cx+mw/2:cx-mw/2;
+  const sdir=(poleSx>poleNx)?1:-1,stub=18;
+  const offs=[0.3,0.62,0.94].map(f=>f*mh/2),arcs=[54,118,190];
+  const lines=[];
+  [1,-1].forEach(side=>{offs.forEach((o,j)=>{
+    const sy=cy-side*o,topY=sy-side*arcs[j];
+    const N={x:poleNx,y:sy},S={x:poleSx,y:sy};
+    const nS={x:poleNx-sdir*stub,y:sy},sS={x:poleSx+sdir*stub,y:sy};
+    const c1={x:nS.x-sdir*18,y:topY},c2={x:sS.x+sdir*18,y:topY};
+    lines.push({side,j,sy,topY,N,S,nS,sS,c1,c2});
+  });});
+  return {w,h,cx,cy,mw,mh,leftN,poleNx,poleSx,sdir,stub,lines};
+}
+function pathLine(ctx,L){ctx.beginPath();ctx.moveTo(L.N.x,L.N.y);ctx.lineTo(L.nS.x,L.nS.y);
+  ctx.bezierCurveTo(L.c1.x,L.c1.y,L.c2.x,L.c2.y,L.sS.x,L.sS.y);ctx.lineTo(L.S.x,L.S.y);}
 function drawBm(){
-  const ctx=ctxOf('bmCanvas'); if(!ctx)return; const {w,h}=dim('bmCanvas');
+  const ctx=ctxOf('bmCanvas');if(!ctx)return;const g=bmGeom();
+  const{w,h,cx,cy,mw,mh,leftN,poleNx,poleSx,sdir}=g;
   ctx.clearRect(0,0,w,h);
-  const P=bmPoles(w,h);
-  if(bmDirty || !cache.bm){cache.bm=buildDipole(P.Npos,P.Spos,P.list,Math.round(bmN/2),w,h);bmDirty=false;}
-  strokeLines(ctx,cache.bm,-(tms*0.05),'rgba(100,116,139,.6)');
-  lineHeads(ctx,cache.bm,P.list,'#64748b');
-  // iron-filing compass grid — realigns live as the magnet moves
-  const step=Math.max(40,Math.min(w,h)/8);
-  for(let x=step*0.55;x<w;x+=step)for(let y=step*0.55;y<h-20;y+=step){
-    if(Math.abs(x-P.cx)<P.mw*0.5+8 && Math.abs(y-P.cy)<P.mh*0.65) continue;
-    let [ex,ey]=fieldAt(x,y,P.list); const m=Math.hypot(ex,ey)||1; ex/=m; ey/=m;
-    arrow(ctx,x-ex*7,y-ey*7,x+ex*7,y+ey*7,'rgba(100,116,139,.8)',1.4,5);
-  }
-  // magnet body
-  const bx=P.cx-P.mw/2,by=P.cy-P.mh/2,Nleft=!bmFlipped;
-  ctx.fillStyle=Nleft?'#dc2626':'#2563eb'; roundRect(ctx,bx,by,P.mw/2,P.mh,6); ctx.fill();
-  ctx.fillStyle=Nleft?'#2563eb':'#dc2626'; roundRect(ctx,bx+P.mw/2,by,P.mw/2,P.mh,6); ctx.fill();
-  ctx.fillStyle='#fff'; ctx.font='800 17px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText(Nleft?'N':'S',bx+P.mw*0.25,P.cy); ctx.fillText(Nleft?'S':'N',bx+P.mw*0.75,P.cy);
-  ctx.textBaseline='alphabetic';
-  ctx.fillStyle='#1b2440'; ctx.font='700 13px sans-serif'; ctx.textAlign='center';
-  ctx.fillText('Drag the magnet — lines flow N → S, compasses realign',w/2,h-10);
-}
-(function(){
-  const cv=document.getElementById('bmCanvas');
-  function pos(e){const r=cv.getBoundingClientRect();return [e.clientX-r.left,e.clientY-r.top];}
-  cv.style.cursor='grab';
-  cv.addEventListener('pointerdown',e=>{const {w,h}=dim('bmCanvas');const P=bmPoles(w,h);const [mx,my]=pos(e);
-    if(Math.abs(mx-P.cx)<P.mw*0.6 && Math.abs(my-P.cy)<P.mh*0.9){bmDragM=true;cv.style.cursor='grabbing';cv.setPointerCapture(e.pointerId);}});
-  cv.addEventListener('pointermove',e=>{if(!bmDragM)return;const {w,h}=dim('bmCanvas');const [mx,my]=pos(e);
-    mag.fx=Math.max(0.2,Math.min(0.8,mx/w));mag.fy=Math.max(0.18,Math.min(0.78,my/h));bmDirty=true;});
-  const stop=()=>{bmDragM=false;cv.style.cursor='grab';};
-  cv.addEventListener('pointerup',stop); cv.addEventListener('pointercancel',stop);
-})();
-
-/* ========== TAB 2 : STRAIGHT WIRE (animated) ========== */
-let swDir=1, swI=5, swP={fx:0.74,fy:0.3};
-$('#swDir').onclick=()=>{swDir*=-1;};
-$('#swI').addEventListener('input',function(){swI=+this.value;$('#swIv').textContent=swI+' A';});
-attachProbe('swCanvas',swP);
-function drawSw(){
-  const ctx=ctxOf('swCanvas'); if(!ctx)return; const {w,h}=dim('swCanvas');
-  ctx.clearRect(0,0,w,h);
-  const cx=w*0.5, cy=h*0.46, out=swDir>0;
-  const n=3+Math.round(swI*0.6);               // more current → more lines (stronger field)
-  const rMin=22, maxR=Math.min(w,h)*0.44;
-  const ratio=Math.pow(maxR/rMin,1/n);
-  const off=(out?1:-1)*(tms*0.03*swI);         // dash flow matches the arrow (circulation) direction
-  ctx.strokeStyle='rgba(8,145,178,.65)'; ctx.lineWidth=1.8;
-  for(let k=1;k<=n;k++){
-    const R=rMin*Math.pow(ratio,k);            // geometric spacing: gaps grow with r (B ∝ 1/r — closest near the wire)
-    ctx.setLineDash([9,9]); ctx.lineDashOffset=off; ctx.beginPath(); ctx.arc(cx,cy,R,0,7); ctx.stroke();
-    ctx.setLineDash([]);
-    const d2=out?-1:1;                          // anticlockwise(out) → top tangent points left
-    arrow(ctx,cx-d2*8,cy-R,cx+d2*8,cy-R,'#0891b2',1.7,7);
-    arrow(ctx,cx+d2*8,cy+R,cx-d2*8,cy+R,'#0891b2',1.7,7);
-  }
-  ctx.lineDashOffset=0;
-  wireDot(ctx,cx,cy,out);
-  // draggable compass aligned to the circular field (tangent)
-  const px=swP.fx*w, py=swP.fy*h; let dx=px-cx,dy=py-cy; const rr=Math.hypot(dx,dy)||1; dx/=rr; dy/=rr;
-  let tx,ty; if(out){tx=dy; ty=-dx;} else {tx=-dy; ty=dx;}
-  drawCompass(ctx,px,py,tx,ty);
-  ctx.fillStyle='#1b2440'; ctx.font='700 15px sans-serif'; ctx.textAlign='center';
-  ctx.fillText(out?'Current out of page (•) — field anticlockwise':'Current into page (×) — field clockwise',cx,h-12);
-}
-
-/* ========== TAB 3 : CIRCULAR COIL — front + side views (animated) ========== */
-let ccDir=1, ccI=5;
-$('#ccDir').onclick=()=>{ccDir*=-1;ccDirty=true;};
-$('#ccI').addEventListener('input',function(){ccI=+this.value;$('#ccIv').textContent=ccI+' A';});
-function drawCc(){
-  const ctx=ctxOf('ccCanvas'); if(!ctx)return; const {w,h}=dim('ccCanvas');
-  ctx.clearRect(0,0,w,h);
-  const acw=ccDir>0, cy=h*0.44;
-  // faint divider
-  ctx.strokeStyle='rgba(27,36,64,.1)'; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(w*0.5,24); ctx.lineTo(w*0.5,h-30); ctx.stroke();
-
-  /* ---- FRONT VIEW (looking along the axis) ---- */
-  const fcx=w*0.25, rf=Math.min(w*0.17,h*0.24);
-  ctx.strokeStyle='#7c3aed'; ctx.lineWidth=3; ctx.setLineDash([10,8]);
-  ctx.lineDashOffset=(acw?1:-1)*tms*0.012*ccI;   // flow matches the current arrows, gentler speed
-  ctx.beginPath(); ctx.arc(fcx,cy,rf,0,7); ctx.stroke(); ctx.setLineDash([]); ctx.lineDashOffset=0;
-  for(let k=0;k<6;k++){
-    const a=k/6*Math.PI*2 + (acw?-1:1)*tms*0.00015*ccI;
-    const x=fcx+Math.cos(a)*rf, y=cy+Math.sin(a)*rf;
-    const s=acw?1:-1, tx=s*Math.sin(a), ty=-s*Math.cos(a);
-    arrow(ctx,x-tx*7,y-ty*7,x+tx*7,y+ty*7,'#7c3aed',2,7);
-  }
-  // centre field symbol: out of page (•, N face) if current anticlockwise, else into page (×)
-  if(acw){ctx.fillStyle='#dc2626';ctx.beginPath();ctx.arc(fcx,cy,6,0,7);ctx.fill();}
-  else{ctx.strokeStyle='#2563eb';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(fcx-6,cy-6);ctx.lineTo(fcx+6,cy+6);ctx.moveTo(fcx+6,cy-6);ctx.lineTo(fcx-6,cy+6);ctx.stroke();}
-  ctx.fillStyle='#1b2440'; ctx.font='700 13px sans-serif'; ctx.textAlign='center';
-  ctx.fillText('Front view (along axis)',fcx,cy-rf-14);
-  ctx.fillStyle='#64748b'; ctx.font='12px sans-serif';
-  ctx.fillText(acw?'field out of page — N face':'field into page — S face',fcx,cy+rf+20);
-
-  /* ---- SIDE VIEW (edge-on) with field lines from both poles ---- */
-  const scx=w*0.74, R=Math.min(h*0.24,w*0.15), rightN=acw, d=R*0.42;
-  const Nx=scx+(rightN?1:-1)*d, Sx=scx-(rightN?1:-1)*d;
-  const list=[{x:Nx,y:cy,q:1},{x:Sx,y:cy,q:-1}];
-  if(ccDirty || !cache.cc){cache.cc=buildDipole({x:Nx,y:cy},{x:Sx,y:cy},list,7,w,h);ccDirty=false;}
-  strokeLines(ctx,cache.cc,-(tms*0.03*ccI),'rgba(124,58,237,.6)');
-  lineHeads(ctx,cache.cc,list,'#7c3aed');
-  ctx.strokeStyle='#334155'; ctx.lineWidth=3; ctx.beginPath(); ctx.ellipse(scx,cy,10,R,0,0,7); ctx.stroke();
-  wireDot(ctx,scx,cy-R,rightN); wireDot(ctx,scx,cy+R,!rightN);
-  ctx.font='800 16px sans-serif'; ctx.textBaseline='middle';
-  ctx.fillStyle='#dc2626'; ctx.fillText('N',scx+(rightN?1:-1)*(R+22),cy);
-  ctx.fillStyle='#2563eb'; ctx.fillText('S',scx-(rightN?1:-1)*(R+22),cy);
-  ctx.textBaseline='alphabetic';
-  ctx.fillStyle='#1b2440'; ctx.font='700 13px sans-serif';
-  ctx.fillText('Side view (edge-on)',scx,cy-R-14);
-  ctx.fillStyle='#1b2440'; ctx.font='700 13px sans-serif'; ctx.textAlign='center';
-  ctx.fillText('Field threads through the centre and loops N → S around the outside',w*0.5,h-10);
-}
-
-/* ========== TAB 4 : SOLENOID (animated) ========== */
-let soDir=1, soTurns=8, soI=5, soP={fx:0.5,fy:0.16};
-$('#soDir').onclick=()=>{soDir*=-1;soDirty=true;};
-$('#soTurns').addEventListener('input',function(){soTurns=+this.value;$('#soTurnsv').textContent=soTurns+' turns';soDirty=true;});
-$('#soI').addEventListener('input',function(){soI=+this.value;$('#soIv').textContent=soI+' A';soDirty=true;});
-attachProbe('soCanvas',soP);
-function soGeom(w,h){
-  const cx=w*0.5, cy=h*0.46, coilW=w*0.46, coilH=h*0.3;
-  const x0=cx-coilW/2, x1=cx+coilW/2, rightN=soDir>0;
-  const Nx=rightN?x1:x0, Sx=rightN?x0:x1;
-  return {cx,cy,coilW,coilH,x0,x1,rightN,Nx,Sx,list:[{x:Nx,y:cy,q:1},{x:Sx,y:cy,q:-1}]};
-}
-function drawSo(){
-  const ctx=ctxOf('soCanvas'); if(!ctx)return; const {w,h}=dim('soCanvas');
-  ctx.clearRect(0,0,w,h);
-  const G=soGeom(w,h);
-  // more turns OR more current → stronger interior field (B = μ₀nI) → more, denser field lines
-  const nseed=Math.max(4,Math.min(9,Math.round(4+soTurns*0.4+soI*0.25)));
-  if(soDirty || !cache.so){cache.so=buildDipole({x:G. Nx,y:G.cy},{x:G.Sx,y:G.cy},G.list,nseed,w,h);soDirty=false;}
-  strokeLines(ctx,cache.so,-(tms*0.03*soI),'rgba(219,39,119,.6)');
-  lineHeads(ctx,cache.so,G.list,'#db2777');
-  // interior straight arrows — count grows with the number of turns
-  const fdir=G.rightN?1:-1, nIn=Math.max(3,Math.round(soTurns/2));
-  for(let i=0;i<nIn;i++){const xx=G.x0+G.coilW*0.14+i*(G.coilW*0.72/Math.max(1,nIn-1)); arrow(ctx,xx-fdir*13,G.cy,xx+fdir*13,G.cy,'#be185d',2.2,8);}
-  // coil turns
-  ctx.strokeStyle='#334155'; ctx.lineWidth=2.3;
-  for(let i=0;i<soTurns;i++){const x=G.x0+(i+0.5)/soTurns*G.coilW; ctx.beginPath(); ctx.ellipse(x,G.cy,8,G.coilH/2,0,0,7); ctx.stroke();}
-  ctx.font='800 20px sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillStyle='#dc2626'; ctx.fillText('N',G.Nx+(G.rightN?22:-22),G.cy);
-  ctx.fillStyle='#2563eb'; ctx.fillText('S',G.Sx+(G.rightN?-22:22),G.cy);
-  ctx.textBaseline='alphabetic';
-  const px=soP.fx*w, py=soP.fy*h; let [ex,ey]=fieldAt(px,py,G.list); drawCompass(ctx,px,py,ex,ey);
-  ctx.fillStyle='#1b2440'; ctx.font='700 13px sans-serif'; ctx.textAlign='center';
-  ctx.fillText('Closed loops: straight inside, looping N → S outside',G.cx,h-10);
-}
-
-/* ========== QUIZ ========== */
-const QUIZ=[
-  {q:'Outside a bar magnet, the magnetic field lines run:',o:['from north to south','in circles around the magnet','from south to north','in no particular direction'],a:0,
-   e:'Outside the magnet, field lines go from the north pole to the south pole. (Answer A)'},
-  {q:'The magnetic field around a long straight current-carrying wire is:',o:['radial, pointing outward','uniform and straight','a set of concentric circles','zero everywhere'],a:2,
-   e:'The field forms concentric circles around the wire. (Answer C)'},
-  {q:'A current flows out of the page. By the right-hand grip rule, the field is:',o:['radial','clockwise','zero','anticlockwise'],a:3,
-   e:'Thumb out of the page → fingers curl anticlockwise. (Answer D)'},
-  {q:'Magnetic field lines are closest together where the field is:',o:['weakest','strongest','zero','uniform'],a:1,
-   e:'Line density represents field strength, so closest lines = strongest field (at the poles). (Answer B)'},
-  {q:'The magnetic field inside an air-core solenoid is:',o:['strong and almost uniform','zero','radial','weakest at the centre'],a:0,
-   e:'Inside a solenoid the field is strong and nearly uniform. (Answer A)'},
-  {q:'Two magnetic field lines:',o:['always cross','cross only at the poles','never cross','cross inside the magnet'],a:2,
-   e:'The field has one direction at each point, so lines never cross. (Answer C)'}
-];
-let qScore=0, qAnswered=new Set();
-const quizEl=$('#quiz');
-QUIZ.forEach((item,qi)=>{
-  const card=document.createElement('div'); card.className='q';
-  let opts='<div class="opts">';
-  item.o.forEach((o,oi)=>{opts+='<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+o+'</button>';});
-  opts+='</div>';
-  card.innerHTML='<div class="qq">'+(qi+1)+'. '+item.q+'</div>'+opts+'<div class="qexp">'+item.e+'</div>';
-  quizEl.appendChild(card);
-});
-quizEl.addEventListener('click',e=>{
-  const btn=e.target.closest('.opt'); if(!btn)return;
-  const qi=+btn.dataset.q, oi=+btn.dataset.o;
-  if(qAnswered.has(qi))return; qAnswered.add(qi);
-  const card=btn.closest('.q'); const correct=QUIZ[qi].a;
-  card.querySelectorAll('.opt').forEach(b=>{
-    const bo=+b.dataset.o; b.style.pointerEvents='none';
-    if(bo===correct)b.classList.add('correct');
-    else if(bo===oi)b.classList.add('wrong');
+  const now=performance.now()/1000;
+  // base field lines (perpendicular stub off each pole face, then arch)
+  g.lines.forEach(L=>{
+    ctx.strokeStyle='rgba(111,101,87,.5)';ctx.lineWidth=1.5;pathLine(ctx,L);ctx.stroke();
+    const p=bezPt(L.nS,L.c1,L.c2,L.sS,0.5);
+    arrow(ctx,p.x-7*sdir,p.y,p.x+7*sdir,p.y,'rgba(111,101,87,.7)',1.3,6);
   });
-  card.querySelector('.qexp').classList.add('show');
-  if(oi===correct)qScore++;
-  $('#quizScore').textContent='Score: '+qScore+' / '+QUIZ.length;
-});
+  // magnet body
+  const bx=cx-mw/2,by=cy-mh/2;
+  ctx.fillStyle=leftN?C1:BLUE;ctx.fillRect(bx,by,mw/2,mh);
+  ctx.fillStyle=leftN?BLUE:C1;ctx.fillRect(cx,by,mw/2,mh);
+  ctx.strokeStyle='rgba(255,255,255,.55)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx,by);ctx.lineTo(cx,by+mh);ctx.stroke();
+  ctx.fillStyle='#fff';ctx.font='800 20px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText(leftN?'N':'S',bx+mw*0.25,cy);ctx.fillText(leftN?'S':'N',bx+mw*0.75,cy);
+  ctx.textBaseline='alphabetic';
+  // ---- per-property overlays (drawn on top) ----
+  if(bmMode==='direction'){
+    g.lines.forEach((L,i)=>{const t=(now*0.35+i*0.13)%1;const p=bezPt(L.nS,L.c1,L.c2,L.sS,t);
+      ctx.fillStyle=C2;ctx.beginPath();ctx.arc(p.x,p.y,4.5,0,TAU);ctx.fill();});
+  }else if(bmMode==='loops'){
+    const L=g.lines.find(l=>l.side===1&&l.j===1)||g.lines[1];
+    ctx.strokeStyle=C2;ctx.lineWidth=3;pathLine(ctx,L);ctx.stroke();
+    ctx.strokeStyle=C2;ctx.setLineDash([6,5]);ctx.lineWidth=2.4;
+    ctx.beginPath();ctx.moveTo(L.S.x,L.S.y);ctx.lineTo(L.N.x,L.N.y);ctx.stroke();ctx.setLineDash([]);
+    const tt=(now*0.22)%1;let p;
+    if(tt<0.72){p=bezPt(L.nS,L.c1,L.c2,L.sS,tt/0.72);}else{const u=(tt-0.72)/0.28;p={x:L.S.x+(L.N.x-L.S.x)*u,y:L.S.y};}
+    ctx.fillStyle=C1;ctx.beginPath();ctx.arc(p.x,p.y,5,0,TAU);ctx.fill();
+  }else if(bmMode==='nocross'){
+    const A=g.lines.find(l=>l.side===1&&l.j===0),B=g.lines.find(l=>l.side===1&&l.j===1);
+    ctx.strokeStyle=C1;ctx.lineWidth=3;pathLine(ctx,A);ctx.stroke();
+    ctx.strokeStyle=BLUE;ctx.lineWidth=3;pathLine(ctx,B);ctx.stroke();
+    ctx.fillStyle=INK;ctx.font='700 12px sans-serif';ctx.textAlign='center';ctx.fillText('the two lines stay apart — they never meet',cx,28);
+  }else if(bmMode==='spacing'){
+    const px=bmProbe.fx*w,py=bmProbe.fy*h,f=bmField(px,py,poleNx,poleSx,cy);
+    const ref=bmField(poleNx-sdir*26,cy,poleNx,poleSx,cy).mag,pct=clamp(f.mag/ref*100,2,100);
+    const m=f.mag||1;arrow(ctx,px,py,px+f.bx/m*22,py+f.by/m*22,C3,2,7);
+    ctx.strokeStyle=C3;ctx.lineWidth=2;ctx.beginPath();ctx.arc(px,py,7,0,TAU);ctx.stroke();
+    const mbx=w-24,mby=h*0.2,mbh=h*0.52;
+    ctx.fillStyle='rgba(111,101,87,.15)';ctx.fillRect(mbx,mby,12,mbh);
+    ctx.fillStyle=C3;ctx.fillRect(mbx,mby+mbh*(1-pct/100),12,mbh*pct/100);
+    ctx.fillStyle=INK;ctx.font='800 12px sans-serif';ctx.textAlign='center';ctx.fillText(Math.round(pct)+'%',mbx+6,mby-6);
+    ctx.fillStyle=C3;ctx.font='700 12px sans-serif';ctx.fillText('drag me',px,py-14);
+  }else if(bmMode==='rightangle'){
+    g.lines.forEach(L=>{
+      [[L.N,L.nS],[L.S,L.sS]].forEach(pair=>{
+        const P=pair[0],St=pair[1],dirx=Math.sign(St.x-P.x),s=9;
+        const x0=dirx>0?P.x:P.x-s,y0=(P.y<cy)?P.y-s:P.y;
+        ctx.strokeStyle=C4;ctx.lineWidth=1.8;ctx.strokeRect(x0,y0,s,s);
+      });
+    });
+    ctx.fillStyle=INK;ctx.font='700 12px sans-serif';ctx.textAlign='center';ctx.fillText('each line meets the pole face at 90°',cx,28);
+  }else if(bmMode==='repel'){
+    [1,-1].forEach(side=>{
+      const ls=g.lines.filter(l=>l.side===side).sort((a,b)=>Math.abs(a.sy-cy)-Math.abs(b.sy-cy));
+      for(let i=0;i<ls.length-1;i++){
+        const a=bezPt(ls[i].nS,ls[i].c1,ls[i].c2,ls[i].sS,0.5),b=bezPt(ls[i+1].nS,ls[i+1].c1,ls[i+1].c2,ls[i+1].sS,0.5);
+        const my=(a.y+b.y)/2;
+        arrow(ctx,cx,my,cx,a.y+(a.y<my?3:-3),C1,2,6);
+        arrow(ctx,cx,my,cx,b.y+(b.y<my?3:-3),C1,2,6);
+      }
+    });
+    ctx.fillStyle=INK;ctx.font='700 12px sans-serif';ctx.textAlign='center';ctx.fillText('neighbouring lines push each other apart',cx,28);
+  }
+  if(bmComp){const L=g.lines.find(l=>l.side===1&&l.j===2)||g.lines[2];const p=bezPt(L.nS,L.c1,L.c2,L.sS,0.5);compass(ctx,p.x,p.y,sdir,0);}
+  if(!bmMode){ctx.fillStyle=INK;ctx.font='700 12px sans-serif';ctx.textAlign='center';
+    ctx.fillText('Lines leave N, enter S · crowded at the poles = stronger field',cx,h-10);}
+}
+function bmUpdate(){
+  const MSG={
+    direction:'Dots flow along every line from N to S — the direction a compass north-pole would point.',
+    loops:'The highlighted line is traced right round, including the dashed S → N return through the magnet: a closed loop with no start or end.',
+    nocross:'The red and blue neighbours stay separate all the way to the pole — if lines crossed, the field would point two ways at once, which is impossible.',
+    spacing:'Drag the orange meter. The reading climbs near the poles (crowded lines = strong field) and falls far away (spread lines = weak field).',
+    rightangle:'The green squares mark where each line meets the pole face at exactly 90°.',
+    repel:'The arrows show neighbouring field lines pushing apart — why the pattern bulges outward in the gaps.'
+  };
+  $('#bmOut').innerHTML=bmMode?MSG[bmMode]:`North pole is on the <b>${bmFlip?'right':'left'}</b>. Click a property above to see it demonstrated.`;
+}
 
-/* ---------- master loop ---------- */
-let last=performance.now();
-function masterLoop(now){
-  const dt=Math.min(60,now-last); last=now; tms+=dt;
+/* ========== TAB 2 : STRAIGHT WIRE ========== */
+let swOut=true,swI=5;
+function drawSw(){
+  const ctx=ctxOf('swCanvas');if(!ctx)return;const{w,h}=dim('swCanvas');
+  ctx.clearRect(0,0,w,h);
+  const cx=w*0.44,cy=h*0.5,out=swOut,maxr=Math.min(w*0.4,h*0.44);
+  // more current -> more rings (denser); spacing widens outward because B ∝ 1/r
+  const count=clamp(2+Math.round(swI*0.7),3,7);
+  let r=16,gap=12;const radii=[];
+  for(let i=0;i<count;i++){if(r>maxr)break;radii.push(r);r+=gap;gap*=1.34;}
+  radii.forEach(rr=>{
+    ctx.strokeStyle='rgba(15,118,110,.55)';ctx.lineWidth=1.7;ctx.beginPath();ctx.arc(cx,cy,rr,0,TAU);ctx.stroke();
+    const ay=cy-rr;
+    if(out)arrow(ctx,cx+8,ay,cx-8,ay,C7,1.6,7);else arrow(ctx,cx-8,ay,cx+8,ay,C7,1.6,7);
+  });
+  wireDot(ctx,cx,cy,out);
+  const px=cx+Math.min(w*0.34,maxr+28),py=cy,tdir=out?-1:1;
+  compass(ctx,px,py,0,tdir);
+  ctx.fillStyle=INK;ctx.font='700 12px sans-serif';ctx.textAlign='center';
+  ctx.fillText(out?'Current out of page (•) — field anticlockwise':'Current into page (×) — field clockwise',cx,h-26);
+  ctx.fillStyle=GRY;ctx.font='11px sans-serif';
+  ctx.fillText('circles crowd near the wire (strong), spread out far away (weak)',cx,h-10);
+}
+function swUpdate(){
+  $('#swIv').textContent=swI+' A';
+  const B1=(20*swI); // µT at r = 1.0 cm, from B = μ₀I/2πr
+  $('#swOut').innerHTML=`Current is <b>${swOut?'out of the page':'into the page'}</b> → field circles <b>${swOut?'anticlockwise':'clockwise'}</b>. At r = 1.0 cm, B = μ₀I/2πr ≈ <b>${B1} µT</b>. Raise I and more rings appear (B ∝ I); move outward and they spread (B ∝ 1/r).`;
+}
+
+/* ========== TAB 3 : CIRCULAR COIL (face-on) ========== */
+let ccOut=true,ccI=5;
+function drawCc(){
+  const ctx=ctxOf('ccCanvas');if(!ctx)return;const{w,h}=dim('ccCanvas');
+  ctx.clearRect(0,0,w,h);
+  const cx=w*0.5,cy=h*0.46,R=Math.min(h*0.3,w*0.2),acw=ccOut;
+  ctx.strokeStyle=C3;ctx.lineWidth=3;ctx.beginPath();ctx.arc(cx,cy,R,0,TAU);ctx.stroke();
+  for(let k=0;k<8;k++){const a=k/8*TAU,x=cx+Math.cos(a)*R,y=cy+Math.sin(a)*R;
+    let tx=Math.sin(a),ty=-Math.cos(a);if(!acw){tx=-tx;ty=-ty;}
+    arrow(ctx,x-tx*7,y-ty*7,x+tx*7,y+ty*7,C3,1.8,7);}
+  // centre field symbols — count grows with current (denser field)
+  const nd=clamp(1+Math.round(ccI*0.6),1,6);
+  for(let k=0;k<nd;k++){const ang=k/Math.max(1,nd)*TAU,rad=nd>1?Math.min(R*0.5,16):0;
+    const dx=cx+Math.cos(ang)*rad,dy=cy+Math.sin(ang)*rad;
+    if(acw){ctx.fillStyle=C1;ctx.beginPath();ctx.arc(dx,dy,4,0,TAU);ctx.fill();}
+    else{ctx.strokeStyle=BLUE;ctx.lineWidth=2.4;ctx.beginPath();ctx.moveTo(dx-4,dy-4);ctx.lineTo(dx+4,dy+4);ctx.moveTo(dx+4,dy-4);ctx.lineTo(dx-4,dy+4);ctx.stroke();}}
+  ctx.fillStyle=INK;ctx.font='700 12px sans-serif';ctx.textAlign='center';
+  ctx.fillText('Current '+(acw?'anticlockwise':'clockwise')+' (viewed here)',cx,cy-R-16);
+  ctx.fillStyle=GRY;ctx.font='12px sans-serif';
+  ctx.fillText(acw?'field out of the page → this face is a NORTH pole':'field into the page → this face is a SOUTH pole',cx,h-10);
+}
+function ccUpdate(){
+  $('#ccIv').textContent=ccI+' A';
+  $('#ccOut').innerHTML=`Current runs <b>${ccOut?'anticlockwise':'clockwise'}</b> as drawn, so the field points <b>${ccOut?'out of the page':'into the page'}</b> and this face is a <b>${ccOut?'north':'south'}</b> pole. B = μ₀NI/2r, so I = ${ccI} A sets how much field threads the centre.`;
+}
+
+/* ========== TAB 4 : SOLENOID ========== */
+let soDir=true,soTurns=6,soI=5;
+function drawSo(){
+  const ctx=ctxOf('soCanvas');if(!ctx)return;const{w,h}=dim('soCanvas');
+  ctx.clearRect(0,0,w,h);
+  const x0=w*0.22,x1=w*0.78,cy=h*0.5,coilH=Math.min(h*0.34,120),rightN=soDir,dir=rightN?1:-1;
+  // external return loops (stay outside — never cross the interior lines)
+  ctx.strokeStyle='rgba(111,101,87,.4)';ctx.lineWidth=1.4;
+  [coilH*0.75+24,coilH*0.75+62].forEach(k=>{[-1,1].forEach(s=>{
+    const nx=rightN?x1:x0, sx=rightN?x0:x1;
+    ctx.beginPath();ctx.moveTo(nx,cy);ctx.bezierCurveTo(nx+dir*70,cy+s*k,sx-dir*70,cy+s*k,sx,cy);ctx.stroke();
+  });});
+  // interior uniform field lines — evenly spaced; count grows with turns & current
+  const nLines=clamp(2+Math.round((soTurns-4)*0.5+soI*0.5),2,7);
+  const mid=(x0+x1)/2,half=(x1-x0)*0.32;
+  for(let j=0;j<nLines;j++){const yy=cy-coilH*0.33+(nLines>1?j/(nLines-1):0.5)*coilH*0.66;
+    arrow(ctx,mid-dir*half,yy,mid+dir*half,yy,C4,2,8);}
+  // coils
+  const n=soTurns;
+  for(let i=0;i<n;i++){const x=x0+(i+0.5)/n*(x1-x0);
+    ctx.strokeStyle=SLATE;ctx.lineWidth=2.2;ctx.beginPath();ctx.ellipse(x,cy,8,coilH/2,0,0,TAU);ctx.stroke();}
+  const topOut=rightN;
+  for(let i=0;i<n;i++){const x=x0+(i+0.5)/n*(x1-x0);miniSym(ctx,x,cy-coilH/2,topOut);miniSym(ctx,x,cy+coilH/2,!topOut);}
+  ctx.font='800 20px sans-serif';ctx.textBaseline='middle';
+  ctx.fillStyle=C1;ctx.textAlign='center';ctx.fillText(rightN?'N':'S',x1+24,cy);
+  ctx.fillStyle=BLUE;ctx.fillText(rightN?'S':'N',x0-24,cy);
+  ctx.textBaseline='alphabetic';
+  ctx.fillStyle=INK;ctx.font='700 12px sans-serif';ctx.textAlign='center';
+  ctx.fillText('Uniform field inside (evenly spaced) · bar-magnet field outside',w*0.5,h-10);
+}
+function cx0(x0,x1,dir,sign){const mid=(x0+x1)/2,half=(x1-x0)*0.3;return mid+sign*dir*half;}
+function miniSym(ctx,x,y,out){
+  ctx.beginPath();ctx.arc(x,y,6,0,TAU);ctx.fillStyle='#fff';ctx.fill();ctx.strokeStyle=SLATE;ctx.lineWidth=1.4;ctx.stroke();
+  if(out){ctx.fillStyle=SLATE;ctx.beginPath();ctx.arc(x,y,2,0,TAU);ctx.fill();}
+  else{ctx.strokeStyle=SLATE;ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(x-3.5,y-3.5);ctx.lineTo(x+3.5,y+3.5);ctx.moveTo(x+3.5,y-3.5);ctx.lineTo(x-3.5,y+3.5);ctx.stroke();}
+}
+function soUpdate(){
+  $('#soTv').textContent=soTurns;$('#soIv').textContent=soI+' A';
+  $('#soOut').innerHTML=`The <b>${soDir?'right':'left'}</b> end is a north pole. Inside, B = μ₀nI is uniform; with ${soTurns} turns and I = ${soI} A, raising either adds more evenly-spaced field lines.`;
+}
+
+/* ---------- MASTER LOOP ---------- */
+function masterLoop(){
   if(active===0)drawBm();
   else if(active===1)drawSw();
   else if(active===2)drawCc();
   else if(active===3)drawSo();
   requestAnimationFrame(masterLoop);
 }
+
+/* ---------- PROGRESSIVE QUESTIONS ---------- */
+$$('.pq').forEach(pq=>{
+  const parts=$$('.qpart',pq);
+  $$('.preveal',pq).forEach((btn,idx)=>{
+    btn.addEventListener('click',()=>{
+      const part=btn.closest('.qpart');
+      $('.pans',part).removeAttribute('hidden');
+      btn.setAttribute('hidden','');
+      if(idx+1<parts.length)parts[idx+1].removeAttribute('hidden');
+      else{const done=document.createElement('div');done.className='pdone';done.textContent='✓ All parts complete';pq.appendChild(done);}
+    });
+  });
+});
+
+/* ---------- WORKED EXAMPLE REVEAL ---------- */
+$$('.we .reveal').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const a=btn.nextElementSibling;
+    if(a.hasAttribute('hidden')){a.removeAttribute('hidden');btn.textContent='Hide solution';}
+    else{a.setAttribute('hidden','');btn.textContent='Show solution';}
+  });
+});
+
+/* ---------- QUIZ ---------- */
+const QUIZ=[
+ {q:'Outside a bar magnet, the magnetic field lines run:',o:['from north to south','from south to north','in straight parallel lines','from north to north'],a:0,e:'Outside the magnet the lines go from the N pole to the S pole.'},
+ {q:'The magnetic field around a long straight current-carrying wire is:',o:['radial, pointing outward','a set of concentric circles','uniform and straight','zero everywhere'],a:1,e:'The field forms concentric circles centred on the wire.'},
+ {q:'To find the field direction around a straight wire you use:',o:["Lenz's law","Ohm's law",'the right-hand grip rule',"Snell's law"],a:2,e:'Right-hand grip rule: thumb along the current, fingers curl the way the field circles.'},
+ {q:'Inside a long solenoid the magnetic field is:',o:['zero','strongest only at the ends','radial','strong and uniform'],a:3,e:'The field inside is strong and almost uniform along the axis.'},
+ {q:'A current-carrying solenoid behaves like:',o:['a bar magnet','a point charge','a resistor','a capacitor'],a:0,e:'It has N and S poles and an external field just like a bar magnet.'},
+ {q:'Two magnetic field lines:',o:['cross at the poles','never cross','start and stop in mid-air','are always straight'],a:1,e:'The field has one direction at each point, so lines never cross.'}
+];
+const qw=$('#quizWrap');let answered=0,correct=0;
+QUIZ.forEach((item,qi)=>{
+  const card=document.createElement('div');card.className='q';
+  card.innerHTML=`<div class="qq">${qi+1}. ${item.q}</div>`;
+  const opts=document.createElement('div');opts.className='opts';
+  const letters=['A','B','C','D'];
+  item.o.forEach((o,oi)=>{
+    const b=document.createElement('button');b.className='opt';b.innerHTML=`<b>${letters[oi]}.</b> ${o}`;
+    b.addEventListener('click',()=>{
+      if(card.dataset.done)return;card.dataset.done='1';answered++;
+      if(oi===item.a){b.classList.add('correct');correct++;}
+      else{b.classList.add('wrong');opts.children[item.a].classList.add('correct');}
+      $('.qexp',card).classList.add('show');
+      $('#quizScore').innerHTML=`Score: <b>${correct} / ${answered}</b> answered${answered===QUIZ.length?' · quiz complete':''}.`;
+    });
+    opts.appendChild(b);
+  });
+  card.appendChild(opts);
+  const exp=document.createElement('div');exp.className='qexp';exp.innerHTML=`<b>Answer ${letters[item.a]}.</b> ${item.e}`;
+  card.appendChild(exp);
+  qw.appendChild(card);
+});
+
+/* ---------- NAME GATE ---------- */
+const gate=$('#gate');
+function enter(){
+  const n=$('#gateName').value.trim();
+  if(n.length<2){$('#gateErr').removeAttribute('hidden');return;}
+  $('#profileName').textContent=n.split(' ')[0];
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>{gate.style.display='none';fitAll();},400);
+}
+$('#gateBtn').addEventListener('click',enter);
+$('#gateName').addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+
+/* ---------- CLOCK ---------- */
+function tick(){const d=new Date();const p=n=>String(n).padStart(2,'0');$('#clock').textContent=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());}
+tick();setInterval(tick,1000);
+
+/* ---------- DARK TOGGLE ---------- */
+$('#sunbtn').addEventListener('click',function(){
+  const dark=document.body.classList.toggle('dark');
+  this.innerHTML=dark?'&#9790;':'&#9728;';
+  this.title=dark?'Switch to light mode':'Switch to dark mode';
+});
+
+/* ---------- CONTROLS ---------- */
+$('#bmFlip').addEventListener('click',()=>{bmFlip=!bmFlip;bmUpdate();});
+$('#bmComp').addEventListener('click',()=>{bmComp=!bmComp;bmUpdate();});
+$$('#propList .propitem').forEach(it=>{it.addEventListener('click',()=>{
+  const m=it.dataset.mode;
+  if(bmMode===m){bmMode=null;$$('#propList .propitem').forEach(x=>x.classList.remove('on'));}
+  else{bmMode=m;$$('#propList .propitem').forEach(x=>x.classList.toggle('on',x===it));}
+  bmUpdate();
+});});
+(function(){const cv=document.getElementById('bmCanvas');if(!cv)return;let drag=false;
+  function setP(e){const r=cv.getBoundingClientRect();bmProbe.fx=clamp((e.clientX-r.left)/r.width,0.03,0.97);bmProbe.fy=clamp((e.clientY-r.top)/r.height,0.05,0.95);}
+  cv.addEventListener('pointerdown',e=>{if(bmMode!=='spacing')return;drag=true;try{cv.setPointerCapture(e.pointerId);}catch(_){ }setP(e);});
+  cv.addEventListener('pointermove',e=>{if(drag)setP(e);});
+  cv.addEventListener('pointerup',()=>drag=false);cv.addEventListener('pointercancel',()=>drag=false);
+})();
+$('#swDir').addEventListener('click',()=>{swOut=!swOut;swUpdate();});
+$('#swI').addEventListener('input',function(){swI=+this.value;swUpdate();});
+$('#ccDir').addEventListener('click',()=>{ccOut=!ccOut;ccUpdate();});
+$('#ccI').addEventListener('input',function(){ccI=+this.value;ccUpdate();});
+$('#soDir').addEventListener('click',()=>{soDir=!soDir;soUpdate();});
+$('#soTurns').addEventListener('input',function(){soTurns=+this.value;soUpdate();});
+$('#soI').addEventListener('input',function(){soI=+this.value;soUpdate();});
+
+/* ---------- INIT ---------- */
+setAccent(0);
+bmUpdate();swUpdate();ccUpdate();soUpdate();
+window.addEventListener('load',fitAll);
 requestAnimationFrame(masterLoop);
 </script>
 </body>
