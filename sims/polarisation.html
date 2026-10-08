@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Polarisation</title>
+<style>
+:root{
+  --c1:#2563eb; --c2:#0891b2; --c3:#7c3aed; --c4:#db2777; --c5:#0d9488; --c6:#d97706; --c7:#059669; --c8:#4f46e5;
+  --accent:var(--c1); --accent-soft:rgba(37,99,235,.12);
+  --ink:#1b2440; --muted:#71809e; --line:rgba(27,36,64,.12); --card:#ffffff;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#eef4ff 0%,#f3f1ff 50%,#ecfbff 100%)}
+body[data-page="1"]{background:linear-gradient(135deg,#eef4ff 0%,#eaf1ff 55%,#f4f8ff 100%)}
+body[data-page="2"]{background:linear-gradient(135deg,#ecfeff 0%,#eef9fb 55%,#f0fbff 100%)}
+body[data-page="3"]{background:linear-gradient(135deg,#f5f1ff 0%,#f6f3ff 55%,#faf6ff 100%)}
+body[data-page="4"]{background:linear-gradient(135deg,#ecfdf9 0%,#f0fdfa 55%,#eefaf6 100%)}
+body[data-page="5"]{background:linear-gradient(135deg,#fff7ed 0%,#fffbeb 55%,#fef7ec 100%)}
+body[data-page="6"]{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf6 55%,#eefaf2 100%)}
+body.dark{--ink:#e7ebf7;--muted:#9aa6c8;--line:rgba(231,235,247,.15);--card:#1a2033;--tan:#2b3450;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#0e1322 0%,#121829 55%,#101a26 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(18,24,42,.86)}
+body.dark .brand{color:#f2f4fb}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox{background:#1a2033}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#141a2b}
+body.dark .qexp{background:rgba(5,150,105,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#c7cfe6}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .ms,body.dark .qexp,body.dark .dstep .cap,body.dark .pq .stem{color:#c7cfe6}
+body.dark .gatebox .mark{color:#f2f4fb}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#f4f6fb}
+
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#1b1b1b;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#2563eb;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,255,255,.55);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fff;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .sl{display:inline-flex;align-items:center;gap:4px}
+.dotSL{width:9px;height:9px;border-radius:3px;background:#2563eb}
+
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:730px;font-size:15px}
+
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.sl{background:rgba(37,99,235,.12);color:#2563eb}
+.lead{font-size:16px;color:#374151;max-width:770px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(27,36,64,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,42vh,420px);overflow:hidden;border-radius:12px;background:#fcfdff;border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#374151}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+.prose p{margin-bottom:11px;font-size:14.5px;color:#374151}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fbfbff;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.1;
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px;color:var(--ink)}
+.fml .op{color:var(--muted)}
+.fml sub{font-size:.68em;vertical-align:-.25em}
+.fml sup{font-size:.68em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+
+.deriv .dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dctrls{display:flex;gap:8px}
+.dintro{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.dstep{opacity:0;max-height:0;overflow:hidden;transform:translateY(6px);transition:opacity .35s ease,max-height .4s ease,transform .35s ease}
+.dstep.show{opacity:1;max-height:360px;transform:none;margin:12px 0}
+.dstep .eqbox{margin:0}
+.dstep .cap{font-size:12.5px;color:#374151;margin-top:6px}
+.dstep .cap b{color:var(--accent)}
+.dstep .sidx{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--accent);border-radius:5px;padding:2px 7px;margin-bottom:6px;text-transform:uppercase}
+
+.we{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#374151;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#374151;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#374151;background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c4)}
+.mcard .wrong{font-size:13px;color:#b91c1c;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"\2717 ";}
+.mcard .right{font-size:13.5px;color:#065f46;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"\2713 ";}
+.mcard p{font-size:13px;color:#374151;margin-top:5px}
+
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fcfdff;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#374151;background:#f0fdf4;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#f5f1ff,#f6f3ff,#faf6ff);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fff;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(27,36,64,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#1b1b1b}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c3)}
+.gatebox .btn{width:100%;background:var(--c3);color:#fff;border-color:var(--c3);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+@media print{#gate,.topnav,.sunbtn,nav#nav{display:none!important}.page{display:block!important;page-break-after:always}}
+</style>
+</head>
+<body data-page="1">
+
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Polarisation</h2>
+    <p>Topic 7.6 Waves &middot; Cambridge AS &amp; A Level Physics (9702)</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive A level physics lesson</div>
+  </div>
+</div>
+
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../index.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../index.html#dp">A Level</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<div class="chapterbar">
+  <span class="chaptag">7 Waves</span>
+  <div class="parts">
+    <a class="partlink" href="progressive-waves.html">7.1 Progressive Waves<span class="pl">AS</span></a>
+    <a class="partlink" href="transverse-longitudinal-waves.html">7.2 Transverse &amp; Longitudinal<span class="pl">AS</span></a>
+    <a class="partlink" href="sound-frequency-wavelength.html">7.3 Sound: f &amp; &lambda;<span class="pl">AS</span></a>
+    <a class="partlink" href="doppler-effect-a-level.html">7.4 Doppler Effect<span class="pl">AS</span></a>
+    <a class="partlink" href="electromagnetic-spectrum.html">7.5 EM Spectrum<span class="pl">AS</span></a>
+    <a class="partlink here" href="polarisation.html">7.6 Polarisation<span class="pl">AS</span></a>
+  </div>
+  <div class="legend">
+    <span class="sl"><span class="dotSL"></span>AS Level core</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">7.6 &middot; Vibrations in one plane</div>
+  <h1>Polarisation</h1>
+  <p>Only transverse waves can be polarised. A polarising filter passes vibrations in just one plane; turn a second filter to an angle &theta; and Malus&apos;s law, I = I&#8320;cos&sup2;&theta;, tells you exactly how much intensity gets through.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+<!-- PAGE 1 : WHAT IS POLARISATION -->
+<section class="page active" data-p="0">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">Light from a lamp or the Sun is <b>unpolarised</b>: its electric field oscillates in every plane at once. A polarising filter only lets through the component of the field along its transmission axis, leaving a <b>plane-polarised</b> wave vibrating in a single plane.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Unpolarised in, polarised out</h3>
+      <div class="canvas-wrap"><canvas id="polCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Transmission axis of the filter <b id="polAnglev">90&deg;</b></label>
+        <input type="range" id="polAngle" min="0" max="180" step="1" value="90">
+      </div>
+      <p class="note">Left: unpolarised light &mdash; vibrations in many planes (end-on view). The filter passes only the component along its axis, so the emerging light vibrates in one plane and carries <b>half</b> the original intensity.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Only transverse waves polarise</h3>
+      <div class="prose">
+        <p>Polarisation is only possible because a transverse wave has a <em>direction</em> of vibration perpendicular to its travel &mdash; so a filter can select one plane. A longitudinal wave vibrates <em>along</em> the direction of travel, with no such choice of plane, so it <b>cannot be polarised</b>.</p>
+        <p>Think of shaking a rope through a vertical slot: only the vertical vibrations get through. Turn the slot horizontal and nothing passes. A push&ndash;pull (longitudinal) wave would pass whatever the slot&apos;s orientation.</p>
+        <p>Passing unpolarised light through one ideal polariser halves its intensity to &frac12;I&#8320; and leaves it plane-polarised along the transmission axis. That the trick works at all is direct evidence that light is a transverse wave.</p>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="pol">
+    <div class="stem">A beam of unpolarised light of intensity I&#8320; is passed through a single ideal polarising filter.</div>
+    <div class="tagq">Question</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) State the intensity of the light transmitted by the filter. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><b>&frac12;I&#8320;</b>. Averaged over all the random vibration planes, exactly half the intensity passes.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Describe the state of the light after the filter. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>It is plane-polarised, vibrating only in the plane of the filter&apos;s transmission axis.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) The experiment is repeated with a sound wave and a slotted barrier. State what is observed and why. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>The sound passes whatever the slot orientation, and is not polarised. Sound is longitudinal, vibrating along its direction of travel, so there is no plane for a filter to select.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : MALUS'S LAW -->
+<section class="page" data-p="1">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">Send plane-polarised light of intensity I&#8320; into a second filter (the <em>analyser</em>) whose axis is at angle &theta; to the light&apos;s plane. Only the field component along the analyser&apos;s axis survives, and intensity depends on its square &mdash; Malus&apos;s law.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Turn the analyser</h3>
+      <div class="canvas-wrap"><canvas id="malusCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Angle &theta; between axes <b id="mThetav">30&deg;</b></label>
+        <input type="range" id="mTheta" min="0" max="180" step="1" value="30">
+      </div>
+      <div class="ctl">
+        <label>Incident intensity I&#8320; <b id="mI0v">8.0 W m&#8315;&sup2;</b></label>
+        <input type="range" id="mI0" min="1" max="12" step="0.5" value="8">
+      </div>
+      <p class="note">At &theta; = 0 the filters are aligned (full brightness); at &theta; = 90&deg; they are crossed (darkness); at &theta; = 45&deg; exactly half gets through.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Malus&apos;s law</h3>
+      <div id="mReadouts"></div>
+      <div class="eqbox fml" style="margin-top:12px">I = I&#8320; cos&sup2;&theta;</div>
+      <div class="out" id="mOut"></div>
+    </div>
+  </div>
+  <div class="card deriv" data-sim="malus" style="margin-top:18px">
+    <div class="dhead">
+      <h3 style="margin:0"><span class="pin"></span>Derivation &middot; where cos&sup2;&theta; comes from</h3>
+      <div class="dctrls">
+        <button class="btn ghost dnext">Reveal first step</button>
+        <button class="btn ghost dreset" hidden>Reset</button>
+      </div>
+    </div>
+    <p class="dintro">The analyser passes only the field component along its own axis. Reveal one line at a time.</p>
+    <div class="dsteps">
+      <div class="dstep">
+        <span class="sidx">Step 1 &middot; resolve the amplitude</span>
+        <div class="eqbox fml">A&prime; = A cos&theta;</div>
+        <div class="cap">Only the component of the electric field amplitude A along the analyser&apos;s axis is transmitted.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 2 &middot; intensity depends on amplitude&sup2;</span>
+        <div class="eqbox fml">I &prop; A&prime;&sup2; = A&sup2;cos&sup2;&theta;</div>
+        <div class="cap">For any wave the intensity is proportional to the square of the amplitude (from 7.1).</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 3 &middot; Malus&apos;s law</span>
+        <div class="eqbox fml" style="font-weight:700">I = I&#8320; cos&sup2;&theta;</div>
+        <div class="cap">Since the incident intensity I&#8320; &prop; A&sup2;, the transmitted intensity is I&#8320;cos&sup2;&theta;.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 4 &middot; the special angles</span>
+        <div class="eqbox">&theta; = 0 → I&#8320;  &middot;  &theta; = 45° → &frac12;I&#8320;  &middot;  &theta; = 90° → 0</div>
+        <div class="cap">Aligned gives full transmission; crossed gives none; half-way gives half.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="malus">
+    <div class="stem">Plane-polarised light of intensity 12 W m&#8315;&sup2; is incident on an analyser.</div>
+    <div class="tagq">Question</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the transmitted intensity when the analyser axis is at 60&deg; to the plane of polarisation. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">I = I&#8320;cos&sup2;&theta; = 12 × cos&sup2;60°<span class="op">=</span>12 × (0.5)&sup2;<span class="op">=</span><b>3.0 W m&#8315;&sup2;</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Determine the angle at which the transmitted intensity would be 6.0 W m&#8315;&sup2;. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">cos&sup2;&theta; = <span class="frac"><span class="num">6.0</span><span class="den">12</span></span> = 0.5<span class="op">⇒</span>&theta; = cos&#8315;&sup1;(√0.5)<span class="op">=</span><b>45&deg;</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State the transmitted intensity when the analyser is turned to 90&deg;, and name this arrangement. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><b>Zero</b> (cos 90&deg; = 0). The filters are then said to be <b>crossed</b>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : SERIES OF FILTERS -->
+<section class="page" data-p="2">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">With several filters, apply Malus&apos;s law at <em>each</em> one, using the angle between its axis and the plane of the light reaching it. The famous surprise: two crossed filters block everything, yet slipping a third filter between them lets light reappear.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Three polarisers in a row</h3>
+      <div class="canvas-wrap"><canvas id="seriesCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Axis of filter 2 <b id="s2v">45&deg;</b></label>
+        <input type="range" id="s2" min="0" max="180" step="1" value="45">
+      </div>
+      <div class="ctl">
+        <label>Axis of filter 3 <b id="s3v">90&deg;</b></label>
+        <input type="range" id="s3" min="0" max="180" step="1" value="90">
+      </div>
+      <div class="btnrow">
+        <button class="btn ghost" id="crossBtn">Cross filters 1 &amp; 3 (0&deg; and 90&deg;)</button>
+      </div>
+      <p class="note">Filter 1 is fixed at 0&deg;. Incident light is unpolarised with intensity I&#8320;. Intensities are shown relative to I&#8320;.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Intensity after each filter</h3>
+      <div id="sReadouts"></div>
+      <div class="eqbox fml" style="margin-top:12px">I&#8345; = I&#8345;&#8331;&#8321; cos&sup2;(&Delta;&theta;)</div>
+      <div class="out" id="sOut"></div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="series">
+    <div class="stem">Unpolarised light of intensity I&#8320; passes through three ideal polarisers. Filter 1 is vertical (0&deg;), filter 2 is at 30&deg; and filter 3 is at 90&deg; (horizontal, crossed with filter 1).</div>
+    <div class="tagq">Question</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) State the intensity after filter 1. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><b>&frac12;I&#8320;</b>, plane-polarised vertically (unpolarised light through one filter halves).</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Calculate the intensity after filter 2. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">I&#8322; = &frac12;I&#8320; cos&sup2;30°<span class="op">=</span>&frac12;I&#8320; × 0.75<span class="op">=</span><b>0.375 I&#8320;</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) Calculate the final intensity after filter 3, and comment. <span class="mks">[3]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">I&#8323; = I&#8322; cos&sup2;(90°−30°) = 0.375 I&#8320; × cos&sup2;60°<span class="op">=</span>0.375 I&#8320; × 0.25<span class="op">=</span><b>0.094 I&#8320;</b></div>Although filters 1 and 3 alone are crossed (would give zero), the middle filter re-polarises the light at 30&deg;, so some gets through.</div>
+    </div>
+  </div>
+</section>
+<!-- PAGE 4 : WORKED EXAMPLES -->
+<section class="page" data-p="3">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">Four problems on polarisers and Malus&apos;s law. Try each before revealing the solution.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example &middot; One polariser</div>
+    <div class="q">Unpolarised light of intensity 20 W m&#8315;&sup2; passes through a single ideal polarising filter. Find the transmitted intensity.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>A single filter on unpolarised light transmits half the intensity:</p>
+      <div class="eqbox fml">I = &frac12;I&#8320; = &frac12; × 20<span class="op">=</span><b>10 W m&#8315;&sup2;</b></div>
+      <p>The emerging light is now plane-polarised along the filter&apos;s axis.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example &middot; Malus&apos;s law</div>
+    <div class="q">Plane-polarised light of intensity 16 W m&#8315;&sup2; meets an analyser with its axis at 30&deg; to the plane of polarisation. Find the transmitted intensity.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">I = I&#8320;cos&sup2;&theta; = 16 × cos&sup2;30° = 16 × 0.75<span class="op">=</span><b>12 W m&#8315;&sup2;</b></div>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example &middot; Finding the angle</div>
+    <div class="q">An analyser transmits one quarter of the incident plane-polarised intensity. Find the angle between the analyser axis and the plane of polarisation.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">cos&sup2;&theta; = 0.25<span class="op">⇒</span>cos&theta; = 0.5<span class="op">⇒</span>&theta; = <b>60&deg;</b></div>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example &middot; Three filters</div>
+    <div class="q">Unpolarised light of intensity I&#8320; passes through three polarisers at 0&deg;, 45&deg; and 90&deg; in turn. Find the final intensity.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>After filter 1 (unpolarised &rarr; half): &frac12;I&#8320;, polarised at 0&deg;.</p>
+      <div class="eqbox fml">after P2: &frac12;I&#8320; cos&sup2;45° = &frac12;I&#8320; × 0.5 = 0.25 I&#8320;</div>
+      <div class="eqbox fml">after P3: 0.25 I&#8320; cos&sup2;(90°−45°) = 0.25 I&#8320; × 0.5<span class="op">=</span><b>0.125 I&#8320;</b></div>
+      <p>Without the middle filter, 0&deg; and 90&deg; are crossed and would transmit nothing &mdash; the 45&deg; filter is what lets 1/8 of the light through.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 : MISCONCEPTIONS -->
+<section class="page" data-p="4">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">The traps on polarisation and Malus&apos;s law. Each card pairs the wrong idea with the correct physics.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"Any wave can be polarised."</div>
+      <p>Only transverse waves have a plane of vibration to select. Longitudinal waves, such as sound, cannot be polarised.</p>
+      <div class="right">Polarisation ⇒ transverse wave.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Malus&apos;s law is I = I&#8320; cos&theta;."</div>
+      <p>Intensity depends on the <em>square</em> of the amplitude, so it is I = I&#8320; cos&sup2;&theta;.</p>
+      <div class="right">I = I&#8320; cos&sup2;&theta;.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Every polariser halves the intensity."</div>
+      <p>Only the first filter acting on <em>unpolarised</em> light halves it. For already-polarised light the next filter follows cos&sup2;&theta;.</p>
+      <div class="right">Half only for unpolarised &rarr; first filter.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"&theta; is the angle between the filter and the beam."</div>
+      <p>&theta; is the angle between the plane of polarisation of the light and the analyser&apos;s transmission axis.</p>
+      <div class="right">&theta; = plane of light to analyser axis.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Crossed polarisers always block all light."</div>
+      <p>Two crossed filters give zero &mdash; but a third filter placed between them, at an angle, lets some light through again.</p>
+      <div class="right">A middle filter re-polarises; light reappears.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"At 45&deg; the analyser blocks the light."</div>
+      <p>At 45&deg;, cos&sup2;45&deg; = 0.5, so exactly half the polarised intensity is transmitted &mdash; not zero.</p>
+      <div class="right">&theta; = 45&deg; &rarr; half transmitted.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 : QUIZ -->
+<section class="page" data-p="5">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">Eight questions on polarisation and Malus&apos;s law. Pick an answer to see whether it is right and why.</p>
+  <div id="quiz"></div>
+  <div class="card" style="margin-top:4px;text-align:center">
+    <div id="quizScore" style="font-weight:800;font-size:16px;color:var(--accent)">Score: 0 / 8</div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> &middot; Topic 7 Waves &middot; 7.6 Polarisation &middot; Cambridge AS &amp; A Level Physics (9702)<br>
+  Previous: <a href="electromagnetic-spectrum.html" style="color:var(--c3);font-weight:700">7.5 Electromagnetic Spectrum</a> &middot; <a href="../index.html" style="color:var(--c3);font-weight:700">All Simulations</a>
+</footer>
+
+<script>
+'use strict';
+const TAU=Math.PI*2, D2R=Math.PI/180;
+const FS='"Trebuchet MS",Verdana,Geneva,system-ui,sans-serif';
+
+/* ---------- page / tab engine ---------- */
+const PAGES=[
+  {name:'What is Polarisation',c:'var(--c1)',soft:'rgba(37,99,235,.12)'},
+  {name:"Malus's Law",c:'var(--c2)',soft:'rgba(8,145,178,.12)'},
+  {name:'Series of Filters',c:'var(--c3)',soft:'rgba(124,58,237,.12)'},
+  {name:'Worked Examples',c:'var(--c5)',soft:'rgba(13,148,136,.12)'},
+  {name:'Misconceptions',c:'var(--c6)',soft:'rgba(217,119,6,.12)'},
+  {name:'Quiz',c:'var(--c7)',soft:'rgba(5,150,105,.12)'}
+];
+const KICK=[
+  '7.6 · Vibrations in one plane',
+  '7.6 · I = I₀ cos²θ',
+  '7.6 · Crossed filters and a surprise',
+  '7.6 · Original worked examples',
+  '7.6 · Watch out for these',
+  '7.6 · Check your understanding'
+];
+let active=0;
+const nav=document.getElementById('nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML='<span class="num">'+(i+1)+'</span>&nbsp;'+p.name+'<span class="lvl">AS</span>';
+  b.addEventListener('click',()=>goPage(i));
+  nav.appendChild(b);
+});
+const tabs=[...nav.children];
+const pages=[...document.querySelectorAll('.page')];
+function setAccent(i){
+  const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.c);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=(i+1);
+}
+function goPage(i){
+  active=i;
+  tabs.forEach((t,k)=>t.classList.toggle('active',k===i));
+  pages.forEach((p,k)=>p.classList.toggle('active',k===i));
+  document.getElementById('kicker').textContent=KICK[i];
+  setAccent(i);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+setAccent(0);
+
+/* ---------- sun / dark toggle ---------- */
+const sunbtn=document.getElementById('sunbtn');
+sunbtn.addEventListener('click',()=>{
+  const d=document.body.classList.toggle('dark');
+  sunbtn.innerHTML = d ? '☽' : '☀';
+  sunbtn.title = d ? 'Switch to light mode' : 'Switch to dark mode';
+});
+
+/* ---------- name gate ---------- */
+const gate=document.getElementById('gate'),gn=document.getElementById('gateName'),
+      gb=document.getElementById('gateBtn'),ge=document.getElementById('gateErr'),
+      chip=document.getElementById('profileName');
+function enter(){
+  const v=gn.value.trim();
+  if(v.length<2){ge.hidden=false;return;}
+  chip.textContent=v.split(/\s+/)[0];
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>gate.style.display='none',400);
+}
+gb.addEventListener('click',enter);
+gn.addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+setTimeout(()=>gn.focus(),300);
+
+/* ---------- clock ---------- */
+function tick(){
+  const d=new Date();
+  const p=x=>String(x).padStart(2,'0');
+  document.getElementById('clock').textContent=
+    d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+}
+tick();setInterval(tick,1000);
+
+/* ---------- canvas sizing (DPR aware) ---------- */
+const sizes=new Map();
+const ro=new ResizeObserver(entries=>{
+  for(const e of entries){
+    const cv=e.target, r=cv.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+    cv.width=Math.max(1,Math.round(r.width*dpr));
+    cv.height=Math.max(1,Math.round(r.height*dpr));
+    sizes.set(cv,{w:r.width,h:r.height,dpr});
+  }
+});
+function ctxOf(cv){
+  const s=sizes.get(cv); if(!s) return null;
+  const g=cv.getContext('2d'); g.setTransform(s.dpr,0,0,s.dpr,0,0);
+  return {g,w:s.w,h:s.h};
+}
+function reg(id){const cv=document.getElementById(id);ro.observe(cv);return cv;}
+function ro3(k,v){return '<div class="ro"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+function ro3hi(k,v){return '<div class="ro hi"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+
+/* ---------- derivation stepper ---------- */
+document.querySelectorAll('.deriv').forEach(d=>{
+  const steps=[...d.querySelectorAll('.dstep')];
+  const next=d.querySelector('.dnext'), reset=d.querySelector('.dreset');
+  let idx=0;
+  function sync(){
+    next.textContent = idx===0?'Reveal first step':(idx>=steps.length?'All steps shown':'Next step ▸');
+    next.disabled = idx>=steps.length; reset.hidden = idx===0;
+  }
+  next.addEventListener('click',()=>{ if(idx<steps.length){ steps[idx].classList.add('show'); idx++; sync(); }});
+  reset.addEventListener('click',()=>{ steps.forEach(s=>s.classList.remove('show')); idx=0; sync(); });
+  sync();
+});
+
+/* ---------- worked examples reveal ---------- */
+document.querySelectorAll('.we .reveal').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const a=btn.nextElementSibling, open=!a.hidden; a.hidden=open;
+    btn.textContent=open?'Show solution':'Hide solution';
+  });
+});
+
+/* ---------- progressive practice questions ---------- */
+document.querySelectorAll('.pq').forEach(pq=>{
+  const parts=[...pq.querySelectorAll('.qpart')];
+  parts.forEach((part,i)=>{
+    const btn=part.querySelector('.preveal'), ans=part.querySelector('.pans');
+    btn.addEventListener('click',()=>{
+      if(ans.hidden){
+        ans.hidden=false; btn.textContent='Hide answer';
+        if(i+1<parts.length && parts[i+1].hidden){ parts[i+1].hidden=false; }
+        else if(i+1===parts.length && !pq.querySelector('.pdone')){
+          const d=document.createElement('div'); d.className='pdone'; d.textContent='✓ All parts complete.'; pq.appendChild(d);
+        }
+      } else { ans.hidden=true; btn.textContent='Reveal answer'; }
+    });
+  });
+});
+
+/* ---------- shared: draw a polarising disc with transmission axis ---------- */
+function polDisc(g,cx,cy,R,angDeg,ringCol){
+  g.fillStyle='rgba(27,36,64,.05)'; g.strokeStyle=ringCol; g.lineWidth=2;
+  g.beginPath(); g.arc(cx,cy,R,0,TAU); g.fill(); g.stroke();
+  const A=angDeg*D2R, ux=Math.cos(A), uy=-Math.sin(A), px=-uy, py=ux;
+  g.save(); g.beginPath(); g.arc(cx,cy,R,0,TAU); g.clip();
+  g.strokeStyle='rgba(27,36,64,.16)'; g.lineWidth=1;
+  for(let o=-R;o<=R;o+=7){ const bx=cx+px*o, by=cy+py*o; g.beginPath(); g.moveTo(bx-ux*R,by-uy*R); g.lineTo(bx+ux*R,by+uy*R); g.stroke(); }
+  g.restore();
+  g.strokeStyle=ringCol; g.lineWidth=2.6; g.beginPath(); g.moveTo(cx-ux*R,cy-uy*R); g.lineTo(cx+ux*R,cy+uy*R); g.stroke();
+}
+function brightSwatch(g,x,y,wd,ht,intensity,label){
+  g.fillStyle='#0b0f1a'; g.fillRect(x,y,wd,ht);
+  g.fillStyle='rgba(250,204,21,'+Math.max(0,Math.min(1,intensity)).toFixed(3)+')'; g.fillRect(x,y,wd,ht);
+  g.strokeStyle='rgba(27,36,64,.3)'; g.lineWidth=1; g.strokeRect(x,y,wd,ht);
+  if(label){ g.fillStyle='#71809e'; g.font='600 10px '+FS; g.textAlign='center'; g.textBaseline='alphabetic'; g.fillText(label,x+wd/2,y+ht+13); }
+}
+
+/* ================= TAB 1 : WHAT IS POLARISATION ================= */
+const polCanvas=reg('polCanvas');
+const pol={angle:90,t:0};
+const RANDANG=[]; for(let i=0;i<14;i++) RANDANG.push({a:Math.random()*Math.PI, ph:Math.random()*TAU});
+const polAngle=document.getElementById('polAngle');
+polAngle.addEventListener('input',()=>{pol.angle=+polAngle.value;document.getElementById('polAnglev').textContent=pol.angle+'°';});
+function drawPol(dt){
+  const c=ctxOf(polCanvas); if(!c) return; const {g,w,h}=c;
+  pol.t+=dt;
+  g.clearRect(0,0,w,h);
+  const cy=h*0.46, R=Math.min(w*0.13,h*0.26);
+  const x1=w*0.2, x2=w*0.52, x3=w*0.83;
+  // beam arrows between zones
+  g.strokeStyle='#cbd5e1'; g.fillStyle='#cbd5e1'; g.lineWidth=6;
+  g.beginPath(); g.moveTo(x1+R,cy); g.lineTo(x2-R,cy); g.stroke();
+  g.beginPath(); g.moveTo(x2+R,cy); g.lineTo(x3-R,cy); g.stroke();
+  // unpolarised arrows (end-on): many planes, shimmering
+  g.lineWidth=2;
+  RANDANG.forEach(o=>{
+    const len=R*(0.5+0.5*Math.abs(Math.sin(pol.t*2+o.ph)));
+    const ux=Math.cos(o.a), uy=Math.sin(o.a);
+    g.strokeStyle='rgba(37,99,235,.7)';
+    g.beginPath(); g.moveTo(x1-ux*len,cy-uy*len); g.lineTo(x1+ux*len,cy+uy*len); g.stroke();
+  });
+  g.fillStyle='#2563eb'; g.font='700 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic';
+  g.fillText('unpolarised',x1,cy+R+22); g.fillText('(all planes)',x1,cy+R+36);
+  // polariser disc
+  polDisc(g,x2,cy,R,pol.angle,'#7c3aed');
+  g.fillStyle='#7c3aed'; g.fillText('polariser',x2,cy+R+22); g.fillText('axis '+pol.angle+'°',x2,cy+R+36);
+  // polarised output: single double-arrow along axis, dimmer (half)
+  const A=pol.angle*D2R, ux=Math.cos(A), uy=-Math.sin(A), len=R*0.9;
+  g.strokeStyle='rgba(219,39,119,.9)'; g.lineWidth=3;
+  g.beginPath(); g.moveTo(x3-ux*len,cy-uy*len); g.lineTo(x3+ux*len,cy+uy*len); g.stroke();
+  // arrowheads
+  [[1,1],[-1,-1]].forEach(s=>{ const hx=x3+s[0]*ux*len, hy=cy+s[1]*uy*len, ang=Math.atan2(s[1]*uy,s[0]*ux);
+    g.fillStyle='rgba(219,39,119,.9)'; g.beginPath(); g.moveTo(hx,hy); g.lineTo(hx-8*Math.cos(ang-0.4),hy-8*Math.sin(ang-0.4)); g.lineTo(hx-8*Math.cos(ang+0.4),hy-8*Math.sin(ang+0.4)); g.closePath(); g.fill(); });
+  g.fillStyle='#db2777'; g.font='700 11px '+FS; g.textAlign='center'; g.fillText('plane-polarised',x3,cy+R+22); g.fillText('½ I₀',x3,cy+R+36);
+}
+
+/* ================= TAB 2 : MALUS'S LAW ================= */
+const malusCanvas=reg('malusCanvas');
+const m={theta:30,I0:8};
+const mTheta=document.getElementById('mTheta'),mI0=document.getElementById('mI0');
+[mTheta,mI0].forEach(s=>s.addEventListener('input',mUpdate));
+function mUpdate(){
+  m.theta=+mTheta.value; m.I0=+mI0.value;
+  const cos2=Math.pow(Math.cos(m.theta*D2R),2), I=m.I0*cos2;
+  document.getElementById('mThetav').textContent=m.theta+'°';
+  document.getElementById('mI0v').textContent=m.I0.toFixed(1)+' W m⁻²';
+  document.getElementById('mReadouts').innerHTML=
+    ro3('Angle θ',m.theta+'°')+
+    ro3('cos²θ',cos2.toFixed(3))+
+    ro3('Incident I₀',m.I0.toFixed(1)+' W m⁻²')+
+    ro3hi('Transmitted I = I₀cos²θ',I.toFixed(2)+' W m⁻²');
+  let note = m.theta===0?'Axes aligned — full transmission.':(m.theta===90?'Axes crossed — no light passes.':(m.theta===45?'At 45° exactly half passes.':''));
+  document.getElementById('mOut').innerHTML=
+    'I = '+m.I0.toFixed(1)+' × cos²'+m.theta+'° = '+m.I0.toFixed(1)+' × '+cos2.toFixed(3)+' = <b>'+I.toFixed(2)+' W m⁻²</b>. '+note;
+}
+function drawMalus(){
+  const c=ctxOf(malusCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const topH=h*0.56, cy=topH*0.5, R=Math.min(w*0.12,topH*0.32);
+  const xP=w*0.26, xA=w*0.6;
+  // beam in
+  g.strokeStyle='#cbd5e1'; g.lineWidth=6; g.beginPath(); g.moveTo(xP+R,cy); g.lineTo(xA-R,cy); g.stroke();
+  // polariser (vertical axis = 90°)
+  polDisc(g,xP,cy,R,90,'#2563eb');
+  g.strokeStyle='#dc2626'; g.lineWidth=3; g.beginPath(); g.moveTo(xP,cy-R*0.8); g.lineTo(xP,cy+R*0.8); g.stroke();
+  g.fillStyle='#2563eb'; g.font='700 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic'; g.fillText('polariser',xP,cy+R+20);
+  // analyser at angle θ from vertical
+  const angDeg=90-m.theta; // vertical is 90°, rotate by θ
+  polDisc(g,xA,cy,R,angDeg,'#7c3aed');
+  g.fillStyle='#7c3aed'; g.fillText('analyser (θ='+m.theta+'°)',xA,cy+R+20);
+  // transmitted brightness swatch
+  const cos2=Math.pow(Math.cos(m.theta*D2R),2);
+  brightSwatch(g,w*0.82,cy-24,48,48,cos2,'I = I₀cos²θ');
+  g.strokeStyle='#cbd5e1'; g.lineWidth=6; g.beginPath(); g.moveTo(xA+R,cy); g.lineTo(w*0.82,cy); g.stroke();
+  // I/I0 vs theta graph
+  const L=44,Rr=16,gy0=topH+8,gh=h-gy0-24,pw=w-L-Rr;
+  const Y=v=>gy0+gh-v*gh;
+  g.strokeStyle='rgba(27,36,64,.4)'; g.lineWidth=1.2;
+  g.beginPath(); g.moveTo(L,gy0); g.lineTo(L,gy0+gh); g.lineTo(L+pw,gy0+gh); g.stroke();
+  g.strokeStyle='#0891b2'; g.lineWidth=2.6; g.beginPath();
+  for(let i=0;i<=180;i++){ const v=Math.pow(Math.cos(i*D2R),2); const x=L+(i/180)*pw, y=Y(v); i?g.lineTo(x,y):g.moveTo(x,y); }
+  g.stroke();
+  const mx=L+(m.theta/180)*pw, my=Y(cos2);
+  g.fillStyle='#db2777'; g.beginPath(); g.arc(mx,my,5,0,TAU); g.fill();
+  g.fillStyle='#71809e'; g.font='700 11px '+FS; g.textAlign='center'; g.fillText('I / I₀  against  θ', L+pw/2, gy0+11);
+  g.font='600 10px '+FS; g.textAlign='right'; g.fillText('1', L-5, gy0+4); g.fillText('0', L-5, gy0+gh+2);
+  g.textAlign='center'; ['0°','90°','180°'].forEach((t,k)=>g.fillText(t, L+(k/2)*pw, gy0+gh+14));
+}
+
+/* ================= TAB 3 : SERIES OF FILTERS ================= */
+const seriesCanvas=reg('seriesCanvas');
+const s3st={a2:45,a3:90};
+const s2=document.getElementById('s2'),s3=document.getElementById('s3');
+[s2,s3].forEach(x=>x.addEventListener('input',sUpdate));
+document.getElementById('crossBtn').addEventListener('click',()=>{s3.value=90;s2.value=45;sUpdate();});
+function sInt(){
+  s3st.a2=+s2.value; s3st.a3=+s3.value;
+  const I1=0.5;                                   // after P1 (0°), unpolarised halved
+  const I2=I1*Math.pow(Math.cos((s3st.a2-0)*D2R),2);
+  const I3=I2*Math.pow(Math.cos((s3st.a3-s3st.a2)*D2R),2);
+  return {I1,I2,I3};
+}
+function sUpdate(){
+  s3st.a2=+s2.value; s3st.a3=+s3.value;
+  document.getElementById('s2v').textContent=s3st.a2+'°';
+  document.getElementById('s3v').textContent=s3st.a3+'°';
+  const {I1,I2,I3}=sInt();
+  document.getElementById('sReadouts').innerHTML=
+    ro3('After filter 1 (0°)',I1.toFixed(3)+' I₀')+
+    ro3('After filter 2 ('+s3st.a2+'°)',I2.toFixed(3)+' I₀')+
+    ro3hi('After filter 3 ('+s3st.a3+'°)',I3.toFixed(3)+' I₀');
+  const crossed=Math.abs(((s3st.a3-0)%180))===90;
+  document.getElementById('sOut').innerHTML=
+    'Final intensity = <b>'+I3.toFixed(3)+' I₀</b>. '+
+    (crossed? (I3>0.001?'Filters 1 and 3 are crossed, yet the middle filter re-polarises the light so some still emerges.':'Filters 1 and 3 are crossed and the middle filter adds nothing here, so no light emerges.') : 'Malus’s law is applied at each filter using the angle between consecutive axes.');
+}
+function drawSeries(){
+  const c=ctxOf(seriesCanvas); if(!c) return; const {g,w,h}=c;
+  g.clearRect(0,0,w,h);
+  const cy=h*0.4, R=Math.min(w*0.1,h*0.2);
+  const xs=[w*0.17,w*0.42,w*0.67], angs=[0,s3st.a2,s3st.a3], cols=['#2563eb','#7c3aed','#0d9488'];
+  const {I1,I2,I3}=sInt();
+  const Ipre=[1,I1,I2], Ipost=[I1,I2,I3];
+  // incident beam
+  g.strokeStyle='#cbd5e1'; g.lineWidth=6; g.beginPath(); g.moveTo(w*0.04,cy); g.lineTo(xs[0]-R,cy); g.stroke();
+  for(let i=0;i<3;i++){
+    polDisc(g,xs[i],cy,R,angs[i],cols[i]);
+    g.fillStyle=cols[i]; g.font='700 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic';
+    g.fillText('P'+(i+1)+'  '+angs[i]+'°',xs[i],cy+R+20);
+    // beam after this filter to next (brightness ∝ Ipost)
+    const nx = i<2? xs[i+1]-R : w*0.9;
+    g.strokeStyle='rgba(250,204,21,'+Math.max(0.06,Ipost[i]).toFixed(3)+')'; g.lineWidth=6;
+    g.beginPath(); g.moveTo(xs[i]+R,cy); g.lineTo(nx,cy); g.stroke();
+  }
+  // final swatch
+  brightSwatch(g,w*0.9,cy-20,40,40,I3,'out');
+  g.fillStyle='#71809e'; g.font='600 11px '+FS; g.textAlign='left'; g.textBaseline='alphabetic'; g.fillText('unpolarised I₀ →',w*0.04,cy-R-6);
+  // bar chart of intensities
+  const labels=['I₀','after P1','after P2','after P3'], vals=[1,I1,I2,I3];
+  const bL=48,bR=16,bw=w-bL-bR, by0=h*0.72, bh=h*0.2, gap=bw/4;
+  g.strokeStyle='rgba(27,36,64,.4)'; g.lineWidth=1.2; g.beginPath(); g.moveTo(bL,by0-bh); g.lineTo(bL,by0); g.lineTo(bL+bw,by0); g.stroke();
+  g.fillStyle='#71809e'; g.font='600 10px '+FS; g.textAlign='right'; g.textBaseline='middle'; g.fillText('I₀',bL-5,by0-bh);
+  vals.forEach((v,i)=>{
+    const x=bL+gap*i+gap*0.2, wd=gap*0.6, hgt=v*bh;
+    g.fillStyle=i===0?'#94a3b8':'#0d9488'; g.fillRect(x,by0-hgt,wd,hgt);
+    g.fillStyle='#1b2440'; g.font='700 10px '+FS; g.textAlign='center'; g.textBaseline='alphabetic'; g.fillText(v.toFixed(2),x+wd/2,by0-hgt-4);
+    g.fillStyle='#71809e'; g.font='600 10px '+FS; g.fillText(labels[i],x+wd/2,by0+13);
+  });
+}
+
+/* ================= QUIZ ================= */
+const QUIZ=[
+  {q:'Polarisation is a phenomenon shown only by:',
+   o:['longitudinal waves','transverse waves','sound waves','all waves'],a:1,
+   e:'Only transverse waves have a plane of vibration that a filter can select, so only they can be polarised.'},
+  {q:'Unpolarised light of intensity I₀ passes through one ideal polariser. The transmitted intensity is:',
+   o:['I₀','½I₀','¼I₀','0'],a:1,
+   e:'Averaged over all vibration planes, a single polariser transmits half the intensity of unpolarised light.'},
+  {q:'Malus’s law for plane-polarised light through an analyser is:',
+   o:['I = I₀cosθ','I = I₀cos²θ','I = I₀sinθ','I = I₀/cosθ'],a:1,
+   e:'The transmitted amplitude is A cosθ, and intensity ∝ amplitude², giving I = I₀cos²θ.'},
+  {q:'Two polarisers are "crossed" (θ = 90°). The transmitted intensity is:',
+   o:['maximum','half','zero','a quarter'],a:2,
+   e:'cos²90° = 0, so no light passes through crossed polarisers.'},
+  {q:'Plane-polarised light of intensity 10 W m⁻² meets an analyser at 60°. The transmitted intensity is:',
+   o:['2.5 W m⁻²','5.0 W m⁻²','7.5 W m⁻²','10 W m⁻²'],a:0,
+   e:'I = 10 × cos²60° = 10 × 0.25 = 2.5 W m⁻².'},
+  {q:'For plane-polarised light, the fraction transmitted when θ = 45° is:',
+   o:['0.25','0.50','0.71','1.0'],a:1,
+   e:'cos²45° = 0.5, so half the polarised intensity gets through.'},
+  {q:'Which of these waves cannot be polarised?',
+   o:['light','radio waves','sound','microwaves'],a:2,
+   e:'Sound is longitudinal, so it cannot be polarised. The others are transverse electromagnetic waves.'},
+  {q:'Two polarisers are crossed. A third polariser is inserted between them at 45°. The light emerging is:',
+   o:['still zero','greater than zero','equal to I₀','equal to ½I₀'],a:1,
+   e:'The middle filter re-polarises the light at 45°, so a non-zero intensity (⅛ of the original) passes.'}
+];
+let score=0; const answered=new Array(QUIZ.length).fill(false);
+const quizEl=document.getElementById('quiz');
+QUIZ.forEach((item,qi)=>{
+  const d=document.createElement('div'); d.className='q';
+  const opts=item.o.map((t,oi)=>'<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+t+'</button>').join('');
+  d.innerHTML='<div class="qq">'+(qi+1)+'. '+item.q+'</div><div class="opts">'+opts+'</div><div class="qexp" id="exp'+qi+'"></div>';
+  quizEl.appendChild(d);
+});
+quizEl.addEventListener('click',e=>{
+  const b=e.target.closest('.opt'); if(!b) return;
+  const qi=+b.dataset.q, oi=+b.dataset.o; if(answered[qi]) return;
+  answered[qi]=true; const item=QUIZ[qi];
+  b.parentElement.querySelectorAll('.opt').forEach((btn,k)=>{
+    btn.disabled=true;
+    if(k===item.a) btn.classList.add('correct'); else if(k===oi) btn.classList.add('wrong');
+  });
+  if(oi===item.a) score++;
+  const exp=document.getElementById('exp'+qi);
+  exp.innerHTML=(oi===item.a?'<b>Correct.</b> ':'<b>Not quite.</b> ')+item.e; exp.classList.add('show');
+  document.getElementById('quizScore').textContent='Score: '+score+' / '+QUIZ.length;
+});
+
+/* ================= MASTER LOOP ================= */
+let lastT=performance.now();
+function masterLoop(now){
+  const dt=Math.min(0.05,(now-lastT)/1000); lastT=now;
+  if(active===0) drawPol(dt);
+  else if(active===1) drawMalus();
+  else if(active===2) drawSeries();
+  requestAnimationFrame(masterLoop);
+}
+mUpdate(); sUpdate();
+requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>
