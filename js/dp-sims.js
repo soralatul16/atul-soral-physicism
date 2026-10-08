@@ -334,4 +334,5 @@ const DP_SIMS = [
     description: "Angular momentum L = Iω and its conservation (the figure-skater effect), angular impulse ΔL = τΔt, rotational kinetic energy ½Iω² = L²/2I, and a coupled-disc rotational collision. Higher Level.",
     file: "sims/rigid-body-angular-momentum.html"
   },
+  {id:"igcse-centre-of-gravity", title:"Centre of Gravity", icon:"🎯", topic:"1.5.3", topicName:"Forces · IGCSE", description:"Core IGCSE 1.5.3 — define the centre of gravity, find it for an irregular lamina with a plumb line, and investigate stability and toppling with a record-and-plot graph and a printable activity sheet.", file:"sims/igcse-centre-of-gravity.html", level:"IGCSE"},
 ];

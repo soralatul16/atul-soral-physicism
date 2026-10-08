@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Centre of Gravity · IGCSE Physics 1.5.3</title>
+<style>
+:root{
+  --bg:#fbf7ef; --bg2:#f3efe3; --ink:#2a2420; --muted:#6f6557; --faint:rgba(111,101,87,.22);
+  --line:#e4dccb; --card:#fffdf8; --accent:#0d9488; --accent-soft:rgba(13,148,136,.12);
+  --c1:#e11d48; --c2:#0d9488; --c3:#d97706; --c4:#059669; --c5:#ca8a04;
+  --fs:-apple-system,"Segoe UI",system-ui,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--fs);color:var(--ink);background:linear-gradient(135deg,#fbf7ef,#f3f6f0 55%,#fef9ec);min-height:100vh;line-height:1.6;font-size:14px}
+body.dark{--bg:#1a1714;--bg2:#211d19;--ink:#ece5da;--muted:#b2a89b;--line:#39322a;--card:#231f1a;--faint:rgba(236,229,218,.14);background:linear-gradient(135deg,#17140f,#1b1f1a 60%,#1d1a12)}
+sub,sup{font-size:.72em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle;margin:0 .18em}
+.frac b{border-bottom:1.4px solid currentColor;padding:0 .35em;line-height:1.25}
+.frac span{padding:0 .35em;line-height:1.25}
+
+/* ---------- name gate ---------- */
+#gate{position:fixed;inset:0;z-index:999;background:linear-gradient(135deg,#0d9488,#047857);display:flex;align-items:center;justify-content:center;padding:24px}
+.gate-card{background:var(--card);border-radius:22px;max-width:430px;width:100%;padding:38px 32px;text-align:center;box-shadow:0 30px 80px rgba(0,0,0,.3)}
+.gate-card .mark{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:var(--accent);font-weight:800}
+.gate-card h1{font-size:23px;margin:10px 0 4px}
+.gate-card p{color:var(--muted);font-size:13px;margin-bottom:20px}
+.gate-card input{width:100%;padding:13px 16px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;font-family:var(--fs);outline:none;background:var(--bg)}
+.gate-card input:focus{border-color:var(--accent)}
+.gate-card button{margin-top:14px;width:100%;padding:13px;border:none;border-radius:12px;background:linear-gradient(135deg,#0d9488,#047857);color:#fff;font-size:15px;font-weight:700;cursor:pointer}
+#gateMsg{color:var(--c1);font-size:12px;min-height:16px;margin-top:8px}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:80;background:rgba(251,247,239,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px;padding:10px 20px}
+body.dark .nav{background:rgba(26,23,20,.9)}
+.brand{font-family:Georgia,serif;font-weight:700;font-size:16px}
+.brand span{color:var(--accent)}
+.nav a.link{color:var(--muted);text-decoration:none;font-size:12.5px;font-weight:600;padding:5px 10px;border-radius:8px}
+.nav a.link:hover{background:var(--accent-soft);color:var(--accent)}
+.nav .sp{flex:1}
+.profile{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#0d9488,#047857);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+#clock{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px}
+.icon-btn{border:1px solid var(--line);background:var(--card);border-radius:9px;width:32px;height:32px;cursor:pointer;font-size:15px}
+
+/* ---------- chapter/topic bar ---------- */
+.topic{max-width:1080px;margin:18px auto 0;padding:0 20px}
+.topic-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+.topic-bar .code{font-weight:800;color:var(--accent);font-size:13px}
+.topic-bar .ttl{font-weight:700}
+.badge{font-size:10px;font-weight:800;letter-spacing:.5px;padding:3px 9px;border-radius:50px;text-transform:uppercase}
+.badge.core{background:rgba(13,148,136,.14);color:#0d9488}
+.badge.sup{background:rgba(217,119,6,.14);color:#d97706}
+.obj{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+.obj div{flex:1;min-width:220px;background:var(--card);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:10px 13px;font-size:12.5px}
+.obj b{color:var(--accent)}
+
+/* ---------- hero ---------- */
+.hero{max-width:1080px;margin:16px auto 0;padding:0 20px}
+.kicker{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--accent);font-weight:800}
+.hero h2{font-family:Georgia,serif;font-size:26px;margin:4px 0 6px}
+.hero p{color:var(--muted);max-width:720px}
+
+/* ---------- tabs ---------- */
+.tabs{max-width:1080px;margin:18px auto 0;padding:0 20px;display:flex;flex-wrap:wrap;gap:8px}
+.pill{border:1px solid var(--line);background:var(--card);color:var(--muted);border-radius:50px;padding:8px 15px;font-size:12.5px;font-weight:700;cursor:pointer;transition:.15s}
+.pill:hover{border-color:var(--accent)}
+.pill.active{background:var(--accent);color:#fff;border-color:transparent}
+.wrap{max-width:1080px;margin:16px auto 60px;padding:0 20px}
+.panel{display:none}
+.panel.active{display:block}
+.layout{display:grid;grid-template-columns:1fr 320px;gap:18px}
+@media(max-width:820px){.layout{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px}
+.canvas-wrap{position:relative;width:100%;height:360px;background:linear-gradient(180deg,#fcfbf7,#f4f1e8);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+body.dark .canvas-wrap{background:linear-gradient(180deg,#201c17,#191511)}
+canvas{width:100%;height:100%;display:block}
+h3{font-size:15px;margin-bottom:8px}
+.prose p{margin-bottom:9px;font-size:13px}
+.prose b{color:var(--ink)}
+.ctrl{margin:12px 0}
+.ctrl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:4px}
+.ctrl label span{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.btn{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--ink);font-family:var(--fs)}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn.on{background:var(--accent);color:#fff;border-color:transparent}
+.btnrow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.out{background:var(--accent-soft);border-radius:10px;padding:11px 13px;font-size:12.5px;margin-top:10px}
+.formula{background:var(--bg2);border:1px dashed var(--faint);border-radius:10px;padding:12px;text-align:center;font-size:15px;margin:10px 0}
+.note{font-size:11.5px;color:var(--muted)}
+.pill-tag{display:inline-block;font-size:11px;font-weight:700;padding:2px 9px;border-radius:50px;background:var(--accent-soft);color:var(--accent)}
+
+/* worked examples / misconceptions */
+.we{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;background:var(--card)}
+.we h4{font-size:13.5px;margin-bottom:6px}
+.we .reveal{cursor:pointer;color:var(--accent);font-weight:700;font-size:12.5px;user-select:none}
+.we .ans{display:none;margin-top:8px;padding-top:8px;border-top:1px dashed var(--faint);font-size:12.5px}
+.we .ans.show{display:block}
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mis .x{border:1px solid rgba(225,29,72,.3);background:rgba(225,29,72,.05);border-radius:10px;padding:11px}
+.mis .y{border:1px solid rgba(5,150,105,.3);background:rgba(5,150,105,.06);border-radius:10px;padding:11px}
+.mis h5{font-size:12px;margin-bottom:4px}
+.mis .x h5{color:var(--c1)} .mis .y h5{color:var(--c4)}
+
+/* quiz */
+.q{border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;background:var(--card)}
+.q .stem{font-weight:700;font-size:13.5px;margin-bottom:10px}
+.opt{display:flex;gap:9px;align-items:flex-start;border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin-bottom:7px;cursor:pointer;font-size:12.5px}
+.opt:hover{border-color:var(--accent)}
+.opt .ltr{font-weight:800;color:var(--accent)}
+.opt.correct{background:rgba(5,150,105,.12);border-color:var(--c4)}
+.opt.wrong{background:rgba(225,29,72,.1);border-color:var(--c1)}
+.opt.sel{border-color:var(--accent)}
+.exp{display:none;font-size:12px;margin-top:7px;padding:9px;background:var(--accent-soft);border-radius:9px}
+.exp.show{display:block}
+#quizScore{font-weight:800;font-size:15px;margin:4px 0 14px;color:var(--accent)}
+
+/* investigate: graph + table */
+.tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.tbl th{background:var(--bg2);text-align:center;padding:6px 8px;font-weight:800;border:1px solid var(--line)}
+.tbl td{text-align:center;padding:5px 8px;border:1px solid var(--line);font-variant-numeric:tabular-nums}
+.tbl-scroll{max-height:230px;overflow:auto;margin-top:10px}
+.chip{border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:50px;padding:5px 11px;font-size:11.5px;font-weight:700;cursor:pointer}
+.chip.on{background:var(--accent);color:#fff;border-color:transparent}
+.fit{font-size:12.5px;color:var(--muted);margin-top:8px}
+.fit b{color:var(--accent)}
+#graphCanvas,#actGraph{width:100%;height:360px;background:#fff;border:1px solid var(--line);border-radius:12px;display:block}
+
+/* activity sheet */
+.sheet{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;max-width:860px;margin:0 auto}
+.sheet-head{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;border-bottom:2px solid var(--accent);padding-bottom:12px;margin-bottom:14px}
+.sheet-head h2{font-family:Georgia,serif;font-size:22px}
+.sheet-meta{font-size:12px;color:var(--muted);text-align:right}
+.pill2{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;background:var(--accent-soft);color:var(--accent);padding:3px 10px;border-radius:50px;margin-bottom:6px}
+.sec{margin:14px 0;break-inside:avoid}
+.sec .lab{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--accent);margin-bottom:5px}
+.sec ol{margin:4px 0 0 20px;font-size:13px}.sec li{margin-bottom:4px}
+.sec p{font-size:13px}
+.act-fill{border:none;border-bottom:1.5px solid var(--accent);background:transparent;font-family:var(--fs);font-size:13px;color:var(--ink);padding:2px 4px;min-width:90px}
+.act-fill:focus{outline:none}
+.act-area{width:100%;min-height:70px;border:1px solid var(--line);border-radius:10px;padding:9px;font-family:var(--fs);font-size:13px;background:var(--bg);color:var(--ink);resize:vertical}
+.act-table{width:100%;border-collapse:collapse;font-size:12.5px;margin-top:8px}
+.act-table th,.act-table td{border:1px solid var(--line);padding:6px;text-align:center}
+.act-table th{background:var(--bg2);font-weight:800}
+.sheet-actions{max-width:860px;margin:14px auto 0;display:flex;gap:10px;justify-content:flex-end}
+
+@media print{
+  @page{margin:14mm}
+  html,body{background:#fff!important}
+  .nav,.topic,.hero,.tabs,footer,#gate,.no-print{display:none!important}
+  .wrap{margin:0;padding:0}
+  .panel{display:none!important}
+  .panel[data-i="5"]{display:block!important}
+  .act-area{border:1px solid #bbb!important}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+footer{text-align:center;color:var(--muted);font-size:11.5px;padding:24px}
+</style>
+</head>
+<body>
+
+<!-- NAME GATE -->
+<div id="gate">
+  <div class="gate-card">
+    <div class="mark">Atul Soral Physicism</div>
+    <h1>Centre of Gravity</h1>
+    <p>IGCSE Physics · 1.5.3 · Core</p>
+    <input id="gateName" type="text" placeholder="Enter your name to begin" autocomplete="off">
+    <button id="gateBtn">Start learning →</button>
+    <div id="gateMsg"></div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <div class="nav">
+    <div class="brand">ATUL SORAL <span>PHYSICISM</span></div>
+    <a class="link" href="igcse-simulations.html">← All Simulations</a>
+    <a class="link" href="index.html">Home</a>
+    <a class="link" href="igcse-dashboard.html">IGCSE</a>
+    <div class="sp"></div>
+    <span id="clock"></span>
+    <button class="icon-btn" id="darkBtn" title="Toggle theme">☾</button>
+    <div class="profile" id="profInit">A</div>
+  </div>
+
+  <div class="topic">
+    <div class="topic-bar">
+      <span class="code">1.5.3</span>
+      <span class="ttl">Centre of Gravity</span>
+      <span class="badge core">Core</span>
+      <span class="badge sup">Forces</span>
+      <span class="note" style="margin-left:auto">Cambridge IGCSE Physics (0625)</span>
+    </div>
+    <div class="obj">
+      <div><b>1.</b> State what is meant by <b>centre of gravity</b>.</div>
+      <div><b>2.</b> Describe an experiment to determine the centre of gravity of an <b>irregular plane lamina</b>.</div>
+      <div><b>3.</b> Describe qualitatively the effect of the position of the centre of gravity on the <b>stability</b> of simple objects.</div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="kicker" id="kicker">Interactive Lab</div>
+    <h2 id="heroTitle">What is the centre of gravity?</h2>
+    <p id="heroLede">Every object behaves as if all of its weight acts at a single point. Find that point, and you can predict balancing, hanging and toppling.</p>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="wrap">
+
+    <!-- TAB 1: definition / balance -->
+    <div class="panel" data-i="0">
+      <div class="layout">
+        <div class="card"><div class="canvas-wrap"><canvas id="cog1"></canvas></div></div>
+        <div class="card">
+          <h3>The balance point</h3>
+          <div class="prose">
+            <p>The <b>centre of gravity (C of G)</b> is the single point through which the whole <b>weight</b> of an object appears to act.</p>
+            <p>Rest the plank on the pivot. It only balances when the pivot sits <b>directly under the C of G</b>. Anywhere else and the heavier side swings down.</p>
+          </div>
+          <div class="ctrl">
+            <label>Pivot position <span id="t1pivOut">50%</span></label>
+            <input type="range" id="t1piv" min="5" max="95" value="50">
+          </div>
+          <div class="btnrow">
+            <button class="btn" id="t1mass">Add a mass to the right end</button>
+          </div>
+          <p class="note">Adding mass shifts the C of G toward the heavy end — so the balance point moves too.</p>
+          <div class="out" id="t1out"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: lamina experiment -->
+    <div class="panel" data-i="1">
+      <div class="layout">
+        <div class="card"><div class="canvas-wrap"><canvas id="cog2"></canvas></div></div>
+        <div class="card">
+          <h3>Finding the C of G of a lamina</h3>
+          <div class="prose">
+            <p>A <b>plane lamina</b> is a thin flat sheet. To find its C of G:</p>
+            <p><b>1.</b> Hang it freely from a hole near the edge.<br>
+            <b>2.</b> Hang a <b>plumb line</b> (a string with a weight) from the same point and mark the vertical.<br>
+            <b>3.</b> Repeat from a different hole.</p>
+            <p>The lines <b>cross at the centre of gravity</b> — because the C of G always hangs directly below the pivot.</p>
+          </div>
+          <div class="btnrow" id="t2holes"></div>
+          <div class="btnrow"><button class="btn" id="t2reset">Reset</button></div>
+          <div class="out" id="t2out">Click a hole to hang the lamina from it.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 3: stability / toppling -->
+    <div class="panel" data-i="2">
+      <div class="layout">
+        <div class="card"><div class="canvas-wrap"><canvas id="cog3"></canvas></div></div>
+        <div class="card">
+          <h3>Stability &amp; toppling</h3>
+          <div class="prose">
+            <p>Tilt the object. The weight still acts straight down from the C of G.</p>
+            <p><b>If the line of action stays inside the base</b> → it falls back (stable). <b>Once it passes the pivot edge</b> → it topples over.</p>
+          </div>
+          <div class="ctrl">
+            <label>Base width&nbsp; w <span id="t3wOut">16 cm</span></label>
+            <input type="range" id="t3w" min="4" max="24" step="1" value="16">
+          </div>
+          <div class="ctrl">
+            <label>C of G height&nbsp; h <span id="t3hOut">5 cm</span></label>
+            <input type="range" id="t3h" min="3" max="14" step="1" value="5">
+          </div>
+          <div class="ctrl">
+            <label>Tilt <span id="t3tiltOut">0°</span></label>
+            <input type="range" id="t3tilt" min="0" max="75" value="0">
+          </div>
+          <div class="btnrow">
+            <button class="btn on" id="t3wide">Wide &amp; low</button>
+            <button class="btn" id="t3tall">Tall &amp; narrow</button>
+          </div>
+          <p class="note">Tipping angle <b>θ<sub>c</sub> = tan⁻¹( (w/2) ÷ h )</b>. A <b>wider base</b> and a <b>lower C of G</b> raise θ<sub>c</sub> — you must tilt further to topple. Collect readings in the <b>Investigate</b> tab.</p>
+          <div class="out" id="t3out"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: equilibrium types -->
+    <div class="panel" data-i="3">
+      <div class="layout">
+        <div class="card"><div class="canvas-wrap"><canvas id="cog4"></canvas></div></div>
+        <div class="card">
+          <h3>Three kinds of equilibrium</h3>
+          <div class="btnrow">
+            <button class="btn on" data-eq="stable">Stable</button>
+            <button class="btn" data-eq="unstable">Unstable</button>
+            <button class="btn" data-eq="neutral">Neutral</button>
+          </div>
+          <button class="btn" id="t4nudge" style="margin-bottom:10px">Give it a nudge ▸</button>
+          <div class="prose" id="t4text"></div>
+          <div class="out" id="t4out"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: investigate (guided graph) -->
+    <div class="panel" data-i="4">
+      <div class="layout">
+        <div>
+          <div class="card" style="margin-bottom:14px">
+            <div class="canvas-wrap" style="height:230px"><canvas id="cogInv"></canvas></div>
+            <p class="note" style="margin-top:8px">The block is shown tilted to its <b>tipping angle θ<sub>c</sub></b> — the exact angle you are measuring. Change the slider and watch θ<sub>c</sub> change, then record it.</p>
+          </div>
+          <div class="card">
+            <canvas id="graphCanvas"></canvas>
+            <div class="fit" id="fitInfo">Pick an investigation, then record points — the graph builds itself.</div>
+          </div>
+        </div>
+        <div class="card">
+          <h3>① Choose what to investigate</h3>
+          <div class="btnrow" id="investPick"></div>
+          <div class="out" id="investGuide" style="margin-bottom:4px"></div>
+          <h3 style="margin-top:14px">② Take readings</h3>
+          <div class="ctrl"><label><span id="varLabel">Base width w</span><span id="varOut"></span></label><input type="range" id="varSlider"></div>
+          <div class="ctrl"><label><span id="fixLabel">C of G height h (fixed)</span><span id="fixOut"></span></label><input type="range" id="fixSlider"></div>
+          <div class="btnrow"><button class="btn on" id="recBtn">＋ Record this reading</button><button class="btn" id="clrBtn">Clear all</button></div>
+          <div class="tbl-scroll"><table class="tbl" id="dataTable"></table></div>
+          <h3 style="margin-top:14px">③ Your graph</h3>
+          <p class="note" style="margin-bottom:4px">Axes are set for your investigation — tap to change them.</p>
+          <div style="font-size:11px;font-weight:800;margin:4px 0 3px;color:var(--muted)">Y axis</div>
+          <div class="btnrow" id="yAxis"></div>
+          <div style="font-size:11px;font-weight:800;margin:4px 0 3px;color:var(--muted)">X axis</div>
+          <div class="btnrow" id="xAxis"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 6: activity sheet -->
+    <div class="panel" data-i="5">
+      <div class="sheet" id="activitySheet">
+        <div class="sheet-head">
+          <div><span class="pill2">Practical Activity</span><h2>Centre of Gravity &amp; Stability</h2></div>
+          <div class="sheet-meta">Name: <span id="actName">—</span><br>Date &amp; time: <span id="actTime">—</span></div>
+        </div>
+        <div class="sec"><span class="lab">Aim</span><p><b>Part A</b> — to locate the centre of gravity of an irregular lamina using a plumb line. <b>Part B</b> — to investigate how the tipping angle θ<sub>c</sub> of a block depends on its base width and the height of its centre of gravity.</p></div>
+        <div class="sec"><span class="lab">Apparatus</span><p>Interactive simulator: an irregular card that hangs from a pin with a plumb line, and a block whose base width <b>w</b> and C of G height <b>h</b> can be set and then tilted until it topples.</p></div>
+        <div class="sec"><span class="lab">Method — Part A: finding the C of G</span>
+          <ol>
+            <li>Hang the card from one hole and let it settle — its C of G rests directly below the pin.</li>
+            <li>Mark the vertical plumb line down the card.</li>
+            <li>Repeat from a second and a third hole.</li>
+            <li>The point where the lines cross is the centre of gravity.</li>
+          </ol></div>
+        <div class="sec"><span class="lab">Method — Part B: stability</span>
+          <ol>
+            <li>On the <b>Stability</b> tab set a base width and a C of G height.</li>
+            <li>Read the tipping angle θ<sub>c</sub> — the tilt at which it just topples.</li>
+            <li>Keep <b>h</b> fixed and record θ<sub>c</sub> for several widths (then keep <b>w</b> fixed and vary <b>h</b>).</li>
+            <li>Use the <b>Investigate</b> tab to plot the graph and find the pattern.</li>
+          </ol></div>
+        <div class="sec"><span class="lab">Prediction</span><p>I predict a <input class="act-fill" placeholder="wider / narrower"> base and a <input class="act-fill" placeholder="lower / higher"> centre of gravity make an object more stable, because <input class="act-fill" style="min-width:200px" placeholder="reason">.</p></div>
+        <div class="sec"><span class="lab">Results</span>
+          <div class="no-print" style="margin-bottom:6px"><button class="btn" id="importAct">⤵ Bring in my recorded data</button></div>
+          <table class="act-table" id="actTable"></table></div>
+        <div class="sec"><span class="lab">Graph</span><canvas id="actGraph"></canvas></div>
+        <div class="sec"><span class="lab">Analysis</span><div id="actAnalysis" style="font-size:13px;color:var(--muted)">Plot your graph in the Investigate tab, then bring in the data to see the gradient here.</div></div>
+        <div class="sec"><span class="lab">Conclusion</span><textarea class="act-area" placeholder="State where the C of G of the card was, and how base width and C of G height change stability…"></textarea></div>
+      </div>
+      <div class="sheet-actions no-print">
+        <button class="btn" id="printActBtn">🖨 Print activity sheet</button>
+      </div>
+    </div>
+
+    <!-- TAB 7: worked examples -->
+    <div class="panel" data-i="6">
+      <h3 style="margin-bottom:12px">Worked examples</h3>
+      <div class="we">
+        <h4>1 · Why a bus is designed low and wide</h4>
+        <p style="font-size:13px">A double-decker bus is tested by tilting it on a platform. Explain, in terms of its centre of gravity, why passengers are not allowed to stand on the upper deck.</p>
+        <span class="reveal">Show answer ▾</span>
+        <div class="ans"><p>Standing passengers upstairs <b>raise the centre of gravity</b>. With a higher C of G, a smaller tilt angle is enough for the line of action of the weight to fall <b>outside the wheelbase</b>, so the bus topples more easily. Keeping mass low (seated, lower deck) keeps the C of G low and the bus stable.</p></div>
+      </div>
+      <div class="we">
+        <h4>2 · Centre of gravity outside the object</h4>
+        <p style="font-size:13px">Where is the centre of gravity of a ring (a flat washer)? Can the C of G lie outside the material of an object?</p>
+        <span class="reveal">Show answer ▾</span>
+        <div class="ans"><p><b>Yes.</b> The C of G of a ring is at its <b>centre — in the hole</b>, where there is no material at all. The C of G is simply the balance point of the weight distribution; it does not have to lie on the object. (Same reason a boomerang or an L-shape balances about a point in empty space.)</p></div>
+      </div>
+      <div class="we">
+        <h4>3 · The lamina experiment</h4>
+        <p style="font-size:13px">A student finds the C of G of an irregular card by hanging it from one hole and marking the plumb line. Their teacher says one line is not enough. Why not — and how many holes are needed?</p>
+        <span class="reveal">Show answer ▾</span>
+        <div class="ans"><p>One plumb line only tells you the C of G lies <b>somewhere along that line</b>. You need at least <b>two</b> lines from two different holes; their <b>intersection</b> fixes the point. A <b>third</b> line is used as a check — it should pass through the same point.</p></div>
+      </div>
+    </div>
+
+    <!-- TAB 8: misconceptions -->
+    <div class="panel" data-i="7">
+      <h3 style="margin-bottom:12px">Common misconceptions</h3>
+      <div class="mis">
+        <div class="x"><h5>✗ The C of G is always in the middle</h5><p style="font-size:12.5px">Only for a <b>uniform, symmetrical</b> object. For an irregular or loaded object it shifts toward the heavier part.</p></div>
+        <div class="y"><h5>✓ It is the balance point of the weight</h5><p style="font-size:12.5px">It depends on how the mass is spread out, not on the shape's geometric centre.</p></div>
+        <div class="x"><h5>✗ An object tips as soon as it is tilted</h5><p style="font-size:12.5px">It only tips once the line of action of its weight passes <b>beyond the pivoting edge of the base</b>.</p></div>
+        <div class="y"><h5>✓ Tilt returns while the weight line stays over the base</h5><p style="font-size:12.5px">Up to that point the turning effect pulls it <b>back</b> down — it is stable.</p></div>
+        <div class="x"><h5>✗ A heavier object is always more stable</h5><p style="font-size:12.5px">Stability depends on <b>base width</b> and <b>C of G height</b>, not weight alone.</p></div>
+        <div class="y"><h5>✓ Low C of G + wide base = stable</h5><p style="font-size:12.5px">Racing cars are low and wide for exactly this reason.</p></div>
+        <div class="x"><h5>✗ The C of G must be inside the object</h5><p style="font-size:12.5px">It can lie in empty space — e.g. the hole of a ring or the gap of an L-shape.</p></div>
+        <div class="y"><h5>✓ It is only a point where weight acts</h5><p style="font-size:12.5px">Nothing needs to physically be there.</p></div>
+      </div>
+    </div>
+
+    <!-- TAB 9: quiz -->
+    <div class="panel" data-i="8">
+      <h3 style="margin-bottom:6px">Check your understanding</h3>
+      <div id="quizScore"></div>
+      <div id="quizWrap"></div>
+    </div>
+
+  </div>
+  <footer>ATUL SORAL PHYSICISM · Interactive Physics Lab · IGCSE 1.5.3</footer>
+</div>
+
+<script>
+/* ============ helpers ============ */
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const TAU=Math.PI*2;
+const INK='#2a2420',MUT='#8a7f73',C1='#e11d48',C2='#0d9488',C3='#d97706',C4='#059669',C5='#ca8a04',GRN='#047857';
+function themeInk(){return document.body.classList.contains('dark')?'#ece5da':'#2a2420';}
+function themeMut(){return document.body.classList.contains('dark')?'#b2a89b':'#8a7f73';}
+function arrow(ctx,x1,y1,x2,y2,col,lw,hs){
+  hs=hs||7;ctx.strokeStyle=col;ctx.fillStyle=col;ctx.lineWidth=lw||2;
+  ctx.beginPath();ctx.moveTo(x1,y1);ctx.lineTo(x2,y2);ctx.stroke();
+  const a=Math.atan2(y2-y1,x2-x1);
+  ctx.beginPath();ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-hs*Math.cos(a-.4),y2-hs*Math.sin(a-.4));
+  ctx.lineTo(x2-hs*Math.cos(a+.4),y2-hs*Math.sin(a+.4));
+  ctx.closePath();ctx.fill();
+}
+function cogMark(ctx,x,y,r){ // ⊕ symbol
+  r=r||9;ctx.save();ctx.lineWidth=2;ctx.strokeStyle='#111';ctx.fillStyle='#fff';
+  ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.fill();
+  // quadrants
+  ctx.fillStyle='#111';
+  ctx.beginPath();ctx.moveTo(x,y);ctx.arc(x,y,r,-Math.PI/2,0);ctx.closePath();ctx.fill();
+  ctx.beginPath();ctx.moveTo(x,y);ctx.arc(x,y,r,Math.PI/2,Math.PI);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='#111';ctx.beginPath();ctx.arc(x,y,r,0,TAU);ctx.stroke();
+  ctx.restore();
+}
+
+/* ============ realistic scene backgrounds ============ */
+function isDark(){return document.body.classList.contains('dark');}
+function drawRoom(ctx,w,h,benchFrac){
+  benchFrac=benchFrac==null?0.74:benchFrac;const d=isDark();const by=h*benchFrac;
+  // wall
+  const g=ctx.createLinearGradient(0,0,0,by);
+  g.addColorStop(0,d?'#222a2e':'#eef3ee');g.addColorStop(1,d?'#1a2023':'#dde7dd');
+  ctx.fillStyle=g;ctx.fillRect(0,0,w,by);
+  // faint lab graph-paper grid on wall
+  ctx.strokeStyle=d?'rgba(255,255,255,.045)':'rgba(13,148,136,.07)';ctx.lineWidth=1;
+  for(let x=0;x<=w;x+=26){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,by);ctx.stroke();}
+  for(let y=0;y<=by;y+=26){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();}
+  if(benchFrac<0.92){
+    // bench top
+    const bg=ctx.createLinearGradient(0,by,0,h);
+    if(d){bg.addColorStop(0,'#3c3022');bg.addColorStop(1,'#2a2219');}
+    else{bg.addColorStop(0,'#dcb787');bg.addColorStop(1,'#c69c6a');}
+    ctx.fillStyle=bg;ctx.fillRect(0,by,w,h-by);
+    // front edge
+    ctx.fillStyle=d?'#4b3b29':'#b78a56';ctx.fillRect(0,by,w,4);
+    // wood grain
+    ctx.strokeStyle=d?'rgba(0,0,0,.16)':'rgba(120,80,40,.12)';ctx.lineWidth=1;
+    for(let i=1;i<=5;i++){const yy=by+6+i*((h-by-6)/6);ctx.beginPath();ctx.moveTo(0,yy);ctx.bezierCurveTo(w*0.3,yy-3,w*0.6,yy+3,w,yy);ctx.stroke();}
+  }
+  // vignette
+  const v=ctx.createRadialGradient(w/2,h*0.42,h*0.18,w/2,h*0.5,h*0.95);
+  v.addColorStop(0,'rgba(0,0,0,0)');v.addColorStop(1,d?'rgba(0,0,0,.28)':'rgba(60,50,35,.09)');
+  ctx.fillStyle=v;ctx.fillRect(0,0,w,h);
+  return by;
+}
+function softShadow(ctx,x,y,rx,ry){
+  ctx.save();ctx.translate(x,y);ctx.scale(1,ry/rx);
+  const g=ctx.createRadialGradient(0,0,0,0,0,rx);
+  g.addColorStop(0,'rgba(0,0,0,.30)');g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=g;ctx.beginPath();ctx.arc(0,0,rx,0,TAU);ctx.fill();ctx.restore();
+}
+
+/* ============ canvas framework ============ */
+const sizes=new Map();
+function fit(cv){
+  if(!cv)return;const r=cv.getBoundingClientRect();if(r.width<2)return;
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  cv.width=Math.round(r.width*dpr);cv.height=Math.round(r.height*dpr);
+  cv.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  sizes.set(cv.id,{w:r.width,h:r.height});
+}
+function dim(id){return sizes.get(id)||{w:600,h:360};}
+function ctxOf(id){const cv=document.getElementById(id);return cv?cv.getContext('2d'):null;}
+let activeDraw=null;              // <-- the one-tab-at-a-time guard
+function masterLoop(){ if(activeDraw) activeDraw(); requestAnimationFrame(masterLoop); }
+requestAnimationFrame(masterLoop);
+['cog1','cog2','cog3','cog4','cogInv'].forEach(id=>{
+  const cv=document.getElementById(id);if(!cv)return;
+  if(window.ResizeObserver)new ResizeObserver(()=>fit(cv)).observe(cv);
+});
+
+/* ============ tabs ============ */
+const TABS=[
+  {n:'1 · What is it?',   t:'What is the centre of gravity?', l:'Every object behaves as if all of its weight acts at one point — the centre of gravity.', draw:'cog1', ac:'#0d9488'},
+  {n:'2 · Lamina experiment', t:'Finding the C of G of a lamina', l:'Hang, plumb, mark, repeat. Where the plumb lines cross is the centre of gravity.', draw:'cog2', ac:'#047857'},
+  {n:'3 · Stability', t:'Stability and toppling', l:'An object topples once the line of action of its weight passes beyond its base.', draw:'cog3', ac:'#d97706'},
+  {n:'4 · Equilibrium', t:'Stable, unstable & neutral', l:'What happens to the centre of gravity when the object is nudged?', draw:'cog4', ac:'#0d9488'},
+  {n:'5 · Investigate', t:'Investigate the tipping angle', l:'Record the tipping angle for different base widths and C of G heights, then plot the pattern.', draw:'cogInv', ac:'#0d9488'},
+  {n:'6 · Activity sheet', t:'Practical activity sheet', l:'A printable write-up: aim, method, results, graph and conclusion.', draw:null, ac:'#047857'},
+  {n:'7 · Worked examples', t:'Worked examples', l:'Exam-style reasoning about balance, hanging and stability.', draw:null, ac:'#059669'},
+  {n:'8 · Misconceptions', t:'Common misconceptions', l:'The traps that cost marks — and what to write instead.', draw:null, ac:'#e11d48'},
+  {n:'9 · Quiz', t:'Check your understanding', l:'Six questions. Pick an answer to see the explanation.', draw:null, ac:'#ca8a04'},
+];
+const drawFns={};
+function goTab(i){
+  $$('#tabs .pill').forEach((p,k)=>p.classList.toggle('active',k===i));
+  $$('.panel').forEach(p=>p.classList.toggle('active',+p.dataset.i===i));
+  const T=TABS[i];
+  document.documentElement.style.setProperty('--accent',T.ac);
+  document.documentElement.style.setProperty('--accent-soft',T.ac+'1f');
+  $('#kicker').textContent='Interactive Lab';
+  $('#heroTitle').textContent=T.t;
+  $('#heroLede').textContent=T.l;
+  activeDraw = T.draw ? (drawFns[T.draw]||null) : null;
+  if(T.draw){ const cv=document.getElementById(T.draw); fit(cv); }
+  if(i===4){ if(window.updateCur)updateCur(); if(window.drawGraph){fit(document.getElementById('graphCanvas'));drawGraph('graphCanvas');} }
+  if(i===5){ if(window.openActivity)openActivity(); }
+}
+TABS.forEach((T,i)=>{
+  const b=document.createElement('button');b.className='pill'+(i===0?' active':'');b.textContent=T.n;
+  b.onclick=()=>goTab(i);$('#tabs').appendChild(b);
+});
+
+/* ======================================================= */
+/* TAB 1 — balance point                                   */
+/* ======================================================= */
+const t1={piv:0.5, mass:false, ang:0};
+drawFns.cog1=function(){
+  const ctx=ctxOf('cog1');if(!ctx)return;const{w,h}=dim('cog1');ctx.clearRect(0,0,w,h);
+  const groundY=drawRoom(ctx,w,h,0.76);
+  const cx=w*0.5, L=Math.min(w*0.62,360), plankY0=groundY-64;
+  const massR=0.6;
+  const cogF = t1.mass ? (0.5*1 + 0.9*massR)/(1+massR) : 0.5;
+  const diff = cogF - t1.piv;
+  const target = clamp(diff*2.4, -0.5, 0.5);
+  t1.ang += (target - t1.ang)*0.12;
+  const px = cx - L/2 + t1.piv*L;
+  // shadow of plank on bench
+  softShadow(ctx,px,groundY+2,L*0.52,10);
+  // pivot wedge (wood) with shading
+  const wg=ctx.createLinearGradient(px-16,0,px+16,0);wg.addColorStop(0,'#b9863f');wg.addColorStop(1,'#8a6230');
+  ctx.fillStyle=wg;ctx.beginPath();ctx.moveTo(px,plankY0+2);ctx.lineTo(px-17,groundY);ctx.lineTo(px+17,groundY);ctx.closePath();ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.25)';ctx.lineWidth=1;ctx.stroke();
+  // plank rotated about pivot
+  ctx.save();ctx.translate(px,plankY0);ctx.rotate(t1.ang);
+  const leftLen=t1.piv*L;
+  const pg=ctx.createLinearGradient(0,-9,0,9);pg.addColorStop(0,'#e3c088');pg.addColorStop(0.5,'#cda66b');pg.addColorStop(1,'#b48a4e');
+  ctx.fillStyle=pg;ctx.strokeStyle='#9c7b43';ctx.lineWidth=1.5;
+  ctx.fillRect(-leftLen,-9,L,18);ctx.strokeRect(-leftLen,-9,L,18);
+  // grain
+  ctx.strokeStyle='rgba(120,80,40,.3)';ctx.lineWidth=1;
+  for(let gy=-5;gy<=5;gy+=5){ctx.beginPath();ctx.moveTo(-leftLen+4,gy);ctx.lineTo(-leftLen+L-4,gy);ctx.stroke();}
+  if(t1.mass){const mx=(0.9-t1.piv)*L;
+    const mg=ctx.createLinearGradient(mx-16,0,mx+16,0);mg.addColorStop(0,'#b1403a');mg.addColorStop(0.5,'#e11d48');mg.addColorStop(1,'#9c1536');
+    ctx.fillStyle=mg;ctx.fillRect(mx-16,-9-28,32,28);ctx.strokeStyle='rgba(0,0,0,.3)';ctx.strokeRect(mx-16,-9-28,32,28);
+    ctx.fillStyle='#fff';ctx.font='700 12px sans-serif';ctx.textAlign='center';ctx.fillText('m',mx,-9-11);}
+  const cogX=(cogF-t1.piv)*L;cogMark(ctx,cogX,0,8);
+  ctx.restore();
+  // weight arrow in world coords from C of G
+  const cogWX = px + Math.cos(t1.ang)*((cogF-t1.piv)*L);
+  const cogWY = plankY0 + Math.sin(t1.ang)*((cogF-t1.piv)*L);
+  arrow(ctx,cogWX,cogWY,cogWX,cogWY+46,C1,2.4,8);
+  ctx.fillStyle=C1;ctx.font='700 12px sans-serif';ctx.textAlign='left';ctx.fillText('Weight',cogWX+6,cogWY+34);
+  ctx.fillStyle=themeInk();ctx.font='700 12px sans-serif';ctx.textAlign='center';ctx.fillText('C of G',cogWX,cogWY-16);
+  const bal=Math.abs(diff)<0.03;
+  $('#t1out').innerHTML = bal
+    ? '<b>Balanced!</b> The pivot is directly under the centre of gravity, so the weight produces no turning effect.'
+    : `Not balanced — the C of G is to the <b>${diff>0?'right':'left'}</b> of the pivot, so that side swings down. Move the pivot under the C of G.`;
+};
+$('#t1piv').addEventListener('input',e=>{t1.piv=+e.target.value/100;$('#t1pivOut').textContent=e.target.value+'%';});
+$('#t1mass').addEventListener('click',e=>{t1.mass=!t1.mass;e.target.classList.toggle('on',t1.mass);e.target.textContent=t1.mass?'Remove the mass':'Add a mass to the right end';});
+
+/* ======================================================= */
+/* TAB 2 — lamina plumb-line experiment                    */
+/* ======================================================= */
+// irregular polygon in local coords (roughly centred near origin)
+const LAM=[[-70,-55],[55,-70],[90,-10],[60,60],[-20,80],[-85,25]];
+function polyCentroid(p){let a=0,cx=0,cy=0;for(let i=0;i<p.length;i++){const[x0,y0]=p[i],[x1,y1]=p[(i+1)%p.length];const cr=x0*y1-x1*y0;a+=cr;cx+=(x0+x1)*cr;cy+=(y0+y1)*cr;}a*=0.5;return[cx/(6*a),cy/(6*a)];}
+const LAMC=polyCentroid(LAM);
+// holes = pick a few vertices (local coords)
+const HOLES=[LAM[0],LAM[1],LAM[3],LAM[4]];
+const t2={sel:-1, ang:0, target:0, hung:[]};  // hung: array of hole indices recorded
+drawFns.cog2=function(){
+  const ctx=ctxOf('cog2');if(!ctx)return;const{w,h}=dim('cog2');ctx.clearRect(0,0,w,h);
+  drawRoom(ctx,w,h,0.97);
+  const px=w*0.5, py=h*0.2;                   // pivot nail position on screen
+  t2.ang += (t2.target - t2.ang)*0.14;
+  // nail
+  ctx.fillStyle=themeMut();ctx.beginPath();ctx.arc(px,py,5,0,TAU);ctx.fill();
+  ctx.fillStyle=themeInk();ctx.font='700 11px sans-serif';ctx.textAlign='center';ctx.fillText('nail',px,py-10);
+  const hole = t2.sel>=0?HOLES[t2.sel]:LAMC;
+  // transform: screen = (px,py) + R(ang)*(local - hole)
+  const ca=Math.cos(t2.ang),sa=Math.sin(t2.ang);
+  const TX=(lx,ly)=>[px+ca*(lx-hole[0])-sa*(ly-hole[1]), py+sa*(lx-hole[0])+ca*(ly-hole[1])];
+  // lamina body
+  ctx.beginPath();LAM.forEach((p,i)=>{const[x,y]=TX(p[0],p[1]);i?ctx.lineTo(x,y):ctx.moveTo(x,y);});ctx.closePath();
+  ctx.fillStyle=document.body.classList.contains('dark')?'#2f6f66':'#bfe3dd';ctx.fill();
+  ctx.strokeStyle=C2;ctx.lineWidth=2;ctx.stroke();
+  // holes
+  HOLES.forEach((H,i)=>{const[x,y]=TX(H[0],H[1]);ctx.fillStyle=i===t2.sel?C3:'#fff';ctx.strokeStyle='#8a7f73';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(x,y,5,0,TAU);ctx.fill();ctx.stroke();});
+  // recorded plumb lines (local line through hole_i and centroid), rotate with lamina
+  t2.hung.forEach(hi=>{
+    const H=HOLES[hi];
+    // extend line through H and centroid well beyond polygon
+    const dx=LAMC[0]-H[0], dy=LAMC[1]-H[1], len=Math.hypot(dx,dy)||1;
+    const ux=dx/len, uy=dy/len, ext=170;
+    const a=TX(H[0]-ux*0, H[1]-uy*0), b=TX(H[0]+ux*ext, H[1]+uy*ext);
+    ctx.strokeStyle=C1;ctx.lineWidth=1.6;ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();ctx.setLineDash([]);
+  });
+  // live plumb line from nail straight down (only when a hole is selected & settled)
+  if(t2.sel>=0){
+    ctx.strokeStyle='rgba(42,36,32,.5)';ctx.lineWidth=1.4;ctx.setLineDash([3,4]);
+    ctx.beginPath();ctx.moveTo(px,py);ctx.lineTo(px,py+200);ctx.stroke();ctx.setLineDash([]);
+    // plumb bob
+    ctx.fillStyle=INK;ctx.beginPath();ctx.moveTo(px-5,py+196);ctx.lineTo(px+5,py+196);ctx.lineTo(px,py+210);ctx.closePath();ctx.fill();
+  }
+  // reveal C of G once 2+ lines recorded
+  if(t2.hung.length>=2){
+    const[gx,gy]=TX(LAMC[0],LAMC[1]);cogMark(ctx,gx,gy,8);
+    ctx.fillStyle=themeInk();ctx.font='700 12px sans-serif';ctx.textAlign='left';ctx.fillText('C of G',gx+12,gy+4);
+  }
+};
+function t2build(){
+  $('#t2holes').innerHTML='';
+  HOLES.forEach((H,i)=>{const b=document.createElement('button');b.className='btn';b.textContent='Hang from hole '+(i+1);
+    b.onclick=()=>{
+      t2.sel=i;
+      // rotation so that (centroid-hole) points straight down (angle +90°)
+      const dx=LAMC[0]-H[0], dy=LAMC[1]-H[1];
+      t2.target = Math.atan2(1,0) - Math.atan2(dy,dx);   // rotate world so dir -> +y(down)
+      if(!t2.hung.includes(i)) t2.hung.push(i);
+      const n=t2.hung.length;
+      $('#t2out').innerHTML = n>=2
+        ? '<b>Found it!</b> The plumb lines cross at the centre of gravity. Try a third hole as a check — it passes through the same point.'
+        : 'Lamina hung from hole '+(i+1)+'. The plumb line (red) marks one vertical through the C of G. Now hang it from a <b>different</b> hole.';
+      t2holeState();
+    };
+    $('#t2holes').appendChild(b);
+  });
+}
+function t2holeState(){$$('#t2holes .btn').forEach((b,i)=>b.classList.toggle('on',i===t2.sel));}
+$('#t2reset').addEventListener('click',()=>{t2.sel=-1;t2.target=0;t2.ang=0;t2.hung=[];$('#t2out').textContent='Click a hole to hang the lamina from it.';t2holeState();});
+t2build();
+
+/* ======================================================= */
+/* TAB 3 — stability / toppling                            */
+/* ======================================================= */
+const t3={w:16, h:5, tilt:0};   // w = base width (cm), h = C of G height (cm)
+function thetaC(){return Math.atan((t3.w/2)/t3.h)*180/Math.PI;}
+drawFns.cog3=function(){
+  const ctx=ctxOf('cog3');if(!ctx)return;const{w,h}=dim('cog3');ctx.clearRect(0,0,w,h);
+  const groundY=drawRoom(ctx,w,h,0.8);
+  const cx=w*0.46;
+  const scale=clamp((h*0.52)/28, 5, 9);        // cm -> px
+  const wp=t3.w*scale, hp=t3.h*scale;          // base width px, C of G height px (full height = 2*hp)
+  const th=t3.tilt*Math.PI/180, cosT=Math.cos(th), sinT=Math.sin(th);
+  const pivotX=cx+wp/2, pivotY=groundY;
+  const rot=(x,y)=>[pivotX+(x*cosT - y*sinT), pivotY+(x*sinT + y*cosT)];
+  const BL=rot(-wp,0),BR=rot(0,0),TL=rot(-wp,-2*hp),TR=rot(0,-2*hp),G=rot(-wp/2,-hp);
+  // shadow
+  softShadow(ctx,(BL[0]+BR[0])/2,groundY+3,wp*0.62,9);
+  // base footprint highlight
+  ctx.strokeStyle=C3;ctx.lineWidth=4;ctx.beginPath();ctx.moveTo(BL[0],BL[1]);ctx.lineTo(BR[0],BR[1]);ctx.stroke();
+  // block
+  const bg=ctx.createLinearGradient(TL[0],TL[1],BR[0],BR[1]);
+  if(isDark()){bg.addColorStop(0,'#5c7267');bg.addColorStop(1,'#3b4d44');}
+  else{bg.addColorStop(0,'#b3d6c3');bg.addColorStop(1,'#7fae97');}
+  ctx.fillStyle=bg;ctx.beginPath();ctx.moveTo(BL[0],BL[1]);ctx.lineTo(BR[0],BR[1]);ctx.lineTo(TR[0],TR[1]);ctx.lineTo(TL[0],TL[1]);ctx.closePath();ctx.fill();
+  ctx.strokeStyle=GRN;ctx.lineWidth=2;ctx.stroke();
+  // C of G + vertical weight line
+  cogMark(ctx,G[0],G[1],8);
+  ctx.strokeStyle=C1;ctx.lineWidth=1.8;ctx.setLineDash([5,4]);ctx.beginPath();ctx.moveTo(G[0],G[1]);ctx.lineTo(G[0],groundY+28);ctx.stroke();ctx.setLineDash([]);
+  arrow(ctx,G[0],G[1],G[0],Math.min(G[1]+66,groundY+26),C1,2.2,7);
+  // pivot dot
+  ctx.fillStyle=C3;ctx.beginPath();ctx.arc(pivotX,pivotY,4.5,0,TAU);ctx.fill();
+  // verdict
+  const tc=thetaC();
+  const q=(-wp/2)*cosT + hp*sinT;    // >0 => weight line past the pivot edge
+  let msg,col,tag;
+  if(q>0.6){msg=`<b>Topples!</b> Tilt ${t3.tilt}° is beyond the tipping angle θ<sub>c</sub> = ${tc.toFixed(1)}° — the weight line has passed outside the base.`;col=C1;tag='line outside base → topples';}
+  else if(t3.tilt>0 && (pivotX-G[0])<10){msg=`<b>Tipping point.</b> θ<sub>c</sub> ≈ ${tc.toFixed(1)}°: the weight line sits right over the pivot edge.`;col=C3;tag='at the tipping point';}
+  else{msg=`<b>Stable.</b> The weight line falls inside the base, so it settles back. It only topples past θ<sub>c</sub> = ${tc.toFixed(1)}°.`;col=C4;tag='line inside base → stable';}
+  $('#t3out').innerHTML=msg;
+  ctx.fillStyle=col;ctx.font='700 12px sans-serif';ctx.textAlign='center';ctx.fillText(tag,G[0],groundY+46);
+  ctx.fillStyle=themeInk();ctx.textAlign='left';ctx.font='700 13px sans-serif';
+  ctx.fillText(`w = ${t3.w} cm    h = ${t3.h} cm    θc = ${tc.toFixed(1)}°`,14,22);
+  if(window.updateCur) updateCur();
+};
+$('#t3w').addEventListener('input',e=>{t3.w=+e.target.value;$('#t3wOut').textContent=t3.w+' cm';syncPreset();});
+$('#t3h').addEventListener('input',e=>{t3.h=+e.target.value;$('#t3hOut').textContent=t3.h+' cm';syncPreset();});
+$('#t3tilt').addEventListener('input',e=>{t3.tilt=+e.target.value;$('#t3tiltOut').textContent=e.target.value+'°';});
+function setWH(ww,hh){t3.w=ww;t3.h=hh;$('#t3w').value=ww;$('#t3h').value=hh;$('#t3wOut').textContent=ww+' cm';$('#t3hOut').textContent=hh+' cm';}
+function syncPreset(){$('#t3wide').classList.toggle('on',t3.w>=20&&t3.h<=4);$('#t3tall').classList.toggle('on',t3.w<=8&&t3.h>=11);}
+$('#t3wide').addEventListener('click',()=>{setWH(22,3);syncPreset();});
+$('#t3tall').addEventListener('click',()=>{setWH(6,12);syncPreset();});
+
+/* ======================================================= */
+/* TAB 4 — equilibrium types                               */
+/* ======================================================= */
+const t4={mode:'stable', s:0, v:0, running:false};
+const T4TXT={
+  stable:'<p><b>Stable equilibrium.</b> The C of G is low, inside a dip. A nudge <b>raises</b> it, so it rolls back — overshoots, swings past, and <b>oscillates</b> until friction brings it to rest at the bottom.</p>',
+  unstable:'<p><b>Unstable equilibrium.</b> The C of G is balanced on a high point. The slightest nudge <b>lowers</b> it and it rolls away — it never returns.</p>',
+  neutral:'<p><b>Neutral equilibrium.</b> On a flat surface the C of G <b>stays at the same height</b> wherever it rolls, so it just comes to rest in the new position.</p>'
+};
+function surfaceY(mode,s,topY,amp){
+  if(mode==='stable')   return topY + amp*(1 - s*s);   // lowest at centre
+  if(mode==='unstable') return topY + amp*(s*s);        // highest at centre
+  return topY + amp;                                     // flat
+}
+drawFns.cog4=function(){
+  const ctx=ctxOf('cog4');if(!ctx)return;const{w,h}=dim('cog4');ctx.clearRect(0,0,w,h);
+  const groundY=drawRoom(ctx,w,h,0.82);
+  const cx=w*0.5, span=Math.min(w*0.3,150), amp=70, topY=groundY-150, R=16;
+  // physics step
+  if(t4.running){
+    if(t4.mode==='stable'){ t4.v += (-0.02*t4.s); t4.v*=0.985; t4.s+=t4.v;
+      if(Math.abs(t4.s)<0.012 && Math.abs(t4.v)<0.012){t4.s=0;t4.v=0;t4.running=false;$('#t4out').innerHTML='It oscillated and came to rest at the <b>bottom</b> — stable.';}}
+    else if(t4.mode==='unstable'){ t4.v += 0.012*t4.s; t4.s+=t4.v;
+      if(Math.abs(t4.s)>=1.1){t4.s=1.1*Math.sign(t4.s);t4.running=false;$('#t4out').innerHTML='It rolled <b>away</b> and did not return — unstable.';}}
+    else { t4.s+=t4.v; t4.v*=0.94;
+      if(Math.abs(t4.v)<0.002){t4.v=0;t4.running=false;$('#t4out').innerHTML='It rolled to a new spot and <b>stayed there</b> — neutral.';}}
+    t4.s=clamp(t4.s,-1.15,1.15);
+  }
+  // surface
+  ctx.strokeStyle=isDark()?'#6b5f4e':'#9a8a66';ctx.lineWidth=5;ctx.lineCap='round';
+  ctx.beginPath();
+  for(let s=-1.15;s<=1.151;s+=0.02){const x=cx+s*span, y=surfaceY(t4.mode,s,topY,amp);(s<=-1.15)?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+  ctx.stroke();ctx.lineCap='butt';
+  // ball
+  const bx=cx+t4.s*span, by=surfaceY(t4.mode,t4.s,topY,amp)-R;
+  softShadow(ctx,bx,surfaceY(t4.mode,t4.s,topY,amp)+2,R*1.2,6);
+  const bg=ctx.createRadialGradient(bx-5,by-6,2,bx,by,R);bg.addColorStop(0,'#5fe3d6');bg.addColorStop(1,'#0d9488');
+  ctx.fillStyle=bg;ctx.beginPath();ctx.arc(bx,by,R,0,TAU);ctx.fill();
+  ctx.strokeStyle='rgba(0,0,0,.2)';ctx.lineWidth=1.5;ctx.stroke();
+  cogMark(ctx,bx,by,5);
+  if(!t4.running){ctx.fillStyle=themeMut();ctx.font='700 12px sans-serif';ctx.textAlign='center';ctx.fillText('press “Give it a nudge”',cx,h-14);}
+};
+function t4set(m){t4.mode=m;t4.s = m==='unstable'?0:0; t4.v=0;t4.running=false;$('#t4text').innerHTML=T4TXT[m];$('#t4out').innerHTML='';$$('[data-eq]').forEach(b=>b.classList.toggle('on',b.dataset.eq===m));}
+$$('[data-eq]').forEach(b=>b.addEventListener('click',()=>t4set(b.dataset.eq)));
+$('#t4nudge').addEventListener('click',()=>{
+  if(t4.mode==='stable'){t4.s=0.95;t4.v=0;}
+  else if(t4.mode==='unstable'){t4.s=0.05;t4.v=0.01;}
+  else {t4.s=0;t4.v=0.14;}
+  t4.running=true;$('#t4out').innerHTML='';
+});
+t4set('stable');
+
+/* ======================================================= */
+/* worked-example reveals                                  */
+/* ======================================================= */
+$$('.we .reveal').forEach(r=>r.addEventListener('click',()=>{
+  const a=r.nextElementSibling;a.classList.toggle('show');
+  r.textContent=a.classList.contains('show')?'Hide answer ▴':'Show answer ▾';
+}));
+
+/* ======================================================= */
+/* quiz                                                    */
+/* ======================================================= */
+const QUIZ=[
+  {q:'The centre of gravity of an object is best described as the point where…',
+   o:['the object is thickest','the whole weight of the object appears to act','the object is coldest','air resistance acts'],a:1,
+   e:'The C of G is the single point through which the entire weight appears to act.'},
+  {q:'Where is the centre of gravity of a uniform metre rule?',
+   o:['At the 50 cm mark','At the 0 cm end','At the 100 cm end','It has none'],a:0,
+   e:'A uniform, symmetrical object has its C of G at its geometric centre — the 50 cm mark.'},
+  {q:'In the plane-lamina experiment, why is a plumb line used?',
+   o:['To measure mass','To add weight to the card','To mark a true vertical through the pivot','To measure temperature'],a:2,
+   e:'A plumb line hangs vertically, marking the line on which the C of G must lie.'},
+  {q:'How many holes (plumb lines) are needed to locate the C of G of a lamina?',
+   o:['Four or more','One is enough','None','At least two (a third as a check)'],a:3,
+   e:'Two lines intersect at the C of G; a third confirms it.'},
+  {q:'An object topples when the line of action of its weight…',
+   o:['points straight up','passes outside the base','is vertical','acts at the C of G'],a:1,
+   e:'While the weight line stays over the base it returns; once it passes the pivoting edge it topples.'},
+  {q:'Which design is the MOST stable?',
+   o:['Wide base, low centre of gravity','Narrow base, high centre of gravity','Narrow base, low centre of gravity','Wide base, high centre of gravity'],a:0,
+   e:'A wide base and low C of G require the largest tilt before toppling — most stable.'},
+];
+let answered=0, correct=0;
+function buildQuiz(){
+  const wrap=$('#quizWrap');wrap.innerHTML='';
+  QUIZ.forEach((Q,qi)=>{
+    const card=document.createElement('div');card.className='q';
+    card.innerHTML=`<div class="stem">${qi+1}. ${Q.q}</div>`;
+    Q.o.forEach((opt,oi)=>{
+      const d=document.createElement('div');d.className='opt';
+      d.innerHTML=`<span class="ltr">${'ABCD'[oi]}</span><span>${opt}</span>`;
+      d.onclick=()=>{
+        if(card.dataset.done)return;card.dataset.done='1';answered++;
+        const opts=card.querySelectorAll('.opt');
+        opts[Q.a].classList.add('correct');
+        if(oi===Q.a){correct++;}else{d.classList.add('wrong');}
+        card.querySelector('.exp').classList.add('show');
+        $('#quizScore').textContent=`Score: ${correct} / ${answered}`;
+      };
+      card.appendChild(d);
+    });
+    const ex=document.createElement('div');ex.className='exp';ex.innerHTML='<b>Why:</b> '+Q.e;card.appendChild(ex);
+    wrap.appendChild(card);
+  });
+  $('#quizScore').textContent='Score: 0 / 0';
+}
+buildQuiz();
+
+/* ======================================================= */
+/* investigate — record & plot                             */
+/* ======================================================= */
+const QTY={
+  w:{label:'base width  w  (cm)', get:p=>p.w},
+  h:{label:'C of G height  h  (cm)', get:p=>p.h},
+  theta:{label:'tipping angle  θc  (°)', get:p=>p.theta},
+  tanth:{label:'tan θc', get:p=>Math.tan(p.theta*Math.PI/180)},
+};
+let axisY='theta', axisX='w', recorded=[];
+function updateCur(){const el=$('#curSetup');if(!el)return;el.innerHTML=`Current set-up → <b>w = ${t3.w} cm</b>, <b>h = ${t3.h} cm</b>, tipping angle <b>θc = ${thetaC().toFixed(1)}°</b>`;}
+window.updateCur=updateCur;
+function buildAxisChips(){
+  const yb=$('#yAxis'),xb=$('#xAxis');if(!yb)return;yb.innerHTML='';xb.innerHTML='';
+  Object.keys(QTY).forEach(k=>{
+    const y=document.createElement('button');y.className='chip'+(k===axisY?' on':'');y.textContent=QTY[k].label;y.onclick=()=>{axisY=k;buildAxisChips();drawGraph('graphCanvas');};yb.appendChild(y);
+    const x=document.createElement('button');x.className='chip'+(k===axisX?' on':'');x.textContent=QTY[k].label;x.onclick=()=>{axisX=k;buildAxisChips();drawGraph('graphCanvas');};xb.appendChild(x);
+  });
+}
+function renderDataTable(){
+  const t=$('#dataTable');if(!t)return;
+  if(!recorded.length){t.innerHTML='<tr><td style="color:var(--muted)">No points yet. Set w &amp; h on the Stability tab, then Record.</td></tr>';return;}
+  t.innerHTML='<tr><th>#</th><th>w</th><th>h</th><th>θc (°)</th><th>tan θc</th></tr>'+
+    recorded.map((p,i)=>`<tr><td>${i+1}</td><td>${p.w}</td><td>${p.h}</td><td>${p.theta.toFixed(1)}</td><td>${Math.tan(p.theta*Math.PI/180).toFixed(3)}</td></tr>`).join('');
+}
+function linFit(pts){const n=pts.length;let sx=0,sy=0,sxx=0,sxy=0;pts.forEach(p=>{sx+=p.x;sy+=p.y;sxx+=p.x*p.x;sxy+=p.x*p.y;});const d=n*sxx-sx*sx;if(Math.abs(d)<1e-9)return null;const m=(n*sxy-sx*sy)/d;return {m,c:(sy-m*sx)/n};}
+function drawGraph(cid){
+  const cv=document.getElementById(cid);if(!cv)return null;fit(cv);const ctx=cv.getContext('2d');const{w,h}=dim(cid);
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#fff';ctx.fillRect(0,0,w,h);
+  const padL=52,padB=42,padT=18,padR=16;const gx0=padL,gy0=h-padB,gx1=w-padR,gy1=padT;
+  const pts=recorded.map(p=>({x:QTY[axisX].get(p),y:QTY[axisY].get(p)})).filter(p=>isFinite(p.x)&&isFinite(p.y));
+  let xmin=0,xmax=1,ymin=0,ymax=1;
+  if(pts.length){xmax=Math.max(...pts.map(p=>p.x));ymax=Math.max(...pts.map(p=>p.y));xmin=Math.min(0,...pts.map(p=>p.x));ymin=Math.min(0,...pts.map(p=>p.y));}
+  xmax=(xmax*1.1)||1;ymax=(ymax*1.1)||1;if(xmax===xmin)xmax=xmin+1;if(ymax===ymin)ymax=ymin+1;
+  const X=v=>gx0+(v-xmin)/(xmax-xmin)*(gx1-gx0), Y=v=>gy0-(v-ymin)/(ymax-ymin)*(gy0-gy1);
+  ctx.font='11px sans-serif';ctx.lineWidth=1;
+  for(let i=0;i<=5;i++){
+    const vx=xmin+(xmax-xmin)*i/5, px=X(vx);ctx.strokeStyle='#eee';ctx.beginPath();ctx.moveTo(px,gy0);ctx.lineTo(px,gy1);ctx.stroke();ctx.fillStyle='#6f6557';ctx.textAlign='center';ctx.fillText(vx.toFixed(vx>=10?0:1),px,gy0+15);
+    const vy=ymin+(ymax-ymin)*i/5, py=Y(vy);ctx.strokeStyle='#eee';ctx.beginPath();ctx.moveTo(gx0,py);ctx.lineTo(gx1,py);ctx.stroke();ctx.textAlign='right';ctx.fillText(vy.toFixed(vy>=10?0:1),gx0-6,py+4);}
+  ctx.strokeStyle='#333';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(gx0,gy1);ctx.lineTo(gx0,gy0);ctx.lineTo(gx1,gy0);ctx.stroke();
+  ctx.fillStyle='#2a2420';ctx.font='700 12px sans-serif';ctx.textAlign='center';ctx.fillText(QTY[axisX].label,(gx0+gx1)/2,h-6);
+  ctx.save();ctx.translate(15,(gy0+gy1)/2);ctx.rotate(-Math.PI/2);ctx.fillText(QTY[axisY].label,0,0);ctx.restore();
+  let fit2=null,info='Record at least two points, then press Autoplot.';
+  if(pts.length>=2){fit2=linFit(pts);if(fit2){ctx.strokeStyle='#0d9488';ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(X(xmin),Y(fit2.m*xmin+fit2.c));ctx.lineTo(X(xmax),Y(fit2.m*xmax+fit2.c));ctx.stroke();info=`Best-fit gradient ≈ <b>${fit2.m.toFixed(3)}</b> ${QTY[axisY].label.split(' ')[0]} per ${QTY[axisX].label.split(' ')[0]}.`;}}
+  pts.forEach(p=>{ctx.fillStyle='#e11d48';ctx.beginPath();ctx.arc(X(p.x),Y(p.y),4.5,0,TAU);ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=1.5;ctx.stroke();});
+  const fi=$('#fitInfo');if(fi&&cid==='graphCanvas')fi.innerHTML=info;
+  return fit2;
+}
+window.drawGraph=drawGraph;
+/* guided investigation picker + in-tab sim */
+const inv={w:16,h:5};
+function invTheta(){return Math.atan((inv.w/2)/inv.h)*180/Math.PI;}
+const INVEST={
+  width:{lab:'θc vs base width', varKey:'w',fixKey:'h',min:4,max:24,step:1,fixVal:5,ay:'theta',ax:'w',
+    guide:'<b>Does a wider base help?</b> Keep the C of G height fixed, increase the base width, and record θ<sub>c</sub> each time — aim for about 5 points.'},
+  height:{lab:'θc vs C of G height', varKey:'h',fixKey:'w',min:3,max:14,step:1,fixVal:16,ay:'theta',ax:'h',
+    guide:'<b>Does a higher C of G help?</b> Keep the base width fixed, raise the C of G, and record θ<sub>c</sub> each time.'},
+  prop:{lab:'tan θc vs w', varKey:'w',fixKey:'h',min:4,max:24,step:1,fixVal:5,ay:'tanth',ax:'w',
+    guide:'<b>Is tan θ<sub>c</sub> proportional to w?</b> Fix h and vary w. Plotting tan θ<sub>c</sub> against w should give a straight line through the origin with gradient 1 ÷ (2h).'}
+};
+let investKey='width';
+function labelOf(k){return k==='w'?'Base width w':'C of G height h';}
+function updateInvOut(){const C=INVEST[investKey];
+  $('#varLabel').textContent=labelOf(C.varKey)+' — change me';
+  $('#fixLabel').textContent=labelOf(C.fixKey)+' — fixed';
+  $('#varOut').textContent=inv[C.varKey]+' cm';$('#fixOut').textContent=inv[C.fixKey]+' cm';}
+function selectInvest(k){
+  investKey=k;const C=INVEST[k];
+  inv[C.fixKey]=C.fixVal;inv[C.varKey]=Math.round((C.min+C.max)/2);
+  axisY=C.ay;axisX=C.ax;recorded=[];
+  const vs=$('#varSlider');vs.min=C.min;vs.max=C.max;vs.step=C.step;vs.value=inv[C.varKey];
+  const fs=$('#fixSlider');if(C.fixKey==='h'){fs.min=3;fs.max=14;}else{fs.min=4;fs.max=24;}fs.step=1;fs.value=inv[C.fixKey];
+  $('#investGuide').innerHTML=C.guide+' <span style="color:var(--muted)">Recorded: 0.</span>';
+  $$('#investPick .chip').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+  updateInvOut();buildAxisChips();renderDataTable();drawGraph('graphCanvas');
+}
+function buildInvestPicker(){const box=$('#investPick');if(!box)return;box.innerHTML='';
+  Object.keys(INVEST).forEach(k=>{const b=document.createElement('button');b.className='chip'+(k===investKey?' on':'');b.dataset.k=k;b.textContent=INVEST[k].lab;b.onclick=()=>selectInvest(k);box.appendChild(b);});}
+$('#varSlider').addEventListener('input',e=>{inv[INVEST[investKey].varKey]=+e.target.value;updateInvOut();});
+$('#fixSlider').addEventListener('input',e=>{inv[INVEST[investKey].fixKey]=+e.target.value;updateInvOut();});
+$('#recBtn').addEventListener('click',()=>{recorded.push({w:inv.w,h:inv.h,theta:invTheta()});renderDataTable();drawGraph('graphCanvas');$('#investGuide').innerHTML=INVEST[investKey].guide+` <span style="color:var(--muted)">Recorded: ${recorded.length}.</span>`;});
+$('#clrBtn').addEventListener('click',()=>{recorded=[];renderDataTable();drawGraph('graphCanvas');$('#investGuide').innerHTML=INVEST[investKey].guide+' <span style="color:var(--muted)">Recorded: 0.</span>';});
+
+/* live block drawn at its tipping angle */
+drawFns.cogInv=function(){
+  const ctx=ctxOf('cogInv');if(!ctx)return;const{w,h}=dim('cogInv');ctx.clearRect(0,0,w,h);
+  const groundY=drawRoom(ctx,w,h,0.82);
+  const cx=w*0.5, scale=clamp((h*0.5)/28,4,8), wp=inv.w*scale, hp=inv.h*scale;
+  const th=Math.atan((inv.w/2)/inv.h), cosT=Math.cos(th), sinT=Math.sin(th);
+  const pivotX=cx+wp/2, pivotY=groundY, rot=(x,y)=>[pivotX+(x*cosT-y*sinT),pivotY+(x*sinT+y*cosT)];
+  const BL=rot(-wp,0),BR=rot(0,0),TL=rot(-wp,-2*hp),TR=rot(0,-2*hp),G=rot(-wp/2,-hp);
+  softShadow(ctx,(BL[0]+BR[0])/2,groundY+3,wp*0.62,8);
+  const bg=ctx.createLinearGradient(TL[0],TL[1],BR[0],BR[1]);
+  if(isDark()){bg.addColorStop(0,'#5c7267');bg.addColorStop(1,'#3b4d44');}else{bg.addColorStop(0,'#b3d6c3');bg.addColorStop(1,'#7fae97');}
+  ctx.fillStyle=bg;ctx.beginPath();ctx.moveTo(BL[0],BL[1]);ctx.lineTo(BR[0],BR[1]);ctx.lineTo(TR[0],TR[1]);ctx.lineTo(TL[0],TL[1]);ctx.closePath();ctx.fill();ctx.strokeStyle=GRN;ctx.lineWidth=2;ctx.stroke();
+  cogMark(ctx,G[0],G[1],7);
+  ctx.strokeStyle=C1;ctx.setLineDash([5,4]);ctx.lineWidth=1.6;ctx.beginPath();ctx.moveTo(G[0],G[1]);ctx.lineTo(G[0],groundY+22);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=C3;ctx.beginPath();ctx.arc(pivotX,pivotY,4.5,0,TAU);ctx.fill();
+  ctx.fillStyle=themeInk();ctx.textAlign='left';ctx.font='700 13px sans-serif';ctx.fillText(`w = ${inv.w} cm    h = ${inv.h} cm`,14,20);
+  ctx.fillStyle=C3;ctx.font='800 13px sans-serif';ctx.fillText(`θc = ${(th*180/Math.PI).toFixed(1)}°  — just topples`,14,40);
+};
+buildInvestPicker();selectInvest('width');
+
+/* ======================================================= */
+/* activity sheet                                          */
+/* ======================================================= */
+let studentName='';
+function buildActTable(){
+  const t=$('#actTable');if(!t)return;
+  let rows='<tr><th>#</th><th>w (cm)</th><th>h (cm)</th><th>θc (°)</th><th>tan θc</th></tr>';
+  const n=Math.max(6,recorded.length);
+  for(let i=0;i<n;i++){const p=recorded[i];rows+=`<tr><td>${i+1}</td><td>${p?p.w:''}</td><td>${p?p.h:''}</td><td>${p?p.theta.toFixed(1):''}</td><td>${p?Math.tan(p.theta*Math.PI/180).toFixed(3):''}</td></tr>`;}
+  t.innerHTML=rows;
+}
+function openActivity(){
+  $('#actName').textContent=studentName||'—';
+  $('#actTime').textContent=new Date().toLocaleString();
+  buildActTable();
+  setTimeout(()=>drawGraph('actGraph'),30);
+  const f=recorded.length>=2?linFit(recorded.map(p=>({x:QTY[axisX].get(p),y:QTY[axisY].get(p)}))):null;
+  $('#actAnalysis').innerHTML = f
+    ? `Plotting <b>${QTY[axisY].label}</b> against <b>${QTY[axisX].label}</b> gives a best-fit gradient of about <b>${f.m.toFixed(3)}</b>. A wider base and a lower centre of gravity give a larger tipping angle — the object is more stable.`
+    : 'Record at least two points in the Investigate tab, then reopen this sheet to see the gradient.';
+}
+window.openActivity=openActivity;
+$('#importAct').addEventListener('click',()=>{if(!recorded.length){alert('No recorded data yet — record some points in the Investigate tab first.');return;}openActivity();});
+$('#printActBtn').addEventListener('click',()=>window.print());
+
+/* ======================================================= */
+/* gate, clock, theme                                      */
+/* ======================================================= */
+function startApp(name){
+  studentName=name.trim();
+  $('#gate').style.display='none';$('#app').style.display='block';
+  $('#profInit').textContent=(name.trim()[0]||'A').toUpperCase();
+  // size canvases now that app is visible
+  ['cog1','cog2','cog3','cog4','cogInv'].forEach(id=>fit(document.getElementById(id)));
+  goTab(0);
+}
+$('#gateBtn').addEventListener('click',()=>{
+  const n=$('#gateName').value.trim();
+  if(n.length<2){$('#gateMsg').textContent='Please enter your name.';return;}
+  startApp(n);
+});
+$('#gateName').addEventListener('keydown',e=>{if(e.key==='Enter')$('#gateBtn').click();});
+function tick(){const d=new Date();$('#clock').textContent=d.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});}
+tick();setInterval(tick,10000);
+$('#darkBtn').addEventListener('click',()=>{document.body.classList.toggle('dark');$('#darkBtn').textContent=document.body.classList.contains('dark')?'☀':'☾';});
+window.addEventListener('resize',()=>{['cog1','cog2','cog3','cog4','cogInv'].forEach(id=>fit(document.getElementById(id)));});
+</script>
+</body>
+</html>
