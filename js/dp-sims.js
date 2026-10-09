@@ -336,4 +336,5 @@ const DP_SIMS = [
   },
   {id:"igcse-centre-of-gravity", title:"Centre of Gravity", icon:"🎯", topic:"1.5.3", topicName:"Forces · IGCSE", description:"Core IGCSE 1.5.3 — define the centre of gravity, find it for an irregular lamina with a plumb line, and investigate stability and toppling with a record-and-plot graph and a printable activity sheet.", file:"sims/igcse-centre-of-gravity.html", level:"IGCSE"},
   {id:"igcse-momentum", title:"Momentum ]; Impulse", icon:"🎱", topic:"1.6", topicName:"Momentum · IGCSE", description:"IGCSE 1.6 Supplement — p = mv, impulse = FΔt = Δ(mv), conservation of momentum in 1D collisions, and F = Δp/Δt, with a guided investigate graph and printable activity sheet.", file:"sims/igcse-momentum.html", level:"IGCSE"},
+  {id:"igcse-momentum", title:"Momentum ]; Impulse", icon:"🎱", topic:"1.6", topicName:"Momentum · IGCSE", description:"IGCSE 1.6 Supplement — p = mv, impulse = FΔt = Δ(mv), conservation of momentum in 1D collisions, and F = Δp/Δt, with an egg-drop force demo, a launch-and-coast impulse animation, a guided investigate graph and a printable activity sheet.", file:"sims/igcse-momentum.html", level:"IGCSE"},
 ];

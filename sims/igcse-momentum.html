@@ -290,14 +290,16 @@ footer{text-align:center;color:var(--muted);font-size:11.5px;padding:24px}
           <h3>Force = rate of change of momentum</h3>
           <div class="formula">F = Δp / Δt</div>
           <div class="prose">
-            <p>The same ball lands with the same change in momentum <b>Δp</b>. Stopping it in a <b>longer time</b> needs a <b>smaller force</b> — that is why we use crumple zones, airbags, and bend our knees when we land.</p>
+            <p>Drop the egg. It hits with the <b>same change in momentum Δp</b> whatever it lands on — but a <b>soft</b> surface makes it stop over a <b>longer time Δt</b>, so the force is <b>smaller</b> and the egg survives. A hard floor stops it almost instantly → huge force → <b>crack!</b></p>
+            <p>This is why cars have crumple zones and airbags, and why we bend our knees when we land.</p>
           </div>
-          <div class="ctrl"><label>Change in momentum&nbsp; Δp <span id="m4dpOut">6.0 kg·m/s</span></label><input type="range" id="m4dp" min="1" max="12" step="0.5" value="6"></div>
-          <div class="ctrl"><label>Stopping time&nbsp; Δt <span id="m4dtOut">0.40 s</span></label><input type="range" id="m4dt" min="0.05" max="1.5" step="0.05" value="0.4"></div>
+          <div class="ctrl"><label>Drop height&nbsp; h <span id="m4hOut">1.5 m</span></label><input type="range" id="m4h" min="0.3" max="3" step="0.1" value="1.5"></div>
+          <div class="ctrl"><label>Surface softness <span id="m4softOut">hard</span></label><input type="range" id="m4soft" min="0" max="1" step="0.05" value="0"></div>
           <div class="btnrow">
-            <button class="btn on" id="m4hard">Hard floor</button>
-            <button class="btn" id="m4soft">Soft cushion</button>
+            <button class="btn on" id="m4hard">Concrete floor</button>
+            <button class="btn" id="m4foam">Foam cushion</button>
           </div>
+          <div class="btnrow"><button class="btn" id="m4drop">▸ Drop the egg</button></div>
           <div class="out" id="m4out"></div>
         </div>
       </div>
@@ -570,35 +572,42 @@ $('#m1v').addEventListener('input',e=>{t1.v=+e.target.value;$('#m1vOut').textCon
 /* ======================================================= */
 /* TAB 2 — lamina plumb-line experiment                    */
 /* ======================================================= */
-const t2={m:2, F:4, dt:2, t:0, playing:false};
+const t2={m:2,F:4,dt:2,phase:'ready',clk:0,x:0,v:0};
+function t2launch(){t2.phase='push';t2.clk=0;t2.x=0;t2.v=0;}
 drawFns.cog2=function(){
   const ctx=ctxOf('cog2');if(!ctx)return;const{w,h}=dim('cog2');ctx.clearRect(0,0,w,h);
   const groundY=drawRoom(ctx,w,h,0.72);
-  const J=t2.F*t2.dt, dv=J/t2.m;
-  if(t2.playing){t2.t+=0.02; if(t2.t>=t2.dt+0.6){t2.playing=false;t2.t=t2.dt;}}
-  const tt=clamp(t2.t,0,t2.dt), vNow=(t2.F/t2.m)*tt;
-  const startX=w*0.17, dist=0.5*(t2.F/t2.m)*tt*tt*16;
-  const cxp=clamp(startX+dist,startX,w*0.55), wpx=clamp(42+t2.m*8,46,86), hpx=wpx*0.5;
+  const a=t2.F/t2.m, vFinal=t2.F*t2.dt/t2.m, J=t2.F*t2.dt;
+  const startX=w*0.1, endX=w*0.9, dtf=0.03;
+  if(t2.phase==='push'){t2.clk+=dtf;t2.v=a*Math.min(t2.clk,t2.dt);t2.x+=t2.v*30*dtf;if(t2.clk>=t2.dt)t2.phase='coast';}
+  else if(t2.phase==='coast'){t2.v=vFinal;t2.x+=t2.v*30*dtf;if(startX+t2.x>=endX-1)t2.phase='done';}
+  else if(t2.phase==='done'){t2.v=vFinal;}
+  const cxp=t2.phase==='ready'?startX:Math.min(startX+t2.x,endX), wpx=clamp(42+t2.m*8,48,88), hpx=wpx*0.5;
+  // start line
+  ctx.strokeStyle=themeMut();ctx.setLineDash([3,4]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(startX,groundY-70);ctx.lineTo(startX,groundY);ctx.stroke();ctx.setLineDash([]);
   softShadow(ctx,cxp,groundY+2,wpx*0.7,7);
   cartShape(ctx,cxp,groundY,wpx,hpx,'#8fd0c6','#0d9488','m');
-  if(tt<t2.dt-0.001 && t2.F>0){arrow(ctx,cxp-wpx/2-34,groundY-hpx/2,cxp-wpx/2-4,groundY-hpx/2,C3,3,11);ctx.fillStyle=C3;ctx.font='800 12px sans-serif';ctx.textAlign='center';ctx.fillText('F',cxp-wpx/2-19,groundY-hpx/2-9);}
-  // force–time graph inset (area = impulse)
-  const gx=w*0.63,gy=h*0.14,gw=w*0.3,gh=h*0.3;
+  const pushing=t2.phase==='push';
+  if(pushing && t2.F>0){const al=clamp(16+t2.F*4.5,22,72);arrow(ctx,cxp-wpx/2-al,groundY-hpx/2,cxp-wpx/2-4,groundY-hpx/2,C3,4,12);ctx.fillStyle=C3;ctx.font='800 12px sans-serif';ctx.textAlign='center';ctx.fillText('F = '+t2.F.toFixed(0)+' N',cxp-wpx/2-al/2,groundY-hpx/2-10);}
+  if(t2.v>0.05){const vl=clamp(t2.v*20,12,w*0.28);arrow(ctx,cxp,groundY-hpx-18,cxp+vl,groundY-hpx-18,C2,3,10);ctx.fillStyle=C2;ctx.font='800 12px sans-serif';ctx.textAlign='center';ctx.fillText('v = '+t2.v.toFixed(1)+' m/s',cxp+vl/2,groundY-hpx-26);}
+  ctx.textAlign='left';ctx.font='800 14px sans-serif';
+  if(t2.phase==='ready'){ctx.fillStyle=themeMut();ctx.fillText('Press “Apply the force” to launch the trolley from rest',14,24);}
+  else if(pushing){ctx.fillStyle=C3;ctx.fillText('① Force ON — pushing for Δt = '+t2.dt.toFixed(1)+' s … speeding up',14,24);}
+  else{ctx.fillStyle=C2;ctx.fillText('② Force OFF — now gliding at constant v',14,24);}
+  // force–time graph, area fills as the push proceeds
+  const gx=w*0.6,gy=h*0.2,gw=w*0.32,gh=h*0.28;
   ctx.strokeStyle=themeMut();ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx,gy+gh);ctx.lineTo(gx+gw,gy+gh);ctx.stroke();
   ctx.fillStyle=themeMut();ctx.font='10px sans-serif';ctx.textAlign='center';ctx.fillText('F',gx-9,gy+6);ctx.fillText('t',gx+gw,gy+gh+12);
-  const barW=gw*(t2.dt/4), barH=gh*(t2.F/12);
-  ctx.fillStyle='rgba(217,119,6,.28)';ctx.fillRect(gx,gy+gh-barH,barW,barH);
-  ctx.strokeStyle=C3;ctx.lineWidth=2;ctx.strokeRect(gx,gy+gh-barH,barW,barH);
-  ctx.fillStyle=C3;ctx.font='800 11px sans-serif';ctx.textAlign='center';ctx.fillText('area = impulse',gx+gw*0.5,gy-4);
-  ctx.fillStyle=themeInk();ctx.textAlign='left';ctx.font='700 13px sans-serif';
-  ctx.fillText(`F = ${t2.F.toFixed(1)} N    Δt = ${t2.dt.toFixed(1)} s    m = ${t2.m.toFixed(1)} kg`,14,22);
-  ctx.fillStyle=C2;ctx.fillText(`v now = ${vNow.toFixed(1)} m/s`,14,42);
-  $('#m2out').innerHTML=`Impulse = F Δt = ${t2.F.toFixed(1)} × ${t2.dt.toFixed(1)} = <b>${J.toFixed(1)} N·s</b>. This equals Δ(mv), so velocity rises from rest to <b>${dv.toFixed(1)} m/s</b> (Δv = J ÷ m).`;
+  const fullW=gw*(t2.dt/4), barH=gh*(t2.F/12), prog=t2.phase==='push'?Math.min(t2.clk,t2.dt)/t2.dt:(t2.phase==='ready'?0:1);
+  ctx.fillStyle='rgba(217,119,6,.3)';ctx.fillRect(gx,gy+gh-barH,fullW*prog,barH);
+  ctx.strokeStyle=C3;ctx.lineWidth=1.6;ctx.strokeRect(gx,gy+gh-barH,fullW,barH);
+  ctx.fillStyle=C3;ctx.font='800 10px sans-serif';ctx.textAlign='center';ctx.fillText('area = impulse = FΔt',gx+gw*0.5,gy-4);
+  $('#m2out').innerHTML=`Impulse = F Δt = ${t2.F.toFixed(1)} × ${t2.dt.toFixed(1)} = <b>${J.toFixed(1)} N·s</b>. That equals the change in momentum, so the trolley (m = ${t2.m.toFixed(1)} kg) ends up at <b>v = ${vFinal.toFixed(1)} m/s</b> (v = FΔt ÷ m). A bigger force <i>or</i> a longer push time → a faster final speed.`;
 };
-$('#m2m').addEventListener('input',e=>{t2.m=+e.target.value;$('#m2mOut').textContent=t2.m.toFixed(1)+' kg';});
-$('#m2F').addEventListener('input',e=>{t2.F=+e.target.value;$('#m2FOut').textContent=t2.F.toFixed(1)+' N';});
-$('#m2t').addEventListener('input',e=>{t2.dt=+e.target.value;$('#m2tOut').textContent=t2.dt.toFixed(1)+' s';});
-$('#m2play').addEventListener('click',()=>{t2.t=0;t2.playing=true;});
+$('#m2m').addEventListener('input',e=>{t2.m=+e.target.value;$('#m2mOut').textContent=t2.m.toFixed(1)+' kg';t2.phase='ready';t2.x=0;t2.v=0;});
+$('#m2F').addEventListener('input',e=>{t2.F=+e.target.value;$('#m2FOut').textContent=t2.F.toFixed(1)+' N';t2.phase='ready';t2.x=0;t2.v=0;});
+$('#m2t').addEventListener('input',e=>{t2.dt=+e.target.value;$('#m2tOut').textContent=t2.dt.toFixed(1)+' s';t2.phase='ready';t2.x=0;t2.v=0;});
+$('#m2play').addEventListener('click',t2launch);
 
 /* ======================================================= */
 /* TAB 3 — stability / toppling                            */
@@ -641,34 +650,55 @@ $('#m3play').addEventListener('click',()=>t3reset());
 /* ======================================================= */
 /* TAB 4 — equilibrium types                               */
 /* ======================================================= */
-const t4={dp:6, dt:0.4, mode:'hard'};
+const t4={h:1.5, soft:0, phase:'ready', yb:0, vy:0, it:0, broke:false};
+const EGG_M=0.06, Gacc=9.8, FBREAK=4, FMAX=40;
+function t4metrics(){const vImp=Math.sqrt(2*Gacc*t4.h), dp=EGG_M*vImp, dt=0.01+t4.soft*0.19;return{vImp,dp,dt,F:dp/dt};}
+function t4drop(){t4.phase='fall';t4.vy=0;t4.it=0;t4.broke=false;}
+function t4softLabel(){return t4.soft<0.2?'hard':t4.soft<0.6?'medium':'soft';}
 drawFns.cog4=function(){
   const ctx=ctxOf('cog4');if(!ctx)return;const{w,h}=dim('cog4');ctx.clearRect(0,0,w,h);
-  const groundY=drawRoom(ctx,w,h,0.8);
-  const F=t4.dp/t4.dt, cx=w*0.28, R=18;
-  if(t4.mode==='soft'){ctx.fillStyle=isDark()?'#4a3c2b':'#e6c79a';rr(ctx,cx-52,groundY-16,104,16,5);ctx.fill();ctx.strokeStyle='rgba(0,0,0,.2)';ctx.lineWidth=1;ctx.stroke();}
-  const topY=groundY-(t4.mode==='soft'?16:0), by=topY-R;
-  softShadow(ctx,cx,groundY+2,R*1.2,7);
-  const bg=ctx.createRadialGradient(cx-5,by-6,2,cx,by,R);bg.addColorStop(0,'#f3a7b6');bg.addColorStop(1,'#e11d48');
-  ctx.fillStyle=bg;ctx.beginPath();ctx.arc(cx,by,R,0,TAU);ctx.fill();ctx.strokeStyle='rgba(0,0,0,.2)';ctx.lineWidth=1.5;ctx.stroke();
-  const flen=clamp(F*9,12,h*0.5);
-  arrow(ctx,cx,topY,cx,topY-flen,C3,4,12);
-  ctx.fillStyle=C3;ctx.font='800 14px sans-serif';ctx.textAlign='center';ctx.fillText('F = '+F.toFixed(1)+' N',cx,topY-flen-8);
-  // p–t graph (gradient = F)
-  const gx=w*0.58,gy=h*0.2,gw=w*0.34,gh=h*0.46;
-  ctx.strokeStyle=themeMut();ctx.lineWidth=1.4;ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx,gy+gh);ctx.lineTo(gx+gw,gy+gh);ctx.stroke();
-  ctx.fillStyle=themeMut();ctx.font='10px sans-serif';ctx.textAlign='center';ctx.fillText('p',gx-9,gy+6);ctx.fillText('t',gx+gw,gy+gh+12);
-  const x2=gx+gw*clamp(t4.dt/1.5,0.05,1);
-  ctx.strokeStyle=C2;ctx.lineWidth=2.6;ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(x2,gy+gh);ctx.stroke();
-  ctx.fillStyle=C2;ctx.font='800 11px sans-serif';ctx.textAlign='left';ctx.fillText('gradient = F = Δp/Δt',gx+4,gy-6);
+  const groundY=drawRoom(ctx,w,h,0.82);
+  const M=t4metrics(), cx=w*0.3, R=16;
+  const cushTh=6+t4.soft*34, surfaceY=groundY-cushTh, restY=surfaceY-R;
+  const topY=surfaceY-40-t4.h*62;
+  if(t4.phase==='ready')t4.yb=topY;
+  if(t4.phase==='fall'){t4.vy+=0.9;t4.yb+=t4.vy;if(t4.yb>=restY){t4.yb=restY;t4.phase='impact';t4.it=0;t4.broke=M.F>FBREAK;}}
+  else if(t4.phase==='impact'){t4.it+=0.03;if(t4.it>=0.4)t4.phase='rest';}
+  // surface
+  if(t4.soft>0.03){ctx.fillStyle=isDark()?'#4a3c2b':'#e6c79a';rr(ctx,cx-60,surfaceY,120,cushTh,5);ctx.fill();ctx.strokeStyle='rgba(0,0,0,.2)';ctx.lineWidth=1;ctx.stroke();}
+  else{ctx.strokeStyle=themeMut();ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(cx-75,groundY);ctx.lineTo(cx+75,groundY);ctx.stroke();}
+  // drop guideline + height
+  ctx.strokeStyle='rgba(111,101,87,.3)';ctx.setLineDash([3,5]);ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx,topY-4);ctx.lineTo(cx,surfaceY);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=themeMut();ctx.font='11px sans-serif';ctx.textAlign='left';ctx.fillText('h = '+t4.h.toFixed(1)+' m',cx+10,(topY+surfaceY)/2);
+  // egg (squashes on impact)
+  const broke=(t4.phase==='rest'&&t4.broke);
+  let sq=0; if(t4.phase==='impact')sq=0.35*Math.sin(Math.min(1,t4.it/0.4)*Math.PI);
+  const rx=R*(1+sq), ry=R*(1-sq), ey=(t4.phase==='impact'||t4.phase==='rest')?restY+R-ry:t4.yb;
+  softShadow(ctx,cx,surfaceY+2,R*1.2,6);
+  if(broke){ctx.fillStyle='#f6d36b';ctx.beginPath();ctx.ellipse(cx,surfaceY-5,R*1.8,R*0.5,0,0,TAU);ctx.fill();ctx.fillStyle='#fff';ctx.beginPath();ctx.ellipse(cx-6,surfaceY-6,R*0.5,R*0.28,0,0,TAU);ctx.fill();}
+  else{const bg=ctx.createRadialGradient(cx-5,ey-6,2,cx,ey,R);bg.addColorStop(0,'#fff');bg.addColorStop(1,'#f0e3c6');ctx.fillStyle=bg;ctx.strokeStyle='#caa96b';ctx.lineWidth=1.5;ctx.beginPath();ctx.ellipse(cx,ey,rx,ry,0,0,TAU);ctx.fill();ctx.stroke();}
+  // force meter
+  const mx=w*0.62,my=h*0.2,mw=26,mh=h*0.56;
+  ctx.fillStyle='rgba(111,101,87,.14)';ctx.fillRect(mx,my,mw,mh);
+  const showF=(t4.phase==='impact'||t4.phase==='rest')?M.F:0, fFrac=clamp(showF/FMAX,0,1);
+  ctx.fillStyle=showF>FBREAK?C1:C4;ctx.fillRect(mx,my+mh*(1-fFrac),mw,mh*fFrac);
+  const thy=my+mh*(1-FBREAK/FMAX);ctx.strokeStyle=C1;ctx.setLineDash([4,3]);ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(mx-6,thy);ctx.lineTo(mx+mw+8,thy);ctx.stroke();ctx.setLineDash([]);
+  ctx.fillStyle=C1;ctx.font='700 10px sans-serif';ctx.textAlign='left';ctx.fillText('cracks above here',mx+mw+10,thy+3);
+  ctx.fillStyle=themeInk();ctx.font='800 12px sans-serif';ctx.textAlign='center';ctx.fillText('Force',mx+mw/2,my-6);
+  if(showF>0){ctx.fillStyle=showF>FBREAK?C1:C4;ctx.font='800 11px sans-serif';ctx.fillText(showF.toFixed(0)+' N',mx+mw/2,my+mh*(1-fFrac)-5);}
+  // readouts
   ctx.fillStyle=themeInk();ctx.textAlign='left';ctx.font='700 13px sans-serif';
-  ctx.fillText(`Δp = ${t4.dp.toFixed(1)} kg·m/s    Δt = ${t4.dt.toFixed(2)} s`,14,22);
-  $('#m4out').innerHTML=`F = Δp ÷ Δt = ${t4.dp.toFixed(1)} ÷ ${t4.dt.toFixed(2)} = <b>${F.toFixed(1)} N</b>. ${t4.mode==='soft'?'A longer stopping time → a <b>smaller, safer</b> force.':'A very short stopping time → a <b>large</b> force.'}`;
+  ctx.fillText(`v on impact = ${M.vImp.toFixed(1)} m/s    Δp = ${M.dp.toFixed(2)} kg·m/s`,14,22);
+  ctx.fillText(`stopping time Δt = ${M.dt.toFixed(2)} s`,14,40);
+  if(t4.phase==='rest'){ctx.font='800 16px sans-serif';ctx.fillStyle=t4.broke?C1:C4;ctx.fillText(t4.broke?'CRACK! — force too big':'Safe ✓ — small force',14,64);}
+  else if(t4.phase==='ready'){ctx.fillStyle=themeMut();ctx.font='800 13px sans-serif';ctx.fillText('Press “Drop the egg”',14,64);}
+  $('#m4out').innerHTML=`F = Δp ÷ Δt = ${M.dp.toFixed(2)} ÷ ${M.dt.toFixed(2)} = <b>${M.F.toFixed(0)} N</b>. ${t4.soft>0.4?'The soft surface stretches out the stopping time, so the force stays below the breaking point — <b>egg safe</b>.':'The hard surface stops the egg almost instantly, so the force is <b>huge</b> and it cracks. Soften the surface to save it.'}`;
 };
-$('#m4dp').addEventListener('input',e=>{t4.dp=+e.target.value;$('#m4dpOut').textContent=t4.dp.toFixed(1)+' kg·m/s';});
-$('#m4dt').addEventListener('input',e=>{t4.dt=+e.target.value;$('#m4dtOut').textContent=t4.dt.toFixed(2)+' s';t4.mode=t4.dt<0.45?'hard':'soft';$('#m4hard').classList.toggle('on',t4.mode==='hard');$('#m4soft').classList.toggle('on',t4.mode==='soft');});
-$('#m4hard').addEventListener('click',()=>{t4.mode='hard';t4.dt=0.1;$('#m4dt').value=0.1;$('#m4dtOut').textContent='0.10 s';$('#m4hard').classList.add('on');$('#m4soft').classList.remove('on');});
-$('#m4soft').addEventListener('click',()=>{t4.mode='soft';t4.dt=1.0;$('#m4dt').value=1;$('#m4dtOut').textContent='1.00 s';$('#m4soft').classList.add('on');$('#m4hard').classList.remove('on');});
+$('#m4h').addEventListener('input',e=>{t4.h=+e.target.value;$('#m4hOut').textContent=t4.h.toFixed(1)+' m';t4.phase='ready';});
+$('#m4soft').addEventListener('input',e=>{t4.soft=+e.target.value;$('#m4softOut').textContent=t4softLabel();t4.phase='ready';$('#m4hard').classList.toggle('on',t4.soft<0.2);$('#m4foam').classList.toggle('on',t4.soft>=0.6);});
+$('#m4hard').addEventListener('click',()=>{t4.soft=0;$('#m4soft').value=0;$('#m4softOut').textContent='hard';t4.phase='ready';$('#m4hard').classList.add('on');$('#m4foam').classList.remove('on');});
+$('#m4foam').addEventListener('click',()=>{t4.soft=0.9;$('#m4soft').value=0.9;$('#m4softOut').textContent='soft';t4.phase='ready';$('#m4foam').classList.add('on');$('#m4hard').classList.remove('on');});
+$('#m4drop').addEventListener('click',t4drop);
 
 /* ======================================================= */
 /* worked-example reveals                                  */
