@@ -74,6 +74,13 @@
   }
   .brand .name{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--ink);line-height:1.15;letter-spacing:.02em}
   .brand .sub{font-size:10px;color:var(--ink-mute);letter-spacing:.16em;text-transform:uppercase;margin-top:3px}
+  .year-switch{padding:2px 8px 14px;margin-bottom:4px;border-bottom:1px solid var(--line)}
+  .year-switch label{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-mute);display:block;margin-bottom:5px;font-weight:700}
+  .year-row{display:flex;gap:6px}
+  #yearSel{flex:1;min-width:0;padding:7px 9px;border:1px solid var(--line-strong);border-radius:9px;background:#fff;font-size:13px;font-weight:700;color:var(--ink);outline:none}
+  #yearSel:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  #yearAdd{width:34px;flex:none;border:1px solid var(--line-strong);border-radius:9px;background:#fff;font-size:16px;color:var(--brand);font-weight:700;line-height:1}
+  #yearAdd:hover{border-color:var(--brand);background:var(--accent-soft)}
   .nav-group-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-mute);padding:16px 10px 6px}
   .nav-btn{
     display:flex;align-items:center;gap:11px;width:100%;text-align:left;
@@ -289,6 +296,13 @@
         <div class="sub">Coordinator Console</div>
       </div>
     </div>
+    <div class="year-switch">
+      <label>Academic year</label>
+      <div class="year-row">
+        <select id="yearSel"></select>
+        <button id="yearAdd" title="Add a new academic year">＋</button>
+      </div>
+    </div>
     <div class="nav-group-label">Overview</div>
     <button class="nav-btn" data-view="dashboard"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</button>
     <button class="nav-btn" data-view="capture"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>Quick Capture</button>
@@ -332,17 +346,30 @@ const GRADES=['Grade 9','Grade 10','IGCSE'];
 const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat'];
 const PERIODS=['P1','P2','P3','P4','P5','P6','P7'];
 const ROLES=['Teacher','Coordinator','HOD'];
-let state=load();
-if(!state.ias)state.ias=[];
-if(!state.staff)state.staff=[];
-if(!state.settings)state.settings={teachers:[...DEFAULT_TEACHERS]};
-function load(){
-  try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.tasks)return s;}catch(e){}
-  return {tasks:[],corrections:[],docs:[],ias:[],staff:[],settings:{teachers:[...DEFAULT_TEACHERS]},view:'dashboard'};
+const MKEY='asp_tracker_multi_v1';
+function curAcademicYear(){const d=new Date();const y=d.getFullYear();return (d.getMonth()>=3)?`${y}–${String(y+1).slice(-2)}`:`${y-1}–${String(y).slice(-2)}`;}
+function blankYear(){return {tasks:[],corrections:[],docs:[],ias:[],staff:[],settings:{teachers:[...DEFAULT_TEACHERS]}};}
+function normYear(yr){yr.tasks=yr.tasks||[];yr.corrections=yr.corrections||[];yr.docs=yr.docs||[];yr.ias=yr.ias||[];yr.staff=yr.staff||[];yr.settings=yr.settings||{teachers:[...DEFAULT_TEACHERS]};return yr;}
+function loadStore(){
+  try{const s=JSON.parse(localStorage.getItem(MKEY));if(s&&s.years&&s.activeYear&&s.years[s.activeYear]){Object.values(s.years).forEach(normYear);s.view=s.view||'dashboard';return s;}}catch(e){}
+  try{const o=JSON.parse(localStorage.getItem(KEY));if(o&&o.tasks){const y=curAcademicYear();return {activeYear:y,view:o.view||'dashboard',years:{[y]:normYear({tasks:o.tasks,corrections:o.corrections,docs:o.docs,ias:o.ias,staff:o.staff,settings:o.settings})}};}}catch(e){}
+  const y=curAcademicYear();return {activeYear:y,view:'dashboard',years:{[y]:blankYear()}};
 }
+let store=loadStore();
+let state=store.years[store.activeYear];
+let view=store.view||'dashboard';
+function yearList(){return Object.keys(store.years).sort((a,b)=>parseInt(a)-parseInt(b));}
 function syncTeacherNames(){if(state.staff&&state.staff.length)state.settings.teachers=state.staff.map(s=>s.name);}
-function save(){syncTeacherNames();localStorage.setItem(KEY,JSON.stringify(state));refreshBadges();}
-let view=state.view||'dashboard';
+function save(){syncTeacherNames();store.years[store.activeYear]=state;store.view=view;localStorage.setItem(MKEY,JSON.stringify(store));refreshBadges();}
+function switchYear(y){if(!store.years[y]||y===store.activeYear)return;store.activeYear=y;state=store.years[y];save();render();highlightNav();populateYears();toast('Switched to '+y);}
+function suggestNextYear(){let max=0;yearList().forEach(y=>{const m=y.match(/(\d{4})\D+(\d{2,4})/);if(m){let e=+m[2];if(e<100)e=2000+e;if(e>max)max=e;}});if(!max){const c=curAcademicYear();return c;}return `${max}–${String(max+1).slice(-2)}`;}
+function addYear(label,carryStaff){
+  if(store.years[label]){switchYear(label);return;}
+  const yr=blankYear();
+  if(carryStaff&&state.staff&&state.staff.length){yr.staff=state.staff.map(s=>({...s,id:uid(),classes:[...(s.classes||[])],timetable:(s.timetable||[]).map(x=>({...x}))}));yr.settings={teachers:yr.staff.map(s=>s.name)};}
+  store.years[label]=yr;store.activeYear=label;state=yr;save();render();highlightNav();populateYears();toast('Created '+label);
+}
+function populateYears(){const sel=document.getElementById('yearSel');if(!sel)return;sel.innerHTML=yearList().map(y=>`<option ${y===store.activeYear?'selected':''}>${esc(y)}</option>`).join('');}
 let taskFilter='all', corrTab='mine', searchQ='';
 
 /* ===================== Helpers ===================== */
@@ -508,7 +535,7 @@ function refreshBadges(){
     sb.classList.toggle('alert',state.staff.some(s=>teacherStats(s.name).overdue.length>0));}
 }
 function render(){
-  refreshBadges();
+  refreshBadges();populateYears();
   const el=$('#view');
   if(searchQ){el.innerHTML=renderSearch();bind();return;}
   if(view==='dashboard')el.innerHTML=renderDash();
@@ -994,6 +1021,18 @@ function renderSearch(){
 /* ===================== Modals ===================== */
 function modal(html){const s=$('#modalScrim');s.innerHTML=`<div class="modal">${html}</div>`;s.classList.add('show');}
 function closeModal(){$('#modalScrim').classList.remove('show');$('#modalScrim').innerHTML='';}
+function yearModal(){
+  const next=suggestNextYear();
+  modal(`
+    <div class="modal-head"><h3>New academic year</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="fld"><label>Year label</label><input id="y_label" value="${esc(next)}" placeholder="e.g. 2027–28"></div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-soft)"><input type="checkbox" id="y_carry" checked style="width:15px;height:15px;accent-color:var(--brand)">Carry current teachers &amp; timetables forward</label>
+      <div class="mini">Starts a fresh year — tasks, corrections, IA and documents begin empty. Every previous year stays intact and selectable from the sidebar.</div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="y_save">Create year</button></div>`);
+  $('#y_save').onclick=()=>{const l=$('#y_label').value.trim();if(!l){toast('Enter a label');return;}closeModal();addYear(l,$('#y_carry').checked);};
+}
 
 function taskModal(t,preset){
   const edit=!!t;t=t||Object.assign({type:'Task',priority:'normal',subject:'Physics',recurring:'',assignedBy:'Atul Soral'},preset||{});
@@ -1191,22 +1230,29 @@ document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
   const a=b.dataset.act;
   if(a==='export')exportData();
   else if(a==='import')importData();
-  else if(a==='sample'){state.tasks=[];state.corrections=[];state.docs=[];state.ias=[];state.staff=[];seedData();render();toast('Fresh sample data loaded');closeMobileNav();}
-  else if(a==='clear'){if(confirm('Clear ALL data? Export a backup first — this cannot be undone.')){state={tasks:[],corrections:[],docs:[],ias:[],staff:[],settings:{teachers:[...DEFAULT_TEACHERS]},view:view};save();render();toast('All data cleared');}closeMobileNav();}
+  else if(a==='sample'){state.tasks=[];state.corrections=[];state.docs=[];state.ias=[];state.staff=[];seedData();render();toast('Fresh sample data loaded into '+store.activeYear);closeMobileNav();}
+  else if(a==='clear'){if(confirm('Clear ALL data for '+store.activeYear+'? Other years are untouched. Export a backup first — this cannot be undone.')){const fresh=blankYear();store.years[store.activeYear]=fresh;state=fresh;save();render();toast('Cleared '+store.activeYear);}closeMobileNav();}
 });
 $('#menuToggle').onclick=()=>{$('#sidebar').classList.toggle('open');$('#scrim').classList.toggle('show');};
+const _ysel=document.getElementById('yearSel');if(_ysel)_ysel.addEventListener('change',e=>switchYear(e.target.value));
+const _yadd=document.getElementById('yearAdd');if(_yadd)_yadd.onclick=yearModal;
 $('#scrim').onclick=closeMobileNav;
 function closeMobileNav(){$('#sidebar').classList.remove('open');$('#scrim').classList.remove('show');}
 
 function exportData(){
-  const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  save();
+  const blob=new Blob([JSON.stringify(store,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-  a.download=`asp-coordinator-backup-${todayISO()}.json`;a.click();toast('Backup downloaded');
+  a.download=`asp-coordinator-backup-${todayISO()}.json`;a.click();toast('Backup downloaded (all years)');
 }
 function importData(){
   const inp=document.createElement('input');inp.type='file';inp.accept='.json,application/json';
   inp.onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
-    r.onload=ev=>{try{const d=JSON.parse(ev.target.result);if(!d.tasks)throw 0;state=d;if(!state.settings)state.settings={teachers:[...DEFAULT_TEACHERS]};save();render();toast('Backup restored');}catch(x){toast('That file could not be read');}};
+    r.onload=ev=>{try{const d=JSON.parse(ev.target.result);
+      if(d&&d.years&&d.activeYear){Object.values(d.years).forEach(normYear);store=d;store.view=store.view||'dashboard';}
+      else if(d&&d.tasks){const y=d.view&&store.activeYear||curAcademicYear();const yr=normYear({tasks:d.tasks,corrections:d.corrections,docs:d.docs,ias:d.ias,staff:d.staff,settings:d.settings});store.years[curAcademicYear()]=yr;store.activeYear=curAcademicYear();}
+      else throw 0;
+      state=store.years[store.activeYear];view=store.view||'dashboard';save();render();highlightNav();populateYears();toast('Backup restored');}catch(x){toast('That file could not be read');}};
     r.readAsText(f);};
   inp.click();
 }
@@ -1264,8 +1310,8 @@ function seedData(){
 
 /* ===================== Boot ===================== */
 if(!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length)seedData();
-view='dashboard';state.view='dashboard';
-highlightNav();render();
+view='dashboard';store.view='dashboard';
+populateYears();highlightNav();render();
 </script>
 </body>
 </html>
