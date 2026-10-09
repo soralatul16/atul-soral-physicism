@@ -242,6 +242,17 @@
   .modal-foot{padding:0 20px 20px;display:flex;gap:9px;justify-content:flex-end}
   .x{border:0;background:none;color:var(--ink-mute);font-size:22px;line-height:1;padding:0 4px}
 
+  .gate{position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;padding:24px;
+    background:linear-gradient(160deg,#e9f6f0,#eef1fb 55%,#faf1f5)}
+  .gate.hidden{display:none}
+  .gate-card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-lift);padding:30px 28px;max-width:360px;width:100%;text-align:center}
+  .gate-card .mark{width:52px;height:52px;border-radius:15px;margin:0 auto 14px;background:var(--brand-grad);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:700;font-size:28px;box-shadow:0 10px 22px rgba(92,181,166,.35)}
+  .gate-card h2{font-family:var(--font-display);font-size:20px;margin:0 0 3px}
+  .gate-card p{color:var(--ink-soft);font-size:13px;margin:0 0 18px}
+  .gate-card input{width:100%;padding:11px 13px;border:1px solid var(--line-strong);border-radius:10px;font-size:16px;text-align:center;letter-spacing:.1em;outline:none}
+  .gate-card input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+  .gate-card .err{color:var(--crit);font-size:12.5px;font-weight:600;margin-top:9px;display:none}
+  .gate-card button{margin-top:14px;width:100%;padding:11px;border:0;border-radius:10px;background:var(--brand-grad);color:#fff;font-weight:700;font-size:14px;box-shadow:0 6px 16px rgba(92,181,166,.3)}
   .toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brand);color:#fff;
     padding:11px 18px;border-radius:11px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lift);opacity:0;transition:.25s;z-index:80;pointer-events:none;max-width:90vw}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -280,6 +291,7 @@
   .mini-tag button{border:0;background:none;color:var(--ink-mute);padding:0;font-size:13px;line-height:1;cursor:pointer}
 
   @media print{
+    .gate{display:none!important}
     .sidebar,.topline .btn,.menu-toggle,.capture,.row-del,.filters,.scrim,.toast,.privacy{display:none!important}
     .app{grid-template-columns:1fr}
     .card{box-shadow:none;border-color:#ccc}
@@ -287,6 +299,16 @@
 </style>
 </head>
 <body>
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <div class="mark">Φ</div>
+    <h2>ATUL SORAL PHYSICISM</h2>
+    <p>Coordinator Console — enter your passcode</p>
+    <input id="gatePin" type="password" inputmode="numeric" placeholder="••••••" autocomplete="off" aria-label="Passcode">
+    <div class="err" id="gateErr">Incorrect passcode — try again.</div>
+    <button id="gateBtn">Unlock</button>
+  </div>
+</div>
 <div class="app">
   <aside class="sidebar" id="sidebar">
     <div class="brand">
@@ -347,6 +369,8 @@ const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat'];
 const PERIODS=['P1','P2','P3','P4','P5','P6','P7'];
 const ROLES=['Teacher','Coordinator','HOD'];
 const MKEY='asp_tracker_multi_v1';
+/* ===== Passcode: change the value below to set your own. Keep the quotes. ===== */
+const ACCESS_CODE='physicism';
 function curAcademicYear(){const d=new Date();const y=d.getFullYear();return (d.getMonth()>=3)?`${y}–${String(y+1).slice(-2)}`:`${y-1}–${String(y).slice(-2)}`;}
 function blankYear(){return {tasks:[],corrections:[],docs:[],ias:[],staff:[],settings:{teachers:[...DEFAULT_TEACHERS]}};}
 function normYear(yr){yr.tasks=yr.tasks||[];yr.corrections=yr.corrections||[];yr.docs=yr.docs||[];yr.ias=yr.ias||[];yr.staff=yr.staff||[];yr.settings=yr.settings||{teachers:[...DEFAULT_TEACHERS]};return yr;}
@@ -537,14 +561,19 @@ function refreshBadges(){
 function render(){
   refreshBadges();populateYears();
   const el=$('#view');
-  if(searchQ){el.innerHTML=renderSearch();bind();return;}
-  if(view==='dashboard')el.innerHTML=renderDash();
-  else if(view==='capture')el.innerHTML=renderCapture();
-  else if(view==='tasks')el.innerHTML=renderTasks();
-  else if(view==='corrections')el.innerHTML=renderCorr();
-  else if(view==='ia')el.innerHTML=renderIA();
-  else if(view==='teachers')el.innerHTML=renderTeachers();
-  else if(view==='documents')el.innerHTML=renderDocs();
+  try{
+    if(searchQ){el.innerHTML=renderSearch();bind();return;}
+    if(view==='dashboard')el.innerHTML=renderDash();
+    else if(view==='capture')el.innerHTML=renderCapture();
+    else if(view==='tasks')el.innerHTML=renderTasks();
+    else if(view==='corrections')el.innerHTML=renderCorr();
+    else if(view==='ia')el.innerHTML=renderIA();
+    else if(view==='teachers')el.innerHTML=renderTeachers();
+    else if(view==='documents')el.innerHTML=renderDocs();
+    else el.innerHTML=renderDash();
+  }catch(err){
+    el.innerHTML='<div class="empty"><div class="big">This view hit a snag.</div><div class="mini">'+esc(String(err&&err.message||err))+'</div></div>';
+  }
   bind();
 }
 function pageHead(title,sub){return `<div style="margin-bottom:6px"><h1 class="page-title">${title}</h1></div><p class="page-sub">${sub}</p>`;}
@@ -1312,6 +1341,17 @@ function seedData(){
 if(!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length)seedData();
 view='dashboard';store.view='dashboard';
 populateYears();highlightNav();render();
+
+/* ===================== Passcode gate ===================== */
+function unlockGate(){
+  const v=($('#gatePin').value||'').trim();
+  if(v===ACCESS_CODE){sessionStorage.setItem('asp_unlocked','1');$('#gate').classList.add('hidden');}
+  else{$('#gateErr').style.display='block';$('#gatePin').value='';$('#gatePin').focus();}
+}
+if(sessionStorage.getItem('asp_unlocked')==='1'){$('#gate').classList.add('hidden');}
+else{setTimeout(()=>$('#gatePin')&&$('#gatePin').focus(),100);}
+$('#gateBtn').onclick=unlockGate;
+$('#gatePin').addEventListener('keydown',e=>{if(e.key==='Enter')unlockGate();});
 </script>
 </body>
 </html>
