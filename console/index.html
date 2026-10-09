@@ -562,8 +562,8 @@ function render(){
   refreshBadges();populateYears();
   const el=$('#view');
   try{
-    if(searchQ){el.innerHTML=renderSearch();bind();return;}
-    if(view==='dashboard')el.innerHTML=renderDash();
+    if(searchQ){el.innerHTML=renderSearch();}
+    else if(view==='dashboard')el.innerHTML=renderDash();
     else if(view==='capture')el.innerHTML=renderCapture();
     else if(view==='tasks')el.innerHTML=renderTasks();
     else if(view==='corrections')el.innerHTML=renderCorr();
@@ -571,10 +571,11 @@ function render(){
     else if(view==='teachers')el.innerHTML=renderTeachers();
     else if(view==='documents')el.innerHTML=renderDocs();
     else el.innerHTML=renderDash();
+    bind();
   }catch(err){
     el.innerHTML='<div class="empty"><div class="big">This view hit a snag.</div><div class="mini">'+esc(String(err&&err.message||err))+'</div></div>';
+    try{bind();}catch(e){}
   }
-  bind();
 }
 function pageHead(title,sub){return `<div style="margin-bottom:6px"><h1 class="page-title">${title}</h1></div><p class="page-sub">${sub}</p>`;}
 function emptyMini(msg){return `<div class="empty" style="padding:26px"><div>${msg}</div></div>`;}
@@ -1337,21 +1338,28 @@ function seedData(){
   save();
 }
 
-/* ===================== Boot ===================== */
-if(!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length)seedData();
-view='dashboard';store.view='dashboard';
-populateYears();highlightNav();render();
-
-/* ===================== Passcode gate ===================== */
+/* ===================== Passcode gate (wired before boot so it always works) ===================== */
 function unlockGate(){
-  const v=($('#gatePin').value||'').trim();
-  if(v===ACCESS_CODE){sessionStorage.setItem('asp_unlocked','1');$('#gate').classList.add('hidden');}
-  else{$('#gateErr').style.display='block';$('#gatePin').value='';$('#gatePin').focus();}
+  const g=document.getElementById('gate'),pin=document.getElementById('gatePin'),err=document.getElementById('gateErr');
+  const v=((pin&&pin.value)||'').trim();
+  if(v===ACCESS_CODE){try{sessionStorage.setItem('asp_unlocked','1');}catch(e){}if(g)g.classList.add('hidden');}
+  else{if(err)err.style.display='block';if(pin){pin.value='';pin.focus();}}
 }
-if(sessionStorage.getItem('asp_unlocked')==='1'){$('#gate').classList.add('hidden');}
-else{setTimeout(()=>$('#gatePin')&&$('#gatePin').focus(),100);}
-$('#gateBtn').onclick=unlockGate;
-$('#gatePin').addEventListener('keydown',e=>{if(e.key==='Enter')unlockGate();});
+(function(){
+  var g=document.getElementById('gate'),pin=document.getElementById('gatePin'),btn=document.getElementById('gateBtn');
+  var unlocked=false;try{unlocked=sessionStorage.getItem('asp_unlocked')==='1';}catch(e){}
+  if(unlocked){if(g)g.classList.add('hidden');}
+  else if(pin){setTimeout(function(){pin.focus();},80);}
+  if(btn)btn.onclick=unlockGate;
+  if(pin)pin.addEventListener('keydown',function(e){if(e.key==='Enter')unlockGate();});
+})();
+
+/* ===================== Boot ===================== */
+try{
+  if(!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length)seedData();
+  view='dashboard';store.view='dashboard';
+  populateYears();highlightNav();render();
+}catch(err){console.error('Boot error:',err);}
 </script>
 </body>
 </html>
