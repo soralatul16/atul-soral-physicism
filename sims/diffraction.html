@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Diffraction</title>
+<style>
+:root{
+  --c1:#2563eb; --c2:#0891b2; --c3:#7c3aed; --c4:#db2777; --c5:#0d9488; --c6:#d97706; --c7:#059669; --c8:#4f46e5;
+  --accent:var(--c1); --accent-soft:rgba(37,99,235,.12);
+  --ink:#1b2440; --muted:#71809e; --line:rgba(27,36,64,.12); --card:#ffffff;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#eef4ff 0%,#f3f1ff 50%,#ecfbff 100%)}
+body[data-page="1"]{background:linear-gradient(135deg,#eef4ff 0%,#eaf1ff 55%,#f4f8ff 100%)}
+body[data-page="2"]{background:linear-gradient(135deg,#ecfeff 0%,#eef9fb 55%,#f0fbff 100%)}
+body[data-page="3"]{background:linear-gradient(135deg,#f5f1ff 0%,#f6f3ff 55%,#faf6ff 100%)}
+body[data-page="4"]{background:linear-gradient(135deg,#ecfdf9 0%,#f0fdfa 55%,#eefaf6 100%)}
+body[data-page="5"]{background:linear-gradient(135deg,#fff7ed 0%,#fffbeb 55%,#fef7ec 100%)}
+body[data-page="6"]{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf6 55%,#eefaf2 100%)}
+body.dark{--ink:#e7ebf7;--muted:#9aa6c8;--line:rgba(231,235,247,.15);--card:#1a2033;--tan:#2b3450;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#0e1322 0%,#121829 55%,#101a26 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(18,24,42,.86)}
+body.dark .brand{color:#f2f4fb}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox{background:#1a2033}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#141a2b}
+body.dark .qexp{background:rgba(5,150,105,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#c7cfe6}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .ms,body.dark .qexp,body.dark .pq .stem{color:#c7cfe6}
+body.dark .gatebox .mark{color:#f2f4fb}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#0b1120}
+
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#1b1b1b;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#2563eb;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,255,255,.55);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fff;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .sl{display:inline-flex;align-items:center;gap:4px}
+.dotSL{width:9px;height:9px;border-radius:3px;background:#2563eb}
+
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:730px;font-size:15px}
+
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.sl{background:rgba(37,99,235,.12);color:#2563eb}
+.lead{font-size:16px;color:#374151;max-width:770px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(27,36,64,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,42vh,420px);overflow:hidden;border-radius:12px;background:#0b1120;border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#374151}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+.prose p{margin-bottom:11px;font-size:14.5px;color:#374151}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.prose ul{margin:4px 0 11px 20px;font-size:14.5px;color:#374151}
+.prose li{margin-bottom:5px}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fbfbff;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.1;
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px;color:var(--ink)}
+.fml .op{color:var(--muted)}
+.fml sub{font-size:.68em;vertical-align:-.25em}
+.fml sup{font-size:.68em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+
+.we{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#374151;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#374151;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#374151;background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c4)}
+.mcard .wrong{font-size:13px;color:#b91c1c;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"\2717 ";}
+.mcard .right{font-size:13.5px;color:#065f46;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"\2713 ";}
+.mcard p{font-size:13px;color:#374151;margin-top:5px}
+
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fcfdff;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#374151;background:#f0fdf4;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#eef4ff,#f3f1ff,#ecfbff);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fff;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(27,36,64,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#1b1b1b}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:#fff;border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+@media print{#gate,.topnav,.sunbtn,nav#nav{display:none!important}.page{display:block!important;page-break-after:always}}
+</style>
+</head>
+<body data-page="1">
+
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Diffraction</h2>
+    <p>Topic 8.2 Superposition &middot; Cambridge AS &amp; A Level Physics (9702)</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive A level physics lesson</div>
+  </div>
+</div>
+
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../dp-simulations.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../dp-simulations.html">A Level</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<div class="chapterbar">
+  <span class="chaptag">8 Superposition</span>
+  <div class="parts">
+    <a class="partlink" href="stationary-waves.html">8.1 Stationary Waves<span class="pl">AS</span></a>
+    <a class="partlink here" href="diffraction.html">8.2 Diffraction<span class="pl">AS</span></a>
+    <a class="partlink" href="interference.html">8.3 Interference<span class="pl">AS</span></a>
+    <a class="partlink" href="diffraction-grating.html">8.4 Diffraction Grating<span class="pl">AS</span></a>
+  </div>
+  <div class="legend">
+    <span class="sl"><span class="dotSL"></span>AS Level core</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">8.2 &middot; Waves spread through gaps</div>
+  <h1>Diffraction</h1>
+  <p>Diffraction is the spreading of a wave as it passes through a gap or around an obstacle. How much it spreads depends on the width of the gap compared with the wavelength &mdash; the effect is greatest when the gap is about one wavelength wide.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+<!-- ========== PAGE 1 : WHAT IS DIFFRACTION ========== -->
+<section class="page active" data-p="1">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">When a wave meets a gap or the edge of an obstacle, it bends and spreads into the region beyond. This spreading is called <b>diffraction</b>. How much it spreads depends on the gap width <b>a</b> compared with the wavelength <b>&lambda;</b> &mdash; drag both sliders and watch.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Ripple tank &mdash; plane waves meet a gap</h3>
+      <div class="canvas-wrap"><canvas id="diffCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Gap width <b>a = <span id="gapV">3.0</span> cm</b></label>
+        <input type="range" id="gapR" min="0.5" max="9" step="0.1" value="3">
+      </div>
+      <div class="ctl">
+        <label>Wavelength <b>&lambda; = <span id="lamV">2.0</span> cm</b></label>
+        <input type="range" id="lamR" min="0.6" max="6" step="0.1" value="2">
+      </div>
+      <div class="btnrow"><button class="btn primary" id="diffPlay">Pause</button></div>
+      <p class="note">Straight (plane) wavefronts travel in from the left towards a barrier with a single gap. Narrow the gap towards the wavelength and the circular spreading becomes dramatic.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>How much does it spread?</h3>
+      <div class="ro"><span class="k">Gap width a</span><span class="v"><span id="roGap">3.0</span> cm</span></div>
+      <div class="ro"><span class="k">Wavelength &lambda;</span><span class="v"><span id="roLam">2.0</span> cm</span></div>
+      <div class="ro"><span class="k">Ratio &lambda; / a</span><span class="v" id="roRatio">0.67</span></div>
+      <div class="ro hi"><span class="k">Spreading</span><span class="v" id="roSpread">Moderate</span></div>
+      <div class="out" id="d2Out">When the gap is much wider than the wavelength, the wave passes almost straight through with only slight spreading at the edges.</div>
+      <div class="prose" style="margin-top:12px">
+        <p><b>Diffraction</b> is the spreading of a wave into the region beyond a gap or obstacle as it passes the edge.</p>
+        <p>Each point on a wavefront acts as a source of secondary circular wavelets (Huygens' idea). At a gap, the wavelets near the edges have no neighbours to cancel their sideways spreading &mdash; so the wave curves into the "shadow" region.</p>
+        <h4>The rule</h4>
+        <ul>
+          <li><b>a &gt;&gt; &lambda;</b> &mdash; little diffraction; a near-straight beam with slightly curved edges.</li>
+          <li><b>a &asymp; &lambda;</b> &mdash; <b>maximum diffraction</b>; near-semicircular wavefronts fill the space beyond.</li>
+          <li><b>a &lt; &lambda;</b> &mdash; still wide spreading, but little energy gets through.</li>
+        </ul>
+        <p>Wavelength, frequency and speed <b>do not change</b> on diffraction &mdash; only the shape and direction of the wavefronts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 2 : THE EXPERIMENTS ========== -->
+<section class="page" data-p="2">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">Each wave gets its <b>own real setup</b> &mdash; a ripple tank, a room with a doorway, a laser through a slit onto a screen, a microwave bench, and radio over a hill. Pick one, change its frequency and the gap, read the wavelength from the working, and watch &mdash; and <b>hear</b> &mdash; the diffraction change.</p>
+  <div class="seg" id="expSeg" style="margin-bottom:14px">
+    <button data-x="water" class="on">Water &middot; ripple tank</button>
+    <button data-x="sound">Sound &middot; doorway</button>
+    <button data-x="light">Light &middot; narrow slit</button>
+    <button data-x="micro">Microwaves &middot; plates</button>
+    <button data-x="radio">Radio &middot; over hills</button>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span><span id="expTitle">Water &middot; ripple tank</span></h3>
+      <div class="canvas-wrap"><canvas id="diff3Canvas"></canvas></div>
+      <div class="btnrow">
+        <button class="btn primary" id="hearBtn">&#9654; Hear the wave</button>
+        <button class="btn ghost" id="stopBtn">&#9632; Stop</button>
+        <span id="waveSwatch" title="wave colour" style="width:26px;height:26px;border-radius:7px;border:1px solid var(--line);align-self:center"></span>
+      </div>
+      <p class="note" id="soundNote"></p>
+    </div>
+    <div class="card">
+      <p class="prose" id="expDesc" style="margin-top:0"></p>
+      <div class="ctl">
+        <label>Frequency <b id="fV"></b></label>
+        <input type="range" id="fR">
+      </div>
+      <div class="eqbox" id="lamWork"></div>
+      <div class="ctl">
+        <label><span id="gapLabel">Gap width</span> <b id="gV"></b></label>
+        <input type="range" id="gR">
+      </div>
+      <div class="ro"><span class="k">Wave speed v</span><span class="v" id="vOut"></span></div>
+      <div class="ro hi"><span class="k">&lambda; / gap</span><span class="v" id="ratOut"></span></div>
+      <div class="out" id="verdict"></div>
+      <div class="out" id="taskBox" style="background:rgba(217,119,6,.12)">
+        <b>Your task:</b> adjust the gap until the diffraction is a <b>maximum</b> &mdash; think about how the gap should compare with &lambda; &mdash; then press Check.
+        <div class="btnrow"><button class="btn ghost" id="checkBtn">Check my gap</button></div>
+        <div id="taskFb" class="note" style="margin-top:8px"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:18px">
+    <div class="card">
+      <div class="prose">
+        <h4>Water waves &mdash; the ripple tank</h4>
+        <p>The classic demonstration: plane water waves from a vibrating bar meet a barrier with an adjustable gap. With a wide gap the waves pass almost straight through; as the gap is narrowed towards the wavelength, the waves spread into clear circular arcs beyond the barrier. This is the one you must be able to describe in the exam.</p>
+        <h4>Sound</h4>
+        <p>Sound diffracts around doorways and walls because its wavelength (a few cm to a few m) is comparable to everyday openings &mdash; so you hear someone in the next room even when you cannot see them.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="prose">
+        <h4>Light</h4>
+        <p>Light's wavelength is tiny (&sim;400&ndash;700 nm), so ordinary gaps are far too wide to show spreading. A <b>very narrow slit</b> (comparable to the wavelength) is needed &mdash; the basis of the single- and double-slit experiments in 8.3.</p>
+        <h4>Microwaves</h4>
+        <p>Microwaves (&lambda; &asymp; 3 cm) diffract through a few-centimetre gap between metal plates &mdash; easily shown with a transmitter and receiver on the bench.</p>
+        <h4>Radio</h4>
+        <p>Long-wave radio (&lambda; up to hundreds of metres) diffracts around hills and buildings, giving reception in valleys; short-wavelength TV and mobile signals diffract far less.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="card pq" style="margin-top:18px">
+    <div class="tagq">Practice &middot; Exam-style</div>
+    <div class="stem">Plane water waves of wavelength 2 cm approach a gap in a barrier. The gap width is slowly reduced from 10 cm to 2 cm.</div>
+    <div class="qpart">
+      <div class="ptext">(a) State what is meant by <i>diffraction</i>. <span class="mks">[1]</span></div>
+      <button class="preveal">Show answer</button>
+      <div class="pans" hidden>Diffraction is the spreading of a wave as it passes through a gap (or around an obstacle/edge) into the region beyond.</div>
+    </div>
+    <div class="qpart">
+      <div class="ptext">(b) Describe how the appearance of the waves beyond the gap changes as the gap is narrowed to 2 cm. <span class="mks">[2]</span></div>
+      <button class="preveal">Show answer</button>
+      <div class="pans" hidden>At 10 cm the waves pass almost straight through with only slight curving at the edges. As the gap narrows towards 2 cm (&asymp; one wavelength) the waves spread much more, emerging as near-semicircular arcs that fill the space beyond the gap.</div>
+    </div>
+    <div class="qpart">
+      <div class="ptext">(c) State what happens to the wavelength and the speed of the waves as they pass through the gap. <span class="mks">[1]</span></div>
+      <button class="preveal">Show answer</button>
+      <div class="pans" hidden>Both the wavelength and the speed stay the same &mdash; diffraction changes only the shape and direction of the wavefronts, not the frequency, wavelength or speed.</div>
+    </div>
+    <div class="pdone" hidden>&#10003; Nice &mdash; that is exactly the ripple-tank description examiners look for.</div>
+  </div>
+</section>
+
+<!-- ========== PAGE 3 : WORKED EXAMPLES ========== -->
+<section class="page" data-p="3">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">Diffraction at this level is qualitative &mdash; no formula is required. Marks come from correct reasoning about the <b>gap-to-wavelength ratio</b> and from precise description. Work through these the way an examiner marks them.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example 1</div>
+    <div class="q">A singer stands behind a stage pillar 0.4 m wide. A member of the audience can still clearly hear the singing but cannot see the singer. Explain this using diffraction. Take the speed of sound as 340 m s<sup>&minus;1</sup> and a typical singing frequency of 340 Hz.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Wavelength of the sound:</p>
+      <div class="eqbox">&lambda; = v / f = 340 / 340 = <b>1.0 m</b></div>
+      <p>The sound wavelength (1.0 m) is <b>larger than the pillar</b> (0.4 m). The obstacle is small compared with the wavelength, so the sound diffracts strongly around it and reaches the listener &mdash; they hear it clearly.</p>
+      <p>Light has a wavelength of only &sim;5 &times; 10<sup>&minus;7</sup> m, which is enormously smaller than the pillar. The pillar is a huge obstacle compared with the light's wavelength, so light diffracts negligibly &mdash; it travels in straight lines, casting a shadow, and the singer cannot be seen.</p>
+      <div class="out"><b>Mark points:</b> calculate &lambda; of sound; compare &lambda; with obstacle size for both sound and light; conclude strong diffraction for sound, negligible for light.</div>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 2</div>
+    <div class="q">In a ripple tank, plane waves of wavelength 1.5 cm are diffracted at a gap. State and explain the gap width that would give the greatest spreading of the waves beyond the gap.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Maximum diffraction (greatest spreading) occurs when the <b>gap width is approximately equal to the wavelength</b>.</p>
+      <div class="eqbox">gap &asymp; &lambda; &asymp; <b>1.5 cm</b></div>
+      <p>At this width the gap behaves almost like a single point source, so the emerging wavefronts are nearly semicircular and spread through the widest angle. A much wider gap would let the waves pass through as a near-straight beam; a much narrower gap would spread the waves but transmit very little energy.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 3</div>
+    <div class="q">Long-wave radio (&lambda; &asymp; 1500 m) and VHF television (&lambda; &asymp; 2 m) are both broadcast towards a town hidden behind a range of hills about 300 m high. Explain which signal gives better reception in the town.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>The hills act as an obstacle/edge roughly 300 m in size.</p>
+      <p>For <b>long-wave radio</b>, &lambda; (1500 m) is larger than the hills, so the waves diffract strongly around and over them and reach the town &mdash; good reception.</p>
+      <p>For <b>VHF television</b>, &lambda; (2 m) is far smaller than the hills, so diffraction is negligible; the signal is largely blocked and casts a "radio shadow" &mdash; poor reception.</p>
+      <div class="out"><b>Conclusion:</b> long-wave radio gives better reception because its wavelength is comparable to (or larger than) the obstacle, so it diffracts far more.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 4 : MISCONCEPTIONS ========== -->
+<section class="page" data-p="4">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">The commonest ways candidates lose diffraction marks. Fix these now.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"Diffraction changes the wavelength of the wave."</div>
+      <div class="right">Wavelength, frequency and speed are all unchanged.</div>
+      <p>Diffraction only alters the <b>shape and direction</b> of the wavefronts as they spread. The source still sets the frequency, and the medium still fixes the speed, so &lambda; = v/f is unchanged.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"A wider gap gives more diffraction because more wave gets through."</div>
+      <div class="right">A narrower gap (closer to &lambda;) gives more <i>spreading</i>.</div>
+      <p>More energy passes through a wide gap, but it stays as a near-straight beam. The <b>angular spreading</b> is greatest when the gap is about one wavelength wide, not when it is widest.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Only light diffracts" (or "only water waves diffract").</div>
+      <div class="right">All waves diffract &mdash; sound, water, light, microwaves, radio.</div>
+      <p>Whether the spreading is <i>noticeable</i> depends on the gap/obstacle size compared with that wave's wavelength. The physics is identical for every wave.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"We can't see round corners, so light doesn't diffract at all."</div>
+      <div class="right">Light does diffract &mdash; but its wavelength is tiny.</div>
+      <p>Everyday gaps are millions of wavelengths wide, so light's spreading is far too small to notice. Through a slit comparable to &lambda;, light's diffraction becomes clearly visible.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Diffraction and refraction are the same bending."</div>
+      <div class="right">They are different causes of bending.</div>
+      <p><b>Refraction</b> is bending due to a change of speed when entering a new medium. <b>Diffraction</b> is spreading at a gap or edge with <i>no</i> change of medium or speed.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"The gap just lets a straight slice of the wave through."</div>
+      <div class="right">The edges of the gap make the wave curve outwards.</div>
+      <p>Secondary wavelets at the gap edges have no neighbours to cancel their sideways spread, so the wavefront curves into the region beyond &mdash; this is the heart of diffraction.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 5 : QUIZ ========== -->
+<section class="page" data-p="5">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">Six questions in Cambridge 9702 style. Pick an answer to see the explanation.</p>
+  <div id="quizWrap"></div>
+  <div class="out" id="quizScore" style="margin-top:14px;display:none"></div>
+</section>
+</main>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> &middot; Topic 8 Superposition &middot; 8.2 Diffraction &middot; Cambridge AS &amp; A Level Physics (9702)<br>
+  Previous: <a href="stationary-waves.html" style="color:var(--c1);font-weight:700">8.1 Stationary Waves</a> &middot; Next: <a href="interference.html" style="color:var(--c1);font-weight:700">8.3 Interference</a>
+</footer>
+
+<script>
+'use strict';
+/* ---------- PAGES / NAV ---------- */
+const PAGES=[
+  {n:'1',t:'What is Diffraction',c:'var(--c1)',lvl:'AS'},
+  {n:'2',t:'The Experiments',c:'var(--c3)',lvl:'AS'},
+  {n:'3',t:'Worked Examples',c:'var(--c5)',lvl:'AS'},
+  {n:'4',t:'Misconceptions',c:'var(--c6)',lvl:'AS'},
+  {n:'5',t:'Quiz',c:'var(--c7)',lvl:'AS'}
+];
+let active=0;
+const nav=document.getElementById('nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML=`<span class="num">${p.n}</span> <span>${p.t}</span> <span class="lvl">${p.lvl}</span>`;
+  b.onclick=()=>go(i);
+  nav.appendChild(b);
+});
+const pages=[...document.querySelectorAll('.page')];
+const tabs=[...document.querySelectorAll('.tab')];
+function go(i){
+  active=i;
+  pages.forEach((p,k)=>p.classList.toggle('active',k===i));
+  tabs.forEach((t,k)=>t.classList.toggle('active',k===i));
+  document.body.setAttribute('data-page',PAGES[i].n);
+  document.documentElement.style.setProperty('--accent',PAGES[i].c);
+  if(typeof stopTone==='function')stopTone();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- GATE ---------- */
+const gate=document.getElementById('gate'),gIn=document.getElementById('gateName'),
+      gBtn=document.getElementById('gateBtn'),gErr=document.getElementById('gateErr');
+function enter(){
+  const v=gIn.value.trim();
+  if(v.length<2){gErr.hidden=false;return;}
+  document.getElementById('profileName').textContent=v.split(' ')[0].toLowerCase();
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>gate.style.display='none',400);
+}
+gBtn.onclick=enter;
+gIn.addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+
+/* ---------- CLOCK ---------- */
+function tick(){
+  const d=new Date();
+  document.getElementById('clock').textContent=d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+
+    ' · '+d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+}
+tick();setInterval(tick,10000);
+
+/* ---------- DARK MODE ---------- */
+const sun=document.getElementById('sunbtn');
+sun.onclick=()=>{
+  const dk=document.body.classList.toggle('dark');
+  sun.innerHTML=dk?'☽':'☀';
+  sun.title=dk?'Switch to light mode':'Switch to dark mode';
+};
+
+/* ---------- CANVAS HELPERS ---------- */
+const canvases={};
+function reg(id){
+  const cv=document.getElementById(id);if(!cv)return null;
+  const o={cv,ctx:cv.getContext('2d'),w:0,h:0,dpr:1};
+  const ro=new ResizeObserver(()=>fit(o));ro.observe(cv.parentElement);
+  fit(o);canvases[id]=o;return o;
+}
+function fit(o){
+  const r=o.cv.parentElement.getBoundingClientRect();
+  o.dpr=Math.min(window.devicePixelRatio||1,2);
+  o.w=r.width;o.h=r.height;
+  o.cv.width=Math.round(o.w*o.dpr);o.cv.height=Math.round(o.h*o.dpr);
+  o.ctx.setTransform(o.dpr,0,0,o.dpr,0,0);
+}
+function ctxOf(id){return canvases[id];}
+
+/* ---------- RIPPLE DIFFRACTION DRAW (shared) ---------- */
+// Plane wavefronts travel LEFT -> RIGHT towards a barrier with a gap.
+// lamPx = on-screen wavefront spacing, gapPx = on-screen gap opening,
+// ratio = TRUE physical λ/a used for the diffraction half-angle (sinθ = λ/a).
+function drawRipple(o,t,lamPx,gapPx,ratio){
+  const {ctx,w,h}=o;
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='#0b1120';ctx.fillRect(0,0,w,h);
+  const bx=w*0.46;                 // barrier x
+  const cy=h/2;                    // gap centre y
+  const halfGap=Math.min(Math.max(gapPx/2,3),h*0.46);
+  const sp=Math.max(12,Math.min(h*0.9,lamPx));   // sane on-screen spacing
+  const speed=26;                  // px per second (wave travels right)
+  const phase=(t*speed)%sp;
+  // --- incident plane waves, moving RIGHT towards the barrier ---
+  ctx.save();
+  ctx.beginPath();ctx.rect(0,0,bx,h);ctx.clip();
+  ctx.lineWidth=2;
+  for(let x=phase-sp;x<bx;x+=sp){
+    const a=0.12+0.4*(x/bx);
+    ctx.strokeStyle=`rgba(96,165,250,${Math.max(0.1,a)})`;
+    ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke();
+  }
+  ctx.restore();
+  // --- diffracted wavefronts beyond the gap, expanding RIGHT ---
+  const halfAng=Math.asin(Math.min(1,ratio));   // sinθ = λ / a
+  const maxR=Math.hypot(w-bx,h)+sp;
+  ctx.save();
+  ctx.beginPath();ctx.rect(bx,0,w-bx,h);ctx.clip();
+  ctx.lineWidth=2;
+  for(let r=phase;r<maxR;r+=sp){
+    const a=0.5*(1-r/maxR)+0.12;
+    ctx.strokeStyle=`rgba(125,211,252,${Math.max(0.09,a)})`;
+    ctx.beginPath();
+    ctx.arc(bx,cy-halfGap,r,-halfAng,0,false);  // top-edge shoulder
+    ctx.lineTo(bx+r,cy+halfGap);                // flat transmitted segment
+    ctx.arc(bx,cy+halfGap,r,0,halfAng,false);   // bottom-edge shoulder
+    ctx.stroke();
+  }
+  ctx.restore();
+  // --- barrier with gap ---
+  ctx.fillStyle='#f8b84e';
+  ctx.fillRect(bx-4,0,8,cy-halfGap);
+  ctx.fillRect(bx-4,cy+halfGap,8,h-(cy+halfGap));
+  ctx.fillStyle='rgba(248,184,78,.95)';
+  ctx.beginPath();ctx.arc(bx,cy-halfGap,3.2,0,7);ctx.fill();
+  ctx.beginPath();ctx.arc(bx,cy+halfGap,3.2,0,7);ctx.fill();
+  // labels
+  ctx.fillStyle='rgba(226,232,240,.8)';
+  ctx.font='600 12px -apple-system,system-ui,sans-serif';
+  ctx.textAlign='left';ctx.fillText('plane waves →',10,18);
+  ctx.textAlign='right';ctx.fillText('diffracted waves →',w-10,18);
+  ctx.textAlign='left';
+}
+
+/* ---------- PAGE 1 SIM : gap + wavelength ---------- */
+const o1=reg('diffCanvas');
+let play1=true, g1=3.0, lam1=2.0;
+const gapR=document.getElementById('gapR'),gapV=document.getElementById('gapV'),
+      lamR=document.getElementById('lamR'),lamV=document.getElementById('lamV');
+const roGap=document.getElementById('roGap'),roLam=document.getElementById('roLam'),
+      roRatio=document.getElementById('roRatio'),roSpread=document.getElementById('roSpread'),
+      d2Out=document.getElementById('d2Out');
+function refresh1(){
+  gapV.textContent=g1.toFixed(1);lamV.textContent=lam1.toFixed(1);
+  roGap.textContent=g1.toFixed(1);roLam.textContent=lam1.toFixed(1);
+  const ratio=lam1/g1;roRatio.textContent=ratio.toFixed(2);
+  let label,msg;
+  if(ratio<0.4){label='Slight';msg='The gap is much wider than the wavelength, so the wave passes through as a near-straight beam, bending only slightly at the edges.';}
+  else if(ratio<0.8){label='Moderate';msg='The gap is a few wavelengths wide, so there is noticeable curving of the wavefronts at the edges but the wave still travels mainly forward.';}
+  else if(ratio<=1.3){label='Maximum';msg='The gap is about one wavelength wide — diffraction is greatest. The gap acts like a point source and the waves emerge as near-semicircular arcs.';}
+  else{label='Strong (low energy)';msg='The gap is narrower than the wavelength, so the waves still spread widely as arcs, but only a little energy passes through the tiny gap.';}
+  roSpread.textContent=label;d2Out.innerHTML=msg;
+}
+gapR.oninput=()=>{g1=+gapR.value;refresh1();};
+lamR.oninput=()=>{lam1=+lamR.value;refresh1();};
+document.getElementById('diffPlay').onclick=function(){play1=!play1;this.textContent=play1?'Pause':'Play';};
+refresh1();
+let t1=0;const CM1=15;
+function up1(dt){ if(play1)t1+=dt; if(o1)drawRipple(o1,t1,lam1*CM1,g1*CM1,lam1/g1); }
+
+/* ---------- PRACTICE REVEALS (page 3) + WORKED (page 4) ---------- */
+document.querySelectorAll('.preveal').forEach(b=>{
+  b.onclick=()=>{
+    const a=b.nextElementSibling;a.hidden=!a.hidden;
+    b.textContent=a.hidden?'Show answer':'Hide answer';
+    const card=b.closest('.pq');
+    if(card){
+      const done=card.querySelector('.pdone');
+      const allShown=[...card.querySelectorAll('.pans')].every(p=>!p.hidden);
+      if(done)done.hidden=!allShown;
+    }
+  };
+});
+document.querySelectorAll('.we .reveal').forEach(b=>{
+  b.onclick=()=>{
+    const a=b.nextElementSibling;a.hidden=!a.hidden;
+    b.textContent=a.hidden?'Show solution':'Hide solution';
+  };
+});
+
+/* ---------- QUIZ ---------- */
+const QUIZ=[
+  {q:'Diffraction is best described as:',
+   o:['the splitting of white light into colours','the spreading of a wave as it passes through a gap or around an obstacle','the bouncing of a wave off a surface','the bending of a wave as it changes speed between two media'],
+   a:1,e:'Diffraction is spreading at a gap or edge. Splitting of colours is dispersion, bouncing is reflection, and speed-change bending is refraction.'},
+  {q:'For a fixed wavelength, the diffraction (spreading) of a wave at a gap is greatest when the gap width is:',
+   o:['much larger than the wavelength','about equal to the wavelength','exactly double the wavelength','as large as possible'],
+   a:1,e:'Maximum spreading occurs when the gap is approximately one wavelength wide — the gap then behaves like a single point source.'},
+  {q:'When a wave is diffracted at a gap, which quantity changes?',
+   o:['its frequency','its wavelength','its speed','the shape and direction of its wavefronts'],
+   a:3,e:'Diffraction changes only the shape and direction of the wavefronts. Frequency, wavelength and speed all stay the same.'},
+  {q:'You can hear someone around a corner but cannot see them. This is because:',
+   o:['sound travels faster than light','sound has a wavelength comparable to the gap, so it diffracts strongly, while light’s wavelength is far too small','light cannot diffract at all','sound reflects but light does not'],
+   a:1,e:'Sound wavelengths (∼1 m) are similar to everyday openings, giving strong diffraction. Light (∼500 nm) is far smaller than the gap, so its diffraction is negligible.'},
+  {q:'To observe clear diffraction of light, the slit must be:',
+   o:['extremely wide','about as narrow as the wavelength of light','made of metal','coloured'],
+   a:1,e:'Visible diffraction of light needs a slit comparable to its tiny wavelength (hundreds of nm). Ordinary gaps are millions of wavelengths wide, so no spreading is seen.'},
+  {q:'Long-wave radio reaches a town behind hills better than VHF television because:',
+   o:['radio waves are stronger','long-wave radio has a wavelength comparable to or larger than the hills, so it diffracts around them more','VHF signals are reflected by the ground','radio waves travel in straight lines only'],
+   a:1,e:'The larger the wavelength relative to the obstacle, the greater the diffraction. Long-wave radio (λ up to hundreds of metres) bends around the hills; short-wavelength VHF barely diffracts.'}
+];
+const qWrap=document.getElementById('quizWrap');
+let answered=0,correct=0;
+QUIZ.forEach((item,qi)=>{
+  const d=document.createElement('div');d.className='q';
+  d.innerHTML=`<div class="qq">${qi+1}. ${item.q}</div>`;
+  const opts=document.createElement('div');opts.className='opts';
+  item.o.forEach((txt,oi)=>{
+    const b=document.createElement('button');b.className='opt';b.textContent=txt;
+    b.onclick=()=>{
+      if(d.dataset.done)return;
+      d.dataset.done='1';answered++;
+      if(oi===item.a){b.classList.add('correct');correct++;}
+      else{b.classList.add('wrong');opts.children[item.a].classList.add('correct');}
+      exp.classList.add('show');
+      if(answered===QUIZ.length){
+        const sc=document.getElementById('quizScore');
+        sc.style.display='block';
+        sc.innerHTML=`You scored <b>${correct} / ${QUIZ.length}</b>. ${correct===QUIZ.length?'Perfect — diffraction mastered.':'Review the explanations above and try the ones you missed.'}`;
+      }
+    };
+    opts.appendChild(b);
+  });
+  d.appendChild(opts);
+  const exp=document.createElement('div');exp.className='qexp';exp.textContent=item.e;
+  d.appendChild(exp);
+  qWrap.appendChild(d);
+});
+
+/* ---------- PAGE 3 : INTERACTIVE EXPERIMENT EXPLORER + SOUND ---------- */
+const o3=reg('diff3Canvas');
+const EXP={
+  water:{title:'Water · ripple tank', v:0.20, fmin:4,fmax:20,f:10,fstep:0.5,
+    gmin:0.004,gmax:0.08,g:0.02,gstep:0.001, wave:'triangle', aud:false, audBase:130, col:'#38bdf8',
+    gapLabel:'Gap in barrier',
+    desc:'A vibrating bar makes straight water waves; a barrier with an adjustable gap sits in their path. Raise the frequency to shorten the wavelength, then change the gap. Spreading is greatest when the gap is about one wavelength wide.'},
+  sound:{title:'Sound · doorway', v:340, fmin:120,fmax:1000,f:340,fstep:5,
+    gmin:0.1,gmax:3,g:0.8,gstep:0.05, wave:'sine', aud:true, col:'#f59e0b',
+    gapLabel:'Doorway / gap width',
+    desc:'Sound spreads through doorways because its wavelength is similar to the opening. This is the one experiment you can truly hear — the pitch played is the real frequency you set.'},
+  light:{title:'Light · narrow slit', v:3e8, fmin:4.3e14,fmax:7.5e14,f:5.1e14,fstep:5e12,
+    gmin:0.5e-6,gmax:40e-6,g:2e-6,gstep:0.5e-6, wave:'sine', aud:false, audBase:900, col:'#a78bfa',
+    gapLabel:'Slit width',
+    desc:'Light has a tiny wavelength, so only a very narrow slit (a few micrometres) makes it diffract visibly. The swatch shows the colour of the light you have chosen; widen the slit and the spreading all but vanishes.'},
+  micro:{title:'Microwaves · plates', v:3e8, fmin:5e9,fmax:30e9,f:1e10,fstep:5e8,
+    gmin:0.005,gmax:0.1,g:0.03,gstep:0.005, wave:'square', aud:false, audBase:520, col:'#22d3ee',
+    gapLabel:'Gap between plates',
+    desc:'A microwave transmitter and receiver on the bench show diffraction through a few-centimetre gap between metal plates — a wavelength of about 3 cm diffracts nicely through everyday bench gaps.'},
+  radio:{title:'Radio · over hills', v:3e8, fmin:1.5e5,fmax:1e8,f:2e5,fstep:5e4,
+    gmin:50,gmax:2000,g:300,gstep:10, wave:'sawtooth', aud:false, audBase:200, col:'#34d399',
+    gapLabel:'Hill / obstacle size',
+    desc:'Long-wave radio has a wavelength of hundreds of metres, so it diffracts around hills and buildings into the valley beyond. Raise the frequency (shorten the wavelength) and the shadow behind the hill grows — reception gets worse.'}
+};
+EXP.water.S=2800;EXP.sound.S=70;EXP.light.S=2.25e7;EXP.micro.S=1833;EXP.radio.S=0.183;
+let cur3='water', t3=0;
+function fmtHz(f){ if(f>=1e12)return (f/1e12).toFixed(2)+' THz'; if(f>=1e9)return (f/1e9).toFixed(1)+' GHz'; if(f>=1e6)return (f/1e6).toFixed(1)+' MHz'; if(f>=1e3)return (f/1e3).toFixed(1)+' kHz'; return f.toFixed(f<20?1:0)+' Hz'; }
+function fmtLen(m){ if(m>=1)return m.toFixed(2)+' m'; if(m>=0.01)return (m*100).toFixed(2)+' cm'; if(m>=1e-3)return (m*1e3).toFixed(1)+' mm'; if(m>=1e-6)return (m*1e6).toFixed(2)+' µm'; return (m*1e9).toFixed(0)+' nm'; }
+function vShort(v){ return v>=1e6?'3.0×10⁸ m/s':(v<1?v.toFixed(2):v.toFixed(0))+' m/s'; }
+function nmToRGB(wl){
+  let r=0,g=0,b=0;
+  if(wl<440){r=-(wl-440)/60;b=1;} else if(wl<490){g=(wl-440)/50;b=1;}
+  else if(wl<510){g=1;b=-(wl-510)/20;} else if(wl<580){r=(wl-510)/70;g=1;}
+  else if(wl<645){r=1;g=-(wl-645)/65;} else {r=1;}
+  const f=wl<420?0.3+0.7*(wl-380)/40:wl>700?0.3+0.7*(750-wl)/50:1;
+  const C=x=>Math.round(255*Math.pow(Math.max(0,Math.min(1,x*f)),0.8));
+  return `rgb(${C(r)},${C(g)},${C(b)})`;
+}
+function expAudioFreq(e,f){ if(e.aud)return Math.max(80,Math.min(2000,f)); const p=(f-e.fmin)/(e.fmax-e.fmin); return e.audBase*(0.65+0.95*p); }
+function refresh3(){
+  const e=EXP[cur3], lam=e.v/e.f, ratio=lam/e.g;
+  document.getElementById('expTitle').textContent=e.title;
+  document.getElementById('expDesc').textContent=e.desc;
+  document.getElementById('gapLabel').textContent=e.gapLabel;
+  document.getElementById('fV').textContent=fmtHz(e.f);
+  document.getElementById('gV').textContent=fmtLen(e.g);
+  document.getElementById('vOut').textContent=vShort(e.v);
+  document.getElementById('ratOut').textContent=ratio>=10?ratio.toFixed(0):ratio.toFixed(2);
+  document.getElementById('lamWork').innerHTML='λ = v / f = '+vShort(e.v)+' / '+fmtHz(e.f)+' = <b>'+fmtLen(lam)+'</b>';
+  let msg;
+  if(ratio<0.12) msg='The gap is far wider than the wavelength — almost no spreading. The wave travels nearly straight through.';
+  else if(ratio<0.6) msg='The gap is several wavelengths wide — some curving at the edges, but the wave still travels mostly forward.';
+  else if(ratio<=1.6) msg='The gap is about one wavelength wide — <b>maximum diffraction</b>. The waves spread out as near-semicircular arcs.';
+  else msg='The gap is narrower than the wavelength — very wide spreading, though only a little energy passes through such a small gap.';
+  document.getElementById('verdict').innerHTML=msg;
+  const sw=document.getElementById('waveSwatch');
+  sw.style.background = cur3==='light' ? nmToRGB(lam*1e9) : e.col;
+  const sn=document.getElementById('soundNote');
+  if(e.aud){
+    sn.innerHTML='This is the <b>real sound</b> at '+fmtHz(e.f)+' — move the frequency slider and press play to hear the pitch change.';
+  }else{
+    const band=e.f<20?'infrasound (below ~20 Hz, so you cannot hear it)':'far above the range of human hearing';
+    sn.innerHTML='The true frequency ('+fmtHz(e.f)+') is '+band+', so the button plays a <b>representation</b>: each wave type has its own timbre and the pitch rises with frequency.';
+  }
+  if(playing) startTone();
+}
+function setExp(key){
+  cur3=key; const e=EXP[key];
+  document.querySelectorAll('#expSeg button').forEach(b=>b.classList.toggle('on',b.dataset.x===key));
+  const fR=document.getElementById('fR'),gR=document.getElementById('gR');
+  fR.min=e.fmin;fR.max=e.fmax;fR.step=e.fstep;fR.value=e.f;
+  gR.min=e.gmin;gR.max=e.gmax;gR.step=e.gstep;gR.value=e.g;
+  document.getElementById('taskFb').textContent='';
+  refresh3();
+}
+document.getElementById('fR').oninput=function(){ EXP[cur3].f=+this.value; refresh3(); };
+document.getElementById('gR').oninput=function(){ EXP[cur3].g=+this.value; document.getElementById('taskFb').textContent=''; refresh3(); };
+document.querySelectorAll('#expSeg button').forEach(b=>{ b.onclick=()=>{ stopTone(); setExp(b.dataset.x); }; });
+document.getElementById('checkBtn').onclick=()=>{
+  const e=EXP[cur3], lam=e.v/e.f, d=(e.g-lam)/lam, fb=document.getElementById('taskFb');
+  if(Math.abs(d)<=0.25) fb.innerHTML='<b style="color:#059669">✓ Spot on.</b> With the gap ≈ one wavelength ('+fmtLen(lam)+'), diffraction is at its maximum.';
+  else if(d>0.25) fb.innerHTML='<b style="color:#b91c1c">Gap too wide.</b> It is '+(e.g/lam).toFixed(1)+'× the wavelength — narrow it towards λ = '+fmtLen(lam)+'.';
+  else fb.innerHTML='<b style="color:#b91c1c">Gap too narrow.</b> Open it up towards λ = '+fmtLen(lam)+' for the widest spreading with good energy through.';
+};
+/* --- Web Audio (tones) --- */
+let actx=null,osc=null,gainN=null,playing=false;
+function startTone(){
+  try{
+    if(!actx)actx=new (window.AudioContext||window.webkitAudioContext)();
+    if(actx.state==='suspended')actx.resume();
+    const e=EXP[cur3], fr=expAudioFreq(e,e.f);
+    if(!osc){
+      osc=actx.createOscillator(); gainN=actx.createGain();
+      osc.connect(gainN).connect(actx.destination);
+      gainN.gain.setValueAtTime(0,actx.currentTime);
+      gainN.gain.linearRampToValueAtTime(0.14,actx.currentTime+0.05);
+      osc.start();
+    }
+    osc.type=e.wave;
+    osc.frequency.setTargetAtTime(fr,actx.currentTime,0.02);
+    playing=true;
+  }catch(err){}
+}
+function stopTone(){
+  playing=false;
+  if(osc){
+    try{
+      gainN.gain.cancelScheduledValues(actx.currentTime);
+      gainN.gain.setTargetAtTime(0,actx.currentTime,0.04);
+      const old=osc; setTimeout(()=>{try{old.stop();}catch(e){}},160);
+    }catch(e){}
+    osc=null;
+  }
+}
+document.getElementById('hearBtn').onclick=startTone;
+document.getElementById('stopBtn').onclick=stopTone;
+/* ---------- DISTINCT EXPERIMENT SCENES ---------- */
+// Each scene is its own realistic setup. All share the same physics:
+// the diffraction half-angle comes from sinθ = λ / a (passed as P.halfAng).
+
+// 1) WATER — ripple tank (top view): reuse the shared ripple engine + tank label
+function drawWater(o,P){
+  drawRipple(o,P.t,P.lamPx,P.gapPx,P.ratio);
+  const {ctx,w,h}=o;
+  ctx.fillStyle='rgba(226,232,240,.55)';ctx.font='600 11px -apple-system,sans-serif';
+  ctx.textAlign='center';ctx.fillText('RIPPLE TANK · top view',w/2,h-9);ctx.textAlign='left';
+}
+
+// 2) SOUND — two rooms with a doorway (top view)
+function drawDoorway(o,P){
+  const {ctx,w,h}=o,cy=h/2;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#0b1120';ctx.fillRect(0,0,w,h);
+  ctx.fillStyle='rgba(148,163,184,.05)';ctx.fillRect(w*0.52,0,w,h);
+  const wallx=w*0.52,doorHalf=Math.min(Math.max(P.gapPx/2,7),h*0.4);
+  const sp=Math.max(16,P.lamPx),ph=(P.t*42)%sp,sx=w*0.13,sy=cy;
+  // Room A: circular wavefronts from the speaker
+  ctx.save();ctx.beginPath();ctx.rect(0,0,wallx,h);ctx.clip();ctx.lineWidth=2;
+  for(let r=ph;r<w;r+=sp){ctx.strokeStyle=`rgba(245,158,11,${Math.max(0.07,0.5*(1-r/w))})`;ctx.beginPath();ctx.arc(sx,sy,r,-1.15,1.15);ctx.stroke();}
+  ctx.restore();
+  // Room B: sound diffracting through the doorway
+  ctx.save();ctx.beginPath();ctx.rect(wallx,0,w-wallx,h);ctx.clip();ctx.lineWidth=2;
+  for(let r=ph;r<w;r+=sp){ctx.strokeStyle=`rgba(251,191,36,${Math.max(0.06,0.5*(1-r/w))})`;ctx.beginPath();ctx.arc(wallx,cy-doorHalf,r,-P.halfAng,0,false);ctx.lineTo(wallx+r,cy+doorHalf);ctx.arc(wallx,cy+doorHalf,r,0,P.halfAng,false);ctx.stroke();}
+  ctx.restore();
+  // wall + doorway
+  ctx.fillStyle='#94a3b8';ctx.fillRect(wallx-4,0,8,cy-doorHalf);ctx.fillRect(wallx-4,cy+doorHalf,8,h-(cy+doorHalf));
+  // speaker
+  ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.moveTo(sx-10,sy-7);ctx.lineTo(sx,sy-7);ctx.lineTo(sx+12,sy-16);ctx.lineTo(sx+12,sy+16);ctx.lineTo(sx,sy+7);ctx.lineTo(sx-10,sy+7);ctx.closePath();ctx.fill();
+  // listener in room B, against wall, out of line of sight
+  const lx=w*0.8,ly=cy-h*0.34;ctx.fillStyle='#38bdf8';ctx.beginPath();ctx.arc(lx,ly,8,0,7);ctx.fill();ctx.fillRect(lx-7,ly+9,14,15);
+  ctx.fillStyle='rgba(226,232,240,.8)';ctx.font='600 11px -apple-system,sans-serif';
+  ctx.textAlign='left';ctx.fillText('SPEAKER',sx-12,sy+32);ctx.fillText('Room A',12,16);
+  ctx.textAlign='right';ctx.fillText('Room B',w-10,16);ctx.fillText('listener — hears, cannot see',w-10,ly-12);ctx.textAlign='left';
+}
+
+// 3) LIGHT — laser through a single slit onto a screen (side view)
+function drawLightSlit(o,P){
+  const {ctx,w,h}=o,cy=h/2;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#07080f';ctx.fillRect(0,0,w,h);
+  const slitx=w*0.42,screenx=w*0.9,slitHalf=Math.min(Math.max(P.gapPx/2,2.5),h*0.4),col=P.col||'#ff4d4d';
+  // laser + incoming beam
+  ctx.fillStyle='#334155';ctx.fillRect(w*0.03,cy-15,w*0.09,30);
+  ctx.fillStyle=col;ctx.fillRect(w*0.12,cy-2,slitx-w*0.12,4);
+  // slit barrier
+  ctx.fillStyle='#1e293b';ctx.fillRect(slitx-5,0,10,cy-slitHalf);ctx.fillRect(slitx-5,cy+slitHalf,10,h-(cy+slitHalf));
+  // spreading light cone slit -> screen
+  const spreadY=Math.tan(P.halfAng)*(screenx-slitx),bandHalf=Math.min(spreadY+slitHalf,h*0.5);
+  ctx.save();ctx.globalAlpha=0.26;ctx.fillStyle=col;ctx.beginPath();
+  ctx.moveTo(slitx,cy-slitHalf);ctx.lineTo(screenx,cy-bandHalf);ctx.lineTo(screenx,cy+bandHalf);ctx.lineTo(slitx,cy+slitHalf);ctx.closePath();ctx.fill();ctx.restore();
+  // diffracted wavefront arcs
+  const sp=Math.max(10,P.lamPx),ph=(P.t*60)%sp;
+  ctx.save();ctx.beginPath();ctx.rect(slitx,0,screenx-slitx,h);ctx.clip();ctx.lineWidth=1.5;
+  for(let r=ph;r<(screenx-slitx)+sp;r+=sp){ctx.strokeStyle=`rgba(255,255,255,${Math.max(0.05,0.33*(1-r/(screenx-slitx)))})`;ctx.beginPath();ctx.arc(slitx,cy-slitHalf,r,-P.halfAng,0,false);ctx.lineTo(slitx+r,cy+slitHalf);ctx.arc(slitx,cy+slitHalf,r,0,P.halfAng,false);ctx.stroke();}
+  ctx.restore();
+  // screen + central maximum
+  ctx.fillStyle='#e5e7eb';ctx.fillRect(screenx,0,6,h);
+  const g2=ctx.createLinearGradient(0,cy-bandHalf,0,cy+bandHalf);g2.addColorStop(0,'rgba(0,0,0,0)');g2.addColorStop(0.5,col);g2.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=g2;ctx.fillRect(screenx+6,cy-bandHalf,11,2*bandHalf);
+  ctx.fillStyle='rgba(226,232,240,.85)';ctx.font='600 11px -apple-system,sans-serif';
+  ctx.textAlign='left';ctx.fillText('LASER',w*0.03,cy-21);ctx.fillText('slit',slitx-7,15);
+  ctx.textAlign='right';ctx.fillText('SCREEN',screenx-3,15);ctx.fillText('central maximum',screenx-3,Math.max(26,cy-bandHalf-5));ctx.textAlign='left';
+}
+
+// 4) MICROWAVES — transmitter, metal plates, receiver (top view bench)
+function drawMicro(o,P){
+  const {ctx,w,h}=o,cy=h/2;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#0b1120';ctx.fillRect(0,0,w,h);
+  const platex=w*0.46,gapHalf=Math.min(Math.max(P.gapPx/2,5),h*0.4);
+  // transmitter horn
+  ctx.fillStyle='#64748b';ctx.beginPath();ctx.moveTo(w*0.04,cy-8);ctx.lineTo(w*0.12,cy-20);ctx.lineTo(w*0.12,cy+20);ctx.lineTo(w*0.04,cy+8);ctx.closePath();ctx.fill();ctx.fillRect(w*0.01,cy-6,w*0.035,12);
+  // incident plane microwaves
+  const sp=Math.max(14,P.lamPx),ph=(P.t*44)%sp;
+  ctx.save();ctx.beginPath();ctx.rect(w*0.12,0,platex-w*0.12,h);ctx.clip();ctx.lineWidth=2;
+  for(let x=w*0.12+ph;x<platex;x+=sp){ctx.strokeStyle=`rgba(34,211,238,${0.5*((x-w*0.12)/(platex-w*0.12))+0.1})`;ctx.beginPath();ctx.moveTo(x,cy-h*0.4);ctx.lineTo(x,cy+h*0.4);ctx.stroke();}
+  ctx.restore();
+  // metal plates
+  ctx.fillStyle='#9aa6c8';ctx.fillRect(platex-5,cy-h*0.46,10,(h*0.46)-gapHalf);ctx.fillRect(platex-5,cy+gapHalf,10,(h*0.46)-gapHalf);
+  // diffracted microwaves
+  ctx.save();ctx.beginPath();ctx.rect(platex,0,w-platex,h);ctx.clip();ctx.lineWidth=2;
+  for(let r=ph;r<w;r+=sp){ctx.strokeStyle=`rgba(103,232,249,${Math.max(0.07,0.5*(1-r/w))})`;ctx.beginPath();ctx.arc(platex,cy-gapHalf,r,-P.halfAng,0,false);ctx.lineTo(platex+r,cy+gapHalf);ctx.arc(platex,cy+gapHalf,r,0,P.halfAng,false);ctx.stroke();}
+  ctx.restore();
+  // receiver on an arc, inside the spread angle
+  const rr=w*0.38,ang=P.halfAng*0.6,rxp=platex+rr*Math.cos(ang),ryp=cy-rr*Math.sin(ang);
+  ctx.save();ctx.translate(rxp,ryp);ctx.rotate(Math.PI+ang);ctx.fillStyle='#f59e0b';ctx.beginPath();ctx.moveTo(0,-7);ctx.lineTo(11,-14);ctx.lineTo(11,14);ctx.lineTo(0,7);ctx.closePath();ctx.fill();ctx.restore();
+  const sig=Math.max(0.15,1-ang/(P.halfAng+0.001));ctx.fillStyle='#22c55e';
+  for(let i=0;i<4;i++){if(i/4<sig)ctx.fillRect(rxp-11+i*7,ryp+20,5,4+i*3);}
+  ctx.fillStyle='rgba(226,232,240,.82)';ctx.font='600 11px -apple-system,sans-serif';
+  ctx.textAlign='left';ctx.fillText('TRANSMITTER',w*0.01,cy-24);ctx.fillText('metal plates',platex-16,13);
+  ctx.textAlign='right';ctx.fillText('RECEIVER',w-8,15);ctx.textAlign='left';
+}
+
+// 5) RADIO — transmitter mast, hill, house in the valley (landscape side view)
+function drawRadio(o,P){
+  const {ctx,w,h}=o;
+  const sky=ctx.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#0b1a2e');sky.addColorStop(1,'#13324a');
+  ctx.fillStyle=sky;ctx.fillRect(0,0,w,h);
+  const groundY=h*0.78,mx=w*0.1,topY=groundY-h*0.55;
+  const hillCx=w*0.52,hillW=w*0.32,hillH=Math.min(h*0.5,h*0.26+P.gapPx*0.5);
+  // radio wavefronts from the mast top; large spread angle bends them over the hill
+  const sp=Math.max(20,P.lamPx),ph=(P.t*40)%sp;
+  ctx.save();ctx.lineWidth=2;
+  for(let r=ph;r<w*1.25;r+=sp){ctx.strokeStyle=`rgba(52,211,153,${Math.max(0.06,0.5*(1-r/(w*1.1)))})`;ctx.beginPath();ctx.arc(mx,topY,r,-Math.PI*0.5,P.halfAng,false);ctx.stroke();}
+  ctx.restore();
+  // ground + hill
+  ctx.fillStyle='#1f3a2e';ctx.fillRect(0,groundY,w,h-groundY);
+  ctx.fillStyle='#3f5e45';ctx.beginPath();ctx.moveTo(hillCx-hillW/2,groundY);ctx.quadraticCurveTo(hillCx,groundY-hillH,hillCx+hillW/2,groundY);ctx.closePath();ctx.fill();
+  // mast
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(mx,groundY);ctx.lineTo(mx,topY);ctx.stroke();ctx.beginPath();ctx.moveTo(mx-9,groundY);ctx.lineTo(mx,topY);ctx.lineTo(mx+9,groundY);ctx.stroke();
+  // house in the valley behind the hill
+  const hoX=w*0.8,hoY=groundY;ctx.fillStyle='#b45309';ctx.fillRect(hoX-16,hoY-26,32,26);ctx.fillStyle='#7c2d12';ctx.beginPath();ctx.moveTo(hoX-20,hoY-26);ctx.lineTo(hoX,hoY-42);ctx.lineTo(hoX+20,hoY-26);ctx.closePath();ctx.fill();
+  const reach=Math.min(1,P.halfAng/(Math.PI/2));ctx.fillStyle=reach>0.5?'#22c55e':'#ef4444';
+  for(let i=0;i<4;i++){if(i/4<reach)ctx.fillRect(hoX-9+i*6,hoY-50+(9-i*3),4,4+i*3);}
+  ctx.fillStyle='rgba(226,232,240,.85)';ctx.font='600 11px -apple-system,sans-serif';
+  ctx.textAlign='left';ctx.fillText('TRANSMITTER',mx-18,topY-7);ctx.textAlign='center';ctx.fillText('hill',hillCx,groundY-hillH-6);ctx.fillText(reach>0.5?'reception OK':'radio shadow',hoX,hoY-56);ctx.textAlign='left';
+}
+
+function up3(dt){
+  t3+=dt;
+  if(!o3)return;
+  const e=EXP[cur3], lam=e.v/e.f, ratio=lam/e.g;
+  const P={
+    t:t3, ratio,
+    halfAng:Math.asin(Math.min(1,ratio)),
+    gapPx:Math.max(10,Math.min(o3.h*0.6,e.g*e.S)),
+    lamPx:Math.max(10,Math.min(o3.h*0.8,lam*e.S)),
+    col: cur3==='light'? nmToRGB(lam*1e9) : e.col
+  };
+  if(cur3==='water') drawWater(o3,P);
+  else if(cur3==='sound') drawDoorway(o3,P);
+  else if(cur3==='light') drawLightSlit(o3,P);
+  else if(cur3==='micro') drawMicro(o3,P);
+  else if(cur3==='radio') drawRadio(o3,P);
+}
+setExp('water');
+
+/* ---------- MASTER LOOP ---------- */
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;
+  if(active===0)up1(dt);
+  else if(active===1)up3(dt);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+window.addEventListener('resize',()=>{Object.values(canvases).forEach(fit);});
+</script>
+</body>
+</html>

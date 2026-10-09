@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Interference</title>
+<style>
+:root{
+  --c1:#2563eb; --c2:#0891b2; --c3:#7c3aed; --c4:#db2777; --c5:#0d9488; --c6:#d97706; --c7:#059669; --c8:#4f46e5;
+  --accent:var(--c1); --accent-soft:rgba(37,99,235,.12);
+  --ink:#1b2440; --muted:#71809e; --line:rgba(27,36,64,.12); --card:#ffffff;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:"Segoe UI",Roboto,"Helvetica Neue",system-ui,-apple-system,Arial,sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#eef4ff 0%,#f3f1ff 50%,#ecfbff 100%)}
+body[data-page="1"]{background:linear-gradient(135deg,#eef4ff 0%,#eaf1ff 55%,#f4f8ff 100%)}
+body[data-page="2"]{background:linear-gradient(135deg,#ecfeff 0%,#eef9fb 55%,#f0fbff 100%)}
+body[data-page="3"]{background:linear-gradient(135deg,#f5f1ff 0%,#f6f3ff 55%,#faf6ff 100%)}
+body[data-page="4"]{background:linear-gradient(135deg,#eef0ff 0%,#f1f0fe 55%,#f3f2ff 100%)}
+body[data-page="5"]{background:linear-gradient(135deg,#ecfdf9 0%,#f0fdfa 55%,#eefaf6 100%)}
+body[data-page="6"]{background:linear-gradient(135deg,#fff7ed 0%,#fffbeb 55%,#fef7ec 100%)}
+body[data-page="7"]{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf6 55%,#eefaf2 100%)}
+body.dark{--ink:#e7ebf7;--muted:#9aa6c8;--line:rgba(231,235,247,.15);--card:#1a2033;--tan:#2b3450;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#0e1322 0%,#121829 55%,#101a26 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(18,24,42,.86)}
+body.dark .brand{color:#f2f4fb}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox,body.dark .deriv{background:#1a2033}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#141a2b}
+body.dark .qexp{background:rgba(5,150,105,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#c7cfe6}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .ms,body.dark .qexp,body.dark .pq .stem,body.dark .dstep .txt{color:#c7cfe6}
+body.dark .gatebox .mark{color:#f2f4fb}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#0b1120}
+
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#1b1b1b;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#2563eb;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,255,255,.55);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fff;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .sl{display:inline-flex;align-items:center;gap:4px}
+.dotSL{width:9px;height:9px;border-radius:3px;background:#2563eb}
+
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:730px;font-size:15px}
+
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.sl{background:rgba(37,99,235,.12);color:#2563eb}
+.lead{font-size:16px;color:#374151;max-width:770px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(27,36,64,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,42vh,420px);overflow:hidden;border-radius:12px;background:#0b1120;border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#374151}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+.prose p{margin-bottom:11px;font-size:14.5px;color:#374151}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.prose ul{margin:4px 0 11px 20px;font-size:14.5px;color:#374151}
+.prose li{margin-bottom:5px}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fbfbff;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.1;
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px;color:var(--ink)}
+.fml .op{color:var(--muted)}
+.fml sub{font-size:.68em;vertical-align:-.25em}
+.fml sup{font-size:.68em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+
+.deriv{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin:14px 0;border-top:3px solid var(--c8)}
+.deriv .dh{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c8);margin-bottom:4px}
+.dstep{padding:11px 0;border-bottom:1px dashed var(--line);opacity:.35;transition:opacity .35s}
+.dstep:last-of-type{border-bottom:0}
+.dstep.show{opacity:1}
+.dstep .lbl{font-size:12px;font-weight:800;color:var(--ink);margin-bottom:5px}
+.dstep .txt{font-size:13px;color:#374151;margin-top:5px}
+
+.we{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#374151;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#374151;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#374151;background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c4)}
+.mcard .wrong{font-size:13px;color:#b91c1c;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"\2717 ";}
+.mcard .right{font-size:13.5px;color:#065f46;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"\2713 ";}
+.mcard p{font-size:13px;color:#374151;margin-top:5px}
+
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fcfdff;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#374151;background:#f0fdf4;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#eef4ff,#f3f1ff,#ecfbff);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fff;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(27,36,64,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#1b1b1b}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:#fff;border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+@media print{#gate,.topnav,.sunbtn,nav#nav{display:none!important}.page{display:block!important;page-break-after:always}}
+</style>
+</head>
+<body data-page="1">
+
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Interference</h2>
+    <p>Topic 8.3 Superposition &middot; Cambridge AS &amp; A Level Physics (9702)</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive A level physics lesson</div>
+  </div>
+</div>
+
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../dp-simulations.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../dp-simulations.html">A Level</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<div class="chapterbar">
+  <span class="chaptag">8 Superposition</span>
+  <div class="parts">
+    <a class="partlink" href="stationary-waves.html">8.1 Stationary Waves<span class="pl">AS</span></a>
+    <a class="partlink" href="diffraction.html">8.2 Diffraction<span class="pl">AS</span></a>
+    <a class="partlink here" href="interference.html">8.3 Interference<span class="pl">AS</span></a>
+    <a class="partlink" href="diffraction-grating.html">8.4 Diffraction Grating<span class="pl">AS</span></a>
+  </div>
+  <div class="legend">
+    <span class="sl"><span class="dotSL"></span>AS Level core</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">8.3 &middot; Waves meet and combine</div>
+  <h1>Interference</h1>
+  <p>When two waves of the same type overlap, their displacements add. Where they arrive in step they reinforce; where they arrive out of step they cancel. From two coherent sources this builds a fixed pattern of bright and dark &mdash; and lets us measure the wavelength of light with a ruler.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+<!-- ========== PAGE 1 : INTERFERENCE ========== -->
+<section class="page active" data-p="1">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">When two waves of the same type meet, their displacements <b>add</b> at every instant &mdash; the <b>principle of superposition</b>. Whether they reinforce or cancel depends only on how they line up.</p>
+
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>How two waves combine</h3>
+      <div class="canvas-wrap" style="height:clamp(300px,46vh,440px)"><canvas id="superCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Shift Wave 2 by a path difference of <b><span id="pdV">0.00</span> &lambda;</b></label>
+        <input type="range" id="pdR" min="0" max="1" step="0.01" value="0">
+      </div>
+      <div class="btnrow">
+        <button class="btn ghost" id="pdC">In phase (0)</button>
+        <button class="btn ghost" id="pdD">Antiphase (&frac12;&lambda;)</button>
+      </div>
+      <p class="note" id="superNote"></p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Constructive &amp; destructive &mdash; how they work</h3>
+      <div class="prose">
+        <p><b>Constructive interference</b>: the waves arrive <b>in phase</b> (in step). A crest lands on a crest, a trough on a trough, so the displacements <b>add</b> &mdash; the resultant has a <b>larger amplitude</b> (brighter light, louder sound, bigger ripple). This happens when one wave has travelled a <b>whole number of wavelengths</b> further than the other:</p>
+      </div>
+      <div class="fml" style="font-size:22px;justify-content:center;margin:8px 0 14px">path difference <span class="op">=</span> n&lambda;</div>
+      <div class="prose">
+        <p><b>Destructive interference</b>: the waves arrive <b>exactly out of phase</b> (antiphase). A crest lands on a trough, so the displacements <b>subtract</b>. With equal amplitudes they <b>cancel completely</b> &mdash; darkness, silence, flat water. This happens when the path difference is an <b>odd number of half-wavelengths</b>:</p>
+      </div>
+      <div class="fml" style="font-size:22px;justify-content:center;margin:8px 0 14px">path difference <span class="op">=</span> <span style="display:inline-flex;align-items:center;gap:4px">(n <span class="op">+</span> <span class="frac"><span class="num">1</span><span class="den">2</span></span>)</span>&lambda;</div>
+      <div class="out">n = 0, 1, 2, &hellip; is the <b>order</b>. Phase and path difference are linked by &nbsp;<b>phase difference = (2&pi; / &lambda;) &times; path difference</b>: a whole-&lambda; shift is 2&pi; (back in step), a half-&lambda; shift is &pi; (exactly opposite).</div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:18px">
+    <div class="card">
+      <h3><span class="pin"></span>The pattern from two sources</h3>
+      <div class="canvas-wrap"><canvas id="twoSrcCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Source separation <b>d = <span id="dV">3.0</span> cm</b></label>
+        <input type="range" id="dR" min="1" max="7" step="0.1" value="3">
+      </div>
+      <div class="ctl">
+        <label>Wavelength <b>&lambda; = <span id="wlV">1.6</span> cm</b></label>
+        <input type="range" id="wlR" min="0.8" max="3" step="0.1" value="1.6">
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" id="tsPlay">Pause</button>
+        <button class="btn ghost" id="tsLines">Show nodal lines</button>
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Reading the pattern</h3>
+      <div class="prose">
+        <p>Two coherent sources S&#8321; and S&#8322; send out circular waves that overlap everywhere. Along some directions the path difference stays a whole number of wavelengths &rarr; <b>antinodal lines</b> of constructive interference (bright / loud).</p>
+        <p>Between them the path difference stays an odd number of half-wavelengths &rarr; <b>nodal lines</b> of destructive interference (dark / quiet).</p>
+        <p>Press <b>Show nodal lines</b> to mark them. Increase the separation d or shorten &lambda; and the lines crowd closer together.</p>
+      </div>
+      <div class="out">The whole pattern is <b>stationary</b> only because the two sources are coherent &mdash; their phase difference never changes.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 2 : COHERENCE & CONDITIONS ========== -->
+<section class="page" data-p="2">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">A clear, steady pattern only appears under certain conditions. The key word is <b>coherence</b>. Switch the sources between coherent and incoherent and watch the pattern form or wash away.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Coherent vs incoherent sources</h3>
+      <div class="canvas-wrap"><canvas id="cohCanvas"></canvas></div>
+      <div class="seg" id="cohSeg">
+        <button data-c="coh" class="on">Coherent (constant phase)</button>
+        <button data-c="inc">Incoherent (random phase)</button>
+      </div>
+      <div class="ctl">
+        <label>Amplitude of source 2 <b><span id="ampV">100</span>% of source 1</b></label>
+        <input type="range" id="ampR" min="20" max="100" step="5" value="100">
+      </div>
+      <p class="note" id="cohNote">Coherent sources keep a constant phase difference, so the bright and dark fringes stay fixed &mdash; you see a clear, stationary pattern.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>The terms, and the conditions</h3>
+      <div class="prose">
+        <p><b>Interference</b> &mdash; the superposition of two or more waves to give a resultant with points of steady reinforcement and cancellation.</p>
+        <p><b>Coherence</b> &mdash; two sources are coherent if they have a <b>constant phase difference</b>. This requires them to have the <b>same frequency</b> (and hence wavelength).</p>
+        <h4>To observe clear, steady fringes you need:</h4>
+        <ul>
+          <li><b>Coherent sources</b> &mdash; a constant phase difference. In practice this means deriving both waves from a <b>single source</b> (double slit from one beam; two speakers from one signal generator).</li>
+          <li><b>The same frequency / wavelength.</b></li>
+          <li><b>Similar (ideally equal) amplitude</b> &mdash; so the dark fringes are properly dark and the contrast is good.</li>
+          <li>The waves must <b>overlap</b> in the region and (for transverse waves such as light) be <b>unpolarised or polarised the same way</b>.</li>
+          <li>For light: the source must be <b>monochromatic</b> (single wavelength) for sharp fringes.</li>
+        </ul>
+        <p>Two separate lamps can never give visible light fringes: their phase difference changes randomly millions of times a second, so any pattern averages out to uniform brightness.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 3 : THE EXPERIMENTS ========== -->
+<section class="page" data-p="3">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">Two-source interference is shown with every kind of wave &mdash; each with its own real setup. Pick one and change the source separation and wavelength; the maxima and minima move exactly as the path-difference rule predicts.</p>
+  <div class="seg" id="ixSeg" style="margin-bottom:14px">
+    <button data-x="water" class="on">Water &middot; two dippers</button>
+    <button data-x="sound">Sound &middot; two speakers</button>
+    <button data-x="micro">Microwaves &middot; two gaps</button>
+    <button data-x="light">Light &middot; Young's double slit</button>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span><span id="ixTitle">Water &middot; two dippers</span></h3>
+      <div class="canvas-wrap"><canvas id="expCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Source / slit separation <b id="ixSepV"></b></label>
+        <input type="range" id="ixSepR">
+      </div>
+      <div class="ctl">
+        <label>Wavelength <b id="ixWlV"></b></label>
+        <input type="range" id="ixWlR">
+      </div>
+      <p class="note" id="ixNote"></p>
+    </div>
+    <div class="card">
+      <p class="prose" id="ixDesc" style="margin-top:0"></p>
+      <div class="ro"><span class="k">Separation</span><span class="v" id="ixSepRo"></span></div>
+      <div class="ro"><span class="k">Wavelength</span><span class="v" id="ixWlRo"></span></div>
+      <div class="ro hi"><span class="k">What you detect</span><span class="v" id="ixDetect" style="font-size:14px"></span></div>
+      <div class="out" id="ixOut"></div>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:18px">
+    <div class="card"><div class="prose">
+      <h4>Water &mdash; ripple tank</h4>
+      <p>Two dippers on the same vibrating beam are coherent point sources. Their circular waves overlap to give fixed lines of calm water (nodal lines) between lines of large disturbance (antinodal lines).</p>
+      <h4>Sound &mdash; two loudspeakers</h4>
+      <p>Two speakers wired to <b>one</b> signal generator are coherent. Walk along a line in front of them and you pass through alternating <b>loud</b> (constructive) and <b>quiet</b> (destructive) points.</p>
+    </div></div>
+    <div class="card"><div class="prose">
+      <h4>Microwaves &mdash; two gaps</h4>
+      <p>Microwaves from one transmitter pass through two gaps in a metal sheet. A receiver moved along a line beyond the gaps shows a regular rise and fall in signal &mdash; maxima and minima.</p>
+      <h4>Light &mdash; Young's double slit</h4>
+      <p>Monochromatic light through two very close slits produces bright and dark <b>fringes</b> on a screen. Because light's wavelength is tiny, the slits must be close together and the screen far away &mdash; this is the experiment that measures &lambda; (next tab).</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ========== PAGE 4 : λ = ax / D ========== -->
+<section class="page" data-p="4">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">Young's double-slit experiment turns the interference pattern into a <b>measurement of wavelength</b>. The fringe spacing <b>x</b>, the slit separation <b>a</b> and the slit-to-screen distance <b>D</b> give &lambda; directly.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Fringes on the screen</h3>
+      <div class="canvas-wrap"><canvas id="fringeCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Slit separation <b>a = <span id="aV">0.50</span> mm</b></label>
+        <input type="range" id="aR" min="0.1" max="2" step="0.05" value="0.5">
+      </div>
+      <div class="ctl">
+        <label>Slits &rarr; screen distance <b>D = <span id="DV">1.50</span> m</b></label>
+        <input type="range" id="DR" min="0.5" max="3" step="0.1" value="1.5">
+      </div>
+      <div class="ctl">
+        <label>Wavelength <b>&lambda; = <span id="lamV">600</span> nm</b></label>
+        <input type="range" id="lamR" min="400" max="700" step="5" value="600">
+      </div>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>The equation</h3>
+      <div class="fml" style="font-size:26px;justify-content:center;margin:4px 0 12px">
+        &lambda; <span class="op">=</span> <span class="frac"><span class="num">a&middot;x</span><span class="den">D</span></span>
+        <span class="op" style="margin-left:14px">&rArr;</span> x <span class="op">=</span> <span class="frac"><span class="num">&lambda;&middot;D</span><span class="den">a</span></span>
+      </div>
+      <div class="ro"><span class="k">Slit separation a</span><span class="v"><span id="aRo">0.50</span> mm</span></div>
+      <div class="ro"><span class="k">Distance to screen D</span><span class="v"><span id="DRo">1.50</span> m</span></div>
+      <div class="ro"><span class="k">Wavelength &lambda;</span><span class="v"><span id="lamRo">600</span> nm</span></div>
+      <div class="ro hi"><span class="k">Fringe spacing x</span><span class="v"><span id="xRo">1.80</span> mm</span></div>
+      <div class="out" id="fringeOut">The bright fringes are evenly spaced. Narrower slits (smaller a), a longer wavelength, or a more distant screen all <b>widen</b> the fringes.</div>
+      <div class="prose" style="margin-top:10px">
+        <ul>
+          <li><b>x</b> = spacing between the centres of adjacent bright (or adjacent dark) fringes.</li>
+          <li>Valid when <b>D &gt;&gt; a</b> (small-angle approximation) &mdash; always true in practice.</li>
+          <li>Measure many fringes and divide, to reduce the error in <b>x</b>.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="deriv">
+    <div class="dh">Derivation &middot; where &lambda; = ax/D comes from</div>
+    <div class="dstep"><div class="lbl">1 &middot; Set-up</div><div class="txt">Two slits S<sub>1</sub>, S<sub>2</sub> a distance <b>a</b> apart are lit by monochromatic light. A screen is a distance <b>D</b> away, with D &gt;&gt; a. Consider a bright fringe at point P, a distance y from the central fringe, at angle &theta; from the slits.</div></div>
+    <div class="dstep"><div class="lbl">2 &middot; Path difference</div><div class="txt">The extra distance travelled by the wave from the far slit is the <b>path difference</b> = a&nbsp;sin&theta;.</div></div>
+    <div class="dstep"><div class="lbl">3 &middot; Condition for a bright fringe</div><div class="txt">A bright fringe of order n occurs when the path difference is a whole number of wavelengths: &nbsp; a&nbsp;sin&theta; = n&lambda;.</div></div>
+    <div class="dstep"><div class="lbl">4 &middot; Small-angle approximation</div><div class="txt">Because D &gt;&gt; a, the angle &theta; is tiny, so sin&theta; &asymp; tan&theta; = y<sub>n</sub> / D. Substituting: a&nbsp;y<sub>n</sub> / D = n&lambda;, so &nbsp; y<sub>n</sub> = n&lambda;D / a.</div></div>
+    <div class="dstep"><div class="lbl">5 &middot; Fringe spacing</div><div class="txt">Adjacent bright fringes differ by one order, so the spacing x = y<sub>n+1</sub> &minus; y<sub>n</sub> = &lambda;D / a.</div></div>
+    <div class="dstep"><div class="lbl">6 &middot; Rearranged for &lambda;</div><div class="txt">Rearranging gives the examinable form: &nbsp; <b>&lambda; = ax / D</b>. Measuring x, a and D yields the wavelength of light.</div></div>
+    <div class="btnrow"><button class="btn primary" id="derivNext">Reveal next step</button><button class="btn ghost" id="derivReset">Reset</button></div>
+  </div>
+
+  <div class="card pq">
+    <div class="tagq">Practice &middot; Exam-style</div>
+    <div class="stem">In a double-slit experiment, slits 0.40 mm apart are lit with light of wavelength 590 nm. The screen is 1.80 m away.</div>
+    <div class="qpart">
+      <div class="ptext">(a) Calculate the fringe spacing x. <span class="mks">[2]</span></div>
+      <button class="preveal">Show answer</button>
+      <div class="pans" hidden>x = &lambda;D / a = (590 &times; 10<sup>&minus;9</sup> &times; 1.80) / (0.40 &times; 10<sup>&minus;3</sup>) = <b>2.66 &times; 10<sup>&minus;3</sup> m &asymp; 2.7 mm</b>.</div>
+    </div>
+    <div class="qpart">
+      <div class="ptext">(b) State and explain what happens to x if the slit separation is halved. <span class="mks">[2]</span></div>
+      <button class="preveal">Show answer</button>
+      <div class="pans" hidden>Since x = &lambda;D/a, x is inversely proportional to a. Halving a <b>doubles</b> the fringe spacing to about 5.3 mm.</div>
+    </div>
+    <div class="qpart">
+      <div class="ptext">(c) The red light is replaced by blue light. State the effect on the fringes. <span class="mks">[1]</span></div>
+      <button class="preveal">Show answer</button>
+      <div class="pans" hidden>Blue light has a shorter wavelength, so x = &lambda;D/a is smaller &mdash; the fringes move <b>closer together</b>.</div>
+    </div>
+    <div class="pdone" hidden>&#10003; That is a full-mark double-slit calculation.</div>
+  </div>
+</section>
+
+<!-- ========== PAGE 5 : WORKED EXAMPLES ========== -->
+<section class="page" data-p="5">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">Marks in interference come from the path-difference conditions, from stating the coherence requirements precisely, and from clean use of &lambda; = ax/D with SI units. Work through these as an examiner marks them.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example 1</div>
+    <div class="q">Two loudspeakers are connected to the same signal generator producing a note of frequency 1700 Hz. A student walking parallel to the speakers hears a series of loud and quiet points. Explain the quiet points, and find the path difference there. (speed of sound = 340 m s<sup>&minus;1</sup>)</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>The speakers are driven by one generator, so they are <b>coherent</b> (constant phase difference, same frequency). Their sound waves overlap and superpose.</p>
+      <p>At a <b>quiet</b> point the waves arrive in antiphase and interfere destructively, so the path difference is an odd number of half-wavelengths:</p>
+      <div class="eqbox">&lambda; = v / f = 340 / 1700 = 0.20 m<br>path difference = (n + &frac12;)&lambda; = &frac12;&lambda;, &nbsp;1&frac12;&lambda;, &hellip; = <b>0.10 m, 0.30 m, &hellip;</b></div>
+      <p>The nearest quiet point to the central loud point has a path difference of &frac12;&lambda; = <b>0.10 m</b>.</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 2</div>
+    <div class="q">In a Young's double-slit experiment, 10 bright fringes span a distance of 18 mm on a screen 2.0 m from slits separated by 0.65 mm. Calculate the wavelength of the light.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Fringe spacing from the measurement (10 fringes &rarr; 9 gaps, but at this level "10 fringes span 18 mm" is taken as 10 spacings unless stated; here use the spacing per fringe):</p>
+      <div class="eqbox">x = 18 mm / 10 = 1.8 mm = 1.8 &times; 10<sup>&minus;3</sup> m</div>
+      <p>Apply &lambda; = ax / D:</p>
+      <div class="eqbox">&lambda; = (0.65 &times; 10<sup>&minus;3</sup> &times; 1.8 &times; 10<sup>&minus;3</sup>) / 2.0 = <b>5.9 &times; 10<sup>&minus;7</sup> m = 590 nm</b></div>
+      <div class="out"><b>Tip:</b> measuring across many fringes and dividing reduces the percentage uncertainty in x. Watch the mm &rarr; m conversions.</div>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 3</div>
+    <div class="q">A double-slit pattern is produced with red light. State and explain two separate changes that would each increase the fringe spacing.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Since x = &lambda;D / a, the fringe spacing increases if:</p>
+      <ul style="margin:4px 0 10px 20px;font-size:14px;color:#374151">
+        <li><b>Move the screen further away</b> (increase D): x &prop; D.</li>
+        <li><b>Use slits closer together</b> (decrease a): x &prop; 1/a.</li>
+        <li>(Also valid: use a longer wavelength, e.g. deeper red: x &prop; &lambda;.)</li>
+      </ul>
+      <p>Any two, each with the correct reasoning from x = &lambda;D/a, score full marks.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 6 : MISCONCEPTIONS ========== -->
+<section class="page" data-p="6">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">The commonest ways candidates lose interference marks. Fix these now.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"Coherent just means the sources are identical."</div>
+      <div class="right">Coherent = a <i>constant phase difference</i> (same frequency).</div>
+      <p>The phase difference between the sources must stay fixed in time. That is why both waves are taken from one original source.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Two bright lamps will show interference fringes."</div>
+      <div class="right">Independent lamps are incoherent &mdash; no fringes.</div>
+      <p>Their phase difference changes randomly and extremely fast, so any pattern averages out to uniform brightness. You must split one source.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Interference destroys energy at the dark fringes."</div>
+      <div class="right">Energy is redistributed, not lost.</div>
+      <p>The energy missing from the dark fringes reappears in the bright fringes. Total energy is conserved &mdash; it is just moved around.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Constructive interference needs zero path difference."</div>
+      <div class="right">Any whole number of wavelengths works.</div>
+      <p>Path difference = n&lambda; (n = 0, 1, 2, &hellip;) all give constructive interference. n = 0 is just the central maximum.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"In &lambda; = ax/D, x is the distance to the first fringe."</div>
+      <div class="right">x is the spacing <i>between adjacent</i> fringes.</div>
+      <p>x is the gap from one bright fringe to the next. Measure across many fringes and divide to get it accurately.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"The fringe equation works for any slit-screen distance."</div>
+      <div class="right">It needs D &gt;&gt; a (small-angle approximation).</div>
+      <p>&lambda; = ax/D relies on sin&theta; &asymp; tan&theta;. In real experiments D (metres) is far larger than a (sub-millimetre), so this holds.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 7 : QUIZ ========== -->
+<section class="page" data-p="7">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">Seven questions in Cambridge 9702 style. Pick an answer to see the explanation.</p>
+  <div id="quizWrap"></div>
+  <div class="out" id="quizScore" style="margin-top:14px;display:none"></div>
+</section>
+</main>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> &middot; Topic 8 Superposition &middot; 8.3 Interference &middot; Cambridge AS &amp; A Level Physics (9702)<br>
+  Previous: <a href="diffraction.html" style="color:var(--c1);font-weight:700">8.2 Diffraction</a> &middot; Next: <a href="diffraction-grating.html" style="color:var(--c1);font-weight:700">8.4 Diffraction Grating</a>
+</footer>
+
+<script>
+'use strict';
+/* ---------- PAGES / NAV ---------- */
+const PAGES=[
+  {n:'1',t:'Interference',c:'var(--c1)',lvl:'AS'},
+  {n:'2',t:'Coherence',c:'var(--c2)',lvl:'AS'},
+  {n:'3',t:'The Experiments',c:'var(--c3)',lvl:'AS'},
+  {n:'4',t:'&lambda; = ax / D',c:'var(--c8)',lvl:'AS'},
+  {n:'5',t:'Worked Examples',c:'var(--c5)',lvl:'AS'},
+  {n:'6',t:'Misconceptions',c:'var(--c6)',lvl:'AS'},
+  {n:'7',t:'Quiz',c:'var(--c7)',lvl:'AS'}
+];
+let active=0;
+const nav=document.getElementById('nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML=`<span class="num">${p.n}</span> <span>${p.t}</span> <span class="lvl">${p.lvl}</span>`;
+  b.onclick=()=>go(i);
+  nav.appendChild(b);
+});
+const pages=[...document.querySelectorAll('.page')];
+const tabs=[...document.querySelectorAll('.tab')];
+function go(i){
+  active=i;
+  pages.forEach((p,k)=>p.classList.toggle('active',k===i));
+  tabs.forEach((t,k)=>t.classList.toggle('active',k===i));
+  document.body.setAttribute('data-page',PAGES[i].n);
+  document.documentElement.style.setProperty('--accent',PAGES[i].c);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- GATE ---------- */
+const gate=document.getElementById('gate'),gIn=document.getElementById('gateName'),
+      gBtn=document.getElementById('gateBtn'),gErr=document.getElementById('gateErr');
+function enter(){
+  const v=gIn.value.trim();
+  if(v.length<2){gErr.hidden=false;return;}
+  document.getElementById('profileName').textContent=v.split(' ')[0].toLowerCase();
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>gate.style.display='none',400);
+}
+gBtn.onclick=enter;
+gIn.addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+
+/* ---------- CLOCK ---------- */
+function tick(){
+  const d=new Date();
+  document.getElementById('clock').textContent=d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+
+    ' · '+d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+}
+tick();setInterval(tick,10000);
+
+/* ---------- DARK MODE ---------- */
+const sun=document.getElementById('sunbtn');
+sun.onclick=()=>{
+  const dk=document.body.classList.toggle('dark');
+  sun.innerHTML=dk?'☽':'☀';
+  sun.title=dk?'Switch to light mode':'Switch to dark mode';
+};
+
+/* ---------- CANVAS HELPERS ---------- */
+const canvases={};
+function reg(id){
+  const cv=document.getElementById(id);if(!cv)return null;
+  const o={cv,ctx:cv.getContext('2d'),w:0,h:0,dpr:1};
+  const ro=new ResizeObserver(()=>fit(o));ro.observe(cv.parentElement);
+  fit(o);canvases[id]=o;return o;
+}
+function fit(o){
+  const r=o.cv.parentElement.getBoundingClientRect();
+  o.dpr=Math.min(window.devicePixelRatio||1,2);
+  o.w=r.width;o.h=r.height;
+  o.cv.width=Math.round(o.w*o.dpr);o.cv.height=Math.round(o.h*o.dpr);
+  o.ctx.setTransform(o.dpr,0,0,o.dpr,0,0);
+}
+
+/* ---------- SMOOTH FIELD RENDERERS (offscreen, upscaled) ---------- */
+const TS_SCALE=22, ANIM=45;
+function renderField(o,px){
+  const {ctx,w,h}=o,ds=3,rw=Math.max(1,Math.floor(w/ds)),rh=Math.max(1,Math.floor(h/ds));
+  if(!o._buf||o._bw!==rw||o._bh!==rh){o._buf=document.createElement('canvas');o._buf.width=rw;o._buf.height=rh;o._bx=o._buf.getContext('2d');o._img=o._bx.createImageData(rw,rh);o._bw=rw;o._bh=rh;}
+  const d=o._img.data;
+  for(let j=0;j<rh;j++)for(let i=0;i<rw;i++){const c=px(i*ds,j*ds),k=(j*rw+i)*4;d[k]=c[0];d[k+1]=c[1];d[k+2]=c[2];d[k+3]=255;}
+  o._bx.putImageData(o._img,0,0);ctx.imageSmoothingEnabled=true;ctx.drawImage(o._buf,0,0,rw,rh,0,0,w,h);
+}
+function COHCOL(v){return [8+v*40,60+v*140,90+v*150];}
+function renderAvg(o,px,blend){
+  const {ctx,w,h}=o,ds=3,rw=Math.max(1,Math.floor(w/ds)),rh=Math.max(1,Math.floor(h/ds));
+  if(!o._buf||!o._avg||o._bw!==rw||o._bh!==rh){o._buf=document.createElement('canvas');o._buf.width=rw;o._buf.height=rh;o._bx=o._buf.getContext('2d');o._img=o._bx.createImageData(rw,rh);o._avg=new Float32Array(rw*rh).fill(0.5);o._bw=rw;o._bh=rh;}
+  const d=o._img.data,avg=o._avg;
+  for(let j=0;j<rh;j++)for(let i=0;i<rw;i++){const n=j*rw+i,inst=px(i*ds,j*ds);avg[n]=avg[n]*(1-blend)+inst*blend;const c=COHCOL(avg[n]),k=n*4;d[k]=c[0];d[k+1]=c[1];d[k+2]=c[2];d[k+3]=255;}
+  o._bx.putImageData(o._img,0,0);ctx.imageSmoothingEnabled=true;ctx.drawImage(o._buf,0,0,rw,rh,0,0,w,h);
+}
+
+/* ---------- PAGE 1a : SUPERPOSITION DEMO ---------- */
+const oSup=reg('superCanvas');
+let pdif=0,tsup=0;
+const pdR=document.getElementById('pdR'),pdV=document.getElementById('pdV');
+function superInfo(){
+  pdV.textContent=pdif.toFixed(2);
+  const amp2=Math.abs(Math.cos(Math.PI*pdif))*2;
+  let msg;
+  if(pdif<0.08||pdif>0.92) msg='The waves are <b>in phase</b> — crest meets crest. They add to give double amplitude: <b>fully constructive</b>.';
+  else if(Math.abs(pdif-0.5)<0.08) msg='The waves are <b>exactly out of phase</b> — crest meets trough. With equal amplitudes they cancel: <b>fully destructive</b>.';
+  else msg='The waves are partly out of step — the resultant amplitude is about '+amp2.toFixed(2)+'× that of one wave (partial interference).';
+  document.getElementById('superNote').innerHTML=msg;
+}
+pdR.oninput=()=>{pdif=+pdR.value;superInfo();};
+document.getElementById('pdC').onclick=()=>{pdif=0;pdR.value=0;superInfo();};
+document.getElementById('pdD').onclick=()=>{pdif=0.5;pdR.value=0.5;superInfo();};
+superInfo();
+function drawSuper(o,t){
+  const {ctx,w,h}=o,lamPx=w/3,k=2*Math.PI/lamPx,om=k*ANIM,amp=h*0.1,phi=2*Math.PI*pdif;
+  const y1=h*0.2,y2=h*0.48,y3=h*0.78;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#0b1120';ctx.fillRect(0,0,w,h);
+  ctx.strokeStyle='rgba(148,163,184,.2)';ctx.lineWidth=1;
+  [y1,y2,y3].forEach(y=>{ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke();});
+  const wave=(x,ph)=>Math.sin(k*x-om*t+ph);
+  ctx.strokeStyle='#60a5fa';ctx.lineWidth=2;ctx.beginPath();
+  for(let x=0;x<=w;x+=2){const y=y1-amp*wave(x,0);x?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();
+  ctx.strokeStyle='#f59e0b';ctx.lineWidth=2;ctx.beginPath();
+  for(let x=0;x<=w;x+=2){const y=y2-amp*wave(x,phi);x?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();
+  ctx.strokeStyle='#34d399';ctx.lineWidth=3;ctx.beginPath();
+  for(let x=0;x<=w;x+=2){const y=y3-amp*(wave(x,0)+wave(x,phi));x?ctx.lineTo(x,y):ctx.moveTo(x,y);}ctx.stroke();
+  ctx.fillStyle='rgba(226,232,240,.92)';ctx.font='600 12px "Segoe UI",system-ui,sans-serif';
+  ctx.fillText('Wave 1',8,y1-amp-7);
+  ctx.fillText('Wave 2  (shifted '+pdif.toFixed(2)+' λ)',8,y2-amp-7);
+  ctx.fillText('Resultant  =  Wave 1 + Wave 2',8,y3-amp*2-7);
+}
+
+/* ---------- PAGE 1b : TWO-SOURCE FIELD ---------- */
+const o1=reg('twoSrcCanvas');
+let play1=true,d1=3.0,wl1=1.6,showLines=false,t1=0;
+const dR=document.getElementById('dR'),dV=document.getElementById('dV'),
+      wlR=document.getElementById('wlR'),wlV=document.getElementById('wlV');
+dR.oninput=()=>{d1=+dR.value;dV.textContent=d1.toFixed(1);};
+wlR.oninput=()=>{wl1=+wlR.value;wlV.textContent=wl1.toFixed(1);};
+document.getElementById('tsPlay').onclick=function(){play1=!play1;this.textContent=play1?'Pause':'Play';};
+document.getElementById('tsLines').onclick=function(){showLines=!showLines;this.textContent=showLines?'Hide nodal lines':'Show nodal lines';};
+function drawTwoSource(o,t){
+  const {ctx,w,h}=o,cy=h/2,sx=w*0.12,dPx=d1*TS_SCALE,lamPx=wl1*TS_SCALE;
+  const s1y=cy-dPx/2,s2y=cy+dPx/2,k=2*Math.PI/lamPx,om=k*ANIM;
+  renderField(o,(x,y)=>{
+    const r1=Math.hypot(x-sx,y-s1y),r2=Math.hypot(x-sx,y-s2y);
+    const v=(Math.sin(k*r1-om*t)+Math.sin(k*r2-om*t)+2)/4;
+    if(showLines){
+      const pd=Math.abs(r2-r1)/lamPx,node=Math.abs(pd-Math.floor(pd)-0.5),anti=Math.min(pd-Math.floor(pd),Math.ceil(pd)-pd);
+      if(node<0.05)return [239,68,68];
+      if(anti<0.05)return [16,185,129];
+    }
+    return [8+v*48,26+v*150,55+v*185];
+  });
+  ctx.fillStyle='#fde68a';ctx.beginPath();ctx.arc(sx,s1y,4,0,7);ctx.fill();ctx.beginPath();ctx.arc(sx,s2y,4,0,7);ctx.fill();
+  ctx.fillStyle='rgba(226,232,240,.92)';ctx.font='600 12px "Segoe UI",system-ui,sans-serif';
+  ctx.fillText('S₁',sx-20,s1y+4);ctx.fillText('S₂',sx-20,s2y+4);
+  if(showLines){ctx.textAlign='right';ctx.fillStyle='rgba(16,185,129,.95)';ctx.fillText('● antinodal (bright)',w-10,16);ctx.fillStyle='rgba(239,68,68,.95)';ctx.fillText('● nodal (dark)',w-10,32);ctx.textAlign='left';}
+}
+function up1(dt){ tsup+=dt; if(play1)t1+=dt; if(oSup)drawSuper(oSup,tsup); if(o1)drawTwoSource(o1,t1); }
+
+/* ---------- PAGE 2 : COHERENCE ---------- */
+const o2=reg('cohCanvas');
+let cohMode='coh', ampFrac=1, t2=0, cohPhase=0;
+const ampR=document.getElementById('ampR'),ampV=document.getElementById('ampV');
+ampR.oninput=()=>{ampFrac=(+ampR.value)/100;ampV.textContent=ampR.value;};
+document.querySelectorAll('#cohSeg button').forEach(b=>{
+  b.onclick=()=>{
+    cohMode=b.dataset.c;
+    document.querySelectorAll('#cohSeg button').forEach(x=>x.classList.toggle('on',x===b));
+    document.getElementById('cohNote').innerHTML = cohMode==='coh'
+      ? 'Coherent sources keep a constant phase difference, so the bright and dark fringes stay fixed — you see a clear, stationary pattern.'
+      : 'Incoherent sources have a randomly changing phase difference. The pattern jumps about so fast that it averages out to near-uniform brightness — no steady fringes.';
+    if(o2)o2._avg=null;
+  };
+});
+function drawCoherence(o,t){
+  const {ctx,w,h}=o,cy=h/2,sx=w*0.12,dPx=h*0.3,lamPx=h*0.085;
+  const s1y=cy-dPx/2,s2y=cy+dPx/2,k=2*Math.PI/lamPx,om=k*ANIM;
+  cohPhase=cohMode==='coh'?0:Math.random()*2*Math.PI;
+  const blend=cohMode==='coh'?0.22:0.1;
+  renderAvg(o,(x,y)=>{
+    const r1=Math.hypot(x-sx,y-s1y),r2=Math.hypot(x-sx,y-s2y);
+    const amp=Math.sin(k*r1-om*t)+ampFrac*Math.sin(k*r2-om*t+cohPhase);
+    return (amp+(1+ampFrac))/(2*(1+ampFrac));
+  },blend);
+  ctx.fillStyle='#fde68a';ctx.beginPath();ctx.arc(sx,s1y,4,0,7);ctx.fill();ctx.beginPath();ctx.arc(sx,s2y,4,0,7);ctx.fill();
+  ctx.fillStyle='rgba(226,232,240,.92)';ctx.font='600 12px "Segoe UI",system-ui,sans-serif';ctx.textAlign='right';
+  ctx.fillText(cohMode==='coh'?'COHERENT — steady fringes':'INCOHERENT — washes out',w-10,18);ctx.textAlign='left';
+}
+function up2(dt){ if(o2)drawCoherence(o2,t2+=dt); }
+/* ---------- shared helpers ---------- */
+function nmToRGB(wl){
+  let r=0,g=0,b=0;
+  if(wl<440){r=-(wl-440)/60;b=1;} else if(wl<490){g=(wl-440)/50;b=1;}
+  else if(wl<510){g=1;b=-(wl-510)/20;} else if(wl<580){r=(wl-510)/70;g=1;}
+  else if(wl<645){r=1;g=-(wl-645)/65;} else {r=1;}
+  const f=wl<420?0.3+0.7*(wl-380)/40:wl>700?0.3+0.7*(750-wl)/50:1;
+  const C=x=>Math.round(255*Math.pow(Math.max(0,Math.min(1,x*f)),0.8));
+  return [C(r),C(g),C(b)];
+}
+function fieldPattern(o,t,sx,s1y,s2y,lamPx,lo,hi,x0){
+  const k=2*Math.PI/lamPx,om=k*ANIM;
+  renderField(o,(x,y)=>{
+    if(x0&&x<x0)return [11,17,32];
+    const r1=Math.hypot(x-sx,y-s1y),r2=Math.hypot(x-sx,y-s2y);
+    const v=(Math.sin(k*r1-om*t)+Math.sin(k*r2-om*t)+2)/4;
+    return [lo[0]+v*(hi[0]-lo[0]),lo[1]+v*(hi[1]-lo[1]),lo[2]+v*(hi[2]-lo[2])];
+  });
+}
+
+/* ---------- PAGE 3 : EXPERIMENT SCENES ---------- */
+const o3=reg('expCanvas');
+const IX={
+  water:{title:'Water · two dippers', sepMin:1.5,sepMax:6,sep:3,sepStep:0.1,sepU:'cm',
+    wlMin:0.8,wlMax:3,wl:1.6,wlStep:0.1,wlU:'cm', scale:24, detect:'nodal & antinodal lines',
+    desc:'Two dippers fixed to one vibrating beam are coherent point sources. Their circular waves overlap to make fixed lines of calm (nodal) between lines of large disturbance (antinodal).',
+    note:'Move the dippers apart or shorten the wavelength and the lines crowd closer together.',
+    out:'The lines are fixed in position because the two dippers stay in a constant phase relationship — they are coherent.'},
+  sound:{title:'Sound · two speakers', sepMin:0.4,sepMax:1.8,sep:1,sepStep:0.05,sepU:'m',
+    wlMin:0.1,wlMax:0.6,wl:0.2,wlStep:0.02,wlU:'m', scale:150, detect:'loud & quiet points',
+    desc:'Two loudspeakers wired to one signal generator are coherent. Walking along the line on the right you pass alternating loud (constructive) and quiet (destructive) points.',
+    note:'Green = loud (path difference = nλ). Red = quiet (path difference = (n+½)λ).',
+    out:'At a quiet point the two sound waves arrive exactly out of step and cancel; at a loud point they arrive in step and reinforce.'},
+  micro:{title:'Microwaves · two gaps', sepMin:4,sepMax:14,sep:8,sepStep:0.5,sepU:'cm',
+    wlMin:2,wlMax:4,wl:3,wlStep:0.1,wlU:'cm', scale:15, detect:'maxima & minima of signal',
+    desc:'Microwaves from one transmitter pass through two gaps in a metal sheet. A receiver moved along the line beyond the gaps shows a regular rise and fall in signal strength.',
+    note:'The two gaps act as coherent sources — the field beyond is a two-source interference pattern.',
+    out:'The receiver reads a maximum wherever the path difference from the two gaps is a whole number of wavelengths.'},
+  light:{title:"Light · Young's double slit", sepMin:0.2,sepMax:1.2,sep:0.5,sepStep:0.05,sepU:'mm',
+    wlMin:400,wlMax:700,wl:600,wlStep:10,wlU:'nm', scale:1, detect:'bright & dark fringes',
+    desc:'Monochromatic light through two very close slits gives evenly spaced bright and dark fringes on a screen. Because λ is tiny, the slits must be close and the screen far away.',
+    note:'Narrow the slits (smaller a) or use a longer wavelength and the fringes spread apart.',
+    out:'This is the experiment that measures the wavelength of light — quantified by λ = ax/D in the next tab.'}
+};
+let curIX='water', t3=0;
+function fmtU(val,u){ return (u==='nm'? val.toFixed(0) : u==='mm'? val.toFixed(2) : u==='m'? val.toFixed(2) : val.toFixed(1))+' '+u; }
+function refreshIX(){
+  const e=IX[curIX];
+  document.getElementById('ixTitle').textContent=e.title;
+  document.getElementById('ixDesc').textContent=e.desc;
+  document.getElementById('ixNote').textContent=e.note;
+  document.getElementById('ixOut').innerHTML=e.out;
+  document.getElementById('ixDetect').textContent=e.detect;
+  document.getElementById('ixSepV').textContent=fmtU(e.sep,e.sepU);
+  document.getElementById('ixWlV').textContent=fmtU(e.wl,e.wlU);
+  document.getElementById('ixSepRo').textContent=fmtU(e.sep,e.sepU);
+  document.getElementById('ixWlRo').textContent=fmtU(e.wl,e.wlU);
+}
+function setIX(key){
+  curIX=key;const e=IX[key];
+  document.querySelectorAll('#ixSeg button').forEach(b=>b.classList.toggle('on',b.dataset.x===key));
+  const sR=document.getElementById('ixSepR'),wR=document.getElementById('ixWlR');
+  sR.min=e.sepMin;sR.max=e.sepMax;sR.step=e.sepStep;sR.value=e.sep;
+  wR.min=e.wlMin;wR.max=e.wlMax;wR.step=e.wlStep;wR.value=e.wl;
+  refreshIX();
+}
+document.getElementById('ixSepR').oninput=function(){IX[curIX].sep=+this.value;refreshIX();};
+document.getElementById('ixWlR').oninput=function(){IX[curIX].wl=+this.value;refreshIX();};
+document.querySelectorAll('#ixSeg button').forEach(b=>{b.onclick=()=>setIX(b.dataset.x);});
+
+function drawIXWater(o,P){
+  const {ctx,w,h}=o,cy=h/2,sx=w*0.1;
+  ctx.clearRect(0,0,w,h);
+  fieldPattern(o,P.t,sx,cy-P.sepPx/2,cy+P.sepPx/2,P.lamPx,[8,26,55],[56,176,240]);
+  ctx.strokeStyle='#94a3b8';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(sx,cy-P.sepPx/2-6);ctx.lineTo(sx,cy+P.sepPx/2+6);ctx.stroke();
+  ctx.fillStyle='#fbbf24';ctx.beginPath();ctx.arc(sx,cy-P.sepPx/2,4,0,7);ctx.fill();ctx.beginPath();ctx.arc(sx,cy+P.sepPx/2,4,0,7);ctx.fill();
+  ctx.fillStyle='rgba(226,232,240,.6)';ctx.font='600 11px "Segoe UI",system-ui,sans-serif';
+  ctx.textAlign='center';ctx.fillText('RIPPLE TANK · two dippers · top view',w/2,h-9);ctx.textAlign='left';
+}
+function drawIXSound(o,P){
+  const {ctx,w,h}=o,cy=h/2,sx=w*0.1,lineX=w*0.84;
+  ctx.clearRect(0,0,w,h);
+  fieldPattern(o,P.t,sx,cy-P.sepPx/2,cy+P.sepPx/2,P.lamPx,[20,12,4],[245,180,70]);
+  // speakers
+  ctx.fillStyle='#f59e0b';
+  [cy-P.sepPx/2,cy+P.sepPx/2].forEach(sy=>{ctx.beginPath();ctx.moveTo(sx-10,sy-6);ctx.lineTo(sx,sy-6);ctx.lineTo(sx+11,sy-14);ctx.lineTo(sx+11,sy+14);ctx.lineTo(sx,sy+6);ctx.lineTo(sx-10,sy+6);ctx.closePath();ctx.fill();});
+  // detection line + loud/quiet markers
+  ctx.strokeStyle='rgba(226,232,240,.5)';ctx.lineWidth=1.5;ctx.setLineDash([5,5]);ctx.beginPath();ctx.moveTo(lineX,10);ctx.lineTo(lineX,h-10);ctx.stroke();ctx.setLineDash([]);
+  for(let y=18;y<h-14;y+=10){
+    const r1=Math.hypot(lineX-sx,y-(cy-P.sepPx/2)),r2=Math.hypot(lineX-sx,y-(cy+P.sepPx/2));
+    const m=Math.abs(r2-r1)/P.lamPx, loud=Math.min(m-Math.floor(m),Math.ceil(m)-m), quiet=Math.abs(m-Math.floor(m)-0.5);
+    if(loud<0.07){ctx.fillStyle='#22c55e';ctx.beginPath();ctx.arc(lineX,y,4,0,7);ctx.fill();}
+    else if(quiet<0.07){ctx.fillStyle='#ef4444';ctx.beginPath();ctx.arc(lineX,y,3,0,7);ctx.fill();}
+  }
+  ctx.fillStyle='rgba(226,232,240,.8)';ctx.font='600 11px "Segoe UI",system-ui,sans-serif';
+  ctx.fillText('two speakers · one generator',sx-6,16);
+  ctx.textAlign='right';ctx.fillText('walk this line →',lineX-8,16);ctx.textAlign='left';
+}
+function drawIXMicro(o,P){
+  const {ctx,w,h}=o,cy=h/2,barx=w*0.32;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#0b1120';ctx.fillRect(0,0,w,h);
+  fieldPattern(o,P.t,barx,cy-P.sepPx/2,cy+P.sepPx/2,P.lamPx,[6,18,26],[103,232,249],barx);
+  // transmitter horn
+  ctx.fillStyle='#64748b';ctx.beginPath();ctx.moveTo(w*0.04,cy-8);ctx.lineTo(w*0.11,cy-18);ctx.lineTo(w*0.11,cy+18);ctx.lineTo(w*0.04,cy+8);ctx.closePath();ctx.fill();ctx.fillRect(w*0.01,cy-6,w*0.035,12);
+  // metal sheet with two gaps
+  const gh=6;ctx.fillStyle='#9aa6c8';
+  ctx.fillRect(barx-4,0,8,cy-P.sepPx/2-gh);
+  ctx.fillRect(barx-4,cy-P.sepPx/2+gh,8,P.sepPx-2*gh);
+  ctx.fillRect(barx-4,cy+P.sepPx/2+gh,8,h-(cy+P.sepPx/2+gh));
+  // receiver + signal bars along right
+  const lineX=w*0.9;
+  for(let y=18;y<h-14;y+=11){
+    const r1=Math.hypot(lineX-barx,y-(cy-P.sepPx/2)),r2=Math.hypot(lineX-barx,y-(cy+P.sepPx/2));
+    const m=Math.abs(r2-r1)/P.lamPx, mx=Math.min(m-Math.floor(m),Math.ceil(m)-m);
+    ctx.fillStyle=mx<0.12?'#22c55e':'rgba(100,116,139,.5)';ctx.beginPath();ctx.arc(lineX,y,mx<0.12?4:2,0,7);ctx.fill();
+  }
+  ctx.fillStyle='rgba(226,232,240,.8)';ctx.font='600 11px "Segoe UI",system-ui,sans-serif';
+  ctx.fillText('TRANSMITTER',w*0.01,cy-22);ctx.fillText('two gaps',barx-14,13);
+  ctx.textAlign='right';ctx.fillText('receiver line →',lineX-8,16);ctx.textAlign='left';
+}
+function drawIXLight(o,P){
+  const {ctx,w,h}=o,cy=h/2,slitx=w*0.3,screenx=w*0.9;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#07080f';ctx.fillRect(0,0,w,h);
+  const rgb=nmToRGB(IX.light.wl),col=`rgb(${rgb[0]},${rgb[1]},${rgb[2]})`;
+  // source + beam to slits
+  ctx.fillStyle='#334155';ctx.fillRect(w*0.03,cy-13,w*0.08,26);
+  ctx.strokeStyle=col;ctx.globalAlpha=0.5;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w*0.11,cy);ctx.lineTo(slitx,cy);ctx.stroke();ctx.globalAlpha=1;
+  // double slit
+  const sh=4,sepPx=Math.min(h*0.3,Math.max(10,IX.light.sep*22));
+  ctx.fillStyle='#1e293b';
+  ctx.fillRect(slitx-4,0,8,cy-sepPx/2-sh);
+  ctx.fillRect(slitx-4,cy-sepPx/2+sh,8,sepPx-2*sh);
+  ctx.fillRect(slitx-4,cy+sepPx/2+sh,8,h-(cy+sepPx/2+sh));
+  // rays spreading
+  ctx.strokeStyle=col;ctx.globalAlpha=0.14;ctx.lineWidth=1;
+  for(let yy=-1;yy<=1;yy+=0.25){ctx.beginPath();ctx.moveTo(slitx,cy);ctx.lineTo(screenx,cy+yy*h*0.5);ctx.stroke();}
+  ctx.globalAlpha=1;
+  // screen with fringes
+  const fpx=Math.max(7,Math.min(h*0.5,(IX.light.wl/(IX.light.sep*1000))*2400));
+  for(let y=0;y<h;y++){
+    const I=Math.pow(Math.cos(Math.PI*(y-cy)/fpx),2);
+    ctx.fillStyle=`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${I})`;
+    ctx.fillRect(screenx,y,14,1);
+  }
+  ctx.fillStyle='#e5e7eb';ctx.fillRect(screenx+14,0,4,h);
+  ctx.fillStyle='rgba(226,232,240,.85)';ctx.font='600 11px "Segoe UI",system-ui,sans-serif';
+  ctx.fillText('source',w*0.03,cy-18);ctx.fillText('double slit',slitx-18,14);
+  ctx.textAlign='right';ctx.fillText('SCREEN',screenx-4,14);ctx.textAlign='left';
+}
+function up3(dt){
+  t3+=dt;if(!o3)return;
+  const e=IX[curIX];
+  const P={t:t3, sepPx:Math.min(o3.h*0.5,Math.max(14,e.sep*e.scale)), lamPx:Math.max(12,Math.min(o3.h*0.6,e.wl*e.scale))};
+  if(curIX==='water') drawIXWater(o3,P);
+  else if(curIX==='sound') drawIXSound(o3,P);
+  else if(curIX==='micro') drawIXMicro(o3,P);
+  else if(curIX==='light') drawIXLight(o3,P);
+}
+setIX('water');
+
+/* ---------- PAGE 4 : FRINGES + DERIVATION ---------- */
+const o4=reg('fringeCanvas');
+let a4=0.5,D4=1.5,lam4=600;
+const aR=document.getElementById('aR'),aV=document.getElementById('aV'),
+      DR=document.getElementById('DR'),DV=document.getElementById('DV'),
+      lamR=document.getElementById('lamR'),lamV=document.getElementById('lamV');
+const aRo=document.getElementById('aRo'),DRo=document.getElementById('DRo'),lamRo=document.getElementById('lamRo'),xRo=document.getElementById('xRo');
+function refresh4(){
+  aV.textContent=a4.toFixed(2);DV.textContent=D4.toFixed(2);lamV.textContent=lam4.toFixed(0);
+  aRo.textContent=a4.toFixed(2);DRo.textContent=D4.toFixed(2);lamRo.textContent=lam4.toFixed(0);
+  const x_m=(lam4*1e-9*D4)/(a4*1e-3), x_mm=x_m*1000;
+  xRo.textContent=x_mm.toFixed(2);
+}
+aR.oninput=()=>{a4=+aR.value;refresh4();};
+DR.oninput=()=>{D4=+DR.value;refresh4();};
+lamR.oninput=()=>{lam4=+lamR.value;refresh4();};
+refresh4();
+function drawFringes(o){
+  const {ctx,w,h}=o,cy=h/2;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#07080f';ctx.fillRect(0,0,w,h);
+  const rgb=nmToRGB(lam4);
+  const x_mm=(lam4*1e-9*D4)/(a4*1e-3)*1000;
+  const fpx=Math.max(7,Math.min(h*0.48,x_mm*34));
+  for(let y=0;y<h;y++){
+    const I=Math.pow(Math.cos(Math.PI*(y-cy)/fpx),2);
+    ctx.fillStyle=`rgba(${rgb[0]},${rgb[1]},${rgb[2]},${I})`;
+    ctx.fillRect(0,y,w,1);
+  }
+  // mark one fringe spacing
+  ctx.strokeStyle='rgba(255,255,255,.8)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(w*0.08,cy);ctx.lineTo(w*0.08,cy-fpx);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(w*0.065,cy);ctx.lineTo(w*0.095,cy);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(w*0.065,cy-fpx);ctx.lineTo(w*0.095,cy-fpx);ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,.9)';ctx.font='600 12px "Segoe UI",system-ui,sans-serif';
+  ctx.fillText('x = '+x_mm.toFixed(2)+' mm',w*0.11,cy-fpx/2+4);
+  ctx.fillText('SCREEN — bright & dark fringes',10,16);
+}
+function up4(){ if(o4)drawFringes(o4); }
+
+/* ---------- DERIVATION STEPPER ---------- */
+const dsteps=[...document.querySelectorAll('.deriv .dstep')];let dShown=0;
+function derivPaint(){ dsteps.forEach((s,i)=>s.classList.toggle('show',i<dShown)); }
+document.getElementById('derivNext').onclick=()=>{ if(dShown<dsteps.length)dShown++; derivPaint(); };
+document.getElementById('derivReset').onclick=()=>{ dShown=0; derivPaint(); };
+dShown=1;derivPaint();
+
+/* ---------- REVEALS ---------- */
+document.querySelectorAll('.preveal').forEach(b=>{
+  b.onclick=()=>{
+    const a=b.nextElementSibling;a.hidden=!a.hidden;b.textContent=a.hidden?'Show answer':'Hide answer';
+    const card=b.closest('.pq');if(card){const done=card.querySelector('.pdone');const all=[...card.querySelectorAll('.pans')].every(p=>!p.hidden);if(done)done.hidden=!all;}
+  };
+});
+document.querySelectorAll('.we .reveal').forEach(b=>{
+  b.onclick=()=>{const a=b.nextElementSibling;a.hidden=!a.hidden;b.textContent=a.hidden?'Show solution':'Hide solution';};
+});
+
+/* ---------- QUIZ ---------- */
+const QUIZ=[
+  {q:'Two sources are described as coherent if they:',
+   o:['have the same amplitude','have a constant phase difference','are the same distance from the detector','produce waves of different frequency'],
+   a:1,e:'Coherence means a constant phase difference, which requires the same frequency. Equal amplitude helps contrast but is not what "coherent" means.'},
+  {q:'At a point of constructive interference, the path difference between the two waves is:',
+   o:['(n + ½)λ','an odd number of wavelengths only','nλ (a whole number of wavelengths)','always zero'],
+   a:2,e:'Constructive interference occurs when the path difference is nλ (n = 0, 1, 2, …), so the waves arrive in phase.'},
+  {q:'Two separate filament lamps cannot produce an observable interference pattern because they are:',
+   o:['too bright','incoherent — their phase difference changes randomly','different colours','too far apart'],
+   a:1,e:'Independent lamps have a randomly varying phase difference, so any pattern averages out. The sources must be coherent (derived from one source).'},
+  {q:'In the double-slit equation λ = ax/D, the quantity x is:',
+   o:['the distance from the slits to the screen','the slit separation','the spacing between adjacent bright fringes','the width of one slit'],
+   a:2,e:'x is the fringe spacing — the distance between the centres of adjacent bright (or adjacent dark) fringes.'},
+  {q:'In a double-slit experiment the slit separation a is doubled. The fringe spacing x:',
+   o:['doubles','halves','stays the same','quadruples'],
+   a:1,e:'x = λD/a, so x is inversely proportional to a. Doubling a halves the fringe spacing.'},
+  {q:'Which change would make the fringes in a double-slit experiment wider apart?',
+   o:['using blue light instead of red','moving the screen closer','increasing the slit separation','increasing the distance D to the screen'],
+   a:3,e:'x = λD/a, so increasing D increases x. Blue light (shorter λ) and larger a both reduce x; moving the screen closer reduces D.'},
+  {q:'At a dark fringe, the energy that would have arrived there is:',
+   o:['destroyed','converted to heat in the screen','redistributed to the bright fringes','stored in the slits'],
+   a:2,e:'Energy is conserved — it is redistributed from the dark fringes to the bright fringes. Interference moves energy around, it does not destroy it.'}
+];
+const qWrap=document.getElementById('quizWrap');let answered=0,correct=0;
+QUIZ.forEach((item,qi)=>{
+  const d=document.createElement('div');d.className='q';
+  d.innerHTML=`<div class="qq">${qi+1}. ${item.q}</div>`;
+  const opts=document.createElement('div');opts.className='opts';
+  item.o.forEach((txt,oi)=>{
+    const b=document.createElement('button');b.className='opt';b.textContent=txt;
+    b.onclick=()=>{
+      if(d.dataset.done)return;d.dataset.done='1';answered++;
+      if(oi===item.a){b.classList.add('correct');correct++;}else{b.classList.add('wrong');opts.children[item.a].classList.add('correct');}
+      exp.classList.add('show');
+      if(answered===QUIZ.length){const sc=document.getElementById('quizScore');sc.style.display='block';sc.innerHTML=`You scored <b>${correct} / ${QUIZ.length}</b>. ${correct===QUIZ.length?'Perfect — interference mastered.':'Review the explanations above and retry the ones you missed.'}`;}
+    };
+    opts.appendChild(b);
+  });
+  d.appendChild(opts);
+  const exp=document.createElement('div');exp.className='qexp';exp.textContent=item.e;
+  d.appendChild(exp);qWrap.appendChild(d);
+});
+
+/* ---------- MASTER LOOP ---------- */
+let last=performance.now();
+function loop(now){
+  const dt=Math.min(0.05,(now-last)/1000);last=now;
+  if(active===0)up1(dt);
+  else if(active===1)up2(dt);
+  else if(active===2)up3(dt);
+  else if(active===3)up4(dt);
+  requestAnimationFrame(loop);
+}
+requestAnimationFrame(loop);
+window.addEventListener('resize',()=>{Object.values(canvases).forEach(fit);});
+</script>
+</body>
+</html>

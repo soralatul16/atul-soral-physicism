@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Stationary Waves</title>
+<style>
+:root{
+  --c1:#2563eb; --c2:#0891b2; --c3:#7c3aed; --c4:#db2777; --c5:#0d9488; --c6:#d97706; --c7:#059669; --c8:#4f46e5;
+  --accent:var(--c1); --accent-soft:rgba(37,99,235,.12);
+  --ink:#1b2440; --muted:#71809e; --line:rgba(27,36,64,.12); --card:#ffffff;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#eef4ff 0%,#f3f1ff 50%,#ecfbff 100%)}
+body[data-page="1"]{background:linear-gradient(135deg,#eef4ff 0%,#eaf1ff 55%,#f4f8ff 100%)}
+body[data-page="2"]{background:linear-gradient(135deg,#ecfeff 0%,#eef9fb 55%,#f0fbff 100%)}
+body[data-page="3"]{background:linear-gradient(135deg,#f5f1ff 0%,#f6f3ff 55%,#faf6ff 100%)}
+body[data-page="4"]{background:linear-gradient(135deg,#ecfdf9 0%,#f0fdfa 55%,#eefaf6 100%)}
+body[data-page="5"]{background:linear-gradient(135deg,#fff7ed 0%,#fffbeb 55%,#fef7ec 100%)}
+body[data-page="6"]{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf6 55%,#eefaf2 100%)}
+body.dark{--ink:#e7ebf7;--muted:#9aa6c8;--line:rgba(231,235,247,.15);--card:#1a2033;--tan:#2b3450;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#0e1322 0%,#121829 55%,#101a26 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(18,24,42,.86)}
+body.dark .brand{color:#f2f4fb}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox{background:#1a2033}
+body.dark .opt,body.dark .pans,body.dark .eqbox{background:#141a2b}
+body.dark .qexp{background:rgba(5,150,105,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#c7cfe6}
+body.dark .lead,body.dark .prose p,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .ms,body.dark .qexp,body.dark .dstep .cap,body.dark .pq .stem{color:#c7cfe6}
+body.dark .gatebox .mark{color:#f2f4fb}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+body.dark .canvas-wrap{background:#f4f6fb}
+
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#1b1b1b;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#2563eb;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,255,255,.55);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fff;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:#fff;border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .sl{display:inline-flex;align-items:center;gap:4px}
+.dotSL{width:9px;height:9px;border-radius:3px;background:#2563eb}
+
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:730px;font-size:15px}
+
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:#fff;background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:#fff}
+.tab.active .lvl{background:rgba(255,255,255,.25)}
+
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.sl{background:rgba(37,99,235,.12);color:#2563eb}
+.lead{font-size:16px;color:#374151;max-width:770px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(27,36,64,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(280px,42vh,420px);overflow:hidden;border-radius:12px;background:#fcfdff;border:1px solid var(--line)}
+canvas{display:block;width:100%;height:100%}
+
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.primary{background:var(--accent);color:#fff}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+.subtabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.subtab{font-family:var(--fs);font-size:13px;font-weight:700;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:10px;padding:8px 14px;cursor:pointer;transition:.18s}
+.subtab:hover{border-color:var(--accent);color:var(--ink)}
+.subtab.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.subpanel[hidden]{display:none}
+body.dark .subtab{background:rgba(255,255,255,.06);color:#c7cfe6}
+
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#374151}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+.prose p{margin-bottom:11px;font-size:14.5px;color:#374151}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fbfbff;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+
+.fml{font-family:"Cambria Math",Cambria,"Times New Roman",Georgia,serif;font-size:19px;line-height:1.1;
+  display:flex;flex-wrap:wrap;align-items:center;gap:7px;color:var(--ink)}
+.fml .op{color:var(--muted)}
+.fml sub{font-size:.68em;vertical-align:-.25em}
+.fml sup{font-size:.68em;vertical-align:.5em}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:middle}
+.frac .num{border-bottom:1.7px solid currentColor;padding:0 8px 2px}
+.frac .den{padding:2px 8px 0}
+
+.deriv .dhead{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dctrls{display:flex;gap:8px}
+.dintro{font-size:12.5px;color:var(--muted);margin:8px 0 2px}
+.dstep{opacity:0;max-height:0;overflow:hidden;transform:translateY(6px);transition:opacity .35s ease,max-height .4s ease,transform .35s ease}
+.dstep.show{opacity:1;max-height:360px;transform:none;margin:12px 0}
+.dstep .eqbox{margin:0}
+.dstep .cap{font-size:12.5px;color:#374151;margin-top:6px}
+.dstep .cap b{color:var(--accent)}
+.dstep .sidx{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.5px;color:#fff;background:var(--accent);border-radius:5px;padding:2px 7px;margin-bottom:6px;text-transform:uppercase}
+
+.we{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#374151;border-top:1px dashed var(--line);padding-top:10px}
+.answer .eqbox{font-size:13.5px}
+
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#374151;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart[hidden]{display:none}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#374151;background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pans .fml{font-size:16px;margin:6px 0}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c4)}
+.mcard .wrong{font-size:13px;color:#b91c1c;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"\2717 ";}
+.mcard .right{font-size:13.5px;color:#065f46;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"\2713 ";}
+.mcard p{font-size:13px;color:#374151;margin-top:5px}
+
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fcfdff;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#374151;background:#f0fdf4;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#eef4ff,#f3f1ff,#ecfbff);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fff;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(27,36,64,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#1b1b1b}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:#fff;border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+@media print{#gate,.topnav,.sunbtn,nav#nav{display:none!important}.page{display:block!important;page-break-after:always}}
+</style>
+</head>
+<body data-page="1">
+
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Stationary Waves</h2>
+    <p>Topic 8.1 Superposition &middot; Cambridge AS &amp; A Level Physics (9702)</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive A level physics lesson</div>
+  </div>
+</div>
+
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../dp-simulations.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../dp-simulations.html">A Level</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<div class="chapterbar">
+  <span class="chaptag">8 Superposition</span>
+  <div class="parts">
+    <a class="partlink here" href="stationary-waves.html">8.1 Stationary Waves<span class="pl">AS</span></a>
+    <a class="partlink" href="diffraction.html">8.2 Diffraction<span class="pl">AS</span></a>
+    <a class="partlink" href="interference.html">8.3 Interference<span class="pl">AS</span></a>
+    <a class="partlink" href="diffraction-grating.html">8.4 Diffraction Grating<span class="pl">AS</span></a>
+  </div>
+  <div class="legend">
+    <span class="sl"><span class="dotSL"></span>AS Level core</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">8.1 &middot; Waves that add up</div>
+  <h1>Stationary Waves</h1>
+  <p>When two waves meet, their displacements simply add &mdash; the principle of superposition. When a wave meets its own reflection, that addition locks into a fixed pattern of nodes and antinodes: a stationary wave, which stores energy rather than transferring it.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+<!-- PAGE 1 : SUPERPOSITION -->
+<section class="page active" data-p="0">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">The principle of superposition: when two or more waves meet at a point, the resultant displacement is the <b>vector sum</b> of their individual displacements. Change the phase difference between two equal waves and watch the resultant swing between reinforcement and cancellation.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Add the displacements</h3>
+      <div class="canvas-wrap"><canvas id="supCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Phase difference between the two waves <b id="supPhiv">0&deg;</b></label>
+        <input type="range" id="supPhi" min="0" max="360" step="5" value="0">
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" id="supPlay">Pause</button>
+      </div>
+      <p class="note">Faint blue and cyan curves are the two component waves; the bold curve is their sum. At 0&deg; they reinforce (constructive); at 180&deg; they cancel (destructive).</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>The resultant</h3>
+      <div id="supReadouts"></div>
+      <div class="eqbox fml" style="margin-top:12px">y = y&#8321; + y&#8322;</div>
+      <div class="out" id="supOut"></div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="sup">
+    <div class="stem">Two waves of equal amplitude 3.0 cm meet at a point. (The resultant amplitude of two equal waves is 2A cos(&phi;/2), where &phi; is the phase difference.)</div>
+    <div class="tagq">Question</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) State the resultant amplitude when the waves arrive in phase (&phi; = 0). <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><b>6.0 cm</b> &mdash; the two displacements always add, giving constructive superposition (2 &times; 3.0 cm).</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) State the resultant amplitude when the waves are in antiphase (&phi; = 180&deg;). <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><b>0</b> &mdash; equal and opposite displacements cancel at every instant (destructive superposition).</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) Calculate the resultant amplitude when &phi; = 90&deg;. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">2A cos(&phi;/2) = 2 × 3.0 × cos45°<span class="op">=</span>6.0 × 0.707<span class="op">&approx;</span><b>4.2 cm</b></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 2 : STATIONARY WAVES -->
+<section class="page" data-p="1">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">Send a wave along a string and reflect it back: the incident and reflected waves (same speed, frequency and amplitude, opposite directions) superpose. At some points they always cancel (<b>nodes</b>); midway between, they always reinforce (<b>antinodes</b>). The pattern no longer travels &mdash; it is a <b>stationary wave</b>.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Two waves build a standing pattern</h3>
+      <div class="canvas-wrap"><canvas id="formCanvas"></canvas></div>
+      <div class="seg" id="formSeg">
+        <button class="on" data-m="0">Show both + sum</button>
+        <button data-m="1">Sum only</button>
+      </div>
+      <div class="btnrow">
+        <button class="btn primary" id="formPlay">Pause</button>
+      </div>
+      <p class="note">Blue = incident (travelling right), cyan = reflected (travelling left), bold violet = their sum. Red dots are nodes (always still); orange dots are antinodes (maximum swing).</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>Nodes, antinodes &amp; spacing</h3>
+      <div id="formReadouts"></div>
+      <div class="eqbox fml" style="margin-top:12px">node &rarr; node = <span class="frac"><span class="num">&lambda;</span><span class="den">2</span></span><span class="op">,</span>&nbsp; node &rarr; antinode = <span class="frac"><span class="num">&lambda;</span><span class="den">4</span></span></div>
+      <div class="out" id="formOut"></div>
+    </div>
+  </div>
+  <div class="card deriv" data-sim="form" style="margin-top:18px">
+    <div class="dhead">
+      <h3 style="margin:0"><span class="pin"></span>Derivation &middot; where the nodes come from</h3>
+      <div class="dctrls">
+        <button class="btn ghost dnext">Reveal first step</button>
+        <button class="btn ghost dreset" hidden>Reset</button>
+      </div>
+    </div>
+    <p class="dintro">Superpose an incident and a reflected wave of equal amplitude. Reveal one line at a time.</p>
+    <div class="dsteps">
+      <div class="dstep">
+        <span class="sidx">Step 1 &middot; the two waves</span>
+        <div class="eqbox fml">y&#8321; = A sin(kx &minus; &omega;t)<span class="op">,</span>&nbsp; y&#8322; = A sin(kx + &omega;t)</div>
+        <div class="cap">Same amplitude and frequency, travelling in opposite directions.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 2 &middot; add them</span>
+        <div class="eqbox fml">y = y&#8321; + y&#8322; = 2A sin(kx) cos(&omega;t)</div>
+        <div class="cap">Using the sum-to-product identity. The x and t parts have <b>separated</b>.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 3 &middot; nodes</span>
+        <div class="eqbox fml">sin(kx) = 0 &rArr; x = 0, <span class="frac"><span class="num">&lambda;</span><span class="den">2</span></span>, &lambda;, &hellip;</div>
+        <div class="cap">Where sin(kx)=0 the displacement is always zero &mdash; a node. Nodes are &lambda;/2 apart.</div>
+      </div>
+      <div class="dstep">
+        <span class="sidx">Step 4 &middot; antinodes</span>
+        <div class="eqbox fml">|sin(kx)| = 1 &rArr; amplitude = 2A</div>
+        <div class="cap">Midway between nodes the amplitude is greatest (2A) &mdash; an antinode. The cos(&omega;t) term just sets every point oscillating in step.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card pq" data-pq="form">
+    <div class="stem">A stationary wave is set up on a string. Adjacent nodes are found to be 0.40 m apart.</div>
+    <div class="tagq">Question</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) State the wavelength of the waves forming the stationary wave. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Node spacing = &lambda;/2, so &lambda; = 2 &times; 0.40 = <b>0.80 m</b>.</div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) State the distance from a node to the nearest antinode. <span class="mks">[1]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>&lambda;/4 = <b>0.20 m</b>.</div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State two differences between this stationary wave and a progressive wave. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>A stationary wave stores energy (no net transfer along it) whereas a progressive wave transfers energy; and all points between adjacent nodes oscillate in phase with different amplitudes, whereas in a progressive wave every point has the same amplitude but a steadily changing phase.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 3 : IN THE LAB -->
+<section class="page" data-p="2">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">Three standard experiments produce stationary waves. A stretched string vibrates between two fixed ends; an air column resonates in a pipe; microwaves form a standing pattern between a transmitter and a reflector. Pick one and step through its modes.</p>
+  <div class="subtabs" id="labSubtabs">
+    <button class="subtab on" data-s="0">Stretched string</button>
+    <button class="subtab" data-s="1">Air column</button>
+    <button class="subtab" data-s="2">Microwaves</button>
+  </div>
+
+  <!-- STRING -->
+  <div class="subpanel" data-s="0">
+    <div class="grid">
+      <div class="card">
+        <h3><span class="pin"></span>String fixed at both ends</h3>
+        <div class="canvas-wrap"><canvas id="strCanvas"></canvas></div>
+        <div class="ctl">
+          <label>Harmonic number n <b id="strNv">1</b></label>
+          <input type="range" id="strN" min="1" max="5" step="1" value="1">
+        </div>
+        <p class="note">Both ends are fixed, so each is a node. The nth harmonic fits n half-wavelengths into the length L.</p>
+      </div>
+      <div class="card">
+        <h3><span class="pin"></span>Harmonics on the string</h3>
+        <div id="strReadouts"></div>
+        <div class="eqbox fml" style="margin-top:12px">L = n<span class="frac"><span class="num">&lambda;</span><span class="den">2</span></span><span class="op">&#8658;</span>&lambda; = <span class="frac"><span class="num">2L</span><span class="den">n</span></span></div>
+        <div class="out" id="strOut"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- AIR COLUMN -->
+  <div class="subpanel" data-s="1" hidden>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="pin"></span>Air column in a pipe</h3>
+        <div class="canvas-wrap"><canvas id="airCanvas"></canvas></div>
+        <div class="seg" id="airEnds">
+          <button class="on" data-e="0">Closed one end</button>
+          <button data-e="1">Open both ends</button>
+        </div>
+        <div class="ctl">
+          <label>Mode <b id="airNv">fundamental</b></label>
+          <input type="range" id="airN" min="1" max="4" step="1" value="1">
+        </div>
+        <p class="note">A closed end forces a displacement node; an open end is a displacement antinode (end corrections ignored).</p>
+      </div>
+      <div class="card">
+        <h3><span class="pin"></span>Resonant modes</h3>
+        <div id="airReadouts"></div>
+        <div class="eqbox fml" id="airEq" style="margin-top:12px"></div>
+        <div class="out" id="airOut"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MICROWAVES -->
+  <div class="subpanel" data-s="2" hidden>
+    <div class="grid">
+      <div class="card">
+        <h3><span class="pin"></span>Microwaves and a metal reflector</h3>
+        <div class="canvas-wrap"><canvas id="mwCanvas"></canvas></div>
+        <div class="ctl">
+          <label>Probe position <b id="mwPosv">&mdash;</b></label>
+          <input type="range" id="mwPos" min="0" max="100" step="0.5" value="50">
+        </div>
+        <p class="note">Microwaves from the transmitter reflect off the metal sheet; the two waves superpose into a stationary wave. A probe receiver finds minima (nodes) half a wavelength apart.</p>
+      </div>
+      <div class="card">
+        <h3><span class="pin"></span>Finding the wavelength</h3>
+        <div id="mwReadouts"></div>
+        <div class="eqbox fml" style="margin-top:12px">&lambda; = 2 &times; (node spacing)</div>
+        <div class="out" id="mwOut"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card pq" data-pq="lab">
+    <div class="stem">A string of length 1.2 m is fixed at both ends and vibrates in its third harmonic (n = 3). The wave speed on the string is 72 m s&#8315;&#185;.</div>
+    <div class="tagq">Question</div>
+    <div class="qpart" data-i="0">
+      <div class="ptext">(a) Calculate the wavelength of the stationary wave. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">&lambda; = <span class="frac"><span class="num">2L</span><span class="den">n</span></span> = <span class="frac"><span class="num">2 × 1.2</span><span class="den">3</span></span><span class="op">=</span><b>0.80 m</b></div></div>
+    </div>
+    <div class="qpart" data-i="1" hidden>
+      <div class="ptext">(b) Calculate the frequency of vibration. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden><div class="fml">f = <span class="frac"><span class="num">v</span><span class="den">&lambda;</span></span> = <span class="frac"><span class="num">72</span><span class="den">0.80</span></span><span class="op">=</span><b>90 Hz</b></div></div>
+    </div>
+    <div class="qpart" data-i="2" hidden>
+      <div class="ptext">(c) State the number of nodes and antinodes on the string in this mode. <span class="mks">[2]</span></div>
+      <button class="preveal">Reveal answer</button>
+      <div class="pans" hidden>Third harmonic: <b>4 nodes</b> (including the two fixed ends) and <b>3 antinodes</b>.</div>
+    </div>
+  </div>
+</section>
+<!-- PAGE 4 : WORKED EXAMPLES -->
+<section class="page" data-p="3">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">Four problems across superposition, node spacing and resonant modes. Try each before revealing the solution.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example &middot; Superposition</div>
+    <div class="q">Two waves of equal amplitude 2.0 cm arrive at a point with a phase difference of 60&deg;. Find the resultant amplitude. (Resultant = 2A cos(&phi;/2).)</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox fml">2A cos(&phi;/2) = 2 × 2.0 × cos30°<span class="op">=</span>4.0 × 0.866<span class="op">&approx;</span><b>3.5 cm</b></div>
+      <p>Between full reinforcement (4.0 cm) and complete cancellation (0).</p>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example &middot; Node spacing to wavelength</div>
+    <div class="q">On a stationary wave, five successive nodes span a distance of 60 cm. Find the wavelength.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Five nodes enclose four node-spacings, each &lambda;/2.</p>
+      <div class="eqbox fml">4 × <span class="frac"><span class="num">&lambda;</span><span class="den">2</span></span> = 60 cm<span class="op">&#8658;</span>&lambda; = <span class="frac"><span class="num">2 × 60</span><span class="den">4</span></span><span class="op">=</span><b>30 cm</b></div>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example &middot; String harmonics</div>
+    <div class="q">A string of length 0.60 m fixed at both ends supports waves of speed 120 m s&#8315;&#185;. Find the fundamental frequency and the frequency of the second harmonic.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Fundamental (n = 1): &lambda; = 2L = 1.2 m.</p>
+      <div class="eqbox fml">f&#8321; = <span class="frac"><span class="num">v</span><span class="den">&lambda;</span></span> = <span class="frac"><span class="num">120</span><span class="den">1.2</span></span><span class="op">=</span><b>100 Hz</b></div>
+      <p>The second harmonic has twice the fundamental frequency:</p>
+      <div class="eqbox fml">f&#8322; = 2f&#8321;<span class="op">=</span><b>200 Hz</b></div>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example &middot; Closed pipe</div>
+    <div class="q">A pipe closed at one end is 0.17 m long. Taking the speed of sound as 340 m s&#8315;&#185;, find the fundamental frequency.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Closed pipe fundamental: node at the closed end, antinode at the open end, so L = &lambda;/4.</p>
+      <div class="eqbox fml">&lambda; = 4L = 0.68 m<span class="op">&#8658;</span>f = <span class="frac"><span class="num">v</span><span class="den">&lambda;</span></span> = <span class="frac"><span class="num">340</span><span class="den">0.68</span></span><span class="op">=</span><b>500 Hz</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 5 : MISCONCEPTIONS -->
+<section class="page" data-p="4">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">The traps on stationary waves. Each card pairs the wrong idea with the correct physics.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"A stationary wave transfers energy along its length."</div>
+      <p>There is no net transfer of energy along a stationary wave. Energy stays stored, sloshing between kinetic and potential within each loop.</p>
+      <div class="right">No net energy transfer along it.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Every point on a stationary wave has the same amplitude."</div>
+      <p>Amplitude varies with position: zero at the nodes, maximum (2A) at the antinodes, and in between elsewhere.</p>
+      <div class="right">Amplitude ranges from 0 (nodes) to 2A (antinodes).</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Adjacent nodes are one wavelength apart."</div>
+      <p>Adjacent nodes are half a wavelength apart; a node and its neighbouring antinode are a quarter wavelength apart.</p>
+      <div class="right">node → node = &lambda;/2.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Points between two nodes are out of phase."</div>
+      <p>All points in the same loop (between adjacent nodes) oscillate in phase &mdash; reaching their extremes together. The phase flips by &pi; only as you cross a node.</p>
+      <div class="right">Same loop → in phase; across a node → antiphase.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"A closed end of a pipe is a displacement antinode."</div>
+      <p>Air cannot move at a closed end, so it is a displacement node. The open end is the antinode.</p>
+      <div class="right">Closed end = node; open end = antinode.</div>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"You need two separate sources to make a stationary wave."</div>
+      <p>Usually a single wave and its own reflection are enough &mdash; same frequency and amplitude, travelling in opposite directions.</p>
+      <div class="right">One wave + its reflection will do.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PAGE 6 : QUIZ -->
+<section class="page" data-p="5">
+  <span class="levelchip sl">AS &middot; Standard</span>
+  <p class="lead">Eight questions on superposition and stationary waves. Pick an answer to see whether it is right and why.</p>
+  <div id="quiz"></div>
+  <div class="card" style="margin-top:4px;text-align:center">
+    <div id="quizScore" style="font-weight:800;font-size:16px;color:var(--accent)">Score: 0 / 8</div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> &middot; Topic 8 Superposition &middot; 8.1 Stationary Waves &middot; Cambridge AS &amp; A Level Physics (9702)<br>
+  Next: <a href="diffraction.html" style="color:var(--c1);font-weight:700">8.2 Diffraction</a>
+</footer>
+
+<script>
+'use strict';
+const TAU=Math.PI*2, D2R=Math.PI/180;
+const FS='"Trebuchet MS",Verdana,Geneva,system-ui,sans-serif';
+
+/* ---------- page / tab engine ---------- */
+const PAGES=[
+  {name:'Superposition',c:'var(--c1)',soft:'rgba(37,99,235,.12)'},
+  {name:'Stationary Waves',c:'var(--c2)',soft:'rgba(8,145,178,.12)'},
+  {name:'In the Lab',c:'var(--c3)',soft:'rgba(124,58,237,.12)'},
+  {name:'Worked Examples',c:'var(--c5)',soft:'rgba(13,148,136,.12)'},
+  {name:'Misconceptions',c:'var(--c6)',soft:'rgba(217,119,6,.12)'},
+  {name:'Quiz',c:'var(--c7)',soft:'rgba(5,150,105,.12)'}
+];
+const KICK=[
+  '8.1 · Waves that add up',
+  '8.1 · Nodes, antinodes and λ/2',
+  '8.1 · Strings, pipes and microwaves',
+  '8.1 · Original worked examples',
+  '8.1 · Watch out for these',
+  '8.1 · Check your understanding'
+];
+let active=0;
+const nav=document.getElementById('nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML='<span class="num">'+(i+1)+'</span>&nbsp;'+p.name+'<span class="lvl">AS</span>';
+  b.addEventListener('click',()=>goPage(i));
+  nav.appendChild(b);
+});
+const tabs=[...nav.children];
+const pages=[...document.querySelectorAll('.page')];
+function setAccent(i){
+  const p=PAGES[i];
+  document.documentElement.style.setProperty('--accent',p.c);
+  document.documentElement.style.setProperty('--accent-soft',p.soft);
+  document.body.dataset.page=(i+1);
+}
+function goPage(i){
+  active=i;
+  tabs.forEach((t,k)=>t.classList.toggle('active',k===i));
+  pages.forEach((p,k)=>p.classList.toggle('active',k===i));
+  document.getElementById('kicker').textContent=KICK[i];
+  setAccent(i);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+setAccent(0);
+
+/* ---------- sun / dark toggle ---------- */
+const sunbtn=document.getElementById('sunbtn');
+sunbtn.addEventListener('click',()=>{
+  const d=document.body.classList.toggle('dark');
+  sunbtn.innerHTML = d ? '☽' : '☀';
+  sunbtn.title = d ? 'Switch to light mode' : 'Switch to dark mode';
+});
+
+/* ---------- name gate ---------- */
+const gate=document.getElementById('gate'),gn=document.getElementById('gateName'),
+      gb=document.getElementById('gateBtn'),ge=document.getElementById('gateErr'),
+      chip=document.getElementById('profileName');
+function enter(){
+  const v=gn.value.trim();
+  if(v.length<2){ge.hidden=false;return;}
+  chip.textContent=v.split(/\s+/)[0];
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>gate.style.display='none',400);
+}
+gb.addEventListener('click',enter);
+gn.addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+setTimeout(()=>gn.focus(),300);
+
+/* ---------- clock ---------- */
+function tick(){
+  const d=new Date();
+  const p=x=>String(x).padStart(2,'0');
+  document.getElementById('clock').textContent=
+    d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+}
+tick();setInterval(tick,1000);
+
+/* ---------- canvas sizing (DPR aware) ---------- */
+const sizes=new Map();
+const ro=new ResizeObserver(entries=>{
+  for(const e of entries){
+    const cv=e.target, r=cv.getBoundingClientRect(), dpr=Math.min(2,window.devicePixelRatio||1);
+    cv.width=Math.max(1,Math.round(r.width*dpr));
+    cv.height=Math.max(1,Math.round(r.height*dpr));
+    sizes.set(cv,{w:r.width,h:r.height,dpr});
+  }
+});
+function ctxOf(cv){
+  const s=sizes.get(cv); if(!s) return null;
+  const g=cv.getContext('2d'); g.setTransform(s.dpr,0,0,s.dpr,0,0);
+  return {g,w:s.w,h:s.h};
+}
+function reg(id){const cv=document.getElementById(id);ro.observe(cv);return cv;}
+function ro3(k,v){return '<div class="ro"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+function ro3hi(k,v){return '<div class="ro hi"><span class="k">'+k+'</span><span class="v">'+v+'</span></div>';}
+
+/* ---------- derivation stepper ---------- */
+document.querySelectorAll('.deriv').forEach(d=>{
+  const steps=[...d.querySelectorAll('.dstep')];
+  const next=d.querySelector('.dnext'), reset=d.querySelector('.dreset');
+  let idx=0;
+  function sync(){
+    next.textContent = idx===0?'Reveal first step':(idx>=steps.length?'All steps shown':'Next step ▸');
+    next.disabled = idx>=steps.length; reset.hidden = idx===0;
+  }
+  next.addEventListener('click',()=>{ if(idx<steps.length){ steps[idx].classList.add('show'); idx++; sync(); }});
+  reset.addEventListener('click',()=>{ steps.forEach(s=>s.classList.remove('show')); idx=0; sync(); });
+  sync();
+});
+
+/* ---------- worked examples reveal ---------- */
+document.querySelectorAll('.we .reveal').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const a=btn.nextElementSibling, open=!a.hidden; a.hidden=open;
+    btn.textContent=open?'Show solution':'Hide solution';
+  });
+});
+
+/* ---------- progressive practice questions ---------- */
+document.querySelectorAll('.pq').forEach(pq=>{
+  const parts=[...pq.querySelectorAll('.qpart')];
+  parts.forEach((part,i)=>{
+    const btn=part.querySelector('.preveal'), ans=part.querySelector('.pans');
+    btn.addEventListener('click',()=>{
+      if(ans.hidden){
+        ans.hidden=false; btn.textContent='Hide answer';
+        if(i+1<parts.length && parts[i+1].hidden){ parts[i+1].hidden=false; }
+        else if(i+1===parts.length && !pq.querySelector('.pdone')){
+          const d=document.createElement('div'); d.className='pdone'; d.textContent='✓ All parts complete.'; pq.appendChild(d);
+        }
+      } else { ans.hidden=true; btn.textContent='Reveal answer'; }
+    });
+  });
+});
+
+/* ---------- sub-tabs (lab) ---------- */
+document.querySelectorAll('.subtabs').forEach(st=>{
+  const btns=[...st.querySelectorAll('.subtab')];
+  const panels=[...st.parentElement.querySelectorAll('.subpanel')];
+  btns.forEach(b=>b.addEventListener('click',()=>{
+    const s=+b.dataset.s;
+    btns.forEach(x=>x.classList.toggle('on',x===b));
+    panels.forEach(p=>p.hidden=(+p.dataset.s!==s));
+    if(st.id==='labSubtabs') labSub=s;
+  }));
+});
+
+let labSub=0;
+
+/* ================= TAB 1 : SUPERPOSITION ================= */
+const supCanvas=reg('supCanvas');
+const sup={phi:0,play:true,t:0};
+const supPhi=document.getElementById('supPhi');
+supPhi.addEventListener('input',supUpdate);
+document.getElementById('supPlay').addEventListener('click',e=>{sup.play=!sup.play;e.target.textContent=sup.play?'Pause':'Play';});
+function supUpdate(){
+  sup.phi=+supPhi.value;
+  const R=2*Math.abs(Math.cos(sup.phi*D2R/2));
+  document.getElementById('supPhiv').textContent=sup.phi+'°';
+  let kind = sup.phi%360===0?'fully constructive':(sup.phi===180?'fully destructive':'partial');
+  document.getElementById('supReadouts').innerHTML=
+    ro3('Phase difference φ',sup.phi+'°')+
+    ro3('Each wave amplitude',"A")+
+    ro3hi('Resultant amplitude',"2A·cos(φ/2) = "+R.toFixed(2)+"A");
+  document.getElementById('supOut').innerHTML=
+    'With φ = '+sup.phi+'°, the resultant amplitude is <b>'+R.toFixed(2)+'A</b> — '+kind+'. The two displacements are added point by point at every instant.';
+}
+function drawSup(dt){
+  const c=ctxOf(supCanvas); if(!c) return; const {g,w,h}=c;
+  if(sup.play) sup.t+=dt;
+  g.clearRect(0,0,w,h);
+  const y0=h*0.5, L=w*0.05, R=w*0.04, span=w-L-R, A=h*0.17;
+  const k=TAU/(span/2), omega=TAU*0.4, ph=sup.phi*D2R;
+  g.strokeStyle='rgba(27,36,64,.25)'; g.lineWidth=1; g.beginPath(); g.moveTo(L,y0); g.lineTo(w-R,y0); g.stroke();
+  // component 1
+  g.strokeStyle='rgba(37,99,235,.5)'; g.lineWidth=1.8; g.beginPath();
+  for(let i=0;i<=span;i++){ const y=y0-A*Math.sin(k*i-omega*sup.t); i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke();
+  // component 2
+  g.strokeStyle='rgba(8,145,178,.5)'; g.lineWidth=1.8; g.beginPath();
+  for(let i=0;i<=span;i++){ const y=y0-A*Math.sin(k*i-omega*sup.t+ph); i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke();
+  // sum
+  g.strokeStyle='#7c3aed'; g.lineWidth=3.2; g.beginPath();
+  for(let i=0;i<=span;i++){ const y=y0-A*(Math.sin(k*i-omega*sup.t)+Math.sin(k*i-omega*sup.t+ph)); i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke();
+  g.fillStyle='#7c3aed'; g.font='700 11px '+FS; g.textAlign='left'; g.textBaseline='alphabetic'; g.fillText('resultant (sum)',L,h-12);
+  g.fillStyle='#2563eb'; g.fillText('wave 1',L+120,h-12); g.fillStyle='#0891b2'; g.fillText('wave 2',L+190,h-12);
+}
+
+/* ================= TAB 2 : FORMATION ================= */
+const formCanvas=reg('formCanvas');
+const form={play:true,t:0,mode:0};
+document.querySelectorAll('#formSeg button').forEach(b=>b.addEventListener('click',()=>{
+  form.mode=+b.dataset.m;
+  document.querySelectorAll('#formSeg button').forEach(x=>x.classList.toggle('on',x===b));
+}));
+document.getElementById('formPlay').addEventListener('click',e=>{form.play=!form.play;e.target.textContent=form.play?'Pause':'Play';});
+function formUpdate(){
+  document.getElementById('formReadouts').innerHTML=
+    ro3('Incident + reflected','same A, f; opposite directions')+
+    ro3('Nodes','always zero displacement')+
+    ro3('Antinodes','oscillate between ±2A')+
+    ro3hi('Adjacent node spacing','λ / 2');
+  document.getElementById('formOut').innerHTML=
+    'The sum is 2A·sin(kx)·cos(ωt): the sin(kx) fixes <b>where</b> the amplitude is large or zero, while cos(ωt) makes every point oscillate together. The pattern does not move — it is stationary.';
+}
+function drawForm(dt){
+  const c=ctxOf(formCanvas); if(!c) return; const {g,w,h}=c;
+  if(form.play) form.t+=dt;
+  g.clearRect(0,0,w,h);
+  const y0=h*0.5, L=w*0.05, R=w*0.04, span=w-L-R, A=h*0.17;
+  const loops=4, k=loops*Math.PI/span, omega=TAU*0.5;
+  g.strokeStyle='rgba(27,36,64,.25)'; g.lineWidth=1; g.beginPath(); g.moveTo(L,y0); g.lineTo(w-R,y0); g.stroke();
+  if(form.mode===0){
+    g.strokeStyle='rgba(37,99,235,.45)'; g.lineWidth=1.6; g.beginPath();
+    for(let i=0;i<=span;i++){ const y=y0-A*Math.sin(k*i-omega*form.t); i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke();
+    g.strokeStyle='rgba(8,145,178,.45)'; g.beginPath();
+    for(let i=0;i<=span;i++){ const y=y0-A*Math.sin(k*i+omega*form.t); i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke();
+  }
+  // envelope
+  g.strokeStyle='rgba(124,58,237,.25)'; g.lineWidth=1; g.setLineDash([4,4]);
+  for(const sgn of [1,-1]){ g.beginPath(); for(let i=0;i<=span;i++){ const y=y0-sgn*2*A*Math.sin(k*i); i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke(); }
+  g.setLineDash([]);
+  // sum
+  g.strokeStyle='#7c3aed'; g.lineWidth=3.2; g.beginPath();
+  for(let i=0;i<=span;i++){ const y=y0-2*A*Math.sin(k*i)*Math.cos(omega*form.t); i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke();
+  // nodes & antinodes
+  for(let m=0;m<=loops;m++){ const x=L+(m/loops)*span; g.fillStyle='#dc2626'; g.beginPath(); g.arc(x,y0,5,0,TAU); g.fill(); }
+  for(let m=0;m<loops;m++){ const x=L+((m+0.5)/loops)*span; g.fillStyle='#d97706'; g.beginPath(); g.arc(x,y0-2*A*Math.cos(omega*form.t),4,0,TAU); g.fill(); }
+  g.fillStyle='#dc2626'; g.font='700 11px '+FS; g.textAlign='left'; g.textBaseline='alphabetic'; g.fillText('● nodes',L,h-12);
+  g.fillStyle='#d97706'; g.fillText('● antinodes',L+70,h-12);
+}
+
+/* ================= TAB 3 : LAB ================= */
+const omegaL=TAU*0.5;
+/* --- string --- */
+const strCanvas=reg('strCanvas'); const str={n:1,t:0};
+const strN=document.getElementById('strN'); strN.addEventListener('input',strUpdate);
+function strUpdate(){
+  str.n=+strN.value;
+  document.getElementById('strNv').textContent=str.n;
+  document.getElementById('strReadouts').innerHTML=
+    ro3('Harmonic',str.n+(str.n===1?' (fundamental)':(str.n===2?' (2nd)':str.n===3?' (3rd)':' ('+str.n+'th)')))+
+    ro3('Wavelength','λ = 2L / '+str.n)+
+    ro3('Nodes / antinodes',(str.n+1)+' / '+str.n)+
+    ro3hi('Frequency','f = '+str.n+' f₁');
+  document.getElementById('strOut').innerHTML=
+    'The '+str.n+(str.n===1?'st':str.n===2?'nd':str.n===3?'rd':'th')+' harmonic fits '+str.n+' half-wavelength'+(str.n>1?'s':'')+' into length L, so λ = 2L/'+str.n+' and f = '+str.n+'f₁. Both fixed ends are nodes.';
+}
+function drawStr(dt){
+  const c=ctxOf(strCanvas); if(!c) return; const {g,w,h}=c; str.t+=dt;
+  g.clearRect(0,0,w,h);
+  const y0=h*0.5, L=w*0.08, R=w*0.08, span=w-L-R, A=h*0.2, k=str.n*Math.PI/span, cw=Math.cos(omegaL*str.t);
+  // walls
+  g.strokeStyle='#9a6b2f'; g.lineWidth=3; g.beginPath(); g.moveTo(L,y0-A-14); g.lineTo(L,y0+A+14); g.stroke(); g.beginPath(); g.moveTo(w-R,y0-A-14); g.lineTo(w-R,y0+A+14); g.stroke();
+  // envelope
+  g.strokeStyle='rgba(124,58,237,.25)'; g.setLineDash([4,4]); g.lineWidth=1;
+  for(const s of[1,-1]){ g.beginPath(); for(let i=0;i<=span;i++){ const y=y0-s*A*Math.sin(k*i); i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke(); } g.setLineDash([]);
+  // string
+  g.strokeStyle='#7c3aed'; g.lineWidth=3; g.beginPath();
+  for(let i=0;i<=span;i++){ const y=y0-A*Math.sin(k*i)*cw; i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke();
+  // nodes
+  for(let m=0;m<=str.n;m++){ const x=L+(m/str.n)*span; g.fillStyle='#dc2626'; g.beginPath(); g.arc(x,y0,5,0,TAU); g.fill(); }
+  g.fillStyle='#71809e'; g.font='600 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic'; g.fillText('L',(L+w-R)/2,y0+A+28);
+}
+/* --- air column --- */
+const airCanvas=reg('airCanvas'); const air={ends:0,n:1,t:0};
+const airN=document.getElementById('airN'); airN.addEventListener('input',airUpdate);
+document.querySelectorAll('#airEnds button').forEach(b=>b.addEventListener('click',()=>{
+  air.ends=+b.dataset.e; document.querySelectorAll('#airEnds button').forEach(x=>x.classList.toggle('on',x===b)); airUpdate();
+}));
+function airUpdate(){
+  air.n=+airN.value;
+  const closed=air.ends===0;
+  const harmonic = closed ? (2*air.n-1) : air.n;
+  document.getElementById('airNv').textContent = air.n===1?'fundamental':(air.n+(air.n===2?'nd':air.n===3?'rd':'th')+' mode');
+  document.getElementById('airEq').innerHTML = closed
+    ? 'L = (2m−1)<span class="frac"><span class="num">λ</span><span class="den">4</span></span><span class="op">⇒</span>λ = <span class="frac"><span class="num">4L</span><span class="den">'+harmonic+'</span></span>'
+    : 'L = m<span class="frac"><span class="num">λ</span><span class="den">2</span></span><span class="op">⇒</span>λ = <span class="frac"><span class="num">2L</span><span class="den">'+harmonic+'</span></span>';
+  document.getElementById('airReadouts').innerHTML=
+    ro3('Pipe',closed?'closed one end':'open both ends')+
+    ro3('Harmonic present',harmonic+(closed?'  (odd only)':''))+
+    ro3('Wavelength',closed?('λ = 4L/'+harmonic):('λ = 2L/'+harmonic))+
+    ro3hi('Frequency','f = '+harmonic+' f₁');
+  document.getElementById('airOut').innerHTML= closed
+    ? 'A closed pipe has a node at the closed end and an antinode at the open end, so only <b>odd</b> harmonics (1, 3, 5, …) are possible — here, harmonic '+harmonic+'.'
+    : 'An open pipe has an antinode at each end, so <b>all</b> harmonics (1, 2, 3, …) are possible — here, harmonic '+harmonic+'.';
+}
+function drawAir(dt){
+  const c=ctxOf(airCanvas); if(!c) return; const {g,w,h}=c; air.t+=dt;
+  g.clearRect(0,0,w,h);
+  const y0=h*0.5, L=w*0.1, R=w*0.1, span=w-L-R, A=h*0.17, cw=Math.cos(omegaL*air.t), closed=air.ends===0;
+  // pipe outline
+  g.strokeStyle='rgba(27,36,64,.4)'; g.lineWidth=2;
+  g.beginPath(); g.moveTo(L,y0-A-16); g.lineTo(w-R,y0-A-16); g.stroke();
+  g.beginPath(); g.moveTo(L,y0+A+16); g.lineTo(w-R,y0+A+16); g.stroke();
+  if(closed){ g.beginPath(); g.moveTo(L,y0-A-16); g.lineTo(L,y0+A+16); g.stroke(); }
+  // displacement envelope: closed → sin (node at left), open → cos (antinode both ends)
+  const harmonic = closed ? (2*air.n-1) : air.n;
+  const k = closed ? (harmonic*Math.PI/(2*span)) : (harmonic*Math.PI/span);
+  const sfn = closed ? (i=>Math.sin(k*i)) : (i=>Math.cos(k*i));
+  g.strokeStyle='rgba(124,58,237,.25)'; g.setLineDash([4,4]); g.lineWidth=1;
+  for(const s of[1,-1]){ g.beginPath(); for(let i=0;i<=span;i++){ const y=y0-s*A*sfn(i); i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke(); } g.setLineDash([]);
+  g.strokeStyle='#0891b2'; g.lineWidth=3; g.beginPath();
+  for(let i=0;i<=span;i++){ const y=y0-A*sfn(i)*cw; i?g.lineTo(L+i,y):g.moveTo(L+i,y);} g.stroke();
+  g.fillStyle='#71809e'; g.font='600 11px '+FS; g.textAlign='center'; g.textBaseline='alphabetic';
+  g.fillText(closed?'closed':'open',L,y0+A+34); g.fillText('open',w-R,y0+A+34);
+}
+/* --- microwaves --- */
+const mwCanvas=reg('mwCanvas'); const mw={pos:50,t:0,lam:2.8};
+const mwPos=document.getElementById('mwPos'); mwPos.addEventListener('input',mwUpdate);
+function mwUpdate(){
+  mw.pos=+mwPos.value;
+  const spacing=mw.lam/2;
+  // model: node at reflector; level = |sin(k x_from_reflector)|
+  const regionCm=14, xFromRefl=(1-mw.pos/100)*regionCm, k=TAU/mw.lam, level=Math.abs(Math.sin(k*xFromRefl));
+  document.getElementById('mwPosv').textContent=(level*100).toFixed(0)+'% signal';
+  document.getElementById('mwReadouts').innerHTML=
+    ro3('Microwave λ',mw.lam.toFixed(1)+' cm')+
+    ro3('Node spacing',spacing.toFixed(1)+' cm')+
+    ro3('Probe signal',(level*100).toFixed(0)+' %')+
+    ro3hi('λ = 2 × spacing',(2*spacing).toFixed(1)+' cm');
+  document.getElementById('mwOut').innerHTML=
+    'The probe reads a minimum at each node. Measuring the node spacing ('+spacing.toFixed(1)+' cm) and doubling gives λ = <b>'+(2*spacing).toFixed(1)+' cm</b>.';
+}
+function drawMw(dt){
+  const c=ctxOf(mwCanvas); if(!c) return; const {g,w,h}=c; mw.t+=dt;
+  g.clearRect(0,0,w,h);
+  const y0=h*0.44, L=w*0.12, Rr=w*0.88, span=Rr-L, A=h*0.2, omega=TAU*1.3, osc=Math.sin(omega*mw.t);
+  const regionCm=14, pxPerCm=span/regionCm, k=TAU/(mw.lam*pxPerCm);
+  // standing wave (node at reflector = right)
+  g.strokeStyle='rgba(124,58,237,.22)'; g.setLineDash([4,4]); g.lineWidth=1;
+  for(const s of[1,-1]){ g.beginPath(); for(let x=L;x<=Rr;x++){ const env=A*Math.sin(k*(Rr-x)); const y=y0-s*env; (x===L)?g.moveTo(x,y):g.lineTo(x,y);} g.stroke(); } g.setLineDash([]);
+  g.strokeStyle='#7c3aed'; g.lineWidth=3; g.beginPath();
+  for(let x=L;x<=Rr;x++){ const env=A*Math.sin(k*(Rr-x)); const y=y0-env*osc; (x===L)?g.moveTo(x,y):g.lineTo(x,y);} g.stroke();
+  // transmitter + reflector
+  g.fillStyle='#1b2440'; g.fillRect(L-24,y0-18,16,36); g.fillStyle='#71809e'; g.font='600 10px '+FS; g.textAlign='center'; g.textBaseline='alphabetic'; g.fillText('transmitter',L-6,y0+A+22);
+  g.strokeStyle='#9a6b2f'; g.lineWidth=3; g.beginPath(); g.moveTo(Rr+8,y0-A-10); g.lineTo(Rr+8,y0+A+10); g.stroke(); g.fillStyle='#71809e'; g.fillText('metal reflector',Rr,y0+A+22);
+  // probe
+  const xm=L+(mw.pos/100)*span, env=Math.abs(Math.sin(k*(Rr-xm)));
+  g.fillStyle='#dc2626'; g.beginPath(); g.moveTo(xm,y0+A+30); g.lineTo(xm-6,y0+A+42); g.lineTo(xm+6,y0+A+42); g.closePath(); g.fill();
+  // meter
+  const mx=w-20,myB=h-16,mh=h*0.5; g.fillStyle='rgba(27,36,64,.1)'; g.fillRect(mx,myB-mh,12,mh);
+  g.fillStyle=env>0.85?'#dc2626':(env<0.15?'#2563eb':'#0d9488'); g.fillRect(mx,myB-env*mh,12,env*mh);
+}
+
+/* ================= QUIZ ================= */
+const QUIZ=[
+  {q:'The principle of superposition states that when waves meet, the resultant displacement is:',
+   o:['the larger of the two displacements','the product of the displacements','the vector sum of the individual displacements','always zero'],a:2,
+   e:'Displacements add as vectors (with sign), point by point.'},
+  {q:'A stationary wave is formed by two waves that have:',
+   o:['the same frequency and amplitude, travelling in opposite directions','different frequencies, same direction','the same direction and a 90° phase lag','equal and opposite frequencies'],a:0,
+   e:'Typically a wave and its reflection: equal frequency and amplitude, opposite directions.'},
+  {q:'On a stationary wave, the distance between two adjacent nodes is:',
+   o:['λ','λ/2','λ/4','2λ'],a:1,
+   e:'Nodes recur every half wavelength.'},
+  {q:'The displacement at a node of a stationary wave is:',
+   o:['maximum','always zero','equal to the amplitude','2A'],a:1,
+   e:'A node is a point of permanently zero displacement, where the two waves always cancel.'},
+  {q:'Two points in the same loop (between adjacent nodes) of a stationary wave are:',
+   o:['in phase','in antiphase','90° out of phase','randomly phased'],a:0,
+   e:'All points in one loop move in phase, reaching their extremes together; the phase flips only across a node.'},
+  {q:'A string fixed at both ends vibrates in its fundamental mode. The length of the string equals:',
+   o:['λ','λ/2','λ/4','2λ'],a:1,
+   e:'Both ends are nodes with one antinode between, so L = λ/2 (one half-wavelength).'},
+  {q:'A pipe closed at one end resonates at its fundamental. The length of the air column equals:',
+   o:['λ/2','λ','λ/4','3λ/4'],a:2,
+   e:'Node at the closed end, antinode at the open end: L = λ/4.'},
+  {q:'Compared with a progressive wave, a stationary wave:',
+   o:['transfers energy at twice the speed','transfers no energy along its length','has the same amplitude everywhere','has no nodes'],a:1,
+   e:'A stationary wave stores energy; there is no net transfer along it, and amplitude varies from nodes to antinodes.'}
+];
+let score=0; const answered=new Array(QUIZ.length).fill(false);
+const quizEl=document.getElementById('quiz');
+QUIZ.forEach((item,qi)=>{
+  const d=document.createElement('div'); d.className='q';
+  const opts=item.o.map((t,oi)=>'<button class="opt" data-q="'+qi+'" data-o="'+oi+'">'+String.fromCharCode(65+oi)+'. '+t+'</button>').join('');
+  d.innerHTML='<div class="qq">'+(qi+1)+'. '+item.q+'</div><div class="opts">'+opts+'</div><div class="qexp" id="exp'+qi+'"></div>';
+  quizEl.appendChild(d);
+});
+quizEl.addEventListener('click',e=>{
+  const b=e.target.closest('.opt'); if(!b) return;
+  const qi=+b.dataset.q, oi=+b.dataset.o; if(answered[qi]) return;
+  answered[qi]=true; const item=QUIZ[qi];
+  b.parentElement.querySelectorAll('.opt').forEach((btn,k)=>{
+    btn.disabled=true;
+    if(k===item.a) btn.classList.add('correct'); else if(k===oi) btn.classList.add('wrong');
+  });
+  if(oi===item.a) score++;
+  const exp=document.getElementById('exp'+qi);
+  exp.innerHTML=(oi===item.a?'<b>Correct.</b> ':'<b>Not quite.</b> ')+item.e; exp.classList.add('show');
+  document.getElementById('quizScore').textContent='Score: '+score+' / '+QUIZ.length;
+});
+
+/* ================= MASTER LOOP ================= */
+let lastT=performance.now();
+function masterLoop(now){
+  const dt=Math.min(0.05,(now-lastT)/1000); lastT=now;
+  if(active===0) drawSup(dt);
+  else if(active===1) drawForm(dt);
+  else if(active===2){ if(labSub===0) drawStr(dt); else if(labSub===1) drawAir(dt); else drawMw(dt); }
+  requestAnimationFrame(masterLoop);
+}
+supUpdate(); formUpdate(); strUpdate(); airUpdate(); mwUpdate();
+requestAnimationFrame(masterLoop);
+</script>
+</body>
+</html>
