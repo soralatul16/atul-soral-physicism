@@ -485,6 +485,13 @@ function parseDate(text){
   return null;
 }
 
+function hatFromText(t){t=' '+(''+(t||'')).toLowerCase()+' ';
+  if(/co[- ]?ordinator|coordinat/.test(t))return 'Coordinator';
+  if(/form tutor|mentor|mentee|tutor group|pastoral/.test(t))return 'Form Tutor';
+  if(/\bcas\b|creativity|cas advisor|cas project/.test(t))return 'CAS Advisor';
+  if(/my class|my lesson|i teach|lesson plan|teaching|physics teacher/.test(t))return 'Physics Teacher';
+  return '';
+}
 function classify(text){
   const t=' '+text.toLowerCase()+' ';
   let grade='';
@@ -516,11 +523,7 @@ function classify(text){
   if(/\bhod\b|\bhead of (the )?dep|\bheads of dep/.test(t))audience='HODs';
   else if(/\bcoordinator/.test(t))audience='Coordinators';
   else if(/\bteacher|\bcolleague|\bfaculty\b|\bstaff\b/.test(t))audience='Teachers';
-  let hat='';
-  if(/\bco[- ]?ordinator|\bcoordinat/.test(t))hat='Coordinator';
-  else if(/\bform tutor\b|\bmentor|\bmentee|\btutor group|\bpastoral/.test(t))hat='Form Tutor';
-  else if(/\bcas\b|\bcreativity|\bactivity, service|\bcas advisor|\bcas project/.test(t))hat='CAS Advisor';
-  else if(/\bmy class|\bmy lesson|\bi teach|\blesson plan|\bteaching\b/.test(t))hat='Physics Teacher';
+  let hat=hatFromText(t);
   return {grade,type,teacher,priority,due,category,audience,hat,subject:'Physics'};
 }
 
@@ -1596,7 +1599,7 @@ async function runRouteWith(mat,ins,image,fileName,answer){
 function dispatchRoute(plan,ctx){
   if(!plan||!plan.action){toast('Could not understand that — try rephrasing step 2');smartCaptureModal(ctx);return;}
   if(plan.action==='clarify'){clarifyModal(plan,ctx);return;}
-  if(plan.action==='tasks'){createTasksFromAI(plan.tasks||[]);return;}
+  if(plan.action==='tasks'){const fh=hatFromText((ctx&&ctx.ins)||'')||hatFromText((ctx&&ctx.mat)||'');(plan.tasks||[]).forEach(t=>{if(!t.hat&&fh)t.hat=fh;});createTasksFromAI(plan.tasks||[]);return;}
   if(plan.action==='students'){addStudentsToBlock(plan);return;}
   if(plan.action==='ia_file'){fileIaFromRoute(plan,ctx);return;}
   toast('Nothing to file from that');smartCaptureModal(ctx);
