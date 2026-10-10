@@ -267,6 +267,9 @@
   .ttmeta{font-size:9px;font-weight:600;color:var(--ink-mute);margin-top:1px;line-height:1.2}
   .clickcell{cursor:pointer;transition:background .12s,box-shadow .12s}
   .clickcell:hover{background:var(--accent-soft)!important;box-shadow:inset 0 0 0 2px var(--brand)}
+  .wk-toggle{display:inline-flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
+  .wk-toggle .wk{border:0;background:var(--surface);color:var(--ink-soft);font-size:11.5px;font-weight:700;padding:4px 10px;cursor:pointer}
+  .wk-toggle .wk.on{background:var(--brand);color:#fff}
 
   .thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;border:1px solid var(--line);flex:none;background:var(--surface-2)}
   .filepick{display:none}
@@ -424,7 +427,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A';
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -985,25 +988,34 @@ function teamTrack(){
 }
 
 function periodKey(p){const s=(''+p).toLowerCase();if(/mct|morning circle/.test(s))return -2;if(/assembl/.test(s))return -1;if(/clos/.test(s))return 9999;if(/break|recess|lunch|interval/.test(s))return 1000;const m=s.match(/(\d+)/);return m?+m[1]:900;}
-function ttPeriods(tt){const set=[...new Set(tt.map(x=>x.period).filter(Boolean))];set.sort((a,b)=>periodKey(a)-periodKey(b)||(''+a).localeCompare(''+b));return set;}
+function timeKey(t){const m=/^(\d{1,2}):(\d{2})/.exec((''+(t||'')).trim());return m?(+m[1]*60+ +m[2]):null;}
+function ttPeriods(tt){
+  const map={};tt.forEach(x=>{if(!x.period)return;const k=timeKey(x.time);if(k!=null&&(map[x.period]==null||k<map[x.period]))map[x.period]=k;});
+  const set=[...new Set(tt.map(x=>x.period).filter(Boolean))];
+  set.sort((a,b)=>{const ta=map[a],tb=map[b];if(ta!=null&&tb!=null)return ta-tb;if(ta!=null)return ta-periodKey(b)*60;if(tb!=null)return periodKey(a)*60-tb;return periodKey(a)-periodKey(b)||(''+a).localeCompare(''+b);});
+  return set;
+}
+function weekOf(iso){const anchor=store.weekAnchor;if(!anchor)return null;const a=dOnly(anchor),d=dOnly(iso);if(!a||!d)return null;const days=Math.floor((d-a)/86400000);const wk=Math.floor(days/7);return ((((wk%2)+2)%2)===0)?'A':'B';}
+function hasWeeks(tt){return (tt||[]).some(x=>(x.week||'A')==='B');}
 function slotBlock(slot){return slot.block||slot.cls||'';}
 function slotSub(slot){return [slot.sections,slot.room].filter(Boolean).join(' · ');}
 const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 function ttWeekday(iso){const d=dOnly(iso);return d?WD[d.getDay()]:'';}
-function timetableGrid(s){
-  const tt=s.timetable||[];
+function timetableGrid(s,week){
+  const all=s.timetable||[];
+  const tt=week?all.filter(x=>(x.week||'A')===week):all;
   const periods=ttPeriods(tt);
   const days=DAYS.filter(d=>tt.some(x=>x.day===d));const useDays=days.length?days:DAYS.slice(0,5);
-  const cell=(p,d)=>{const idx=tt.findIndex(x=>x.period===p&&x.day===d);if(idx<0)return '<td></td>';const slot=tt[idx];const sub=slotSub(slot);return `<td class="has clickcell" data-ttcell="${s.id}|${idx}" title="Click to see or add tasks"><b>${esc(slotBlock(slot)||'·')}</b>${sub?`<div class="ttmeta">${esc(sub)}</div>`:''}</td>`;};
+  const cell=(p,d)=>{const idx=all.findIndex(x=>x.period===p&&x.day===d&&(!week||(x.week||'A')===week));if(idx<0)return '<td></td>';const slot=all[idx];const sub=slotSub(slot);return `<td class="has clickcell" data-ttcell="${s.id}|${idx}" title="Click to see or add tasks"><b>${esc(slotBlock(slot)||'·')}</b>${sub?`<div class="ttmeta">${esc(sub)}</div>`:''}</td>`;};
   const rows=useDays.map(d=>`<tr><td class="perlbl">${d}</td>${periods.map(p=>cell(p,d)).join('')}</tr>`).join('');
   return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl"></th>${periods.map(p=>`<th>${esc(p)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
-function timetableDay(s,dayShort){
+function timetableDay(s,dayShort,week){
   if(!dayShort)return '<div class="mini">Pick a date to see that day only.</div>';
   const tt=s.timetable||[];
-  const rows=tt.map((x,i)=>({x,i})).filter(o=>o.x.day===dayShort).sort((a,b)=>periodKey(a.x.period)-periodKey(b.x.period));
+  const rows=tt.map((x,i)=>({x,i})).filter(o=>o.x.day===dayShort&&(!week||(o.x.week||'A')===week)).sort((a,b)=>periodKey(a.x.period)-periodKey(b.x.period));
   if(!rows.length)return `<div class="mini">Nothing scheduled on ${esc(dayShort)}.</div>`;
-  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Period</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${rows.map(o=>`<tr class="clickcell" data-ttcell="${s.id}|${o.i}" title="Click to see or add tasks"><td class="perlbl">${esc(o.x.period||'')}</td><td class="has"><b>${esc(slotBlock(o.x))}</b></td><td>${esc(o.x.sections||'')}</td><td>${esc(o.x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
+  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Period</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${rows.map(o=>`<tr class="clickcell" data-ttcell="${s.id}|${o.i}" title="Click to see or add tasks"><td class="perlbl">${esc(o.x.period||'')}</td><td>${esc(o.x.time||'')}</td><td class="has"><b>${esc(slotBlock(o.x))}</b></td><td>${esc(o.x.sections||'')}</td><td>${esc(o.x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
 }
 function slotModal(sid,idx){
   const st=state.staff.find(x=>x.id===sid);if(!st)return;
@@ -1015,8 +1027,9 @@ function slotModal(sid,idx){
     <div class="modal-head"><h3>${esc(block||'Slot')} — ${esc(st.name)}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
       <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="tag aud">Week ${esc(slot.week||'A')}</span>
         <span class="tag type">${esc(slot.day||'')}</span>
-        <span class="tag grade">${esc(slot.period||'')}</span>
+        <span class="tag grade">${esc(slot.period||'')}${slot.time?' · '+esc(slot.time):''}</span>
         ${block?`<span class="tag teach">${esc(block)}</span>`:''}
         ${slot.sections?`<span class="tag subj">${esc(slot.sections)}</span>`:''}
         ${slot.room?`<span class="tag subj">Room ${esc(slot.room)}</span>`:''}
@@ -1049,8 +1062,11 @@ function teacherCard(s){
     </div>
     <div class="grid-2" style="gap:18px">
       <div>
-        <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px">Timetable${ttDate?` · ${esc(ttWeekday(ttDate))} ${esc(fmtDate(ttDate))}`:''}</div>
-        ${(s.timetable&&s.timetable.length)?(ttDate?timetableDay(s,ttWeekday(ttDate)):timetableGrid(s)):'<div class="mini">No timetable yet — add one via Edit, or paste the timetable screenshot (read in automatically when AI auto-extract is on).</div>'}
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;flex-wrap:wrap">
+          <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft)">Timetable${ttDate?` · ${esc(ttWeekday(ttDate))} ${esc(fmtDate(ttDate))} · Week ${esc(weekOf(ttDate)||ttWeek)}`:''}</div>
+          ${(!ttDate&&s.timetable&&hasWeeks(s.timetable))?`<div class="wk-toggle"><button class="wk ${ttWeek==='A'?'on':''}" data-wk="A">Week A</button><button class="wk ${ttWeek==='B'?'on':''}" data-wk="B">Week B</button></div>`:''}
+        </div>
+        ${(s.timetable&&s.timetable.length)?(ttDate?timetableDay(s,ttWeekday(ttDate),weekOf(ttDate)||ttWeek):timetableGrid(s,hasWeeks(s.timetable)?ttWeek:null)):'<div class="mini">No timetable yet — add one via Edit, or paste the timetable screenshot (read in automatically when AI auto-extract is on).</div>'}
         ${s.ttImage?`<img src="${s.ttImage}" title="Pasted timetable" style="margin-top:8px;max-width:100%;max-height:150px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)">`:''}
       </div>
       <div>
@@ -1068,7 +1084,8 @@ function renderTeachers(){
   <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
     <button class="btn primary" data-newstaff><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add teacher</button>
     <div style="display:flex;align-items:center;gap:7px"><label style="font-size:12.5px;font-weight:700;color:var(--ink-soft)">View a day:</label><input type="date" id="ttDatePick" value="${ttDate||''}" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:9px;font-size:13px"></div>
-    ${ttDate?`<button class="btn sm" id="ttDateClear">Show full week</button><span class="mini">Showing <b>${esc(ttWeekday(ttDate))}, ${esc(fmtDate(ttDate))}</b> only</span>`:'<span class="mini">Pick a date to see each teacher\'s classes for that day only.</span>'}
+    <div style="display:flex;align-items:center;gap:7px"><label style="font-size:12.5px;font-weight:700;color:var(--ink-soft)" title="A Monday that begins a Week A, used to work out A vs B for any date">Week A starts:</label><input type="date" id="wkAnchor" value="${store.weekAnchor||''}" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:9px;font-size:13px"></div>
+    ${ttDate?`<button class="btn sm" id="ttDateClear">Show full week</button><span class="mini">Showing <b>${esc(ttWeekday(ttDate))}, ${esc(fmtDate(ttDate))}</b>${weekOf(ttDate)?` · Week <b>${esc(weekOf(ttDate))}</b>`:' · set “Week A starts” to label A/B'}</span>`:'<span class="mini">Pick a date to see each teacher\'s classes for that day only.</span>'}
   </div>
   ${body}`;
 }
@@ -1076,7 +1093,7 @@ function renderTeachers(){
 let ttDraft=[];
 function renderTTEditor(){
   const box=$('#ttList');if(!box)return;
-  box.innerHTML=ttDraft.length?ttDraft.map((s,idx)=>`<span class="mini-tag">${esc(s.day)} ${esc(s.period||'')} · <b>${esc(s.block||s.cls||'')}</b>${s.sections?' '+esc(s.sections):''}${s.room?' ['+esc(s.room)+']':''}<button data-ttdel="${idx}">×</button></span>`).join(''):'<span class="mini">No slots yet.</span>';
+  box.innerHTML=ttDraft.length?ttDraft.map((s,idx)=>`<span class="mini-tag">${esc(s.week||'A')} · ${esc(s.day)} ${esc(s.period||'')} · <b>${esc(s.block||s.cls||'')}</b>${s.sections?' '+esc(s.sections):''}${s.room?' ['+esc(s.room)+']':''}<button data-ttdel="${idx}">×</button></span>`).join(''):'<span class="mini">No slots yet.</span>';
   box.querySelectorAll('[data-ttdel]').forEach(b=>b.onclick=()=>{ttDraft.splice(+b.dataset.ttdel,1);renderTTEditor();});
 }
 function teacherModal(s,img,draft){
@@ -1092,21 +1109,23 @@ function teacherModal(s,img,draft){
         <div class="fld"><label>Role</label><select id="s_role">${ROLES.map(r=>`<option ${r===s.role?'selected':''}>${r}</option>`).join('')}</select></div>
       </div>
       <div class="fld"><label>Classes taught</label><div style="display:flex;flex-direction:column;gap:8px">${PROG_GROUPS.map(([prog,gs])=>`<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font-size:11px;font-weight:700;color:var(--ink-mute);width:52px">${prog}</span>${gs.map(g=>`<label style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--ink-soft)"><input type="checkbox" class="s_cls" value="${g}" ${(s.classes||[]).includes(g)?'checked':''} style="width:15px;height:15px;accent-color:var(--brand)">${g}</label>`).join('')}</div>`).join('')}</div></div>
-      <div class="fld"><label>Timetable — one row per cell. Block = B5 / Assembly / PL etc. Sections = 9A/9B/9C/9D. Period can be MCT, 1–17, Break, Closing.</label>
+      <div class="fld"><label>Timetable — one row per cell. Week A/B for the fortnight. Block = B5/MCT/PL/Assembly etc. Sections = 9A/9B/9C. Period = MCT, 1–17, Short Break, Closing.</label>
         <div class="tt-slot">
+          <select id="tt_week" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px"><option value="A">Wk A</option><option value="B">Wk B</option></select>
           <select id="tt_day" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">${DAYS.map(d=>`<option>${d}</option>`).join('')}</select>
-          <input id="tt_per" list="perlist" placeholder="Period" style="width:70px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px"><datalist id="perlist">${['MCT','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','Short Break','Closing'].map(p=>`<option value="${p}">`).join('')}</datalist>
-          <input id="tt_block" placeholder="Block e.g. B5" style="width:92px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
-          <input id="tt_sections" placeholder="Sections e.g. 9A/9B/9C" style="width:140px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
-          <input id="tt_room" placeholder="Room" style="width:64px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
-          <button class="btn sm" id="tt_add" type="button">Add slot</button>
+          <input id="tt_per" list="perlist" placeholder="Period" style="width:62px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px"><datalist id="perlist">${['MCT','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','Short Break','Closing'].map(p=>`<option value="${p}">`).join('')}</datalist>
+          <input id="tt_time" placeholder="Time" style="width:84px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
+          <input id="tt_block" placeholder="Block B5" style="width:80px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
+          <input id="tt_sections" placeholder="Sections 9A/9B" style="width:130px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
+          <input id="tt_room" placeholder="Room" style="width:56px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
+          <button class="btn sm" id="tt_add" type="button">Add</button>
         </div>
         <div id="ttList" style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px"></div>
       </div>
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="s_save">${edit?'Save':'Add teacher'}</button></div>`);
   renderTTEditor();
-  $('#tt_add').onclick=()=>{const p=$('#tt_per').value.trim(),block=$('#tt_block').value.trim(),sections=$('#tt_sections').value.trim();if(!p&&!block&&!sections){toast('Add a period, block or sections');return;}ttDraft.push({day:$('#tt_day').value,period:p,block:block,sections:sections,room:$('#tt_room').value.trim()});$('#tt_block').value='';$('#tt_sections').value='';$('#tt_room').value='';renderTTEditor();};
+  $('#tt_add').onclick=()=>{const p=$('#tt_per').value.trim(),block=$('#tt_block').value.trim(),sections=$('#tt_sections').value.trim();if(!p&&!block&&!sections){toast('Add a period, block or sections');return;}ttDraft.push({week:$('#tt_week').value,day:$('#tt_day').value,period:p,time:$('#tt_time').value.trim(),block:block,sections:sections,room:$('#tt_room').value.trim()});$('#tt_block').value='';$('#tt_sections').value='';$('#tt_room').value='';$('#tt_time').value='';renderTTEditor();};
   $('#s_save').onclick=()=>{
     const name=$('#s_name').value.trim();if(!name){toast('Enter a name');return;}
     const classes=[...document.querySelectorAll('.s_cls:checked')].map(c=>c.value);
@@ -1220,7 +1239,7 @@ function normPeriod(p){if(!p)return '';p=(''+p).toUpperCase().replace(/\s/g,'');
 function sanitizeTeacher(r){
   r=r||{};
   const classes=[...new Set((r.classes||[]).map(normGrade).filter(Boolean))];
-  const tt=(r.timetable||[]).map(x=>({day:normDay(x.day),period:(''+(x.period||'')).trim(),block:(''+(x.block||x.cls||'')).trim(),sections:(''+(x.sections||'')).trim(),room:(''+(x.room||'')).trim()})).filter(x=>x.day&&(x.period||x.block||x.sections));
+  const tt=(r.timetable||[]).map(x=>({week:(/^b$/i.test((''+(x.week||'')).trim())||/b/i.test((''+(x.week||'')).trim()))?'B':'A',day:normDay(x.day),period:(''+(x.period||'')).trim(),time:(''+(x.time||'')).trim(),block:(''+(x.block||x.cls||'')).trim(),sections:(''+(x.sections||'')).trim(),room:(''+(x.room||'')).trim()})).filter(x=>x.day&&(x.period||x.block||x.sections));
   const role=ROLES.includes(r.role)?r.role:'Teacher';
   return {name:r.name||'',role,classes,timetable:tt};
 }
@@ -1550,6 +1569,8 @@ function bind(){
   document.querySelectorAll('[data-staffgo]').forEach(c=>c.onclick=()=>go('teachers'));
   const tdp=$('#ttDatePick');if(tdp)tdp.addEventListener('change',e=>{ttDate=e.target.value||'';render();});
   const tdc=$('#ttDateClear');if(tdc)tdc.onclick=()=>{ttDate='';render();};
+  const wka=$('#wkAnchor');if(wka)wka.addEventListener('change',e=>{store.weekAnchor=e.target.value||'';save();render();});
+  document.querySelectorAll('[data-wk]').forEach(b=>b.onclick=()=>{ttWeek=b.dataset.wk;render();});
   document.querySelectorAll('[data-ttcell]').forEach(c=>c.onclick=()=>{const parts=c.dataset.ttcell.split('|');slotModal(parts[0],+parts[1]);});
   document.querySelectorAll('[data-restore]').forEach(b=>b.onclick=()=>restoreTrash(b.dataset.restore));
   document.querySelectorAll('[data-purge]').forEach(b=>b.onclick=()=>purgeTrash(b.dataset.purge));
