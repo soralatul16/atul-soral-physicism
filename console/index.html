@@ -339,6 +339,7 @@
     <button class="nav-btn" data-act="export"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Backup / Export</button>
     <button class="nav-btn" data-act="import"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>Restore / Import</button>
     <button class="nav-btn" data-act="sample"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>Load sample data</button>
+    <button class="nav-btn" data-view="trash"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Trash<span class="nav-badge" id="nb-trash">0</span></button>
     <button class="nav-btn" data-act="clear"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Clear all data</button>
   </aside>
   <div class="scrim" id="scrim"></div>
@@ -364,7 +365,9 @@
 /* ===================== State ===================== */
 const KEY='asp_tracker_v1';
 const DEFAULT_TEACHERS=['Atul Soral','Priya Menon','Rahul Verma','Sana Khan'];
-const GRADES=['Grade 9','Grade 10','IGCSE'];
+const GRADES=['Grade 9','Grade 10','Grade 11','Grade 12'];
+const PROGRAMME={'Grade 9':'IGCSE','Grade 10':'IGCSE','Grade 11':'IB DP','Grade 12':'IB DP'};
+const PROG_GROUPS=[['IGCSE',['Grade 9','Grade 10']],['IB DP',['Grade 11','Grade 12']]];
 const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat'];
 const PERIODS=['P1','P2','P3','P4','P5','P6','P7'];
 const ROLES=['Teacher','Coordinator','HOD'];
@@ -375,9 +378,9 @@ function curAcademicYear(){const d=new Date();const y=d.getFullYear();return (d.
 function blankYear(){return {tasks:[],corrections:[],docs:[],ias:[],staff:[],settings:{teachers:[...DEFAULT_TEACHERS]}};}
 function normYear(yr){yr.tasks=yr.tasks||[];yr.corrections=yr.corrections||[];yr.docs=yr.docs||[];yr.ias=yr.ias||[];yr.staff=yr.staff||[];yr.settings=yr.settings||{teachers:[...DEFAULT_TEACHERS]};return yr;}
 function loadStore(){
-  try{const s=JSON.parse(localStorage.getItem(MKEY));if(s&&s.years&&s.activeYear&&s.years[s.activeYear]){Object.values(s.years).forEach(normYear);s.view=s.view||'dashboard';return s;}}catch(e){}
-  try{const o=JSON.parse(localStorage.getItem(KEY));if(o&&o.tasks){const y=curAcademicYear();return {activeYear:y,view:o.view||'dashboard',years:{[y]:normYear({tasks:o.tasks,corrections:o.corrections,docs:o.docs,ias:o.ias,staff:o.staff,settings:o.settings})}};}}catch(e){}
-  const y=curAcademicYear();return {activeYear:y,view:'dashboard',years:{[y]:blankYear()}};
+  try{const s=JSON.parse(localStorage.getItem(MKEY));if(s&&s.years&&s.activeYear&&s.years[s.activeYear]){Object.values(s.years).forEach(normYear);s.view=s.view||'dashboard';s.seeded=s.seeded!==false;if(!s.trash)s.trash=[];return s;}}catch(e){}
+  try{const o=JSON.parse(localStorage.getItem(KEY));if(o&&o.tasks){const y=curAcademicYear();return {activeYear:y,view:o.view||'dashboard',seeded:true,trash:[],years:{[y]:normYear({tasks:o.tasks,corrections:o.corrections,docs:o.docs,ias:o.ias,staff:o.staff,settings:o.settings})}};}}catch(e){}
+  const y=curAcademicYear();return {activeYear:y,view:'dashboard',seeded:false,trash:[],years:{[y]:blankYear()}};
 }
 let store=loadStore();
 let state=store.years[store.activeYear];
@@ -394,6 +397,21 @@ function addYear(label,carryStaff){
   store.years[label]=yr;store.activeYear=label;state=yr;save();render();highlightNav();populateYears();toast('Created '+label);
 }
 function populateYears(){const sel=document.getElementById('yearSel');if(!sel)return;sel.innerHTML=yearList().map(y=>`<option ${y===store.activeYear?'selected':''}>${esc(y)}</option>`).join('');}
+function binItem(coll,id,type){
+  const arr=state[coll];if(!arr)return;const i=arr.findIndex(x=>x.id===id);if(i<0)return;
+  const obj=arr.splice(i,1)[0];
+  if(!store.trash)store.trash=[];
+  store.trash.push({tid:uid(),type:type,coll:coll,year:store.activeYear,obj:obj,deletedAt:Date.now()});
+  save();render();toast('Moved to Trash');
+}
+function restoreTrash(tid){
+  if(!store.trash)return;const i=store.trash.findIndex(t=>t.tid===tid);if(i<0)return;
+  const rec=store.trash.splice(i,1)[0];
+  const yr=store.years[rec.year]||state;yr[rec.coll]=yr[rec.coll]||[];yr[rec.coll].push(rec.obj);
+  save();render();toast('Restored');
+}
+function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
+function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
 let taskFilter='all', corrTab='mine', searchQ='';
 
 /* ===================== Helpers ===================== */
@@ -444,9 +462,11 @@ function parseDate(text){
 function classify(text){
   const t=' '+text.toLowerCase()+' ';
   let grade='';
-  if(/\bgrade 9\b|\bg9\b|\bclass 9\b|\byear 10\b/.test(t))grade='Grade 9';
-  else if(/\bgrade 10\b|\bg10\b|\bclass 10\b|\byear 11\b/.test(t))grade='Grade 10';
-  else if(/\bigcse\b|\bicgse\b/.test(t))grade='IGCSE';
+  if(/\bgrade 9\b|\bg9\b|\bclass 9\b/.test(t))grade='Grade 9';
+  else if(/\bgrade 10\b|\bg10\b|\bclass 10\b/.test(t))grade='Grade 10';
+  else if(/\bgrade 11\b|\bg11\b|\bclass 11\b|\bdp ?1\b|\bdp1\b/.test(t))grade='Grade 11';
+  else if(/\bgrade 12\b|\bg12\b|\bclass 12\b|\bdp ?2\b|\bdp2\b/.test(t))grade='Grade 12';
+  else if(/\bigcse\b|\bicgse\b/.test(t))grade='Grade 10';
   const typeMap=[
     ['Moderation',/\bmoderat/],['Standardisation',/\bstandardi[sz]/],['Markscheme',/\bmark ?scheme|\bms\b/],
     ['Question Paper',/\bquestion paper|\bqp\b|\bpaper\b/],['Correction',/\bcorrect|\bmarking\b|\bcopies\b|\bscript|\banswer cop/],
@@ -557,6 +577,7 @@ function refreshBadges(){
     iab.classList.toggle('alert',open.some(i=>i.due&&daysBetween(todayISO(),i.due)<0));}
   const sb=$('#nb-staff');if(sb){sb.textContent=state.staff.length;
     sb.classList.toggle('alert',state.staff.some(s=>teacherStats(s.name).overdue.length>0));}
+  const trb=$('#nb-trash');if(trb){trb.textContent=(store.trash||[]).length;}
 }
 function render(){
   refreshBadges();populateYears();
@@ -569,6 +590,7 @@ function render(){
     else if(view==='corrections')el.innerHTML=renderCorr();
     else if(view==='ia')el.innerHTML=renderIA();
     else if(view==='teachers')el.innerHTML=renderTeachers();
+    else if(view==='trash')el.innerHTML=renderTrash();
     else if(view==='documents')el.innerHTML=renderDocs();
     else el.innerHTML=renderDash();
     bind();
@@ -618,7 +640,7 @@ function classBreakdown(){
   state.corrections.filter(c=>!c.submitted).forEach(c=>bump(c.grade));
   state.ias.filter(i=>i.stage!=='Verified').forEach(i=>bump(i.grade));
   const entries=Object.entries(map).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...entries.map(e=>e[1]));
-  const col={'Grade 9':'#5f7fc4','Grade 10':'#3a9e7a','IGCSE':'#c0812e','Unfiled':'#9aa3b8'};
+  const col={'Grade 9':'#5f7fc4','Grade 10':'#3a9e7a','Grade 11':'#c0812e','Grade 12':'#9b6ab0','IGCSE':'#c0812e','Unfiled':'#9aa3b8'};
   return entries.map(([g,n])=>`<div style="display:flex;align-items:center;gap:11px;margin-bottom:10px">
     <div style="width:70px;font-size:12.5px;font-weight:600;color:var(--ink-soft)">${esc(g)}</div>
     <div style="flex:1;min-width:0;background:var(--surface-2);border-radius:20px;height:12px;overflow:hidden"><i style="display:block;height:100%;width:${(n/max*100).toFixed(0)}%;background:${col[g]||'var(--brand)'};border-radius:20px"></i></div>
@@ -719,6 +741,7 @@ function taskRow(t){
   return `<div class="row ${t.status==='done'?'done':''}" data-task="${t.id}">
     <div class="check ${t.status==='done'?'done':''}" data-toggle="${t.id}">${t.status==='done'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>':''}</div>
     <span class="prio ${t.priority}"></span>
+    ${t.image?`<img src="${t.image}" class="thumb" title="Attached screenshot">`:''}
     <div class="row-main">
       <p class="row-title">${esc(t.title)}</p>
       <div class="row-meta">
@@ -829,7 +852,8 @@ function renderIA(){
   </div>
   <div style="margin:4px 0 16px;display:flex;gap:9px;flex-wrap:wrap">
     <button class="btn primary" data-newia><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add IA student</button>
-    <span class="cap-hint2" style="align-self:center">Attach each student's IA file, then open <b>Review</b> to run the physics + integrity checklist.</span>
+    <button class="btn" data-impstudents><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13H8M16 17H8M10 9H8M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Paste student list</button>
+    <span class="cap-hint2" style="align-self:center">Attach each student's IA file, then open <b>Review</b>. Or paste rows from ManageBac/Excel to add many at once.</span>
   </div>
   ${body}`;
 }
@@ -942,6 +966,7 @@ function teacherCard(s){
       <div>
         <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px">Timetable</div>
         ${(s.timetable&&s.timetable.length)?timetableGrid(s):'<div class="mini">No timetable yet — add one via Edit.</div>'}
+        ${s.ttImage?`<img src="${s.ttImage}" title="Pasted timetable" style="margin-top:8px;max-width:100%;max-height:150px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)">`:''}
       </div>
       <div>
         <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px">Assigned work <span style="color:var(--ink-mute)">(${st.open.length} open${st.overdue.length?`, ${st.overdue.length} overdue`:''})</span></div>
@@ -965,17 +990,19 @@ function renderTTEditor(){
   box.innerHTML=ttDraft.length?ttDraft.map((s,idx)=>`<span class="mini-tag">${s.day} ${s.period} · ${esc(s.cls)}<button data-ttdel="${idx}">×</button></span>`).join(''):'<span class="mini">No slots yet.</span>';
   box.querySelectorAll('[data-ttdel]').forEach(b=>b.onclick=()=>{ttDraft.splice(+b.dataset.ttdel,1);renderTTEditor();});
 }
-function teacherModal(s){
+function teacherModal(s,img){
   const edit=!!s;s=s||{role:'Teacher',classes:[],timetable:[]};
+  img=img||(s&&s.ttImage)||null;
   ttDraft=(s.timetable||[]).map(x=>({...x}));
   modal(`
     <div class="modal-head"><h3>${edit?'Edit teacher':'Add teacher'}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
+      ${img?`<div><div style="font-size:11px;font-weight:700;color:var(--ink-mute);margin-bottom:5px">PASTED TIMETABLE — read it and fill the fields below</div><img src="${img}" style="max-width:100%;max-height:260px;object-fit:contain;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)"></div>`:''}
       <div class="fld-row">
         <div class="fld"><label>Name</label><input id="s_name" value="${esc(s.name||'')}" placeholder="e.g. Priya Menon"></div>
         <div class="fld"><label>Role</label><select id="s_role">${ROLES.map(r=>`<option ${r===s.role?'selected':''}>${r}</option>`).join('')}</select></div>
       </div>
-      <div class="fld"><label>Classes taught</label><div style="display:flex;gap:14px;flex-wrap:wrap">${GRADES.map(g=>`<label style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--ink-soft)"><input type="checkbox" class="s_cls" value="${g}" ${(s.classes||[]).includes(g)?'checked':''} style="width:15px;height:15px;accent-color:var(--brand)">${g}</label>`).join('')}</div></div>
+      <div class="fld"><label>Classes taught</label><div style="display:flex;flex-direction:column;gap:8px">${PROG_GROUPS.map(([prog,gs])=>`<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font-size:11px;font-weight:700;color:var(--ink-mute);width:52px">${prog}</span>${gs.map(g=>`<label style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--ink-soft)"><input type="checkbox" class="s_cls" value="${g}" ${(s.classes||[]).includes(g)?'checked':''} style="width:15px;height:15px;accent-color:var(--brand)">${g}</label>`).join('')}</div>`).join('')}</div></div>
       <div class="fld"><label>Timetable</label>
         <div class="tt-slot">
           <select id="tt_day" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">${DAYS.map(d=>`<option>${d}</option>`).join('')}</select>
@@ -992,7 +1019,7 @@ function teacherModal(s){
   $('#s_save').onclick=()=>{
     const name=$('#s_name').value.trim();if(!name){toast('Enter a name');return;}
     const classes=[...document.querySelectorAll('.s_cls:checked')].map(c=>c.value);
-    const data={name,role:$('#s_role').value,classes,timetable:ttDraft.map(x=>({...x}))};
+    const data={name,role:$('#s_role').value,classes,timetable:ttDraft.map(x=>({...x})),ttImage:img||(s.ttImage||null)};
     if(edit)Object.assign(s,data);else state.staff.push({id:uid(),createdAt:Date.now(),...data});
     save();closeModal();render();toast('Saved');
   };
@@ -1034,6 +1061,30 @@ function docRow(d){
   </div>`;
 }
 
+/* ===================== Trash ===================== */
+function trashLabel(rec){
+  const o=rec.obj||{};
+  if(rec.coll==='tasks')return o.title||'Task';
+  if(rec.coll==='corrections')return (o.title||'Correction')+(o.teacher?(' · '+o.teacher):'');
+  if(rec.coll==='docs')return o.name||'Document';
+  if(rec.coll==='ias')return (o.student||'IA')+(o.topic?(' · '+o.topic):'');
+  if(rec.coll==='staff')return o.name||'Teacher';
+  return 'Item';
+}
+function renderTrash(){
+  const t=(store.trash||[]).slice().sort((a,b)=>b.deletedAt-a.deletedAt);
+  const rows=t.map(rec=>`<div class="row">
+    <div class="row-main"><p class="row-title">${esc(trashLabel(rec))}</p>
+      <div class="row-meta"><span class="tag type">${esc(rec.type)}</span><span class="tag subj">${esc(rec.year||'')}</span><span class="tag subj">deleted ${fmtDate(new Date(rec.deletedAt).toISOString().slice(0,10))}</span></div></div>
+    <button class="btn sm" data-restore="${rec.tid}">Restore</button>
+    <button class="btn sm ghost" data-purge="${rec.tid}">Delete forever</button>
+  </div>`).join('')||emptyMini('Trash is empty. Deleted items wait here until you restore or permanently remove them.');
+  return `${pageHead('Trash','Deleted items are kept here so nothing is lost by accident. Restore them, or remove them for good.')}
+  ${privacyNote()}
+  ${t.length?`<div style="margin-bottom:14px"><button class="btn sm" data-emptytrash>Empty Trash (${t.length})</button></div>`:''}
+  <div class="card rows">${rows}</div>`;
+}
+
 /* ===================== Search ===================== */
 function renderSearch(){
   const q=searchQ.toLowerCase();
@@ -1049,8 +1100,24 @@ function renderSearch(){
 }
 
 /* ===================== Modals ===================== */
-function modal(html){const s=$('#modalScrim');s.innerHTML=`<div class="modal">${html}</div>`;s.classList.add('show');}
+function modal(html){const s=$('#modalScrim');s.innerHTML=`<div class="modal">${html}</div>`;s.classList.add('show');s.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModal);}
 function closeModal(){$('#modalScrim').classList.remove('show');$('#modalScrim').innerHTML='';}
+function pasteRouteModal(dataURL,name){
+  modal(`
+    <div class="modal-head"><h3>Where should this go?</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <img src="${dataURL}" style="max-width:100%;max-height:220px;object-fit:contain;border-radius:10px;border:1px solid var(--line);background:var(--surface-2)">
+      <p class="mini">Your screenshot is saved. Pick where it belongs — it will be attached there.</p>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button class="btn primary" id="pr_tt" style="justify-content:flex-start">🧑‍🏫 Teacher timetable — create / update a teacher</button>
+        <button class="btn" id="pr_doc" style="justify-content:flex-start">📄 Save to Documents</button>
+        <button class="btn" id="pr_task" style="justify-content:flex-start">✅ Attach to a new task</button>
+      </div>
+    </div>`);
+  $('#pr_tt').onclick=()=>{closeModal();teacherModal(null,dataURL);};
+  $('#pr_doc').onclick=()=>{state.docs.push({id:uid(),name:name||('pasted-'+Date.now()+'.png'),size:0,ftype:'image/png',grade:'',subject:'Physics',docType:'Screenshot',link:'',thumb:dataURL,createdAt:Date.now()});save();closeModal();go('documents');toast('Saved to Documents');};
+  $('#pr_task').onclick=()=>{closeModal();taskModal(null,{image:dataURL});};
+}
 function yearModal(){
   const next=suggestNextYear();
   modal(`
@@ -1074,6 +1141,7 @@ function taskModal(t,preset){
     <div class="modal-head"><h3>${edit?'Edit task':'New task'}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
       <div class="fld"><label>Task</label><input id="m_title" value="${esc(t.title||'')}" placeholder="What needs doing?"></div>
+      ${t.image?`<div class="fld"><label>Attached screenshot</label><img src="${t.image}" style="max-width:100%;max-height:180px;object-fit:contain;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)"></div>`:''}
       <div class="fld-row">
         <div class="fld"><label>Type</label><select id="m_type">${types.map(v=>opt(v,t.type)).join('')}</select></div>
         <div class="fld"><label>Class</label><select id="m_grade">${grades.map(v=>`<option value="${v}" ${v===(t.grade||'')?'selected':''}>${v||'—'}</option>`).join('')}</select></div>
@@ -1093,7 +1161,7 @@ function taskModal(t,preset){
   $('#m_save').onclick=()=>{
     const title=$('#m_title').value.trim();if(!title){toast('Give it a title');return;}
     const data={title,type:$('#m_type').value,grade:$('#m_grade').value,due:$('#m_due').value||null,
-      teacher:$('#m_teacher').value.trim(),assignedBy:$('#m_by').value.trim(),priority:$('#m_prio').value,recurring:$('#m_rec').value||null,subject:'Physics'};
+      teacher:$('#m_teacher').value.trim(),assignedBy:$('#m_by').value.trim(),priority:$('#m_prio').value,recurring:$('#m_rec').value||null,subject:'Physics',image:t.image||null};
     if(edit){Object.assign(t,data);}else{state.tasks.push({id:uid(),status:'open',notes:'',createdAt:Date.now(),...data});}
     save();closeModal();render();toast(edit?'Saved':data.teacher?('Assigned to '+data.teacher):'Task added');
   };
@@ -1129,8 +1197,44 @@ function corrModal(scope,c){
   };
 }
 
+function parseStudents(text){
+  const lines=(text||'').split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
+  const out=[];
+  for(const line of lines){
+    const cols=line.split(/\t|,|;|\|/).map(c=>c.trim());
+    const name=cols[0];
+    if(!name||/^(name|student|s\.?no\.?|roll)/i.test(name))continue;
+    out.push({name:name,topic:cols[1]||'',supervisor:cols[2]||'',grade:cols[3]||''});
+  }
+  return out;
+}
+function importStudentsModal(){
+  const names=state.settings.teachers;
+  modal(`
+    <div class="modal-head"><h3>Paste student list</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="fld"><label>Paste rows — one student per line. Optional columns: Name, Topic, Supervisor, Class (separate with comma or tab).</label>
+        <textarea id="imp_text" rows="7" placeholder="Aarav Shah, Thermistor resistance, Atul Soral, Grade 11
+Meera Nair, Pendulum damping, Atul Soral, Grade 11"></textarea></div>
+      <div class="fld-row">
+        <div class="fld"><label>Default class</label><select id="imp_grade">${GRADES.map(g=>`<option>${g}</option>`).join('')}</select></div>
+        <div class="fld"><label>Default supervisor</label><select id="imp_sup">${names.map(n=>`<option>${esc(n)}</option>`).join('')}</select></div>
+      </div>
+      <div id="imp_prev" class="mini">No rows yet.</div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="imp_do">Import</button></div>`);
+  const prev=()=>{const n=parseStudents($('#imp_text').value).length;$('#imp_prev').textContent=n?(n+' student'+(n>1?'s':'')+' detected — click Import.'):'No rows detected yet.';};
+  $('#imp_text').addEventListener('input',prev);
+  $('#imp_do').onclick=()=>{
+    const rows=parseStudents($('#imp_text').value);
+    if(!rows.length){toast('Nothing to import');return;}
+    const dg=$('#imp_grade').value,ds=$('#imp_sup').value;
+    rows.forEach(r=>state.ias.push({id:uid(),student:r.name,grade:r.grade||dg,supervisor:r.supervisor||ds,topic:r.topic||'',rq:'',stage:'Proposal',due:null,fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()}));
+    save();closeModal();render();toast('Imported '+rows.length+' student'+(rows.length>1?'s':''));
+  };
+}
 function iaModal(i){
-  const edit=!!i;i=i||{grade:'IGCSE',stage:'Proposal',supervisor:'Atul Soral'};
+  const edit=!!i;i=i||{grade:'Grade 11',stage:'Proposal',supervisor:'Atul Soral'};
   const teachOpts=state.settings.teachers;
   modal(`
     <div class="modal-head"><h3>${edit?'Edit IA':'New IA student'}</h3><button class="x" data-close>×</button></div>
@@ -1211,33 +1315,37 @@ function bind(){
       p.innerHTML=chips.join('');};
     ci.addEventListener('input',prev);
     ci.addEventListener('keydown',e=>{if(e.key==='Enter'&&(e.metaKey||e.ctrlKey)){doCapture(ci.value);}});
-    ci.addEventListener('paste',e=>{const items=e.clipboardData?.items||[];for(const it of items){if(it.type.startsWith('image/')){const f=it.getAsFile();if(f){addFiles([f]);e.preventDefault();}}}});
+    ci.addEventListener('paste',e=>{const items=(e.clipboardData&&e.clipboardData.items)||[];for(const it of items){if(it.type.indexOf('image')===0){const f=it.getAsFile();if(f){e.preventDefault();const r=new FileReader();r.onload=ev=>pasteRouteModal(ev.target.result,f.name||'pasted.png');r.readAsDataURL(f);return;}}}});
     const cb=$('#capBtn');if(cb)cb.onclick=()=>doCapture(ci.value);
     const cf=$('#capFile');if(cf)cf.onclick=()=>$('#filePick').click();
   }
   document.querySelectorAll('[data-tile]').forEach(t=>t.onclick=()=>{const k=t.dataset.tile;taskFilter=k==='over'?'overdue':k==='week'?'week':k==='up'?'upcoming':'today';go('tasks');});
   document.querySelectorAll('[data-go]').forEach(g=>g.onclick=()=>{if(g.dataset.filt)taskFilter=g.dataset.filt;go(g.dataset.go);});
   document.querySelectorAll('[data-toggle]').forEach(c=>c.onclick=()=>toggleTask(c.dataset.toggle));
-  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=e=>{e.stopPropagation();state.tasks=state.tasks.filter(t=>t.id!==b.dataset.del);save();render();toast('Deleted');});
+  document.querySelectorAll('[data-del]').forEach(b=>b.onclick=e=>{e.stopPropagation();binItem('tasks',b.dataset.del,'Task');});
   document.querySelectorAll('[data-task]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-toggle],[data-del]'))return;const t=state.tasks.find(x=>x.id===r.dataset.task);if(t)taskModal(t);});
   document.querySelectorAll('.filt[data-filt]').forEach(f=>f.onclick=()=>{taskFilter=f.dataset.filt;render();});
   document.querySelectorAll('[data-ctab]').forEach(t=>t.onclick=()=>{corrTab=t.dataset.ctab;render();});
   document.querySelectorAll('[data-newcorr]').forEach(b=>b.onclick=()=>corrModal(b.dataset.newcorr));
   document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>markCorr(b.dataset.done));
   document.querySelectorAll('[data-reopen]').forEach(b=>b.onclick=()=>{const c=state.corrections.find(x=>x.id===b.dataset.reopen);if(c){c.submitted=null;save();render();}});
-  document.querySelectorAll('[data-delcorr]').forEach(b=>b.onclick=()=>{state.corrections=state.corrections.filter(x=>x.id!==b.dataset.delcorr);save();render();toast('Deleted');});
-  document.querySelectorAll('[data-deldoc]').forEach(b=>b.onclick=e=>{e.stopPropagation();state.docs=state.docs.filter(d=>d.id!==b.dataset.deldoc);save();render();toast('Deleted');});
+  document.querySelectorAll('[data-delcorr]').forEach(b=>b.onclick=()=>{binItem('corrections',b.dataset.delcorr,'Correction');});
+  document.querySelectorAll('[data-deldoc]').forEach(b=>b.onclick=e=>{e.stopPropagation();binItem('docs',b.dataset.deldoc,'Document');});
   const du=$('#docUpload');if(du)du.onclick=()=>$('#filePick').click();
   document.querySelectorAll('[data-newia]').forEach(b=>b.onclick=()=>iaModal());
+  document.querySelectorAll('[data-impstudents]').forEach(b=>b.onclick=()=>importStudentsModal());
   document.querySelectorAll('[data-ia]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-iareview],[data-iaup],[data-iadel]'))return;const i=state.ias.find(x=>x.id===r.dataset.ia);if(i)iaModal(i);});
   document.querySelectorAll('[data-iareview]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaReviewModal(b.dataset.iareview);});
   document.querySelectorAll('[data-iaup]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaUpload(b.dataset.iaup);});
-  document.querySelectorAll('[data-iadel]').forEach(b=>b.onclick=e=>{e.stopPropagation();state.ias=state.ias.filter(x=>x.id!==b.dataset.iadel);save();render();toast('Deleted');});
+  document.querySelectorAll('[data-iadel]').forEach(b=>b.onclick=e=>{e.stopPropagation();binItem('ias',b.dataset.iadel,'IA');});
   document.querySelectorAll('[data-newstaff]').forEach(b=>b.onclick=()=>teacherModal());
   document.querySelectorAll('[data-editstaff]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.editstaff);if(s)teacherModal(s);});
-  document.querySelectorAll('[data-delstaff]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.delstaff);if(s&&confirm('Remove '+s.name+'? Tasks already assigned to them stay in the system.')){state.staff=state.staff.filter(x=>x.id!==b.dataset.delstaff);save();render();toast('Teacher removed');}});
+  document.querySelectorAll('[data-delstaff]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.delstaff);if(s&&confirm('Remove '+s.name+'? Work already assigned to them stays, and you can restore them from Trash.')){binItem('staff',b.dataset.delstaff,'Teacher');}});
   document.querySelectorAll('[data-assign]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.assign);if(s)taskModal(null,{teacher:s.name,assignedBy:'Atul Soral'});});
   document.querySelectorAll('[data-staffgo]').forEach(c=>c.onclick=()=>go('teachers'));
+  document.querySelectorAll('[data-restore]').forEach(b=>b.onclick=()=>restoreTrash(b.dataset.restore));
+  document.querySelectorAll('[data-purge]').forEach(b=>b.onclick=()=>purgeTrash(b.dataset.purge));
+  document.querySelectorAll('[data-emptytrash]').forEach(b=>b.onclick=emptyTrash);
   document.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModal);
   const dz=$('#dropZone');if(dz){dz.ondragover=e=>{e.preventDefault();dz.style.background='var(--surface-2)';};dz.ondragleave=()=>dz.style.background='';dz.ondrop=e=>{e.preventDefault();dz.style.background='';if(e.dataTransfer.files.length)addFiles(e.dataTransfer.files);};}
 }
@@ -1331,10 +1439,10 @@ function seedData(){
   D('IGCSE_Energy_Markscheme.pdf','Markscheme','IGCSE');
   D('Department_Meeting_Minutes_Oct.docx','Meeting','');
   const I=o=>state.ias.push({id:uid(),fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random(),...o});
-  I({student:'Aarav Shah',grade:'IGCSE',supervisor:'Atul Soral',topic:'Resistance of a thermistor vs temperature',rq:'How does temperature affect the resistance of an NTC thermistor?',stage:'Draft',due:offs(5),fileName:'Aarav_IA_Draft1.pdf',aiChecked:false});
-  I({student:'Meera Nair',grade:'IGCSE',supervisor:'Atul Soral',topic:'Damping of a simple pendulum',rq:'How does amplitude affect the damping rate of a pendulum?',stage:'Data Collection',due:offs(-2),fileName:''});
-  I({student:'Kabir Rao',grade:'Grade 10',supervisor:'Rahul Verma',topic:'Magnetic braking of a falling magnet',rq:'How does the number of copper tubes affect terminal velocity?',stage:'Final',due:offs(9),fileName:'Kabir_IA_Final.pdf'});
-  I({student:'Diya Menon',grade:'IGCSE',supervisor:'Atul Soral',topic:'Projectile range vs launch angle',rq:'How does launch angle affect the horizontal range of a projectile?',stage:'Feedback',due:offs(1),fileName:'Diya_IA_v2.pdf'});
+  I({student:'Aarav Shah',grade:'Grade 11',supervisor:'Atul Soral',topic:'Resistance of a thermistor vs temperature',rq:'How does temperature affect the resistance of an NTC thermistor?',stage:'Draft',due:offs(5),fileName:'Aarav_IA_Draft1.pdf',aiChecked:false});
+  I({student:'Meera Nair',grade:'Grade 11',supervisor:'Atul Soral',topic:'Damping of a simple pendulum',rq:'How does amplitude affect the damping rate of a pendulum?',stage:'Data Collection',due:offs(-2),fileName:''});
+  I({student:'Kabir Rao',grade:'Grade 12',supervisor:'Rahul Verma',topic:'Magnetic braking of a falling magnet',rq:'How does the number of copper tubes affect terminal velocity?',stage:'Final',due:offs(9),fileName:'Kabir_IA_Final.pdf'});
+  I({student:'Diya Menon',grade:'Grade 12',supervisor:'Atul Soral',topic:'Projectile range vs launch angle',rq:'How does launch angle affect the horizontal range of a projectile?',stage:'Feedback',due:offs(1),fileName:'Diya_IA_v2.pdf'});
   save();
 }
 
@@ -1356,7 +1464,11 @@ function unlockGate(){
 
 /* ===================== Boot ===================== */
 try{
-  if(!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length)seedData();
+  if(store.seeded!==true){
+    const empty=!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length;
+    if(empty)seedData();
+    store.seeded=true;save();
+  }
   view='dashboard';store.view='dashboard';
   populateYears();highlightNav();render();
 }catch(err){console.error('Boot error:',err);}
