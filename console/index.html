@@ -270,6 +270,8 @@
   .wk-toggle{display:inline-flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
   .wk-toggle .wk{border:0;background:var(--surface);color:var(--ink-soft);font-size:11.5px;font-weight:700;padding:4px 10px;cursor:pointer}
   .wk-toggle .wk.on{background:var(--brand);color:#fff}
+  .sc-grid{display:grid;grid-template-columns:1fr;gap:12px;align-items:stretch}
+  .sc-lbl{font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
 
   .thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;border:1px solid var(--line);flex:none;background:var(--surface-2)}
   .filepick{display:none}
@@ -1486,11 +1488,19 @@ function scPreview(){const el=$('#sc_file');if(!el)return;el.innerHTML=scImage?`
 function smartCaptureInline(){
   scImage=null;scFileName='';
   return `<div class="card" style="padding:16px 18px;margin-bottom:18px">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg><b style="font-size:14px">Smart Capture</b><span class="mini">paste anything, say what to do — it files it, and asks if it is unsure</span></div>
-    <textarea id="sci_mat" rows="3" placeholder="1 · Paste the material — a student list, an email, a note… (or attach a screenshot)"></textarea>
-    <div style="display:flex;align-items:center;gap:9px;margin:7px 0"><button class="btn sm" id="sci_attach" type="button">Attach image / file</button><div id="sci_file"></div></div>
-    <textarea id="sci_do" rows="2" placeholder="2 · What do you want done? e.g. “save these as my B7 students” · “file this as Aarav’s draft 2” · “make tasks from this email”"></textarea>
-    <div style="margin-top:9px"><button class="btn primary" id="sci_go">Understand &amp; file</button></div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg><b style="font-size:14px">Smart Capture</b><span class="mini">paste anything, say what to do — it files it, and asks if it is unsure</span></div>
+    <div class="sc-grid">
+      <div style="display:flex;flex-direction:column">
+        <label class="sc-lbl">1 · The material</label>
+        <textarea id="sci_mat" style="width:100%;flex:1;min-height:150px;resize:vertical" placeholder="Paste a student list, an email, a note… or attach a screenshot/file below."></textarea>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:7px"><button class="btn sm" id="sci_attach" type="button">Attach image / file</button><div id="sci_file"></div></div>
+      </div>
+      <div style="display:flex;flex-direction:column">
+        <label class="sc-lbl">2 · What do you want done?</label>
+        <textarea id="sci_do" style="width:100%;flex:1;min-height:120px;resize:vertical" placeholder="e.g. “save these as my B7 IA students” · “file this as Aarav’s draft 2” · “make tasks for the Grade 12 teachers from this email”"></textarea>
+      </div>
+    </div>
+    <button class="btn primary" id="sci_go" style="width:100%;justify-content:center;margin-top:12px">Understand &amp; file</button>
   </div>`;
 }
 function bindSmartInline(){
