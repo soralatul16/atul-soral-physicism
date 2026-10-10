@@ -728,7 +728,7 @@ function renderDash(){
   return `
   ${greeting()}
   ${privacyNote()}
-  ${captureBox()}
+  ${smartCaptureInline()}
   <div class="tiles">
     ${tile('today',c.today,'Due today')}
     ${tile('over',c.over,'Overdue')}
@@ -915,7 +915,7 @@ function iaRow(i){
   const s=iaState(i);const files=filesOf(i);
   return `<div class="row" data-ia="${i.id}">
     <div class="row-main">
-      <p class="row-title">${esc(i.student)} <span style="color:var(--ink-mute);font-weight:500">· ${esc(i.topic||'Topic TBD')}</span></p>
+      <p class="row-title">${esc(i.student)}${i.sid?` <span style="color:var(--ink-mute);font-weight:500;font-size:11px">#${esc(i.sid)}</span>`:''} <span style="color:var(--ink-mute);font-weight:500">· ${esc(i.topic||'Topic TBD')}</span></p>
       <div class="row-meta">
         <span class="tag type">${esc(i.stage)}</span>
         ${i.block?`<span class="tag teach">Block ${esc(i.block)}</span>`:''}
@@ -1432,11 +1432,19 @@ function corrModal(scope,c){
 function parseStudents(text){
   const lines=(text||'').split(/\r?\n/).map(l=>l.trim()).filter(Boolean);
   const out=[];
-  for(const line of lines){
-    const cols=line.split(/\t|,|;|\|/).map(c=>c.trim());
-    const name=cols[0];
-    if(!name||/^(name|student|s\.?no\.?|roll)/i.test(name))continue;
-    out.push({name:name,topic:cols[1]||'',supervisor:cols[2]||'',grade:cols[3]||''});
+  const monthRe=/^(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\b/i;
+  for(const raw of lines){
+    if(monthRe.test(raw))continue;                 // "July 18, 2025 …" activity/date line
+    if(/^\d/.test(raw)&&/\b(19|20)\d{2}\b/.test(raw))continue; // bare date line
+    if(/^(name|student|s\.?no\.?|roll|total|showing)\b/i.test(raw))continue;
+    let id='',work=raw;
+    const paren=work.match(/\(([^)]*)\)/);
+    if(paren){const m=paren[1].trim().match(/[A-Za-z0-9]+/);id=m?m[0]:'';work=work.replace(/\([^)]*\)/,'').trim();}
+    if(/\t|;|\|/.test(work)){const cols=work.split(/\t|;|\|/).map(c=>c.trim()).filter(Boolean);let nm=cols[0]||'';const cm=nm.match(/^([^,]+),\s*(.+)$/);if(cm)nm=(cm[2]+' '+cm[1]).replace(/\s+/g,' ').trim();if(nm&&/[A-Za-z]/.test(nm))out.push({name:nm,id:id,topic:cols[1]||'',supervisor:cols[2]||'',grade:cols[3]||''});continue;}
+    const cm=work.match(/^([^,]+),\s*([^,]+)$/);
+    if(cm){const name=(cm[2].trim()+' '+cm[1].trim()).replace(/\s+/g,' ').trim();if(/[A-Za-z]/.test(name))out.push({name:name,id:id,topic:'',supervisor:'',grade:''});continue;}
+    if(work.includes(',')){const cols=work.split(',').map(c=>c.trim());if(cols[0]&&/[A-Za-z]/.test(cols[0]))out.push({name:cols[0],id:id,topic:cols[1]||'',supervisor:cols[2]||'',grade:cols[3]||''});continue;}
+    if(/[A-Za-z]/.test(work))out.push({name:work,id:id,topic:'',supervisor:'',grade:''});
   }
   return out;
 }
@@ -1445,10 +1453,11 @@ function importStudentsModal(){
   modal(`
     <div class="modal-head"><h3>Paste student list</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
-      <div class="fld"><label>Paste rows — one student per line. Optional columns: Name, Topic, Supervisor, Class (separate with comma or tab).</label>
-        <textarea id="imp_text" rows="7" placeholder="Aarav Shah, Thermistor resistance, Atul Soral, Grade 11
-Meera Nair, Pendulum damping, Atul Soral, Grade 11"></textarea></div>
+      <div class="fld"><label>Paste rows — one student per line. Works with ManageBac rows like <code>Agarwal, Saksham (25HI020078 Saksham)</code> (date lines are ignored), or <code>Name, Topic, Supervisor, Class</code>.</label>
+        <textarea id="imp_text" rows="7" placeholder="Agarwal, Saksham (25HI020078 Saksham)
+Avthu, Siddharth (INT10751 Siddharth)"></textarea></div>
       <div class="fld-row">
+        <div class="fld"><label>Block</label><input id="imp_block" placeholder="e.g. B7"></div>
         <div class="fld"><label>Default class</label><select id="imp_grade">${GRADES.map(g=>`<option>${g}</option>`).join('')}</select></div>
         <div class="fld"><label>Default supervisor</label><select id="imp_sup">${names.map(n=>`<option>${esc(n)}</option>`).join('')}</select></div>
       </div>
@@ -1460,8 +1469,8 @@ Meera Nair, Pendulum damping, Atul Soral, Grade 11"></textarea></div>
   $('#imp_do').onclick=()=>{
     const rows=parseStudents($('#imp_text').value);
     if(!rows.length){toast('Nothing to import');return;}
-    const dg=$('#imp_grade').value,ds=$('#imp_sup').value;
-    rows.forEach(r=>state.ias.push({id:uid(),student:r.name,grade:r.grade||dg,supervisor:r.supervisor||ds,topic:r.topic||'',rq:'',stage:'Proposal',due:null,fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()}));
+    const dg=$('#imp_grade').value,ds=$('#imp_sup').value,bl=$('#imp_block').value.trim();
+    rows.forEach(r=>state.ias.push({id:uid(),student:r.name,sid:r.id||'',block:bl,grade:r.grade||dg,supervisor:(bl&&blockTeacher(bl))||r.supervisor||ds,topic:r.topic||'',rq:'',stage:'Proposal',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()}));
     save();closeModal();render();toast('Imported '+rows.length+' student'+(rows.length>1?'s':''));
   };
 }
@@ -1474,6 +1483,20 @@ function routeContext(){
   return `Blocks: ${blocks.join(', ')||'none'}. Teachers: ${state.settings.teachers.join(', ')}. Existing task headers: ${cats.join(', ')||'none'}. Students on file: ${students.slice(0,80).join(', ')||'none'}.`;
 }
 function scPreview(){const el=$('#sc_file');if(!el)return;el.innerHTML=scImage?`<img src="${scImage}" style="max-height:90px;border-radius:8px;border:1px solid var(--line)">`:(scFileName?`<span class="tag subj">📄 ${esc(scFileName)}</span>`:'');}
+function smartCaptureInline(){
+  scImage=null;scFileName='';
+  return `<div class="card" style="padding:16px 18px;margin-bottom:18px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg><b style="font-size:14px">Smart Capture</b><span class="mini">paste anything, say what to do — it files it, and asks if it is unsure</span></div>
+    <textarea id="sci_mat" rows="3" placeholder="1 · Paste the material — a student list, an email, a note… (or attach a screenshot)"></textarea>
+    <div style="display:flex;align-items:center;gap:9px;margin:7px 0"><button class="btn sm" id="sci_attach" type="button">Attach image / file</button><div id="sci_file"></div></div>
+    <textarea id="sci_do" rows="2" placeholder="2 · What do you want done? e.g. “save these as my B7 students” · “file this as Aarav’s draft 2” · “make tasks from this email”"></textarea>
+    <div style="margin-top:9px"><button class="btn primary" id="sci_go">Understand &amp; file</button></div>
+  </div>`;
+}
+function bindSmartInline(){
+  const sca=$('#sci_attach');if(sca)sca.onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;scFileName=f.name;const el=$('#sci_file');if(f.type.startsWith('image/')&&f.size<1800000){const r=new FileReader();r.onload=ev=>{scImage=ev.target.result;if(el)el.innerHTML=`<img src="${scImage}" style="max-height:80px;border-radius:8px;border:1px solid var(--line)">`;};r.readAsDataURL(f);}else{scImage=null;if(el)el.innerHTML=`<span class="tag subj">📄 ${esc(f.name)}</span>`;}};inp.click();};
+  const scg=$('#sci_go');if(scg)scg.onclick=()=>runRouteWith($('#sci_mat').value.trim(),$('#sci_do').value.trim(),scImage,scFileName,'');
+}
 function smartCaptureModal(preset){
   preset=preset||{};scImage=preset.image||null;scFileName=preset.fileName||'';
   modal(`
@@ -1526,7 +1549,7 @@ function addStudentsToBlock(plan){
   const list=plan.students||[];if(!list.length){toast('No student names found');return;}
   const block=(plan.block||'').trim();const teacher=(plan.teacher||blockTeacher(block)||'Atul Soral').trim();const grade=normGrade(plan.grade);
   let n=0;list.forEach(s=>{const name=(s.name||'').trim();if(!name)return;
-    state.ias.push({id:uid(),student:name,block:block,grade:grade||'Grade 11',supervisor:teacher,topic:(s.topic||'').trim(),rq:'',stage:'Proposal',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()});n++;});
+    state.ias.push({id:uid(),student:name,sid:(s.id||'').trim(),block:block,grade:grade||'Grade 11',supervisor:teacher,topic:(s.topic||'').trim(),rq:'',stage:'Proposal',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()});n++;});
   if(!n){toast('No student names found');return;}
   save();go('ia');toast('Added '+n+' student'+(n>1?'s':'')+(block?' to Block '+block:''));
 }
@@ -1548,7 +1571,10 @@ function iaModal(i){
   modal(`
     <div class="modal-head"><h3>${edit?esc(i.student):'New student'}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
-      <div class="fld"><label>Student name</label><input id="i_student" value="${esc(i.student||'')}" placeholder="e.g. Aarav Shah"></div>
+      <div class="fld-row">
+        <div class="fld"><label>Student name</label><input id="i_student" value="${esc(i.student||'')}" placeholder="e.g. Aarav Shah"></div>
+        <div class="fld"><label>Student ID</label><input id="i_sid" value="${esc(i.sid||'')}" placeholder="e.g. 25HI020078"></div>
+      </div>
       <div class="fld-row">
         <div class="fld"><label>Block</label><input id="i_block" value="${esc(i.block||'')}" placeholder="e.g. B7"></div>
         <div class="fld"><label>Class</label><select id="i_grade">${GRADES.map(g=>`<option ${g===i.grade?'selected':''}>${g}</option>`).join('')}</select></div>
@@ -1577,11 +1603,11 @@ function iaModal(i){
       inp.click();};
     document.querySelectorAll('[data-ifdel]').forEach(b=>b.onclick=()=>{i.files=(i.files||[]).filter(f=>f.id!==b.dataset.ifdel);save();closeModal();iaModal(i);});
   }
-  function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.grade=$('#i_grade').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;}
+  function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.sid=$('#i_sid').value.trim();i.grade=$('#i_grade').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;}
   $('#i_save').onclick=()=>{
     const student=$('#i_student').value.trim();if(!student){toast('Enter a student name');return;}
     if(edit){persistIA();}
-    else{state.ias.push({id:uid(),student,block:$('#i_block').value.trim(),grade:$('#i_grade').value,supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null,notes:$('#i_fb').value,files:[],fileName:'',fileThumb:null,review:{},aiChecked:false,createdAt:Date.now()});}
+    else{state.ias.push({id:uid(),student,sid:$('#i_sid').value.trim(),block:$('#i_block').value.trim(),grade:$('#i_grade').value,supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null,notes:$('#i_fb').value,files:[],fileName:'',fileThumb:null,review:{},aiChecked:false,createdAt:Date.now()});}
     save();closeModal();render();toast('Saved');
   };
 }
@@ -1661,6 +1687,7 @@ function bind(){
   document.querySelectorAll('[data-newia]').forEach(b=>b.onclick=()=>iaModal());
   document.querySelectorAll('[data-impstudents]').forEach(b=>b.onclick=()=>importStudentsModal());
   document.querySelectorAll('[data-smartcap]').forEach(b=>b.onclick=()=>smartCaptureModal());
+  bindSmartInline();
   document.querySelectorAll('[data-ia]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-iareview],[data-iaup],[data-iadel]'))return;const i=state.ias.find(x=>x.id===r.dataset.ia);if(i)iaModal(i);});
   document.querySelectorAll('[data-iareview]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaReviewModal(b.dataset.iareview);});
   document.querySelectorAll('[data-iaup]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaUpload(b.dataset.iaup);});
