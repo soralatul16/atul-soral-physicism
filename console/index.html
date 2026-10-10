@@ -170,6 +170,7 @@
   .tag.cat.c-student{background:var(--info-soft);color:var(--info);border-color:#cfe0f3}
   .tag.cat.c-eca{background:var(--warn-soft);color:#b07d22;border-color:#eeddb6}
   .tag.aud{background:#f3eefb;color:#7a5aa6;border:1px solid #e3d6f3}
+  .tag.hatt{background:var(--brand);color:#fff;font-weight:700}
   .due{font-size:12.5px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:5px}
   .due.over{color:var(--crit)} .due.today{color:var(--warn)} .due.soon{color:var(--accent)} .due.far{color:var(--ink-soft)} .due.none{color:var(--ink-mute);font-weight:500}
   .prio{width:7px;height:7px;border-radius:50%;flex:none}
@@ -389,6 +390,7 @@
 const KEY='asp_tracker_v1';
 const DEFAULT_TEACHERS=['Atul Soral','Priya Menon','Rahul Verma','Sana Khan'];
 const GRADES=['Grade 9','Grade 10','Grade 11','Grade 12'];
+const HATS=['Coordinator','Physics Teacher','Form Tutor','CAS Advisor'];
 const PROGRAMME={'Grade 9':'IGCSE','Grade 10':'IGCSE','Grade 11':'IB DP','Grade 12':'IB DP'};
 const PROG_GROUPS=[['IGCSE',['Grade 9','Grade 10']],['IB DP',['Grade 11','Grade 12']]];
 const DAYS=['Mon','Tue','Wed','Thu','Fri','Sat'];
@@ -436,7 +438,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all';
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -514,7 +516,12 @@ function classify(text){
   if(/\bhod\b|\bhead of (the )?dep|\bheads of dep/.test(t))audience='HODs';
   else if(/\bcoordinator/.test(t))audience='Coordinators';
   else if(/\bteacher|\bcolleague|\bfaculty\b|\bstaff\b/.test(t))audience='Teachers';
-  return {grade,type,teacher,priority,due,category,audience,subject:'Physics'};
+  let hat='';
+  if(/\bco[- ]?ordinator|\bcoordinat/.test(t))hat='Coordinator';
+  else if(/\bform tutor\b|\bmentor|\bmentee|\btutor group|\bpastoral/.test(t))hat='Form Tutor';
+  else if(/\bcas\b|\bcreativity|\bactivity, service|\bcas advisor|\bcas project/.test(t))hat='CAS Advisor';
+  else if(/\bmy class|\bmy lesson|\bi teach|\blesson plan|\bteaching\b/.test(t))hat='Physics Teacher';
+  return {grade,type,teacher,priority,due,category,audience,hat,subject:'Physics'};
 }
 
 /* ===================== Capture ===================== */
@@ -530,7 +537,7 @@ function doCapture(text){
   const lines=text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
   const isLong=text.length>140||lines.length>1;
   const title=isLong?summariseTitle(lines,c):cleanTitle(text,c);
-  const task={id:uid(),title,raw:text,type:c.type,grade:c.grade,subject:c.subject,category:c.category,audience:c.audience,
+  const task={id:uid(),title,raw:text,type:c.type,grade:c.grade,subject:c.subject,category:c.category,audience:c.audience,hat:c.hat,
     teacher:c.teacher,due:c.due,priority:c.priority,status:'open',recurring:null,notes:isLong?text:'',createdAt:Date.now()};
   state.tasks.push(task);save();
   toast(`Filed under ${c.category||c.type}${c.grade?' · '+c.grade:''}${c.due?' · due '+fmtDate(c.due):''}`);
@@ -724,6 +731,12 @@ function dashCharts(){
   </div>`;
 }
 function pad2(n){return n<10?'0'+n:''+n;}
+function futureDue(iso){
+  if(!iso||!/^\d{4}-\d{2}-\d{2}$/.test(iso))return iso||null;
+  const today=dOnly(todayISO());let d=dOnly(iso);
+  if((today-d)/86400000>45){while((today-d)/86400000>45)d.setFullYear(d.getFullYear()+1);return d.getFullYear()+'-'+pad2(d.getMonth()+1)+'-'+pad2(d.getDate());}
+  return iso;
+}
 function ymd(d){return d.getFullYear()+pad2(d.getMonth()+1)+pad2(d.getDate());}
 function gcalLink(title,iso){if(!iso)return '';const nd=dOnly(iso);const nx=dOnly(iso);nx.setDate(nx.getDate()+1);return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title)+'&dates='+ymd(nd)+'/'+ymd(nx);}
 function exportICS(){
@@ -808,6 +821,7 @@ function taskRow(t){
     <div class="row-main">
       <p class="row-title">${esc(t.title)}</p>
       <div class="row-meta">
+        ${t.hat?`<span class="tag hatt">${esc(t.hat)}</span>`:''}
         ${t.category?`<span class="tag cat ${catCls}">${esc(t.category)}</span>`:''}
         ${t.audience?`<span class="tag aud">${esc(t.audience)}</span>`:''}
         ${t.type?`<span class="tag type">${esc(t.type)}</span>`:''}
@@ -825,6 +839,7 @@ function taskRow(t){
 function renderTasks(){
   const td=todayISO();
   let list=state.tasks.slice();
+  if(taskHat!=='all')list=list.filter(t=>(t.hat||'')===taskHat);
   const f=taskFilter;
   if(f==='today')list=list.filter(t=>t.status!=='done'&&t.due===td);
   else if(f==='overdue')list=list.filter(t=>t.status!=='done'&&t.due&&daysBetween(td,t.due)<0);
@@ -834,6 +849,7 @@ function renderTasks(){
   else list=list.filter(t=>t.status!=='done');
   list.sort(byDue);
   const fil=(k,l)=>`<button class="filt ${f===k?'active':''}" data-filt="${k}">${l}</button>`;
+  const hatChip=(k,l)=>{const n=state.tasks.filter(t=>t.status!=='done'&&(k==='all'||(t.hat||'')===k)).length;return `<button class="filt ${taskHat===k?'active':''}" data-taskhat="${k}">${l}${n?` <span style="opacity:.7">${n}</span>`:''}</button>`;};
   const CATS=['Exam','Student','ECA','Other','General'];
   const catOf=t=>t.category?t.category:'General';
   const grouped={};list.forEach(t=>{const k=catOf(t);(grouped[k]=grouped[k]||[]).push(t);});
@@ -841,9 +857,12 @@ function renderTasks(){
   const heads=[...CATS.filter(k=>grouped[k]&&grouped[k].length).filter(k=>k!=='General'),...extra,...(grouped['General']?['General']:[])];
   const body=list.length
     ? heads.map(k=>`<div class="section"><div class="section-head"><h2>${k}${k==='General'?'':' tasks'}</h2><span class="count">${grouped[k].length}</span></div><div class="card rows">${grouped[k].map(taskRow).join('')}</div></div>`).join('')
-    : `<div class="card rows">${emptyMini('No tasks here. Capture one above.')}</div>`;
-  return `${pageHead('Tasks &amp; Deadlines','Everything you owe, auto-sorted into heads by type. Tick to complete; overdue items surface to the top.')}
+    : `<div class="card rows">${emptyMini('No tasks for this role/filter. Capture one above.')}</div>`;
+  return `${pageHead('Tasks &amp; Deadlines','Everything you owe, split by the hat you are wearing, then by type. Tick to complete; overdue items surface to the top.')}
   ${captureBox()}
+  <div class="filters" style="margin-bottom:9px">
+    ${hatChip('all','All roles')}${HATS.map(h=>hatChip(h,h)).join('')}
+  </div>
   <div class="filters">
     ${fil('all','All open')}${fil('today','Today')}${fil('overdue','Overdue')}${fil('week','This week')}${fil('upcoming','Upcoming')}${fil('done','Completed')}
   </div>
@@ -1300,9 +1319,9 @@ function createTasksFromAI(tasks){
   tasks.forEach(t=>{if(!t||!(t.title||'').trim())return;
     state.tasks.push({id:uid(),status:'open',subject:'Physics',recurring:null,createdAt:Date.now()+Math.random(),
       title:(''+t.title).trim(),type:t.type||'Task',grade:normGrade(t.grade),teacher:(t.teacher||'').trim(),
-      category:CATS.includes(t.category)?t.category:'',audience:AUDS.includes(t.audience)?t.audience:'',
+      category:CATS.includes(t.category)?t.category:'',audience:AUDS.includes(t.audience)?t.audience:'',hat:HATS.includes(t.hat)?t.hat:'',
       notes:(t.summary||'').trim(),assignedBy:'Atul Soral',
-      due:(t.due&&/^\d{4}-\d{2}-\d{2}$/.test(t.due))?t.due:null,priority:t.priority==='high'?'high':'normal'});n++;});
+      due:(t.due&&/^\d{4}-\d{2}-\d{2}$/.test(t.due))?futureDue(t.due):null,priority:t.priority==='high'?'high':'normal'});n++;});
   if(!n){toast('No tasks found in that email');return;}
   save();go('tasks');toast('Added '+n+' task'+(n>1?'s':'')+' from the email');
 }
@@ -1349,7 +1368,7 @@ function emailTextModal(preset){
     const text=$('#em_text').value.trim();if(!text){toast('Paste some email text first');return;}
     if(!aiEnabled()){closeModal();aiSettingsModal();return;}
     loadingModal('Reading the email…');
-    try{const r=await aiExtract('email',{text});closeModal();createTasksFromAI(r.tasks||r);}
+    try{const r=await aiExtract('email',{text:'TODAY: '+todayISO()+' (resolve partial dates to the next upcoming date, never the past).\n\n'+text});closeModal();createTasksFromAI(r.tasks||r);}
     catch(e){closeModal();toast(e.message||'Could not read it');}
   };
 }
@@ -1408,29 +1427,32 @@ function taskModal(t,preset){
       <div class="fld"><label>Task</label><input id="m_title" value="${esc(t.title||'')}" placeholder="What needs doing?"></div>
       ${t.image?`<div class="fld"><label>Attached screenshot</label><img src="${t.image}" style="max-width:100%;max-height:180px;object-fit:contain;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)"></div>`:''}
       <div class="fld-row">
+        <div class="fld"><label>Your role (hat)</label><select id="m_hat"><option value="">—</option>${HATS.map(v=>`<option value="${v}" ${v===(t.hat||'')?'selected':''}>${v}</option>`).join('')}</select></div>
         <div class="fld"><label>Head / category</label><select id="m_cat">${cats.map(v=>`<option value="${v}" ${v===(t.category||'')?'selected':''}>${v||'— General —'}</option>`).join('')}</select></div>
+      </div>
+      <div class="fld-row">
         <div class="fld"><label>For (audience)</label><select id="m_aud">${auds.map(v=>`<option value="${v}" ${v===(t.audience||'')?'selected':''}>${v||'—'}</option>`).join('')}</select></div>
-      </div>
-      <div class="fld-row">
         <div class="fld"><label>Type</label><select id="m_type">${types.map(v=>opt(v,t.type)).join('')}</select></div>
+      </div>
+      <div class="fld-row">
         <div class="fld"><label>Class</label><select id="m_grade">${grades.map(v=>`<option value="${v}" ${v===(t.grade||'')?'selected':''}>${v||'—'}</option>`).join('')}</select></div>
-      </div>
-      <div class="fld-row">
         <div class="fld"><label>Due date</label><input type="date" id="m_due" value="${t.due||''}"></div>
-        <div class="fld"><label>Assigned to (teacher)</label><input id="m_teacher" list="teamlist" value="${esc(t.teacher||'')}" placeholder="—"><datalist id="teamlist">${names.map(n=>`<option value="${esc(n)}">`).join('')}</datalist></div>
       </div>
       <div class="fld-row">
+        <div class="fld"><label>Assigned to (teacher)</label><input id="m_teacher" list="teamlist" value="${esc(t.teacher||'')}" placeholder="—"><datalist id="teamlist">${names.map(n=>`<option value="${esc(n)}">`).join('')}</datalist></div>
         <div class="fld"><label>Assigned by</label><input id="m_by" list="bylist" value="${esc(t.assignedBy||'Atul Soral')}" placeholder="e.g. Atul Soral"><datalist id="bylist">${['Atul Soral','Academic Head','IB Coordinator',...names].map(n=>`<option value="${esc(n)}">`).join('')}</datalist></div>
-        <div class="fld"><label>Priority</label><select id="m_prio">${opt('normal',t.priority)}${opt('high',t.priority)}</select></div>
       </div>
-      <div class="fld"><label>Repeat</label><select id="m_rec"><option value="">None</option><option value="weekly" ${t.recurring==='weekly'?'selected':''}>Weekly</option><option value="monthly" ${t.recurring==='monthly'?'selected':''}>Monthly</option></select></div>
+      <div class="fld-row">
+        <div class="fld"><label>Priority</label><select id="m_prio">${opt('normal',t.priority)}${opt('high',t.priority)}</select></div>
+        <div class="fld"><label>Repeat</label><select id="m_rec"><option value="">None</option><option value="weekly" ${t.recurring==='weekly'?'selected':''}>Weekly</option><option value="monthly" ${t.recurring==='monthly'?'selected':''}>Monthly</option></select></div>
+      </div>
       <div class="fld"><label>Notes / details${t.notes?' (extracted)':''}</label><textarea id="m_notes" rows="3" placeholder="Any extra detail — the full email text lands here, not in the title.">${esc(t.notes||'')}</textarea></div>
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="m_save">${edit?'Save':'Add task'}</button></div>
   `);
   $('#m_save').onclick=()=>{
     const title=$('#m_title').value.trim();if(!title){toast('Give it a title');return;}
-    const data={title,type:$('#m_type').value,grade:$('#m_grade').value,due:$('#m_due').value||null,category:$('#m_cat').value,audience:$('#m_aud').value,notes:$('#m_notes').value,
+    const data={title,type:$('#m_type').value,grade:$('#m_grade').value,due:$('#m_due').value||null,category:$('#m_cat').value,audience:$('#m_aud').value,hat:$('#m_hat').value,notes:$('#m_notes').value,
       teacher:$('#m_teacher').value.trim(),assignedBy:$('#m_by').value.trim(),priority:$('#m_prio').value,recurring:$('#m_rec').value||null,subject:'Physics',image:t.image||null,
       block:t.block||'',ttDay:t.ttDay||'',ttPeriod:t.ttPeriod||''};
     if(edit){Object.assign(t,data);}else{state.tasks.push({id:uid(),status:'open',createdAt:Date.now(),...data});}
@@ -1566,7 +1588,7 @@ function smartCaptureModal(preset){
 async function runRouteWith(mat,ins,image,fileName,answer){
   if(!aiEnabled()){closeModal();aiSettingsModal();return;}
   if(!mat&&!image&&!fileName&&!ins){toast('Add some material or an instruction');return;}
-  const text=`MATERIAL:\n${mat||('(attached file: '+(fileName||'none')+')')}\n\nINSTRUCTION: ${ins||'(none given)'}${answer?'\n\nUSER PICKED: '+answer:''}\n\nCONTEXT: ${routeContext()}`;
+  const text=`TODAY: ${todayISO()} (interpret any partial or relative date, e.g. "17 Oct", as the NEXT upcoming date from today — never a past date).\n\nMATERIAL:\n${mat||('(attached file: '+(fileName||'none')+')')}\n\nINSTRUCTION: ${ins||'(none given)'}${answer?'\n\nUSER PICKED: '+answer:''}\n\nCONTEXT: ${routeContext()}`;
   loadingModal('Working out where this goes…');
   try{const plan=await aiExtract('route',{text,image:image||undefined});closeModal();dispatchRoute(plan,{mat,ins,image,fileName});}
   catch(e){closeModal();toast(e.message||'Could not process that');smartCaptureModal({mat,ins,image,fileName});}
@@ -1729,6 +1751,7 @@ function bind(){
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=e=>{e.stopPropagation();binItem('tasks',b.dataset.del,'Task');});
   document.querySelectorAll('[data-task]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-toggle],[data-del]'))return;const t=state.tasks.find(x=>x.id===r.dataset.task);if(t)taskModal(t);});
   document.querySelectorAll('.filt[data-filt]').forEach(f=>f.onclick=()=>{taskFilter=f.dataset.filt;render();});
+  document.querySelectorAll('[data-taskhat]').forEach(f=>f.onclick=()=>{taskHat=f.dataset.taskhat;render();});
   document.querySelectorAll('[data-ctab]').forEach(t=>t.onclick=()=>{corrTab=t.dataset.ctab;render();});
   document.querySelectorAll('[data-newcorr]').forEach(b=>b.onclick=()=>corrModal(b.dataset.newcorr));
   document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>markCorr(b.dataset.done));
