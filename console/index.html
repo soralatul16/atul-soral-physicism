@@ -165,6 +165,11 @@
   .tag.grade{background:var(--info-soft);color:var(--info)}
   .tag.teach{background:#efe9f6;color:#6a5a96}
   .tag.subj{background:var(--surface-2);color:var(--ink-soft);border:1px solid var(--line)}
+  .tag.cat{background:#eef7f3;color:#2f7468;border:1px solid #d6ece4}
+  .tag.cat.c-exam{background:var(--crit-soft);color:var(--crit);border-color:#f3cdd5}
+  .tag.cat.c-student{background:var(--info-soft);color:var(--info);border-color:#cfe0f3}
+  .tag.cat.c-eca{background:var(--warn-soft);color:#b07d22;border-color:#eeddb6}
+  .tag.aud{background:#f3eefb;color:#7a5aa6;border:1px solid #e3d6f3}
   .due{font-size:12.5px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:5px}
   .due.over{color:var(--crit)} .due.today{color:var(--warn)} .due.soon{color:var(--accent)} .due.far{color:var(--ink-soft)} .due.none{color:var(--ink-mute);font-weight:500}
   .prio{width:7px;height:7px;border-radius:50%;flex:none}
@@ -416,7 +421,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='';
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -486,7 +491,15 @@ function classify(text){
   for(const tn of state.settings.teachers){if(t.includes(' '+tn.toLowerCase()+' ')||t.includes(' '+tn.toLowerCase()+"'")){teacher=tn;break;}}
   const priority=/\burgent|\basap|\bhigh priority|\bimportant|\bcritical|!!/.test(t)?'high':'normal';
   const due=parseDate(text);
-  return {grade,type,teacher,priority,due,subject:'Physics'};
+  let category='';
+  if(/\bexam|\btest\b|\bpaper\b|\bmark ?scheme|\bmoderat|\bstandardi[sz]|\bcorrect|\bmarking\b|\bpredicted grade|\bresult\b|\bgrading\b/.test(t))category='Exam';
+  else if(/\bstudent|\binternal assessment\b|\bia\b|\bextended essay\b|\bee\b|\bintervention|\bremedial|\bptm\b|\bparent[- ]?teacher|\bparent\b|\breport card|\bpersonalised lesson|\bpersonalized lesson|\bpl\b/.test(t))category='Student';
+  else if(/\beca\b|\bco[- ]?curricular|\bclub\b|\bactivit|\btrip\b|\bexcursion|\bcompetition|\bolympiad|\bmasterclass|\bfest\b|\bassembly\b|\bcelebration|\bevent\b/.test(t))category='ECA';
+  let audience='';
+  if(/\bhod\b|\bhead of (the )?dep|\bheads of dep/.test(t))audience='HODs';
+  else if(/\bcoordinator/.test(t))audience='Coordinators';
+  else if(/\bteacher|\bcolleague|\bfaculty\b|\bstaff\b/.test(t))audience='Teachers';
+  return {grade,type,teacher,priority,due,category,audience,subject:'Physics'};
 }
 
 /* ===================== Capture ===================== */
@@ -499,11 +512,22 @@ function doCapture(text){
     state.corrections.push(corr);save();toast('Added to Exam Corrections');go('corrections');
     return;
   }
-  const task={id:uid(),title:cleanTitle(text,c),raw:text,type:c.type,grade:c.grade,subject:c.subject,
-    teacher:c.teacher,due:c.due,priority:c.priority,status:'open',recurring:null,notes:'',createdAt:Date.now()};
+  const lines=text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+  const isLong=text.length>140||lines.length>1;
+  const title=isLong?summariseTitle(lines,c):cleanTitle(text,c);
+  const task={id:uid(),title,raw:text,type:c.type,grade:c.grade,subject:c.subject,category:c.category,audience:c.audience,
+    teacher:c.teacher,due:c.due,priority:c.priority,status:'open',recurring:null,notes:isLong?text:'',createdAt:Date.now()};
   state.tasks.push(task);save();
-  toast(`Filed under ${c.type}${c.grade?' · '+c.grade:''}${c.due?' · due '+fmtDate(c.due):''}`);
+  toast(`Filed under ${c.category||c.type}${c.grade?' · '+c.grade:''}${c.due?' · due '+fmtDate(c.due):''}`);
   go('tasks');
+}
+/* Turn a pasted email / long note into a short, readable task title. */
+function summariseTitle(lines,c){
+  let subj=lines.find(l=>/^subject\s*:/i.test(l));
+  let s=subj?subj.replace(/^subject\s*:/i,'').trim():lines[0];
+  s=s.replace(/^(re|fwd|fw)\s*:\s*/i,'').replace(/\binbox\b/i,'').trim();
+  if(s.length>90)s=s.slice(0,88).trim()+'…';
+  return s.charAt(0).toUpperCase()+s.slice(1);
 }
 function cleanTitle(text,c){
   let s=text.trim();
@@ -743,6 +767,9 @@ function renderCapture(){
 function byDue(a,b){if(!a.due)return 1;if(!b.due)return -1;return a.due<b.due?-1:1;}
 function taskRow(t){
   const dc=dueClass(t.due);
+  const catCls=t.category==='Exam'?'c-exam':t.category==='Student'?'c-student':t.category==='ECA'?'c-eca':'';
+  let donePill='';
+  if(t.status==='done'&&t.due){const d=daysBetween(t.due,t.doneAt||todayISO());donePill=d>0?`<span class="pill late">Late · ${d}d</span>`:`<span class="pill ontime">On time</span>`;}
   return `<div class="row ${t.status==='done'?'done':''}" data-task="${t.id}">
     <div class="check ${t.status==='done'?'done':''}" data-toggle="${t.id}">${t.status==='done'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>':''}</div>
     <span class="prio ${t.priority}"></span>
@@ -750,12 +777,15 @@ function taskRow(t){
     <div class="row-main">
       <p class="row-title">${esc(t.title)}</p>
       <div class="row-meta">
+        ${t.category?`<span class="tag cat ${catCls}">${esc(t.category)}</span>`:''}
+        ${t.audience?`<span class="tag aud">${esc(t.audience)}</span>`:''}
         ${t.type?`<span class="tag type">${esc(t.type)}</span>`:''}
         ${t.grade?`<span class="tag grade">${esc(t.grade)}</span>`:''}
         ${t.teacher?`<span class="tag teach">${esc(t.teacher)}</span>`:''}
         ${t.recurring?`<span class="tag subj">↻ ${t.recurring}</span>`:''}
       </div>
     </div>
+    ${donePill}
     <span class="due ${dc}">${dueLabel(t.due)}</span>
     <button class="row-del" data-del="${t.id}" title="Delete"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>`;
@@ -772,12 +802,19 @@ function renderTasks(){
   else list=list.filter(t=>t.status!=='done');
   list.sort(byDue);
   const fil=(k,l)=>`<button class="filt ${f===k?'active':''}" data-filt="${k}">${l}</button>`;
-  return `${pageHead('Tasks &amp; Deadlines','Everything you owe, auto-sorted. Tick to complete; overdue items surface to the top.')}
+  const CATS=['Exam','Student','ECA','Other','General'];
+  const catOf=t=>t.category&&CATS.includes(t.category)?t.category:(t.category?'Other':'General');
+  const grouped={};list.forEach(t=>{const k=catOf(t);(grouped[k]=grouped[k]||[]).push(t);});
+  const heads=CATS.filter(k=>grouped[k]&&grouped[k].length);
+  const body=list.length
+    ? heads.map(k=>`<div class="section"><div class="section-head"><h2>${k}${k==='General'?'':' tasks'}</h2><span class="count">${grouped[k].length}</span></div><div class="card rows">${grouped[k].map(taskRow).join('')}</div></div>`).join('')
+    : `<div class="card rows">${emptyMini('No tasks here. Capture one above.')}</div>`;
+  return `${pageHead('Tasks &amp; Deadlines','Everything you owe, auto-sorted into heads by type. Tick to complete; overdue items surface to the top.')}
   ${captureBox()}
   <div class="filters">
     ${fil('all','All open')}${fil('today','Today')}${fil('overdue','Overdue')}${fil('week','This week')}${fil('upcoming','Upcoming')}${fil('done','Completed')}
   </div>
-  <div class="card rows">${list.map(taskRow).join('')||emptyMini('No tasks here. Capture one above.')}</div>`;
+  ${body}`;
 }
 
 /* ===================== Exam Corrections ===================== */
@@ -944,11 +981,24 @@ function teamTrack(){
   </div>`;
 }
 
+function periodKey(p){const s=(''+p).toLowerCase();if(/assembl/.test(s))return -1;if(/clos/.test(s))return 9999;if(/break|recess|lunch|interval/.test(s))return 1000;const m=s.match(/(\d+)/);return m?+m[1]:900;}
+function ttPeriods(tt){const set=[...new Set(tt.map(x=>x.period).filter(Boolean))];set.sort((a,b)=>periodKey(a)-periodKey(b)||(''+a).localeCompare(''+b));return set;}
+function slotMeta(slot){const m=[slot.subject,slot.room].filter(Boolean).join(' · ');return m?`<div style="font-size:9px;font-weight:600;color:var(--ink-mute);margin-top:1px">${esc(m)}</div>`:'';}
+const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+function ttWeekday(iso){const d=dOnly(iso);return d?WD[d.getDay()]:'';}
 function timetableGrid(s){
   const tt=s.timetable||[];
-  const cell=(p,d)=>{const slot=tt.find(x=>x.period===p&&x.day===d);return slot?`<td class="has">${esc(slot.cls||'')}</td>`:'<td></td>';};
-  const rows=PERIODS.map(p=>`<tr><td class="perlbl">${p}</td>${DAYS.map(d=>cell(p,d)).join('')}</tr>`).join('');
-  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl"></th>${DAYS.map(d=>`<th>${d}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  const periods=ttPeriods(tt);
+  const days=DAYS.filter(d=>tt.some(x=>x.day===d));const useDays=days.length?days:DAYS.slice(0,5);
+  const cell=(p,d)=>{const slot=tt.find(x=>x.period===p&&x.day===d);return slot?`<td class="has"><b>${esc(slot.cls||'·')}</b>${slotMeta(slot)}</td>`:'<td></td>';};
+  const rows=useDays.map(d=>`<tr><td class="perlbl">${d}</td>${periods.map(p=>cell(p,d)).join('')}</tr>`).join('');
+  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl"></th>${periods.map(p=>`<th>${esc(p)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function timetableDay(s,dayShort){
+  const slots=(s.timetable||[]).filter(x=>x.day===dayShort).sort((a,b)=>periodKey(a.period)-periodKey(b.period));
+  if(!dayShort)return '<div class="mini">Pick a date to see that day only.</div>';
+  if(!slots.length)return `<div class="mini">No classes scheduled on ${esc(dayShort)}.</div>`;
+  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Period</th><th>Class</th><th>Subject</th><th>Room</th></tr></thead><tbody>${slots.map(x=>`<tr><td class="perlbl">${esc(x.period||'')}</td><td class="has"><b>${esc(x.cls||'')}</b></td><td>${esc(x.subject||'')}</td><td>${esc(x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
 }
 function teacherCard(s){
   const st=teacherStats(s.name);const h=teacherHealth(st);
@@ -969,8 +1019,8 @@ function teacherCard(s){
     </div>
     <div class="grid-2" style="gap:18px">
       <div>
-        <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px">Timetable</div>
-        ${(s.timetable&&s.timetable.length)?timetableGrid(s):'<div class="mini">No timetable yet — add one via Edit.</div>'}
+        <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px">Timetable${ttDate?` · ${esc(ttWeekday(ttDate))} ${esc(fmtDate(ttDate))}`:''}</div>
+        ${(s.timetable&&s.timetable.length)?(ttDate?timetableDay(s,ttWeekday(ttDate)):timetableGrid(s)):'<div class="mini">No timetable yet — add one via Edit, or paste the timetable screenshot (read in automatically when AI auto-extract is on).</div>'}
         ${s.ttImage?`<img src="${s.ttImage}" title="Pasted timetable" style="margin-top:8px;max-width:100%;max-height:150px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)">`:''}
       </div>
       <div>
@@ -985,14 +1035,18 @@ function renderTeachers(){
   const body=state.staff.length?state.staff.map(teacherCard).join(''):emptyMini('No teachers yet. Add your team to start tracking their work.');
   return `${pageHead('Teachers','Each teacher\'s timetable and the work you (or others) assign them — with an individual track that rolls up to the dashboard.')}
   ${privacyNote()}
-  <div style="margin-bottom:16px"><button class="btn primary" data-newstaff><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add teacher</button></div>
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+    <button class="btn primary" data-newstaff><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add teacher</button>
+    <div style="display:flex;align-items:center;gap:7px"><label style="font-size:12.5px;font-weight:700;color:var(--ink-soft)">View a day:</label><input type="date" id="ttDatePick" value="${ttDate||''}" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:9px;font-size:13px"></div>
+    ${ttDate?`<button class="btn sm" id="ttDateClear">Show full week</button><span class="mini">Showing <b>${esc(ttWeekday(ttDate))}, ${esc(fmtDate(ttDate))}</b> only</span>`:'<span class="mini">Pick a date to see each teacher\'s classes for that day only.</span>'}
+  </div>
   ${body}`;
 }
 
 let ttDraft=[];
 function renderTTEditor(){
   const box=$('#ttList');if(!box)return;
-  box.innerHTML=ttDraft.length?ttDraft.map((s,idx)=>`<span class="mini-tag">${s.day} ${s.period} · ${esc(s.cls)}<button data-ttdel="${idx}">×</button></span>`).join(''):'<span class="mini">No slots yet.</span>';
+  box.innerHTML=ttDraft.length?ttDraft.map((s,idx)=>`<span class="mini-tag">${esc(s.day)} ${esc(s.period||'')} · ${esc(s.cls||'')}${s.subject?' '+esc(s.subject):''}${s.room?' ['+esc(s.room)+']':''}<button data-ttdel="${idx}">×</button></span>`).join(''):'<span class="mini">No slots yet.</span>';
   box.querySelectorAll('[data-ttdel]').forEach(b=>b.onclick=()=>{ttDraft.splice(+b.dataset.ttdel,1);renderTTEditor();});
 }
 function teacherModal(s,img,draft){
@@ -1008,11 +1062,13 @@ function teacherModal(s,img,draft){
         <div class="fld"><label>Role</label><select id="s_role">${ROLES.map(r=>`<option ${r===s.role?'selected':''}>${r}</option>`).join('')}</select></div>
       </div>
       <div class="fld"><label>Classes taught</label><div style="display:flex;flex-direction:column;gap:8px">${PROG_GROUPS.map(([prog,gs])=>`<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font-size:11px;font-weight:700;color:var(--ink-mute);width:52px">${prog}</span>${gs.map(g=>`<label style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--ink-soft)"><input type="checkbox" class="s_cls" value="${g}" ${(s.classes||[]).includes(g)?'checked':''} style="width:15px;height:15px;accent-color:var(--brand)">${g}</label>`).join('')}</div>`).join('')}</div></div>
-      <div class="fld"><label>Timetable</label>
+      <div class="fld"><label>Timetable — add each class slot (period / class can be free text like “1” or “10A”)</label>
         <div class="tt-slot">
           <select id="tt_day" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">${DAYS.map(d=>`<option>${d}</option>`).join('')}</select>
-          <select id="tt_per" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">${PERIODS.map(p=>`<option>${p}</option>`).join('')}</select>
-          <select id="tt_cls" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">${GRADES.map(g=>`<option>${g}</option>`).join('')}</select>
+          <input id="tt_per" list="perlist" placeholder="Period" style="width:76px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px"><datalist id="perlist">${['Assembly','1','2','3','4','Break','5','6','7','8','9','10','Closing'].map(p=>`<option value="${p}">`).join('')}</datalist>
+          <input id="tt_cls" placeholder="Class e.g. 10A" style="width:92px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
+          <input id="tt_subj" placeholder="Subject" style="width:84px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
+          <input id="tt_room" placeholder="Room" style="width:70px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
           <button class="btn sm" id="tt_add" type="button">Add slot</button>
         </div>
         <div id="ttList" style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px"></div>
@@ -1020,7 +1076,7 @@ function teacherModal(s,img,draft){
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="s_save">${edit?'Save':'Add teacher'}</button></div>`);
   renderTTEditor();
-  $('#tt_add').onclick=()=>{ttDraft.push({day:$('#tt_day').value,period:$('#tt_per').value,cls:$('#tt_cls').value});renderTTEditor();};
+  $('#tt_add').onclick=()=>{const p=$('#tt_per').value.trim(),cls=$('#tt_cls').value.trim();if(!p&&!cls){toast('Add a period or class');return;}ttDraft.push({day:$('#tt_day').value,period:p,cls:cls,subject:$('#tt_subj').value.trim(),room:$('#tt_room').value.trim()});$('#tt_cls').value='';$('#tt_subj').value='';$('#tt_room').value='';renderTTEditor();};
   $('#s_save').onclick=()=>{
     const name=$('#s_name').value.trim();if(!name){toast('Enter a name');return;}
     const classes=[...document.querySelectorAll('.s_cls:checked')].map(c=>c.value);
@@ -1129,22 +1185,26 @@ function normGrade(g){
   if(/\bdp\b|\bib\b/.test(l))return 'Grade 11';
   return '';
 }
-function normDay(d){if(!d)return '';d=(''+d).trim().slice(0,3);d=d.charAt(0).toUpperCase()+d.slice(1).toLowerCase();return DAYS.includes(d)?d:'';}
+function normDay(d){if(!d)return '';d=(''+d).trim().toLowerCase();const map={mon:'Mon',monday:'Mon',tue:'Tue',tues:'Tue',tuesday:'Tue',wed:'Wed',weds:'Wed',wednesday:'Wed',thu:'Thu',thur:'Thu',thurs:'Thu',thursday:'Thu',fri:'Fri',friday:'Fri',sat:'Sat',saturday:'Sat',mo:'Mon',tu:'Tue',we:'Wed',th:'Thu',fr:'Fri',sa:'Sat'};if(map[d])return map[d];return map[d.slice(0,3)]||'';}
 function normPeriod(p){if(!p)return '';p=(''+p).toUpperCase().replace(/\s/g,'');if(PERIODS.includes(p))return p;const m=p.match(/(\d+)/);return m&&PERIODS.includes('P'+m[1])?('P'+m[1]):'';}
 function sanitizeTeacher(r){
   r=r||{};
   const classes=[...new Set((r.classes||[]).map(normGrade).filter(Boolean))];
-  const tt=(r.timetable||[]).map(x=>({day:normDay(x.day),period:normPeriod(x.period),cls:normGrade(x.cls)})).filter(x=>x.day&&x.period&&x.cls);
+  const tt=(r.timetable||[]).map(x=>({day:normDay(x.day),period:(''+(x.period||'')).trim(),cls:(''+(x.cls||'')).trim(),subject:(''+(x.subject||'')).trim(),room:(''+(x.room||'')).trim()})).filter(x=>x.day&&(x.period||x.cls));
   const role=ROLES.includes(r.role)?r.role:'Teacher';
   return {name:r.name||'',role,classes,timetable:tt};
 }
 function createTasksFromAI(tasks){
   if(!Array.isArray(tasks)||!tasks.length){toast('No tasks found in that email');return;}
+  const CATS=['Exam','Student','ECA','Other'];
+  const AUDS=['Teachers','HODs','Coordinators'];
   let n=0;
   tasks.forEach(t=>{if(!t||!(t.title||'').trim())return;
-    state.tasks.push({id:uid(),status:'open',notes:'',subject:'Physics',recurring:null,createdAt:Date.now()+Math.random(),
+    state.tasks.push({id:uid(),status:'open',subject:'Physics',recurring:null,createdAt:Date.now()+Math.random(),
       title:(''+t.title).trim(),type:t.type||'Task',grade:normGrade(t.grade),teacher:(t.teacher||'').trim(),
-      assignedBy:'Atul Soral',due:(t.due&&/^\d{4}-\d{2}-\d{2}$/.test(t.due))?t.due:null,priority:t.priority==='high'?'high':'normal'});n++;});
+      category:CATS.includes(t.category)?t.category:'',audience:AUDS.includes(t.audience)?t.audience:'',
+      notes:(t.summary||'').trim(),assignedBy:'Atul Soral',
+      due:(t.due&&/^\d{4}-\d{2}-\d{2}$/.test(t.due))?t.due:null,priority:t.priority==='high'?'high':'normal'});n++;});
   if(!n){toast('No tasks found in that email');return;}
   save();go('tasks');toast('Added '+n+' task'+(n>1?'s':'')+' from the email');
 }
@@ -1242,12 +1302,18 @@ function taskModal(t,preset){
   const opt=(v,cur)=>`<option ${v===cur?'selected':''}>${v}</option>`;
   const types=['Task','Moderation','Standardisation','Assessment','Question Paper','Markscheme','IA','Observation','Meeting','Predicted Grade','Intervention','Report','Lesson Plan','Unit Plan','Syllabus'];
   const grades=['',...GRADES];
+  const cats=['','Exam','Student','ECA','Other'];
+  const auds=['','Teachers','HODs','Coordinators'];
   const names=state.settings.teachers;
   modal(`
     <div class="modal-head"><h3>${edit?'Edit task':'New task'}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
       <div class="fld"><label>Task</label><input id="m_title" value="${esc(t.title||'')}" placeholder="What needs doing?"></div>
       ${t.image?`<div class="fld"><label>Attached screenshot</label><img src="${t.image}" style="max-width:100%;max-height:180px;object-fit:contain;border:1px solid var(--line);border-radius:10px;background:var(--surface-2)"></div>`:''}
+      <div class="fld-row">
+        <div class="fld"><label>Head / category</label><select id="m_cat">${cats.map(v=>`<option value="${v}" ${v===(t.category||'')?'selected':''}>${v||'— General —'}</option>`).join('')}</select></div>
+        <div class="fld"><label>For (audience)</label><select id="m_aud">${auds.map(v=>`<option value="${v}" ${v===(t.audience||'')?'selected':''}>${v||'—'}</option>`).join('')}</select></div>
+      </div>
       <div class="fld-row">
         <div class="fld"><label>Type</label><select id="m_type">${types.map(v=>opt(v,t.type)).join('')}</select></div>
         <div class="fld"><label>Class</label><select id="m_grade">${grades.map(v=>`<option value="${v}" ${v===(t.grade||'')?'selected':''}>${v||'—'}</option>`).join('')}</select></div>
@@ -1261,14 +1327,15 @@ function taskModal(t,preset){
         <div class="fld"><label>Priority</label><select id="m_prio">${opt('normal',t.priority)}${opt('high',t.priority)}</select></div>
       </div>
       <div class="fld"><label>Repeat</label><select id="m_rec"><option value="">None</option><option value="weekly" ${t.recurring==='weekly'?'selected':''}>Weekly</option><option value="monthly" ${t.recurring==='monthly'?'selected':''}>Monthly</option></select></div>
+      <div class="fld"><label>Notes / details${t.notes?' (extracted)':''}</label><textarea id="m_notes" rows="3" placeholder="Any extra detail — the full email text lands here, not in the title.">${esc(t.notes||'')}</textarea></div>
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="m_save">${edit?'Save':'Add task'}</button></div>
   `);
   $('#m_save').onclick=()=>{
     const title=$('#m_title').value.trim();if(!title){toast('Give it a title');return;}
-    const data={title,type:$('#m_type').value,grade:$('#m_grade').value,due:$('#m_due').value||null,
+    const data={title,type:$('#m_type').value,grade:$('#m_grade').value,due:$('#m_due').value||null,category:$('#m_cat').value,audience:$('#m_aud').value,notes:$('#m_notes').value,
       teacher:$('#m_teacher').value.trim(),assignedBy:$('#m_by').value.trim(),priority:$('#m_prio').value,recurring:$('#m_rec').value||null,subject:'Physics',image:t.image||null};
-    if(edit){Object.assign(t,data);}else{state.tasks.push({id:uid(),status:'open',notes:'',createdAt:Date.now(),...data});}
+    if(edit){Object.assign(t,data);}else{state.tasks.push({id:uid(),status:'open',createdAt:Date.now(),...data});}
     save();closeModal();render();toast(edit?'Saved':data.teacher?('Assigned to '+data.teacher):'Task added');
   };
 }
@@ -1450,6 +1517,8 @@ function bind(){
   document.querySelectorAll('[data-delstaff]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.delstaff);if(s&&confirm('Remove '+s.name+'? Work already assigned to them stays, and you can restore them from Trash.')){binItem('staff',b.dataset.delstaff,'Teacher');}});
   document.querySelectorAll('[data-assign]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.assign);if(s)taskModal(null,{teacher:s.name,assignedBy:'Atul Soral'});});
   document.querySelectorAll('[data-staffgo]').forEach(c=>c.onclick=()=>go('teachers'));
+  const tdp=$('#ttDatePick');if(tdp)tdp.addEventListener('change',e=>{ttDate=e.target.value||'';render();});
+  const tdc=$('#ttDateClear');if(tdc)tdc.onclick=()=>{ttDate='';render();};
   document.querySelectorAll('[data-restore]').forEach(b=>b.onclick=()=>restoreTrash(b.dataset.restore));
   document.querySelectorAll('[data-purge]').forEach(b=>b.onclick=()=>purgeTrash(b.dataset.purge));
   document.querySelectorAll('[data-emptytrash]').forEach(b=>b.onclick=emptyTrash);
