@@ -756,6 +756,7 @@ function renderDash(){
 function renderCapture(){
   return `${pageHead('Quick Capture','One box in, auto-filed everywhere. The fastest way to never lose a deadline again.')}
   ${privacyNote()}
+  <div style="margin-bottom:14px"><button class="btn primary" data-smartcap><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg>Smart Capture — paste anything, say what to do</button></div>
   ${captureBox()}
   <div class="section">
     <div class="section-head"><h2>How it files things</h2></div>
@@ -809,9 +810,10 @@ function renderTasks(){
   list.sort(byDue);
   const fil=(k,l)=>`<button class="filt ${f===k?'active':''}" data-filt="${k}">${l}</button>`;
   const CATS=['Exam','Student','ECA','Other','General'];
-  const catOf=t=>t.category&&CATS.includes(t.category)?t.category:(t.category?'Other':'General');
+  const catOf=t=>t.category?t.category:'General';
   const grouped={};list.forEach(t=>{const k=catOf(t);(grouped[k]=grouped[k]||[]).push(t);});
-  const heads=CATS.filter(k=>grouped[k]&&grouped[k].length);
+  const extra=Object.keys(grouped).filter(k=>!CATS.includes(k)).sort();
+  const heads=[...CATS.filter(k=>grouped[k]&&grouped[k].length).filter(k=>k!=='General'),...extra,...(grouped['General']?['General']:[])];
   const body=list.length
     ? heads.map(k=>`<div class="section"><div class="section-head"><h2>${k}${k==='General'?'':' tasks'}</h2><span class="count">${grouped[k].length}</span></div><div class="card rows">${grouped[k].map(taskRow).join('')}</div></div>`).join('')
     : `<div class="card rows">${emptyMini('No tasks here. Capture one above.')}</div>`;
@@ -879,19 +881,22 @@ function iaState(i){
     return {k:'pending',label:`${d}d left`,dot:'mute'};}
   return {k:'pending',label:'No date',dot:'mute'};
 }
+function blockTeacher(code){if(!code)return '';const st=state.staff.find(s=>(s.timetable||[]).some(sl=>(sl.block||'').toLowerCase()===(''+code).toLowerCase()));return st?st.name:'';}
+function filesOf(i){return (i.files&&i.files.length)?i.files:(i.fileName?[{id:'legacy',name:i.fileName,thumb:i.fileThumb||null,note:'',stage:i.stage||'',at:i.createdAt}]:[]);}
 function renderIA(){
   const groups={};
-  state.ias.forEach(i=>{const k=i.grade||'Unfiled';(groups[k]=groups[k]||[]).push(i);});
-  const keys=Object.keys(groups).sort();
+  state.ias.forEach(i=>{const k=i.block||'Unassigned';(groups[k]=groups[k]||[]).push(i);});
+  const keys=Object.keys(groups).sort((a,b)=>a==='Unassigned'?1:(b==='Unassigned'?-1:(''+a).localeCompare(''+b,undefined,{numeric:true})));
   const done=state.ias.filter(i=>i.stage==='Verified').length;
   const behind=state.ias.filter(i=>i.stage!=='Verified'&&i.due&&daysBetween(todayISO(),i.due)<0).length;
   const body=keys.length?keys.map(k=>{
     const items=groups[k].sort((a,b)=>byDue(a,b));
+    const teacher=blockTeacher(k)||(items.find(x=>x.supervisor)||{}).supervisor||'';
     return `<div class="section" style="margin-bottom:18px">
-      <div class="section-head" style="margin-bottom:8px"><h2 style="font-size:16px">${esc(k)}</h2><span class="count">${items.length} student${items.length>1?'s':''}</span></div>
+      <div class="section-head" style="margin-bottom:8px"><h2 style="font-size:16px">${k==='Unassigned'?'Unassigned':'Block '+esc(k)}${teacher?` <span style="font-weight:500;color:var(--ink-mute);font-size:13px">· ${esc(teacher)}</span>`:''}</h2><span class="count">${items.length} student${items.length>1?'s':''}</span></div>
       <div class="card rows">${items.map(iaRow).join('')}</div></div>`;
-  }).join(''):emptyMini('No IA students yet. Add one to start tracking.');
-  return `${pageHead('IA Lab','Store each student\'s Internal Assessment and track it end to end — stage, deadline, your feedback and the physics review, all in one place.')}
+  }).join(''):emptyMini('No students yet. Use Smart Capture or Paste student list to add them under a block.');
+  return `${pageHead('Students & IA','Students grouped by their teaching block, each with their files, topic, feedback and IA stage. Click a student to open everything about them.')}
   ${privacyNote()}
   <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr))">
     ${tile('up',done,'Verified / complete')}
@@ -899,22 +904,23 @@ function renderIA(){
     ${tile('over',behind,'Behind schedule')}
   </div>
   <div style="margin:4px 0 16px;display:flex;gap:9px;flex-wrap:wrap">
-    <button class="btn primary" data-newia><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add IA student</button>
+    <button class="btn primary" data-smartcap><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg>Smart Capture</button>
+    <button class="btn" data-newia><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add student</button>
     <button class="btn" data-impstudents><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13H8M16 17H8M10 9H8M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Paste student list</button>
-    <span class="cap-hint2" style="align-self:center">Attach each student's IA file, then open <b>Review</b>. Or paste rows from ManageBac/Excel to add many at once.</span>
+    <span class="cap-hint2" style="align-self:center">Click a student to add files, topic and feedback. Smart Capture reads a roster or a note and files it for you.</span>
   </div>
   ${body}`;
 }
 function iaRow(i){
-  const s=iaState(i);
+  const s=iaState(i);const files=filesOf(i);
   return `<div class="row" data-ia="${i.id}">
     <div class="row-main">
       <p class="row-title">${esc(i.student)} <span style="color:var(--ink-mute);font-weight:500">· ${esc(i.topic||'Topic TBD')}</span></p>
       <div class="row-meta">
         <span class="tag type">${esc(i.stage)}</span>
+        ${i.block?`<span class="tag teach">Block ${esc(i.block)}</span>`:''}
         ${i.grade?`<span class="tag grade">${esc(i.grade)}</span>`:''}
-        ${i.supervisor?`<span class="tag teach">${esc(i.supervisor)}</span>`:''}
-        ${i.fileName?`<span class="tag subj">📎 ${esc(i.fileName)}</span>`:'<span class="tag subj" style="opacity:.6">no file</span>'}
+        ${files.length?`<span class="tag subj">📎 ${files.length} file${files.length>1?'s':''}</span>`:'<span class="tag subj" style="opacity:.6">no file</span>'}
         ${i.aiChecked?`<span class="tag" style="background:var(--good-soft);color:var(--good)">✓ reviewed</span>`:''}
       </div>
     </div>
@@ -927,8 +933,11 @@ function iaRow(i){
 function iaUpload(id){
   const i=state.ias.find(x=>x.id===id);if(!i)return;
   const inp=document.createElement('input');inp.type='file';
-  inp.onchange=e=>{const f=e.target.files[0];if(!f)return;i.fileName=f.name;
-    if(f.type.startsWith('image/')&&f.size<1600000){const r=new FileReader();r.onload=ev=>{i.fileThumb=ev.target.result;save();render();};r.readAsDataURL(f);}else{save();render();}
+  inp.onchange=e=>{const f=e.target.files[0];if(!f)return;i.files=i.files||[];
+    const rec={id:uid(),name:f.name,note:'',stage:i.stage||'',thumb:null,at:Date.now()};
+    i.fileName=f.name;
+    if(f.type.startsWith('image/')&&f.size<1600000){const r=new FileReader();r.onload=ev=>{rec.thumb=ev.target.result;i.fileThumb=ev.target.result;i.files.push(rec);save();render();};r.readAsDataURL(f);}
+    else{i.files.push(rec);save();render();}
     toast('Attached to '+i.student);};
   inp.click();
 }
@@ -1456,30 +1465,123 @@ Meera Nair, Pendulum damping, Atul Soral, Grade 11"></textarea></div>
     save();closeModal();render();toast('Imported '+rows.length+' student'+(rows.length>1?'s':''));
   };
 }
+/* ===================== Smart Capture (intent routing) ===================== */
+let scImage=null,scFileName='';
+function routeContext(){
+  const blocks=[...new Set(state.staff.flatMap(s=>(s.timetable||[]).map(x=>x.block)).filter(Boolean))];
+  const students=state.ias.map(i=>i.student).filter(Boolean);
+  const cats=[...new Set(state.tasks.map(t=>t.category).filter(Boolean))];
+  return `Blocks: ${blocks.join(', ')||'none'}. Teachers: ${state.settings.teachers.join(', ')}. Existing task headers: ${cats.join(', ')||'none'}. Students on file: ${students.slice(0,80).join(', ')||'none'}.`;
+}
+function scPreview(){const el=$('#sc_file');if(!el)return;el.innerHTML=scImage?`<img src="${scImage}" style="max-height:90px;border-radius:8px;border:1px solid var(--line)">`:(scFileName?`<span class="tag subj">📄 ${esc(scFileName)}</span>`:'');}
+function smartCaptureModal(preset){
+  preset=preset||{};scImage=preset.image||null;scFileName=preset.fileName||'';
+  modal(`
+    <div class="modal-head"><h3>Smart Capture</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="fld"><label>1 · The material — paste text, or attach a screenshot/file</label>
+        <textarea id="sc_mat" rows="4" placeholder="Paste an email, a student list, a note…">${esc(preset.mat||'')}</textarea>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:6px"><button class="btn sm" id="sc_attach" type="button">Attach image / file</button><div id="sc_file"></div></div>
+      </div>
+      <div class="fld"><label>2 · What do you want done with it?</label>
+        <textarea id="sc_do" rows="2" placeholder="e.g. “These are my B7 IA students, save them” · “File this as Aarav’s draft 2” · “Make tasks from this email”">${esc(preset.ins||'')}</textarea>
+      </div>
+      ${aiEnabled()?'<div class="ai-note">The console reads your note and files it. If it is unsure where it belongs, it will ask you first.</div>':'<div class="ai-note">Set up AI auto-extract first (sidebar → AI auto-extract) to use Smart Capture.</div>'}
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="sc_go">Understand &amp; file</button></div>`);
+  scPreview();
+  $('#sc_attach').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;scFileName=f.name;if(f.type.startsWith('image/')&&f.size<1800000){const r=new FileReader();r.onload=ev=>{scImage=ev.target.result;scPreview();};r.readAsDataURL(f);}else{scImage=null;scPreview();}};inp.click();};
+  $('#sc_go').onclick=()=>runRouteWith($('#sc_mat').value.trim(),$('#sc_do').value.trim(),scImage,scFileName,'');
+}
+async function runRouteWith(mat,ins,image,fileName,answer){
+  if(!aiEnabled()){closeModal();aiSettingsModal();return;}
+  if(!mat&&!image&&!fileName&&!ins){toast('Add some material or an instruction');return;}
+  const text=`MATERIAL:\n${mat||('(attached file: '+(fileName||'none')+')')}\n\nINSTRUCTION: ${ins||'(none given)'}${answer?'\n\nUSER PICKED: '+answer:''}\n\nCONTEXT: ${routeContext()}`;
+  loadingModal('Working out where this goes…');
+  try{const plan=await aiExtract('route',{text,image:image||undefined});closeModal();dispatchRoute(plan,{mat,ins,image,fileName});}
+  catch(e){closeModal();toast(e.message||'Could not process that');smartCaptureModal({mat,ins,image,fileName});}
+}
+function dispatchRoute(plan,ctx){
+  if(!plan||!plan.action){toast('Could not understand that — try rephrasing step 2');smartCaptureModal(ctx);return;}
+  if(plan.action==='clarify'){clarifyModal(plan,ctx);return;}
+  if(plan.action==='tasks'){createTasksFromAI(plan.tasks||[]);return;}
+  if(plan.action==='students'){addStudentsToBlock(plan);return;}
+  if(plan.action==='ia_file'){fileIaFromRoute(plan,ctx);return;}
+  toast('Nothing to file from that');smartCaptureModal(ctx);
+}
+function clarifyModal(plan,ctx){
+  const opts=(plan.options||[]).map(o=>`<button class="btn" data-copt="${esc(o)}" style="justify-content:flex-start">${esc(o)}</button>`).join('');
+  modal(`
+    <div class="modal-head"><h3>One quick question</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <p style="font-weight:600;margin:0">${esc(plan.question||'Where should this go?')}</p>
+      <div style="display:flex;flex-direction:column;gap:7px">${opts}</div>
+      <div class="fld"><label>Or type your own answer</label><input id="c_own" placeholder="Type an answer"></div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="c_go">Use my answer</button></div>`);
+  document.querySelectorAll('[data-copt]').forEach(b=>b.onclick=()=>runRouteWith(ctx.mat,ctx.ins,ctx.image,ctx.fileName,b.dataset.copt));
+  $('#c_go').onclick=()=>{const v=$('#c_own').value.trim();if(!v){toast('Pick or type an answer');return;}runRouteWith(ctx.mat,ctx.ins,ctx.image,ctx.fileName,v);};
+}
+function addStudentsToBlock(plan){
+  const list=plan.students||[];if(!list.length){toast('No student names found');return;}
+  const block=(plan.block||'').trim();const teacher=(plan.teacher||blockTeacher(block)||'Atul Soral').trim();const grade=normGrade(plan.grade);
+  let n=0;list.forEach(s=>{const name=(s.name||'').trim();if(!name)return;
+    state.ias.push({id:uid(),student:name,block:block,grade:grade||'Grade 11',supervisor:teacher,topic:(s.topic||'').trim(),rq:'',stage:'Proposal',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()});n++;});
+  if(!n){toast('No student names found');return;}
+  save();go('ia');toast('Added '+n+' student'+(n>1?'s':'')+(block?' to Block '+block:''));
+}
+function fileIaFromRoute(plan,ctx){
+  const name=(plan.student||'').trim();if(!name){toast('No student identified — try naming them in step 2');return;}
+  let i=state.ias.find(x=>x.student&&x.student.toLowerCase()===name.toLowerCase())||state.ias.find(x=>x.student&&x.student.toLowerCase().includes(name.toLowerCase()));
+  if(!i){i={id:uid(),student:name,block:(plan.block||'').trim(),grade:'Grade 11',supervisor:blockTeacher((plan.block||'').trim())||'Atul Soral',topic:plan.topic||'',rq:'',stage:plan.stage||'Draft',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()};state.ias.push(i);}
+  i.files=i.files||[];
+  i.files.push({id:uid(),name:ctx.fileName||('note-'+todayISO()),note:ctx.ins||'',stage:plan.stage||i.stage,thumb:ctx.image||null,at:Date.now()});
+  if(ctx.fileName)i.fileName=ctx.fileName;if(ctx.image)i.fileThumb=ctx.image;
+  if(plan.topic&&!i.topic)i.topic=plan.topic;if(plan.stage)i.stage=plan.stage;
+  save();go('ia');toast('Filed under '+i.student);
+}
 function iaModal(i){
   const edit=!!i;i=i||{grade:'Grade 11',stage:'Proposal',supervisor:'Atul Soral'};
   const teachOpts=state.settings.teachers;
+  const files=edit?filesOf(i):[];
+  const fileList=files.length?files.map(f=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)">${f.thumb?`<img src="${f.thumb}" style="width:30px;height:30px;object-fit:cover;border-radius:5px">`:'<span style="font-size:16px">📄</span>'}<div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(f.name)}</div><div class="mini">${f.stage?esc(f.stage)+' · ':''}${f.note?esc(f.note):'no note'}</div></div>${f.id!=='legacy'?`<button class="row-del" data-ifdel="${f.id}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`:''}</div>`).join(''):'<div class="mini">No files yet.</div>';
   modal(`
-    <div class="modal-head"><h3>${edit?'Edit IA':'New IA student'}</h3><button class="x" data-close>×</button></div>
+    <div class="modal-head"><h3>${edit?esc(i.student):'New student'}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
       <div class="fld"><label>Student name</label><input id="i_student" value="${esc(i.student||'')}" placeholder="e.g. Aarav Shah"></div>
       <div class="fld-row">
+        <div class="fld"><label>Block</label><input id="i_block" value="${esc(i.block||'')}" placeholder="e.g. B7"></div>
         <div class="fld"><label>Class</label><select id="i_grade">${GRADES.map(g=>`<option ${g===i.grade?'selected':''}>${g}</option>`).join('')}</select></div>
+      </div>
+      <div class="fld-row">
         <div class="fld"><label>Supervisor</label><select id="i_sup">${teachOpts.map(t=>`<option ${t===i.supervisor?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+        <div class="fld"><label>Stage</label><select id="i_stage">${IA_STAGES.map(s=>`<option ${s===i.stage?'selected':''}>${s}</option>`).join('')}</select></div>
       </div>
       <div class="fld"><label>Topic</label><input id="i_topic" value="${esc(i.topic||'')}" placeholder="e.g. Resistance of a thermistor vs temperature"></div>
       <div class="fld"><label>Research question</label><textarea id="i_rq" rows="2" placeholder="The student's RQ">${esc(i.rq||'')}</textarea></div>
-      <div class="fld-row">
-        <div class="fld"><label>Stage</label><select id="i_stage">${IA_STAGES.map(s=>`<option ${s===i.stage?'selected':''}>${s}</option>`).join('')}</select></div>
-        <div class="fld"><label>Next deadline</label><input type="date" id="i_due" value="${i.due||''}"></div>
-      </div>
+      <div class="fld"><label>Next deadline</label><input type="date" id="i_due" value="${i.due||''}"></div>
+      <div class="fld"><label>Feedback</label><textarea id="i_fb" rows="2" placeholder="Your running feedback for this student">${esc(i.notes||'')}</textarea></div>
+      ${edit?`<div class="fld"><label>Files (${files.length})</label><div style="border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--surface-2)">${fileList}</div>
+        <div style="display:flex;gap:7px;margin-top:7px;flex-wrap:wrap">
+          <input id="if_note" placeholder="Note e.g. Draft 2 comments" style="flex:1;min-width:120px;padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">
+          <select id="if_stage" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">${IA_STAGES.map(s=>`<option ${s===i.stage?'selected':''}>${s}</option>`).join('')}</select>
+          <button class="btn sm" id="if_add" type="button">+ Add file</button>
+        </div></div>`:''}
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="i_save">${edit?'Save':'Add student'}</button></div>`);
+  if(edit){
+    $('#if_add').onclick=()=>{persistIA();const inp=document.createElement('input');inp.type='file';
+      inp.onchange=e=>{const f=e.target.files[0];if(!f)return;i.files=i.files||[];const rec={id:uid(),name:f.name,note:$('#if_note').value.trim(),stage:$('#if_stage').value,thumb:null,at:Date.now()};i.fileName=f.name;
+        if(f.type.startsWith('image/')&&f.size<1600000){const r=new FileReader();r.onload=ev=>{rec.thumb=ev.target.result;i.fileThumb=ev.target.result;i.files.push(rec);save();closeModal();iaModal(i);toast('File added');};r.readAsDataURL(f);}
+        else{i.files.push(rec);save();closeModal();iaModal(i);toast('File added');}};
+      inp.click();};
+    document.querySelectorAll('[data-ifdel]').forEach(b=>b.onclick=()=>{i.files=(i.files||[]).filter(f=>f.id!==b.dataset.ifdel);save();closeModal();iaModal(i);});
+  }
+  function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.grade=$('#i_grade').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;}
   $('#i_save').onclick=()=>{
     const student=$('#i_student').value.trim();if(!student){toast('Enter a student name');return;}
-    const data={student,grade:$('#i_grade').value,supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),
-      rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null};
-    if(edit)Object.assign(i,data);else state.ias.push({id:uid(),fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now(),...data});
+    if(edit){persistIA();}
+    else{state.ias.push({id:uid(),student,block:$('#i_block').value.trim(),grade:$('#i_grade').value,supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null,notes:$('#i_fb').value,files:[],fileName:'',fileThumb:null,review:{},aiChecked:false,createdAt:Date.now()});}
     save();closeModal();render();toast('Saved');
   };
 }
@@ -1558,6 +1660,7 @@ function bind(){
   const du=$('#docUpload');if(du)du.onclick=()=>$('#filePick').click();
   document.querySelectorAll('[data-newia]').forEach(b=>b.onclick=()=>iaModal());
   document.querySelectorAll('[data-impstudents]').forEach(b=>b.onclick=()=>importStudentsModal());
+  document.querySelectorAll('[data-smartcap]').forEach(b=>b.onclick=()=>smartCaptureModal());
   document.querySelectorAll('[data-ia]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-iareview],[data-iaup],[data-iadel]'))return;const i=state.ias.find(x=>x.id===r.dataset.ia);if(i)iaModal(i);});
   document.querySelectorAll('[data-iareview]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaReviewModal(b.dataset.iareview);});
   document.querySelectorAll('[data-iaup]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaUpload(b.dataset.iaup);});
@@ -1669,10 +1772,10 @@ function seedData(){
   D('IGCSE_Energy_Markscheme.pdf','Markscheme','IGCSE');
   D('Department_Meeting_Minutes_Oct.docx','Meeting','');
   const I=o=>state.ias.push({id:uid(),fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random(),...o});
-  I({student:'Aarav Shah',grade:'Grade 11',supervisor:'Atul Soral',topic:'Resistance of a thermistor vs temperature',rq:'How does temperature affect the resistance of an NTC thermistor?',stage:'Draft',due:offs(5),fileName:'Aarav_IA_Draft1.pdf',aiChecked:false});
-  I({student:'Meera Nair',grade:'Grade 11',supervisor:'Atul Soral',topic:'Damping of a simple pendulum',rq:'How does amplitude affect the damping rate of a pendulum?',stage:'Data Collection',due:offs(-2),fileName:''});
-  I({student:'Kabir Rao',grade:'Grade 12',supervisor:'Rahul Verma',topic:'Magnetic braking of a falling magnet',rq:'How does the number of copper tubes affect terminal velocity?',stage:'Final',due:offs(9),fileName:'Kabir_IA_Final.pdf'});
-  I({student:'Diya Menon',grade:'Grade 12',supervisor:'Atul Soral',topic:'Projectile range vs launch angle',rq:'How does launch angle affect the horizontal range of a projectile?',stage:'Feedback',due:offs(1),fileName:'Diya_IA_v2.pdf'});
+  I({student:'Aarav Shah',block:'B7',grade:'Grade 11',supervisor:'Atul Soral',topic:'Resistance of a thermistor vs temperature',rq:'How does temperature affect the resistance of an NTC thermistor?',stage:'Draft',due:offs(5),fileName:'Aarav_IA_Draft1.pdf',aiChecked:false});
+  I({student:'Meera Nair',block:'B7',grade:'Grade 11',supervisor:'Atul Soral',topic:'Damping of a simple pendulum',rq:'How does amplitude affect the damping rate of a pendulum?',stage:'Data Collection',due:offs(-2),fileName:''});
+  I({student:'Kabir Rao',block:'B4',grade:'Grade 12',supervisor:'Rahul Verma',topic:'Magnetic braking of a falling magnet',rq:'How does the number of copper tubes affect terminal velocity?',stage:'Final',due:offs(9),fileName:'Kabir_IA_Final.pdf'});
+  I({student:'Diya Menon',block:'B4',grade:'Grade 12',supervisor:'Atul Soral',topic:'Projectile range vs launch angle',rq:'How does launch angle affect the horizontal range of a projectile?',stage:'Feedback',due:offs(1),fileName:'Diya_IA_v2.pdf'});
   save();
 }
 
