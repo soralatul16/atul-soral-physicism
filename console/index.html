@@ -397,6 +397,7 @@ const ROLES=['Teacher','Coordinator','HOD'];
 const MKEY='asp_tracker_multi_v1';
 /* ===== Passcode: change the value below to set your own. Keep the quotes. ===== */
 const ACCESS_CODE='soralism';
+const DEFAULT_AI_URL='https://asp-extract.atulsoralphysicism.workers.dev';
 function curAcademicYear(){const d=new Date();const y=d.getFullYear();return (d.getMonth()>=3)?`${y}–${String(y+1).slice(-2)}`:`${y-1}–${String(y).slice(-2)}`;}
 function blankYear(){return {tasks:[],corrections:[],docs:[],ias:[],staff:[],settings:{teachers:[...DEFAULT_TEACHERS]}};}
 function normYear(yr){yr.tasks=yr.tasks||[];yr.corrections=yr.corrections||[];yr.docs=yr.docs||[];yr.ias=yr.ias||[];yr.staff=yr.staff||[];yr.settings=yr.settings||{teachers:[...DEFAULT_TEACHERS]};return yr;}
@@ -1260,9 +1261,10 @@ function renderSearch(){
 function modal(html){const s=$('#modalScrim');s.innerHTML=`<div class="modal">${html}</div>`;s.classList.add('show');s.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModal);}
 function closeModal(){$('#modalScrim').classList.remove('show');$('#modalScrim').innerHTML='';}
 /* ===================== AI extraction (via your Grok proxy) ===================== */
-function aiEnabled(){return !!(store.aiUrl&&(''+store.aiUrl).trim());}
+function aiUrl(){const u=(store.aiUrl||'').trim();return u||DEFAULT_AI_URL;}
+function aiEnabled(){return !!aiUrl();}
 async function aiExtract(mode,payload){
-  const url=(store.aiUrl||'').trim();
+  const url=aiUrl();
   if(!url)throw new Error('AI backend not set up yet — add its URL under “AI auto-extract”.');
   const body={mode:mode,passcode:ACCESS_CODE};
   if(payload){if(payload.image)body.image=payload.image;if(payload.text)body.text=payload.text;}
@@ -1317,22 +1319,21 @@ function aiSettingsModal(){
   modal(`
     <div class="modal-head"><h3>AI auto-extract</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
-      <p class="mini" style="margin:0">Paste the URL of your Grok backend (the Google Cloud Function). Once set, pasting a timetable, an email, or a class roster is read automatically and the fields are filled in for you to confirm. Your key stays on that backend — never in this page.</p>
-      <div class="fld"><label>Backend URL</label><input id="ai_url" value="${esc(store.aiUrl||'')}" placeholder="https://…cloudfunctions.net/asp-extract"></div>
+      <p class="mini" style="margin:0">Your extraction backend is already built in — pasting a timetable, email or roster is read automatically and the fields filled in for you to confirm. Your API key stays on that backend, never in this page. You only need to change the URL below if you move the backend.</p>
+      <div class="fld"><label>Backend URL</label><input id="ai_url" value="${esc(aiUrl())}" placeholder="${esc(DEFAULT_AI_URL)}"></div>
       <div id="ai_status" class="mini"></div>
-      <div class="ai-note"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Not set up yet? The deploy steps are in the asp_grok_proxy folder. Leave this blank to keep using the manual confirm flow.</div>
+      <div class="ai-note"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>This default works on every device. Click Test connection to check it is live.</div>
     </div>
     <div class="modal-foot"><button class="btn" id="ai_test">Test connection</button><button class="btn" data-close>Cancel</button><button class="btn primary" id="ai_save">Save</button></div>`);
-  $('#ai_save').onclick=()=>{store.aiUrl=$('#ai_url').value.trim();save();closeModal();toast(store.aiUrl?'AI backend saved':'AI backend cleared');};
+  $('#ai_save').onclick=()=>{store.aiUrl=$('#ai_url').value.trim();save();closeModal();toast('AI backend saved');};
   $('#ai_test').onclick=async()=>{
-    const u=$('#ai_url').value.trim();const st=$('#ai_status');
-    if(!u){st.textContent='Enter a URL first.';return;}
+    const u=$('#ai_url').value.trim()||DEFAULT_AI_URL;const st=$('#ai_status');
     st.textContent='Testing…';
     try{const res=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'ping',passcode:ACCESS_CODE})});
       const j=await res.json();
-      if(res.ok&&j.ok){st.innerHTML='<span style="color:var(--good);font-weight:700">✓ Connected</span> — model: '+esc(j.model||'ok')+'. Click Save.';}
+      if(res.ok&&j.ok){st.innerHTML='<span style="color:var(--good);font-weight:700">✓ Connected</span> — model: '+esc(j.model||'ok')+'.';}
       else{st.innerHTML='<span style="color:var(--crit);font-weight:700">✗ '+esc(j.error||('Error '+res.status))+'</span>';}
-    }catch(e){st.innerHTML='<span style="color:var(--crit);font-weight:700">✗ Could not reach it.</span> Check the URL and that the function is deployed.';}
+    }catch(e){st.innerHTML='<span style="color:var(--crit);font-weight:700">✗ Could not reach it.</span> Check the URL and that the Worker is deployed.';}
   };
 }
 function emailTextModal(preset){
