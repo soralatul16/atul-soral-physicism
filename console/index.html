@@ -256,6 +256,9 @@
   .toast{position:fixed;bottom:72px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--brand);color:#fff;
     padding:11px 18px;border-radius:11px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lift);opacity:0;transition:.25s;z-index:80;pointer-events:none;max-width:90vw}
   .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  .spinner{width:30px;height:30px;border:3px solid var(--line-strong);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .ai-note{display:flex;align-items:center;gap:8px;background:var(--accent-soft);color:#2f7468;border-radius:9px;padding:8px 11px;font-size:12px;font-weight:600;margin-top:2px}
 
   .thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;border:1px solid var(--line);flex:none;background:var(--surface-2)}
   .filepick{display:none}
@@ -339,6 +342,7 @@
     <button class="nav-btn" data-act="export"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Backup / Export</button>
     <button class="nav-btn" data-act="import"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>Restore / Import</button>
     <button class="nav-btn" data-act="sample"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg>Load sample data</button>
+    <button class="nav-btn" data-act="aisetup"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.7 1.8L21.5 17.5l-1.8.7L19 20l-.7-1.8L16.5 17.5l1.8-.7z"/></svg>AI auto-extract</button>
     <button class="nav-btn" data-view="trash"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Trash<span class="nav-badge" id="nb-trash">0</span></button>
     <button class="nav-btn" data-act="clear"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>Clear all data</button>
   </aside>
@@ -619,7 +623,8 @@ function captureBox(){
     <div class="cap-row">
       <button class="btn primary" id="capBtn"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Capture</button>
       <button class="btn" id="capFile"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>Attach file / screenshot</button>
-      <span class="cap-hint2">Paste a screenshot right into the box, or attach a file from your computer or Drive.</span>
+      <button class="btn" id="capEmail"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2z"/><path d="m22 6-10 7L2 6"/></svg>Email → tasks</button>
+      <span class="cap-hint2">Paste a screenshot right into the box, or paste email text and hit Email → tasks.</span>
     </div>
   </div>`;
 }
@@ -726,7 +731,7 @@ function renderCapture(){
     <div class="section-head"><h2>How it files things</h2></div>
     <div class="card" style="padding:18px 20px;font-size:13.5px;color:var(--ink-soft);line-height:1.7">
       <b style="color:var(--ink)">Dates</b> — understands "15 October", "by 20/10", "tomorrow", "next week", "in 3 days", weekday names.<br>
-      <b style="color:var(--ink)">Classes</b> — Grade 9, Grade 10, IGCSE.<br>
+      <b style="color:var(--ink)">Classes</b> — Grade 9, 10 (IGCSE) and Grade 11, 12 (IB DP).<br>
       <b style="color:var(--ink)">Types</b> — moderation, standardisation, assessment, question paper, markscheme, IA, observation, meeting, predicted grade, intervention, corrections.<br>
       <b style="color:var(--ink)">Corrections</b> — anything about marking / copies / scripts / answer copies routes straight to the Exam Corrections tracker.<br>
       <b style="color:var(--ink)">Files</b> — a file like <code>IGCSE_Fields_Test.docx</code> is auto-tagged IGCSE · Physics · Question Paper.
@@ -990,8 +995,8 @@ function renderTTEditor(){
   box.innerHTML=ttDraft.length?ttDraft.map((s,idx)=>`<span class="mini-tag">${s.day} ${s.period} · ${esc(s.cls)}<button data-ttdel="${idx}">×</button></span>`).join(''):'<span class="mini">No slots yet.</span>';
   box.querySelectorAll('[data-ttdel]').forEach(b=>b.onclick=()=>{ttDraft.splice(+b.dataset.ttdel,1);renderTTEditor();});
 }
-function teacherModal(s,img){
-  const edit=!!s;s=s||{role:'Teacher',classes:[],timetable:[]};
+function teacherModal(s,img,draft){
+  const edit=!!s;s=s||draft||{role:'Teacher',classes:[],timetable:[]};
   img=img||(s&&s.ttImage)||null;
   ttDraft=(s.timetable||[]).map(x=>({...x}));
   modal(`
@@ -1102,21 +1107,122 @@ function renderSearch(){
 /* ===================== Modals ===================== */
 function modal(html){const s=$('#modalScrim');s.innerHTML=`<div class="modal">${html}</div>`;s.classList.add('show');s.querySelectorAll('[data-close]').forEach(b=>b.onclick=closeModal);}
 function closeModal(){$('#modalScrim').classList.remove('show');$('#modalScrim').innerHTML='';}
+/* ===================== AI extraction (via your Grok proxy) ===================== */
+function aiEnabled(){return !!(store.aiUrl&&(''+store.aiUrl).trim());}
+async function aiExtract(mode,payload){
+  const url=(store.aiUrl||'').trim();
+  if(!url)throw new Error('AI backend not set up yet — add its URL under “AI auto-extract”.');
+  const body={mode:mode,passcode:ACCESS_CODE};
+  if(payload){if(payload.image)body.image=payload.image;if(payload.text)body.text=payload.text;}
+  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  if(!res.ok){let m='AI request failed ('+res.status+').';try{const j=await res.json();if(j&&j.error)m=j.error;}catch(e){}throw new Error(m);}
+  return await res.json();
+}
+function loadingModal(msg){modal(`<div class="modal-body" style="align-items:center;text-align:center;padding:34px 22px"><div class="spinner"></div><p style="font-weight:700;color:var(--ink-soft);margin:0">${esc(msg)}</p><p class="mini" style="margin-top:4px">Reading it with your AI — a few seconds…</p></div>`);}
+function normGrade(g){
+  if(!g)return '';g=(''+g).trim();
+  if(GRADES.includes(g))return g;
+  const m=g.match(/\b(9|10|11|12)\b/);if(m)return 'Grade '+m[1];
+  const l=g.toLowerCase();
+  if(/dp\s*2|ib.*2/.test(l))return 'Grade 12';
+  if(/igcse/.test(l))return 'Grade 10';
+  if(/\bdp\b|\bib\b/.test(l))return 'Grade 11';
+  return '';
+}
+function normDay(d){if(!d)return '';d=(''+d).trim().slice(0,3);d=d.charAt(0).toUpperCase()+d.slice(1).toLowerCase();return DAYS.includes(d)?d:'';}
+function normPeriod(p){if(!p)return '';p=(''+p).toUpperCase().replace(/\s/g,'');if(PERIODS.includes(p))return p;const m=p.match(/(\d+)/);return m&&PERIODS.includes('P'+m[1])?('P'+m[1]):'';}
+function sanitizeTeacher(r){
+  r=r||{};
+  const classes=[...new Set((r.classes||[]).map(normGrade).filter(Boolean))];
+  const tt=(r.timetable||[]).map(x=>({day:normDay(x.day),period:normPeriod(x.period),cls:normGrade(x.cls)})).filter(x=>x.day&&x.period&&x.cls);
+  const role=ROLES.includes(r.role)?r.role:'Teacher';
+  return {name:r.name||'',role,classes,timetable:tt};
+}
+function createTasksFromAI(tasks){
+  if(!Array.isArray(tasks)||!tasks.length){toast('No tasks found in that email');return;}
+  let n=0;
+  tasks.forEach(t=>{if(!t||!(t.title||'').trim())return;
+    state.tasks.push({id:uid(),status:'open',notes:'',subject:'Physics',recurring:null,createdAt:Date.now()+Math.random(),
+      title:(''+t.title).trim(),type:t.type||'Task',grade:normGrade(t.grade),teacher:(t.teacher||'').trim(),
+      assignedBy:'Atul Soral',due:(t.due&&/^\d{4}-\d{2}-\d{2}$/.test(t.due))?t.due:null,priority:t.priority==='high'?'high':'normal'});n++;});
+  if(!n){toast('No tasks found in that email');return;}
+  save();go('tasks');toast('Added '+n+' task'+(n>1?'s':'')+' from the email');
+}
+function addStudentsFromAI(students){
+  if(!Array.isArray(students)||!students.length){toast('No students found');return;}
+  let n=0;
+  students.forEach(s=>{if(!s||!(s.name||'').trim())return;
+    state.ias.push({id:uid(),student:(''+s.name).trim(),grade:normGrade(s.grade)||'Grade 11',supervisor:(s.supervisor||'Atul Soral').trim(),
+      topic:(s.topic||'').trim(),rq:'',stage:'Proposal',due:null,fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()});n++;});
+  if(!n){toast('No students found');return;}
+  save();go('ia');toast('Added '+n+' student'+(n>1?'s':''));
+}
+function aiSettingsModal(){
+  modal(`
+    <div class="modal-head"><h3>AI auto-extract</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <p class="mini" style="margin:0">Paste the URL of your Grok backend (the Google Cloud Function). Once set, pasting a timetable, an email, or a class roster is read automatically and the fields are filled in for you to confirm. Your key stays on that backend — never in this page.</p>
+      <div class="fld"><label>Backend URL</label><input id="ai_url" value="${esc(store.aiUrl||'')}" placeholder="https://…cloudfunctions.net/asp-extract"></div>
+      <div id="ai_status" class="mini"></div>
+      <div class="ai-note"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Not set up yet? The deploy steps are in the asp_grok_proxy folder. Leave this blank to keep using the manual confirm flow.</div>
+    </div>
+    <div class="modal-foot"><button class="btn" id="ai_test">Test connection</button><button class="btn" data-close>Cancel</button><button class="btn primary" id="ai_save">Save</button></div>`);
+  $('#ai_save').onclick=()=>{store.aiUrl=$('#ai_url').value.trim();save();closeModal();toast(store.aiUrl?'AI backend saved':'AI backend cleared');};
+  $('#ai_test').onclick=async()=>{
+    const u=$('#ai_url').value.trim();const st=$('#ai_status');
+    if(!u){st.textContent='Enter a URL first.';return;}
+    st.textContent='Testing…';
+    try{const res=await fetch(u,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode:'ping',passcode:ACCESS_CODE})});
+      const j=await res.json();
+      if(res.ok&&j.ok){st.innerHTML='<span style="color:var(--good);font-weight:700">✓ Connected</span> — model: '+esc(j.model||'ok')+'. Click Save.';}
+      else{st.innerHTML='<span style="color:var(--crit);font-weight:700">✗ '+esc(j.error||('Error '+res.status))+'</span>';}
+    }catch(e){st.innerHTML='<span style="color:var(--crit);font-weight:700">✗ Could not reach it.</span> Check the URL and that the function is deployed.';}
+  };
+}
+function emailTextModal(preset){
+  modal(`
+    <div class="modal-head"><h3>Email → tasks</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <div class="fld"><label>Paste the email text — the AI pulls out the tasks, deadlines and who they are for.</label>
+        <textarea id="em_text" rows="8" placeholder="Paste the whole email here…">${esc(preset||'')}</textarea></div>
+      ${aiEnabled()?'':'<div class="ai-note">Set up AI auto-extract first (sidebar → AI auto-extract) to use this.</div>'}
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="em_do">Extract tasks</button></div>`);
+  $('#em_do').onclick=async()=>{
+    const text=$('#em_text').value.trim();if(!text){toast('Paste some email text first');return;}
+    if(!aiEnabled()){closeModal();aiSettingsModal();return;}
+    loadingModal('Reading the email…');
+    try{const r=await aiExtract('email',{text});closeModal();createTasksFromAI(r.tasks||r);}
+    catch(e){closeModal();toast(e.message||'Could not read it');}
+  };
+}
 function pasteRouteModal(dataURL,name){
+  const ai=aiEnabled();
   modal(`
     <div class="modal-head"><h3>Where should this go?</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
       <img src="${dataURL}" style="max-width:100%;max-height:220px;object-fit:contain;border-radius:10px;border:1px solid var(--line);background:var(--surface-2)">
-      <p class="mini">Your screenshot is saved. Pick where it belongs — it will be attached there.</p>
+      <p class="mini">${ai?'Pick what this is — your AI will read it and fill the fields in for you to confirm.':'Your screenshot is saved. Pick where it belongs — it will be attached there.'}</p>
       <div style="display:flex;flex-direction:column;gap:8px">
-        <button class="btn primary" id="pr_tt" style="justify-content:flex-start">🧑‍🏫 Teacher timetable — create / update a teacher</button>
+        <button class="btn primary" id="pr_tt" style="justify-content:flex-start">🧑‍🏫 Teacher timetable${ai?' — auto-fill a teacher':' — create / update a teacher'}</button>
+        ${ai?'<button class="btn" id="pr_email" style="justify-content:flex-start">📧 Email — create tasks from it</button>':''}
+        ${ai?'<button class="btn" id="pr_roster" style="justify-content:flex-start">🎓 Class roster — add IA students</button>':''}
         <button class="btn" id="pr_doc" style="justify-content:flex-start">📄 Save to Documents</button>
         <button class="btn" id="pr_task" style="justify-content:flex-start">✅ Attach to a new task</button>
       </div>
+      ${ai?'':'<div class="ai-note"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8"/></svg><span>Want this read automatically? <b id="pr_setup" style="text-decoration:underline;cursor:pointer">Set up AI auto-extract</b>.</span></div>'}
     </div>`);
-  $('#pr_tt').onclick=()=>{closeModal();teacherModal(null,dataURL);};
+  $('#pr_tt').onclick=async()=>{
+    if(ai){loadingModal('Reading the timetable…');
+      try{const r=await aiExtract('timetable',{image:dataURL});closeModal();teacherModal(null,dataURL,sanitizeTeacher(r));toast('Fields filled — check and save');}
+      catch(e){closeModal();toast(e.message||'Could not read it — fill it in manually');teacherModal(null,dataURL);}
+    }else{closeModal();teacherModal(null,dataURL);}
+  };
+  if($('#pr_email'))$('#pr_email').onclick=async()=>{loadingModal('Reading the email…');try{const r=await aiExtract('email',{image:dataURL});closeModal();createTasksFromAI(r.tasks||r);}catch(e){closeModal();toast(e.message||'Could not read it');}};
+  if($('#pr_roster'))$('#pr_roster').onclick=async()=>{loadingModal('Reading the roster…');try{const r=await aiExtract('students',{image:dataURL});closeModal();addStudentsFromAI(r.students||r);}catch(e){closeModal();toast(e.message||'Could not read it');}};
   $('#pr_doc').onclick=()=>{state.docs.push({id:uid(),name:name||('pasted-'+Date.now()+'.png'),size:0,ftype:'image/png',grade:'',subject:'Physics',docType:'Screenshot',link:'',thumb:dataURL,createdAt:Date.now()});save();closeModal();go('documents');toast('Saved to Documents');};
   $('#pr_task').onclick=()=>{closeModal();taskModal(null,{image:dataURL});};
+  if($('#pr_setup'))$('#pr_setup').onclick=()=>{closeModal();aiSettingsModal();};
 }
 function yearModal(){
   const next=suggestNextYear();
@@ -1318,6 +1424,7 @@ function bind(){
     ci.addEventListener('paste',e=>{const items=(e.clipboardData&&e.clipboardData.items)||[];for(const it of items){if(it.type.indexOf('image')===0){const f=it.getAsFile();if(f){e.preventDefault();const r=new FileReader();r.onload=ev=>pasteRouteModal(ev.target.result,f.name||'pasted.png');r.readAsDataURL(f);return;}}}});
     const cb=$('#capBtn');if(cb)cb.onclick=()=>doCapture(ci.value);
     const cf=$('#capFile');if(cf)cf.onclick=()=>$('#filePick').click();
+    const cem=$('#capEmail');if(cem)cem.onclick=()=>emailTextModal(ci.value.trim());
   }
   document.querySelectorAll('[data-tile]').forEach(t=>t.onclick=()=>{const k=t.dataset.tile;taskFilter=k==='over'?'overdue':k==='week'?'week':k==='up'?'upcoming':'today';go('tasks');});
   document.querySelectorAll('[data-go]').forEach(g=>g.onclick=()=>{if(g.dataset.filt)taskFilter=g.dataset.filt;go(g.dataset.go);});
@@ -1368,6 +1475,7 @@ document.querySelectorAll('[data-act]').forEach(b=>b.onclick=()=>{
   const a=b.dataset.act;
   if(a==='export')exportData();
   else if(a==='import')importData();
+  else if(a==='aisetup'){aiSettingsModal();closeMobileNav();}
   else if(a==='sample'){state.tasks=[];state.corrections=[];state.docs=[];state.ias=[];state.staff=[];seedData();render();toast('Fresh sample data loaded into '+store.activeYear);closeMobileNav();}
   else if(a==='clear'){if(confirm('Clear ALL data for '+store.activeYear+'? Other years are untouched. Export a backup first — this cannot be undone.')){const fresh=blankYear();store.years[store.activeYear]=fresh;state=fresh;save();render();toast('Cleared '+store.activeYear);}closeMobileNav();}
 });
