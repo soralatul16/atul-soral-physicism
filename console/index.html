@@ -272,6 +272,13 @@
   .wk-toggle .wk.on{background:var(--brand);color:#fff}
   .sc-grid{display:grid;grid-template-columns:1fr;gap:12px;align-items:stretch}
   .sc-lbl{font-size:11px;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:5px}
+  .calx{text-decoration:none;font-size:14px;opacity:.55;padding:2px 4px;border-radius:6px}
+  .calx:hover{opacity:1;background:var(--accent-soft)}
+  .iaboard{display:flex;gap:12px;overflow-x:auto;padding-bottom:8px}
+  .iacol{flex:0 0 180px;background:var(--surface-2);border:1px solid var(--line);border-radius:12px;padding:10px}
+  .iacol-h{display:flex;justify-content:space-between;align-items:center;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-soft);margin-bottom:8px}
+  .iacard{background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:9px 10px;margin-bottom:8px;cursor:pointer}
+  .iacard:hover{box-shadow:0 2px 8px rgba(0,0,0,.07)}
 
   .thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;border:1px solid var(--line);flex:none;background:var(--surface-2)}
   .filepick{display:none}
@@ -428,7 +435,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list';
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -715,6 +722,20 @@ function dashCharts(){
     </div>
   </div>`;
 }
+function pad2(n){return n<10?'0'+n:''+n;}
+function ymd(d){return d.getFullYear()+pad2(d.getMonth()+1)+pad2(d.getDate());}
+function gcalLink(title,iso){if(!iso)return '';const nd=dOnly(iso);const nx=dOnly(iso);nx.setDate(nx.getDate()+1);return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(title)+'&dates='+ymd(nd)+'/'+ymd(nx);}
+function exportICS(){
+  const items=[];
+  openTasks().forEach(t=>{if(t.due)items.push({t:t.title+(t.grade?' ('+t.grade+')':''),d:t.due});});
+  state.ias.forEach(i=>{if(i.due&&i.stage!=='Verified')items.push({t:'IA · '+i.student+(i.topic?' — '+i.topic:''),d:i.due});});
+  state.corrections.forEach(c=>{if(c.due&&!c.submitted)items.push({t:'Corrections · '+c.title,d:c.due});});
+  if(!items.length){toast('No upcoming deadlines to export');return;}
+  let ics='BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//ASP Console//EN\nCALSCALE:GREGORIAN\n';
+  items.forEach((it,idx)=>{const nx=dOnly(it.d);nx.setDate(nx.getDate()+1);ics+='BEGIN:VEVENT\nUID:asp-'+idx+'-'+Date.now()+'@physicism\nDTSTART;VALUE=DATE:'+ymd(dOnly(it.d))+'\nDTEND;VALUE=DATE:'+ymd(nx)+'\nSUMMARY:'+it.t.replace(/[,;\n]/g,' ')+'\nEND:VEVENT\n';});
+  ics+='END:VCALENDAR';
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([ics],{type:'text/calendar'}));a.download='physicism-deadlines.ics';a.click();toast('Downloaded '+items.length+' deadline'+(items.length>1?'s':''));
+}
 function renderDash(){
   const c=counts();const td=todayISO();
   const todays=openTasks().filter(t=>t.due===td).sort(byDue);
@@ -730,6 +751,7 @@ function renderDash(){
   ${greeting()}
   ${privacyNote()}
   ${smartCaptureInline()}
+  <div style="margin:-6px 0 16px"><button class="btn sm" data-exportics><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Export all deadlines to calendar (.ics)</button></div>
   <div class="tiles">
     ${tile('today',c.today,'Due today')}
     ${tile('over',c.over,'Overdue')}
@@ -795,6 +817,7 @@ function taskRow(t){
     </div>
     ${donePill}
     <span class="due ${dc}">${dueLabel(t.due)}</span>
+    ${t.due?`<a class="calx" href="${gcalLink(t.title+(t.grade?' ('+t.grade+')':''),t.due)}" target="_blank" rel="noopener" title="Add to Google Calendar" onclick="event.stopPropagation()">📅</a>`:''}
     <button class="row-del" data-del="${t.id}" title="Delete"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>`;
 }
@@ -904,13 +927,26 @@ function renderIA(){
     ${tile('today',state.ias.length-done,'In progress')}
     ${tile('over',behind,'Behind schedule')}
   </div>
-  <div style="margin:4px 0 16px;display:flex;gap:9px;flex-wrap:wrap">
+  <div style="margin:4px 0 16px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">
     <button class="btn primary" data-smartcap><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg>Smart Capture</button>
     <button class="btn" data-newia><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add student</button>
     <button class="btn" data-impstudents><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13H8M16 17H8M10 9H8M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Paste student list</button>
-    <span class="cap-hint2" style="align-self:center">Click a student to add files, topic and feedback. Smart Capture reads a roster or a note and files it for you.</span>
+    <div class="wk-toggle" style="margin-left:auto"><button class="wk ${iaView==='list'?'on':''}" data-iaview="list">List</button><button class="wk ${iaView==='board'?'on':''}" data-iaview="board">Board</button></div>
   </div>
-  ${body}`;
+  ${iaView==='board'?renderIABoard():body}`;
+}
+function renderIABoard(){
+  const cols=IA_STAGES.map(st=>{
+    const items=state.ias.filter(i=>(i.stage||'Proposal')===st).sort((a,b)=>byDue(a,b));
+    const idx=IA_STAGES.indexOf(st);
+    const cards=items.map(i=>`<div class="iacard" data-ia="${i.id}">
+      <div style="font-weight:600;font-size:12.5px">${esc(i.student)}</div>
+      <div class="mini" style="margin:2px 0 7px">${i.block?'Block '+esc(i.block)+' · ':''}${esc(i.topic||'Topic TBD')}</div>
+      <div style="display:flex;gap:5px;justify-content:space-between"><button class="btn sm ghost" data-iastage="${i.id}|back" ${idx===0?'disabled':''} title="Move back">◀</button><button class="btn sm ghost" data-iastage="${i.id}|fwd" ${idx===IA_STAGES.length-1?'disabled':''} title="Move on">▶</button></div>
+    </div>`).join('')||'<div class="mini" style="opacity:.5;padding:4px 0">—</div>';
+    return `<div class="iacol"><div class="iacol-h">${esc(st)}<span class="count">${items.length}</span></div>${cards}</div>`;
+  }).join('');
+  return `<div class="iaboard">${cols}</div>`;
 }
 function iaRow(i){
   const s=iaState(i);const files=filesOf(i);
@@ -926,6 +962,7 @@ function iaRow(i){
       </div>
     </div>
     <span class="pill ${s.k}"><span class="dot ${s.dot}"></span>${s.label}</span>
+    ${i.due?`<a class="calx" href="${gcalLink('IA · '+i.student+(i.topic?' — '+i.topic:''),i.due)}" target="_blank" rel="noopener" title="Add deadline to Google Calendar" onclick="event.stopPropagation()">📅</a>`:''}
     <button class="btn sm" data-iareview="${i.id}">Review</button>
     <button class="btn sm ghost" data-iaup="${i.id}">Upload</button>
     <button class="row-del" data-iadel="${i.id}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
@@ -1576,7 +1613,7 @@ function iaModal(i){
   const edit=!!i;i=i||{grade:'Grade 11',stage:'Proposal',supervisor:'Atul Soral'};
   const teachOpts=state.settings.teachers;
   const files=edit?filesOf(i):[];
-  const fileList=files.length?files.map(f=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)">${f.thumb?`<img src="${f.thumb}" style="width:30px;height:30px;object-fit:cover;border-radius:5px">`:'<span style="font-size:16px">📄</span>'}<div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${esc(f.name)}</div><div class="mini">${f.stage?esc(f.stage)+' · ':''}${f.note?esc(f.note):'no note'}</div></div>${f.id!=='legacy'?`<button class="row-del" data-ifdel="${f.id}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`:''}</div>`).join(''):'<div class="mini">No files yet.</div>';
+  const fileList=files.length?files.map(f=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)">${f.thumb?`<img src="${f.thumb}" style="width:30px;height:30px;object-fit:cover;border-radius:5px">`:(f.link?'<span style="font-size:16px">🔗</span>':'<span style="font-size:16px">📄</span>')}<div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.link?`<a href="${esc(f.link)}" target="_blank" rel="noopener" style="color:var(--brand);text-decoration:none">${esc(f.name)} ↗</a>`:esc(f.name)}</div><div class="mini">${f.stage?esc(f.stage)+' · ':''}${f.note?esc(f.note):(f.link?'opens in Drive':'no note')}</div></div>${f.id!=='legacy'?`<button class="row-del" data-ifdel="${f.id}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`:''}</div>`).join(''):'<div class="mini">No files yet.</div>';
   modal(`
     <div class="modal-head"><h3>${edit?esc(i.student):'New student'}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
@@ -1596,11 +1633,15 @@ function iaModal(i){
       <div class="fld"><label>Research question</label><textarea id="i_rq" rows="2" placeholder="The student's RQ">${esc(i.rq||'')}</textarea></div>
       <div class="fld"><label>Next deadline</label><input type="date" id="i_due" value="${i.due||''}"></div>
       <div class="fld"><label>Feedback</label><textarea id="i_fb" rows="2" placeholder="Your running feedback for this student">${esc(i.notes||'')}</textarea></div>
-      ${edit?`<div class="fld"><label>Files (${files.length})</label><div style="border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--surface-2)">${fileList}</div>
-        <div style="display:flex;gap:7px;margin-top:7px;flex-wrap:wrap">
+      ${edit?`<div class="fld"><label>Files (${files.length}) — attach a file, or paste a Google Drive link so it opens on any device</label><div style="border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--surface-2)">${fileList}</div>
+        <div style="display:flex;gap:7px;margin-top:7px;flex-wrap:wrap;align-items:center">
           <input id="if_note" placeholder="Note e.g. Draft 2 comments" style="flex:1;min-width:120px;padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">
           <select id="if_stage" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">${IA_STAGES.map(s=>`<option ${s===i.stage?'selected':''}>${s}</option>`).join('')}</select>
-          <button class="btn sm" id="if_add" type="button">+ Add file</button>
+          <button class="btn sm" id="if_add" type="button">+ Attach file</button>
+        </div>
+        <div style="display:flex;gap:7px;margin-top:6px;flex-wrap:wrap;align-items:center">
+          <input id="if_link" placeholder="Paste a Drive / web link…" style="flex:1;min-width:160px;padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">
+          <button class="btn sm" id="if_addlink" type="button">+ Add link</button>
         </div></div>`:''}
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="i_save">${edit?'Save':'Add student'}</button></div>`);
@@ -1611,6 +1652,7 @@ function iaModal(i){
         else{i.files.push(rec);save();closeModal();iaModal(i);toast('File added');}};
       inp.click();};
     document.querySelectorAll('[data-ifdel]').forEach(b=>b.onclick=()=>{i.files=(i.files||[]).filter(f=>f.id!==b.dataset.ifdel);save();closeModal();iaModal(i);});
+    $('#if_addlink').onclick=()=>{persistIA();let url=$('#if_link').value.trim();if(!url){toast('Paste a link first');return;}if(!/^https?:\/\//i.test(url))url='https://'+url;i.files=i.files||[];let nm='Drive link';try{nm=new URL(url).hostname.replace(/^www\./,'');}catch(e){}i.files.push({id:uid(),name:$('#if_note').value.trim()||nm,note:$('#if_note').value.trim()?'':('link · '+nm),link:url,stage:$('#if_stage').value,thumb:null,at:Date.now()});save();closeModal();iaModal(i);toast('Link added');};
   }
   function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.sid=$('#i_sid').value.trim();i.grade=$('#i_grade').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;}
   $('#i_save').onclick=()=>{
@@ -1696,8 +1738,11 @@ function bind(){
   document.querySelectorAll('[data-newia]').forEach(b=>b.onclick=()=>iaModal());
   document.querySelectorAll('[data-impstudents]').forEach(b=>b.onclick=()=>importStudentsModal());
   document.querySelectorAll('[data-smartcap]').forEach(b=>b.onclick=()=>smartCaptureModal());
+  document.querySelectorAll('[data-exportics]').forEach(b=>b.onclick=()=>exportICS());
   bindSmartInline();
-  document.querySelectorAll('[data-ia]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-iareview],[data-iaup],[data-iadel]'))return;const i=state.ias.find(x=>x.id===r.dataset.ia);if(i)iaModal(i);});
+  document.querySelectorAll('[data-ia]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-iareview],[data-iaup],[data-iadel],[data-iastage],.calx'))return;const i=state.ias.find(x=>x.id===r.dataset.ia);if(i)iaModal(i);});
+  document.querySelectorAll('[data-iaview]').forEach(b=>b.onclick=()=>{iaView=b.dataset.iaview;render();});
+  document.querySelectorAll('[data-iastage]').forEach(b=>b.onclick=e=>{e.stopPropagation();const parts=b.dataset.iastage.split('|');const it=state.ias.find(x=>x.id===parts[0]);if(!it)return;let idx=IA_STAGES.indexOf(it.stage||'Proposal');idx=parts[1]==='fwd'?Math.min(IA_STAGES.length-1,idx+1):Math.max(0,idx-1);it.stage=IA_STAGES[idx];save();render();});
   document.querySelectorAll('[data-iareview]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaReviewModal(b.dataset.iareview);});
   document.querySelectorAll('[data-iaup]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaUpload(b.dataset.iaup);});
   document.querySelectorAll('[data-iadel]').forEach(b=>b.onclick=e=>{e.stopPropagation();binItem('ias',b.dataset.iadel,'IA');});
