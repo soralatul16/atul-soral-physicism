@@ -264,6 +264,9 @@
   .spinner{width:30px;height:30px;border:3px solid var(--line-strong);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
   @keyframes spin{to{transform:rotate(360deg)}}
   .ai-note{display:flex;align-items:center;gap:8px;background:var(--accent-soft);color:#2f7468;border-radius:9px;padding:8px 11px;font-size:12px;font-weight:600;margin-top:2px}
+  .ttmeta{font-size:9px;font-weight:600;color:var(--ink-mute);margin-top:1px;line-height:1.2}
+  .clickcell{cursor:pointer;transition:background .12s,box-shadow .12s}
+  .clickcell:hover{background:var(--accent-soft)!important;box-shadow:inset 0 0 0 2px var(--brand)}
 
   .thumb{width:40px;height:40px;border-radius:8px;object-fit:cover;border:1px solid var(--line);flex:none;background:var(--surface-2)}
   .filepick{display:none}
@@ -981,24 +984,51 @@ function teamTrack(){
   </div>`;
 }
 
-function periodKey(p){const s=(''+p).toLowerCase();if(/assembl/.test(s))return -1;if(/clos/.test(s))return 9999;if(/break|recess|lunch|interval/.test(s))return 1000;const m=s.match(/(\d+)/);return m?+m[1]:900;}
+function periodKey(p){const s=(''+p).toLowerCase();if(/mct|morning circle/.test(s))return -2;if(/assembl/.test(s))return -1;if(/clos/.test(s))return 9999;if(/break|recess|lunch|interval/.test(s))return 1000;const m=s.match(/(\d+)/);return m?+m[1]:900;}
 function ttPeriods(tt){const set=[...new Set(tt.map(x=>x.period).filter(Boolean))];set.sort((a,b)=>periodKey(a)-periodKey(b)||(''+a).localeCompare(''+b));return set;}
-function slotMeta(slot){const m=[slot.subject,slot.room].filter(Boolean).join(' · ');return m?`<div style="font-size:9px;font-weight:600;color:var(--ink-mute);margin-top:1px">${esc(m)}</div>`:'';}
+function slotBlock(slot){return slot.block||slot.cls||'';}
+function slotSub(slot){return [slot.sections,slot.room].filter(Boolean).join(' · ');}
 const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 function ttWeekday(iso){const d=dOnly(iso);return d?WD[d.getDay()]:'';}
 function timetableGrid(s){
   const tt=s.timetable||[];
   const periods=ttPeriods(tt);
   const days=DAYS.filter(d=>tt.some(x=>x.day===d));const useDays=days.length?days:DAYS.slice(0,5);
-  const cell=(p,d)=>{const slot=tt.find(x=>x.period===p&&x.day===d);return slot?`<td class="has"><b>${esc(slot.cls||'·')}</b>${slotMeta(slot)}</td>`:'<td></td>';};
+  const cell=(p,d)=>{const idx=tt.findIndex(x=>x.period===p&&x.day===d);if(idx<0)return '<td></td>';const slot=tt[idx];const sub=slotSub(slot);return `<td class="has clickcell" data-ttcell="${s.id}|${idx}" title="Click to see or add tasks"><b>${esc(slotBlock(slot)||'·')}</b>${sub?`<div class="ttmeta">${esc(sub)}</div>`:''}</td>`;};
   const rows=useDays.map(d=>`<tr><td class="perlbl">${d}</td>${periods.map(p=>cell(p,d)).join('')}</tr>`).join('');
   return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl"></th>${periods.map(p=>`<th>${esc(p)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function timetableDay(s,dayShort){
-  const slots=(s.timetable||[]).filter(x=>x.day===dayShort).sort((a,b)=>periodKey(a.period)-periodKey(b.period));
   if(!dayShort)return '<div class="mini">Pick a date to see that day only.</div>';
-  if(!slots.length)return `<div class="mini">No classes scheduled on ${esc(dayShort)}.</div>`;
-  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Period</th><th>Class</th><th>Subject</th><th>Room</th></tr></thead><tbody>${slots.map(x=>`<tr><td class="perlbl">${esc(x.period||'')}</td><td class="has"><b>${esc(x.cls||'')}</b></td><td>${esc(x.subject||'')}</td><td>${esc(x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
+  const tt=s.timetable||[];
+  const rows=tt.map((x,i)=>({x,i})).filter(o=>o.x.day===dayShort).sort((a,b)=>periodKey(a.x.period)-periodKey(b.x.period));
+  if(!rows.length)return `<div class="mini">Nothing scheduled on ${esc(dayShort)}.</div>`;
+  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Period</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${rows.map(o=>`<tr class="clickcell" data-ttcell="${s.id}|${o.i}" title="Click to see or add tasks"><td class="perlbl">${esc(o.x.period||'')}</td><td class="has"><b>${esc(slotBlock(o.x))}</b></td><td>${esc(o.x.sections||'')}</td><td>${esc(o.x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
+}
+function slotModal(sid,idx){
+  const st=state.staff.find(x=>x.id===sid);if(!st)return;
+  const slot=(st.timetable||[])[idx];if(!slot)return;
+  const block=slotBlock(slot);
+  const linked=state.tasks.filter(t=>t.teacher===st.name&&(t.ttDay||'')===(slot.day||'')&&(t.ttPeriod||'')===(slot.period||'')&&(t.block||'')===(block||''));
+  const list=linked.length?linked.sort(byDue).map(t=>`<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><span class="prio ${t.priority}"></span><div class="row-main"><p class="row-title" style="font-size:13px">${esc(t.title)}</p><div class="row-meta">${t.status==='done'?'<span class="tag subj">done</span>':''}${t.category?`<span class="tag cat">${esc(t.category)}</span>`:''}</div></div><span class="due ${dueClass(t.due)}">${dueLabel(t.due)}</span></div>`).join(''):'<div class="mini" style="padding:6px 0">No tasks on this slot yet.</div>';
+  modal(`
+    <div class="modal-head"><h3>${esc(block||'Slot')} — ${esc(st.name)}</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <span class="tag type">${esc(slot.day||'')}</span>
+        <span class="tag grade">${esc(slot.period||'')}</span>
+        ${block?`<span class="tag teach">${esc(block)}</span>`:''}
+        ${slot.sections?`<span class="tag subj">${esc(slot.sections)}</span>`:''}
+        ${slot.room?`<span class="tag subj">Room ${esc(slot.room)}</span>`:''}
+      </div>
+      <div><div style="font-size:11px;font-weight:700;color:var(--ink-mute);margin-bottom:4px">TASKS ON THIS SLOT</div><div class="rows">${list}</div></div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Close</button><button class="btn primary" id="slot_add">+ Add task for this slot</button></div>`);
+  $('#slot_add').onclick=()=>{
+    closeModal();
+    const g=normGrade(slot.sections)||normGrade(block);
+    taskModal(null,{title:(block?block+' — ':'')+(slot.sections||''),teacher:st.name,grade:g,block:block,ttDay:slot.day,ttPeriod:slot.period,category:'',audience:'Teachers',assignedBy:'Atul Soral'});
+  };
 }
 function teacherCard(s){
   const st=teacherStats(s.name);const h=teacherHealth(st);
@@ -1046,7 +1076,7 @@ function renderTeachers(){
 let ttDraft=[];
 function renderTTEditor(){
   const box=$('#ttList');if(!box)return;
-  box.innerHTML=ttDraft.length?ttDraft.map((s,idx)=>`<span class="mini-tag">${esc(s.day)} ${esc(s.period||'')} · ${esc(s.cls||'')}${s.subject?' '+esc(s.subject):''}${s.room?' ['+esc(s.room)+']':''}<button data-ttdel="${idx}">×</button></span>`).join(''):'<span class="mini">No slots yet.</span>';
+  box.innerHTML=ttDraft.length?ttDraft.map((s,idx)=>`<span class="mini-tag">${esc(s.day)} ${esc(s.period||'')} · <b>${esc(s.block||s.cls||'')}</b>${s.sections?' '+esc(s.sections):''}${s.room?' ['+esc(s.room)+']':''}<button data-ttdel="${idx}">×</button></span>`).join(''):'<span class="mini">No slots yet.</span>';
   box.querySelectorAll('[data-ttdel]').forEach(b=>b.onclick=()=>{ttDraft.splice(+b.dataset.ttdel,1);renderTTEditor();});
 }
 function teacherModal(s,img,draft){
@@ -1062,13 +1092,13 @@ function teacherModal(s,img,draft){
         <div class="fld"><label>Role</label><select id="s_role">${ROLES.map(r=>`<option ${r===s.role?'selected':''}>${r}</option>`).join('')}</select></div>
       </div>
       <div class="fld"><label>Classes taught</label><div style="display:flex;flex-direction:column;gap:8px">${PROG_GROUPS.map(([prog,gs])=>`<div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap"><span style="font-size:11px;font-weight:700;color:var(--ink-mute);width:52px">${prog}</span>${gs.map(g=>`<label style="display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;color:var(--ink-soft)"><input type="checkbox" class="s_cls" value="${g}" ${(s.classes||[]).includes(g)?'checked':''} style="width:15px;height:15px;accent-color:var(--brand)">${g}</label>`).join('')}</div>`).join('')}</div></div>
-      <div class="fld"><label>Timetable — add each class slot (period / class can be free text like “1” or “10A”)</label>
+      <div class="fld"><label>Timetable — one row per cell. Block = B5 / Assembly / PL etc. Sections = 9A/9B/9C/9D. Period can be MCT, 1–17, Break, Closing.</label>
         <div class="tt-slot">
           <select id="tt_day" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">${DAYS.map(d=>`<option>${d}</option>`).join('')}</select>
-          <input id="tt_per" list="perlist" placeholder="Period" style="width:76px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px"><datalist id="perlist">${['Assembly','1','2','3','4','Break','5','6','7','8','9','10','Closing'].map(p=>`<option value="${p}">`).join('')}</datalist>
-          <input id="tt_cls" placeholder="Class e.g. 10A" style="width:92px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
-          <input id="tt_subj" placeholder="Subject" style="width:84px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
-          <input id="tt_room" placeholder="Room" style="width:70px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
+          <input id="tt_per" list="perlist" placeholder="Period" style="width:70px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px"><datalist id="perlist">${['MCT','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','Short Break','Closing'].map(p=>`<option value="${p}">`).join('')}</datalist>
+          <input id="tt_block" placeholder="Block e.g. B5" style="width:92px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
+          <input id="tt_sections" placeholder="Sections e.g. 9A/9B/9C" style="width:140px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
+          <input id="tt_room" placeholder="Room" style="width:64px;padding:7px 8px;border:1px solid var(--line-strong);border-radius:8px">
           <button class="btn sm" id="tt_add" type="button">Add slot</button>
         </div>
         <div id="ttList" style="display:flex;gap:7px;flex-wrap:wrap;margin-top:4px"></div>
@@ -1076,7 +1106,7 @@ function teacherModal(s,img,draft){
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="s_save">${edit?'Save':'Add teacher'}</button></div>`);
   renderTTEditor();
-  $('#tt_add').onclick=()=>{const p=$('#tt_per').value.trim(),cls=$('#tt_cls').value.trim();if(!p&&!cls){toast('Add a period or class');return;}ttDraft.push({day:$('#tt_day').value,period:p,cls:cls,subject:$('#tt_subj').value.trim(),room:$('#tt_room').value.trim()});$('#tt_cls').value='';$('#tt_subj').value='';$('#tt_room').value='';renderTTEditor();};
+  $('#tt_add').onclick=()=>{const p=$('#tt_per').value.trim(),block=$('#tt_block').value.trim(),sections=$('#tt_sections').value.trim();if(!p&&!block&&!sections){toast('Add a period, block or sections');return;}ttDraft.push({day:$('#tt_day').value,period:p,block:block,sections:sections,room:$('#tt_room').value.trim()});$('#tt_block').value='';$('#tt_sections').value='';$('#tt_room').value='';renderTTEditor();};
   $('#s_save').onclick=()=>{
     const name=$('#s_name').value.trim();if(!name){toast('Enter a name');return;}
     const classes=[...document.querySelectorAll('.s_cls:checked')].map(c=>c.value);
@@ -1190,7 +1220,7 @@ function normPeriod(p){if(!p)return '';p=(''+p).toUpperCase().replace(/\s/g,'');
 function sanitizeTeacher(r){
   r=r||{};
   const classes=[...new Set((r.classes||[]).map(normGrade).filter(Boolean))];
-  const tt=(r.timetable||[]).map(x=>({day:normDay(x.day),period:(''+(x.period||'')).trim(),cls:(''+(x.cls||'')).trim(),subject:(''+(x.subject||'')).trim(),room:(''+(x.room||'')).trim()})).filter(x=>x.day&&(x.period||x.cls));
+  const tt=(r.timetable||[]).map(x=>({day:normDay(x.day),period:(''+(x.period||'')).trim(),block:(''+(x.block||x.cls||'')).trim(),sections:(''+(x.sections||'')).trim(),room:(''+(x.room||'')).trim()})).filter(x=>x.day&&(x.period||x.block||x.sections));
   const role=ROLES.includes(r.role)?r.role:'Teacher';
   return {name:r.name||'',role,classes,timetable:tt};
 }
@@ -1334,7 +1364,8 @@ function taskModal(t,preset){
   $('#m_save').onclick=()=>{
     const title=$('#m_title').value.trim();if(!title){toast('Give it a title');return;}
     const data={title,type:$('#m_type').value,grade:$('#m_grade').value,due:$('#m_due').value||null,category:$('#m_cat').value,audience:$('#m_aud').value,notes:$('#m_notes').value,
-      teacher:$('#m_teacher').value.trim(),assignedBy:$('#m_by').value.trim(),priority:$('#m_prio').value,recurring:$('#m_rec').value||null,subject:'Physics',image:t.image||null};
+      teacher:$('#m_teacher').value.trim(),assignedBy:$('#m_by').value.trim(),priority:$('#m_prio').value,recurring:$('#m_rec').value||null,subject:'Physics',image:t.image||null,
+      block:t.block||'',ttDay:t.ttDay||'',ttPeriod:t.ttPeriod||''};
     if(edit){Object.assign(t,data);}else{state.tasks.push({id:uid(),status:'open',createdAt:Date.now(),...data});}
     save();closeModal();render();toast(edit?'Saved':data.teacher?('Assigned to '+data.teacher):'Task added');
   };
@@ -1519,6 +1550,7 @@ function bind(){
   document.querySelectorAll('[data-staffgo]').forEach(c=>c.onclick=()=>go('teachers'));
   const tdp=$('#ttDatePick');if(tdp)tdp.addEventListener('change',e=>{ttDate=e.target.value||'';render();});
   const tdc=$('#ttDateClear');if(tdc)tdc.onclick=()=>{ttDate='';render();};
+  document.querySelectorAll('[data-ttcell]').forEach(c=>c.onclick=()=>{const parts=c.dataset.ttcell.split('|');slotModal(parts[0],+parts[1]);});
   document.querySelectorAll('[data-restore]').forEach(b=>b.onclick=()=>restoreTrash(b.dataset.restore));
   document.querySelectorAll('[data-purge]').forEach(b=>b.onclick=()=>purgeTrash(b.dataset.purge));
   document.querySelectorAll('[data-emptytrash]').forEach(b=>b.onclick=emptyTrash);
