@@ -265,7 +265,7 @@
   .spinner{width:30px;height:30px;border:3px solid var(--line-strong);border-top-color:var(--brand);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
   @keyframes spin{to{transform:rotate(360deg)}}
   .ai-note{display:flex;align-items:center;gap:8px;background:var(--accent-soft);color:#2f7468;border-radius:9px;padding:8px 11px;font-size:12px;font-weight:600;margin-top:2px}
-  .ttmeta{font-size:9px;font-weight:600;color:var(--ink-mute);margin-top:1px;line-height:1.2}
+  .ttmeta{font-size:10.5px;font-weight:600;color:var(--ink-mute);margin-top:2px;line-height:1.25}
   .clickcell{cursor:pointer;transition:background .12s,box-shadow .12s}
   .clickcell:hover{background:var(--accent-soft)!important;box-shadow:inset 0 0 0 2px var(--brand)}
   .wk-toggle{display:inline-flex;border:1px solid var(--line-strong);border-radius:8px;overflow:hidden}
@@ -302,13 +302,14 @@
   .status-dot.ok{background:var(--good)} .status-dot.warn{background:var(--warn)} .status-dot.crit{background:var(--crit)}
   .tcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin-bottom:16px}
   .tcard-head{display:flex;align-items:center;gap:12px;margin-bottom:14px}
-  .tt{width:100%;border-collapse:collapse;table-layout:fixed}
-  .tt th,.tt td{border:1px solid var(--line);padding:5px 4px;text-align:center;font-size:11px}
+  .tt{border-collapse:collapse;width:max-content;min-width:100%}
+  .tt th,.tt td{border:1px solid var(--line);padding:7px 7px;text-align:center;font-size:12px;min-width:60px}
   .tt th{background:var(--surface-2);color:var(--ink-mute);font-weight:700;letter-spacing:.03em}
-  .tt td{color:var(--ink-soft);font-weight:600;height:30px}
+  .tt td{color:var(--ink-soft);font-weight:600;height:48px;vertical-align:middle}
   .tt td.has{background:var(--accent-soft);color:#2f7468}
-  .tt .perlbl{background:var(--surface-2);color:var(--ink-mute);font-weight:700;width:38px}
-  .tt-wrap{overflow-x:auto}
+  .tt td.has b{font-size:13px}
+  .tt .perlbl{background:var(--surface-2);color:var(--ink-mute);font-weight:700;min-width:48px;position:sticky;left:0;z-index:1}
+  .tt-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
   .tt-slot{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:6px}
   .tt-slot .tag{cursor:default}
   .mini-tag{display:inline-flex;align-items:center;gap:5px;background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:3px 8px;font-size:11.5px;font-weight:600;color:var(--ink-soft)}
@@ -1485,7 +1486,8 @@ function ttPeriods(tt){
 function weekOf(iso){const anchor=store.weekAnchor;if(!anchor)return null;const a=dOnly(anchor),d=dOnly(iso);if(!a||!d)return null;const days=Math.floor((d-a)/86400000);const wk=Math.floor(days/7);return ((((wk%2)+2)%2)===0)?'A':'B';}
 function hasWeeks(tt){return (tt||[]).some(x=>(x.week||'A')==='B');}
 function slotBlock(slot){return slot.block||slot.cls||'';}
-function slotSub(slot){return [slot.sections,slot.room].filter(Boolean).join(' · ');}
+function condenseSections(str){if(!str)return '';const parts=(''+str).split(/[\/,;|]+/).map(s=>s.trim()).filter(Boolean);const grades=[];parts.forEach(p=>{const m=p.match(/(\d{1,2})/);if(m&&grades.indexOf(m[1])<0)grades.push(m[1]);});return grades.length?('Gr '+grades.join('/')):str;}
+function slotSub(slot){return [condenseSections(slot.sections),slot.room].filter(Boolean).join(' · ');}
 const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 function ttWeekday(iso){const d=dOnly(iso);return d?WD[d.getDay()]:'';}
 function timetableGrid(s,week){
@@ -1502,7 +1504,7 @@ function timetableDay(s,dayShort,week){
   const tt=s.timetable||[];
   const rows=tt.map((x,i)=>({x,i})).filter(o=>o.x.day===dayShort&&(!week||(o.x.week||'A')===week)).sort((a,b)=>periodKey(a.x.period)-periodKey(b.x.period));
   if(!rows.length)return `<div class="mini">Nothing scheduled on ${esc(dayShort)}.</div>`;
-  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Period</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${rows.map(o=>`<tr class="clickcell" data-ttcell="${s.id}|${o.i}" title="Click to see or add tasks"><td class="perlbl">${esc(o.x.period||'')}</td><td>${esc(o.x.time||'')}</td><td class="has"><b>${esc(slotBlock(o.x))}</b></td><td>${esc(o.x.sections||'')}</td><td>${esc(o.x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
+  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Period</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${rows.map(o=>`<tr class="clickcell" data-ttcell="${s.id}|${o.i}" title="Click to see or add tasks"><td class="perlbl">${esc(o.x.period||'')}</td><td>${esc(o.x.time||'')}</td><td class="has"><b>${esc(slotBlock(o.x))}</b></td><td>${esc(condenseSections(o.x.sections)||'')}</td><td>${esc(o.x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
 }
 function slotModal(sid,idx){
   const st=state.staff.find(x=>x.id===sid);if(!st)return;
