@@ -441,7 +441,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', outlineGrade='', stuGrade='all';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', outlineGrade='', stuGrade='all', stuSel=new Set();
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -1050,7 +1050,8 @@ function studentPanel(i){
 }
 function studentRow(i){
   const TD='padding:7px 9px;border-bottom:1px solid var(--line);font-size:13px;white-space:nowrap';
-  return `<tr data-sopen="${i.id}" style="cursor:pointer">
+  return `<tr data-sopen="${i.id}" style="cursor:pointer${stuSel.has(i.id)?';background:var(--brand-soft,rgba(99,102,241,.08))':''}">
+    <td style="${TD};text-align:center"><input type="checkbox" data-scheck="${i.id}" ${stuSel.has(i.id)?'checked':''}></td>
     <td style="${TD}">${esc((i.grade||'').replace('Grade ','Gr '))}</td>
     <td style="${TD};font-weight:600">${esc(i.student||'')}</td>
     <td style="${TD};color:var(--ink-mute)">${esc(i.sid||'')}</td>
@@ -1070,8 +1071,18 @@ function renderStudents(){
   const chips=['all',...GRADES].map(g=>`<button class="filt ${stuGrade===g?'active':''}" data-sgr="${g}">${g==='all'?'All classes':g.replace('Grade ','Gr ')}</button>`).join('');
   const byHL=h=>state.ias.filter(i=>i.hl===h).length;
   const TH='padding:7px 9px;border-bottom:2px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-mute);text-align:left;white-space:nowrap';
-  const rows=list.length?list.map(studentRow).join(''):`<tr><td colspan="8" style="padding:18px;text-align:center;color:var(--ink-mute);font-size:13px">No students${stuGrade!=='all'?' in '+stuGrade:''} yet. Click “Add student” or “Import list”.</td></tr>`;
-  return `${pageHead('Students','Your full student directory — class, HL/SL, block and teacher. Click any student to edit, see their analytics, or assign an IA/EE task.')}
+  const rows=list.length?list.map(studentRow).join(''):`<tr><td colspan="9" style="padding:18px;text-align:center;color:var(--ink-mute);font-size:13px">No students${stuGrade!=='all'?' in '+stuGrade:''} yet. Click “Add student” or “Import list”.</td></tr>`;
+  const shownIds=list.map(i=>i.id);const allShown=shownIds.length&&shownIds.every(id=>stuSel.has(id));
+  const bulkBar=stuSel.size?`<div class="card" style="padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;background:var(--surface-2)">
+    <b style="font-size:13px">${stuSel.size} selected</b>
+    <button class="btn sm" data-bulk="supervisor">Change teacher</button>
+    <button class="btn sm" data-bulk="block">Change block</button>
+    <button class="btn sm" data-bulk="grade">Change class</button>
+    <button class="btn sm" data-bulk="hl">Change HL/SL</button>
+    <button class="btn sm danger" data-bulk="delete">Delete</button>
+    <button class="btn sm" data-bulk="clear" style="margin-left:auto">Clear</button>
+  </div>`:'';
+  return `${pageHead('Students','Your full student directory — class, HL/SL, block and teacher. Click a student to edit, or tick several to change teacher/block/class or delete in bulk.')}
   ${privacyNote()}
   <div style="display:flex;gap:9px;flex-wrap:wrap;margin:4px 0 12px">
     <button class="btn primary" data-saddnew><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add student</button>
@@ -1084,10 +1095,35 @@ function renderStudents(){
     ${tile('today',byHL('HL'),'HL')}
     ${tile('over',byHL('SL'),'SL')}
   </div>
+  ${bulkBar}
   <div class="card" style="padding:6px 8px"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">
-    <tr><th style="${TH}">Class</th><th style="${TH}">Name</th><th style="${TH}">ID</th><th style="${TH}">HL/SL</th><th style="${TH}">Block</th><th style="${TH}">Teacher</th><th style="${TH}">Stage</th><th style="${TH}"></th></tr>
+    <tr><th style="${TH};text-align:center"><input type="checkbox" id="scheckall" ${allShown?'checked':''} title="Select all shown"></th><th style="${TH}">Class</th><th style="${TH}">Name</th><th style="${TH}">ID</th><th style="${TH}">HL/SL</th><th style="${TH}">Block</th><th style="${TH}">Teacher</th><th style="${TH}">Stage</th><th style="${TH}"></th></tr>
     ${rows}
   </table></div></div>`;
+}
+function bulkFieldModal(field){
+  const ids=[...stuSel];if(!ids.length){toast('Tick some students first');return;}
+  const labels={supervisor:'teacher',block:'block',grade:'class',hl:'HL / SL'};
+  let input;
+  if(field==='supervisor'){const names=state.settings.teachers||[];input=`<select id="bk_val">${names.map(n=>`<option>${esc(n)}</option>`).join('')}</select><input id="bk_custom" placeholder="…or type a different teacher name" style="margin-top:8px;width:100%;padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">`;}
+  else if(field==='grade'){input=`<select id="bk_val">${GRADES.map(g=>`<option>${g}</option>`).join('')}</select>`;}
+  else if(field==='hl'){input=`<select id="bk_val"><option value="">—</option><option>HL</option><option>SL</option></select>`;}
+  else{input=`<input id="bk_val" placeholder="New ${labels[field]}" style="width:100%">`;}
+  modal(`
+    <div class="modal-head"><h3>Change ${labels[field]} · ${ids.length} student${ids.length>1?'s':''}</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body"><div class="fld"><label>New ${labels[field]}</label>${input}</div><p class="mini">This updates all ${ids.length} selected students at once.</p></div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="bk_apply">Apply to ${ids.length}</button></div>`);
+  $('#bk_apply').onclick=()=>{
+    let v=$('#bk_val')?$('#bk_val').value:'';const c=$('#bk_custom');if(c&&c.value.trim())v=c.value.trim();
+    let n=0;ids.forEach(id=>{const i=state.ias.find(x=>x.id===id);if(i){i[field]=v;n++;}});
+    save();closeModal();toast('Updated '+labels[field]+' for '+n+' students');render();
+  };
+}
+function bulkStudentDelete(){
+  const ids=[...stuSel];if(!ids.length){toast('Tick some students first');return;}
+  if(confirm('Delete '+ids.length+' selected student'+(ids.length>1?'s':'')+'? This removes their records, files and mentor/CAS logs.')){
+    state.ias=state.ias.filter(x=>!stuSel.has(x.id));stuSel.clear();save();refreshBadges();render();toast('Deleted '+ids.length);
+  }
 }
 /* ===================== Course Outline tracker ===================== */
 function acadStartYear(){const m=(store.activeYear||'').match(/(\d{4})/);return m?+m[1]:new Date().getFullYear();}
@@ -2113,7 +2149,10 @@ function bind(){
   document.querySelectorAll('[data-sgr]').forEach(b=>b.onclick=()=>{stuGrade=b.dataset.sgr;render();});
   document.querySelectorAll('[data-saddnew]').forEach(b=>b.onclick=()=>iaModal());
   document.querySelectorAll('[data-simport]').forEach(b=>b.onclick=()=>importStudentsModal());
-  document.querySelectorAll('[data-sopen]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-sdel2]'))return;const i=state.ias.find(x=>x.id===r.dataset.sopen);if(i)iaModal(i);});
+  document.querySelectorAll('[data-sopen]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-sdel2],[data-scheck]'))return;const i=state.ias.find(x=>x.id===r.dataset.sopen);if(i)iaModal(i);});
+  document.querySelectorAll('[data-scheck]').forEach(cb=>cb.onchange=e=>{e.stopPropagation();if(cb.checked)stuSel.add(cb.dataset.scheck);else stuSel.delete(cb.dataset.scheck);render();});
+  {const sa=$('#scheckall');if(sa)sa.onchange=()=>{document.querySelectorAll('[data-scheck]').forEach(cb=>{if(sa.checked)stuSel.add(cb.dataset.scheck);else stuSel.delete(cb.dataset.scheck);});render();};}
+  document.querySelectorAll('[data-bulk]').forEach(b=>b.onclick=()=>{const a=b.dataset.bulk;if(a==='delete')bulkStudentDelete();else if(a==='clear'){stuSel.clear();render();}else bulkFieldModal(a);});
   document.querySelectorAll('[data-sdel2]').forEach(b=>b.onclick=e=>{e.stopPropagation();const i=state.ias.find(x=>x.id===b.dataset.sdel2);if(i&&confirm('Delete '+i.student+'? This removes their record, files, IA and mentor/CAS logs.')){state.ias=state.ias.filter(x=>x.id!==b.dataset.sdel2);save();refreshBadges();render();}});
   {const sq=$('#stu_q');if(sq)sq.oninput=()=>{searchQ=sq.value;render();const n=$('#stu_q');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length);}};}
   document.querySelectorAll('[data-ogr]').forEach(b=>b.onclick=()=>{outlineGrade=b.dataset.ogr;render();});
