@@ -1709,8 +1709,13 @@ async function aiExtract(mode,payload){
   if(!url)throw new Error('AI backend not set up yet — add its URL under “AI auto-extract”.');
   const body={mode:mode,passcode:ACCESS_CODE};
   if(payload){if(payload.image)body.image=payload.image;if(payload.text)body.text=payload.text;}
-  const res=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
-  if(!res.ok){let m='AI request failed ('+res.status+').';try{const j=await res.json();if(j&&j.error)m=j.error;}catch(e){}throw new Error(m);}
+  const attempt=()=>fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+  let res=await attempt();
+  if(res.status===429||res.status===502){let peek='';try{peek=await res.clone().text();}catch(e){}
+    if(/429|quota|rate.?limit|exceeded/i.test(peek)){await new Promise(r=>setTimeout(r,7000));res=await attempt();}}
+  if(!res.ok){let m='AI request failed ('+res.status+').';try{const j=await res.json();if(j&&j.error)m=j.error;}catch(e){}
+    if(/429|quota|rate.?limit|exceeded/i.test(m))m='Google’s free AI limit is maxed out for the moment (rate limit). Wait about a minute and try again, and do one item at a time. Daily free limits reset after midnight US-Pacific.';
+    throw new Error(m);}
   return await res.json();
 }
 function loadingModal(msg){modal(`<div class="modal-body" style="align-items:center;text-align:center;padding:34px 22px"><div class="spinner"></div><p style="font-weight:700;color:var(--ink-soft);margin:0">${esc(msg)}</p><p class="mini" style="margin-top:4px">Reading it with your AI — a few seconds…</p></div>`);}
