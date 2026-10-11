@@ -1065,14 +1065,60 @@ function studentPanel(i){
     <div style="border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--surface-2)">${list}</div>
     <div style="display:flex;gap:7px;margin-top:8px;flex-wrap:wrap;align-items:center">
       ${canEE?'<button class="btn sm" id="i_assignia" type="button">+ Assign IA task</button><button class="btn sm" id="i_assignee" type="button">+ Assign EE task</button>':'<span class="mini">IA / EE assignment is for Grade 11 & 12 students.</span>'}
-    </div></div>`;
+    </div></div>
+    ${i.assess?assessPanel(i):`<div class="fld"><label>AI assessment</label><button class="btn sm" id="i_assess" type="button">⚡ Assess IA with AI (IB Physics criteria)</button> <span class="mini">reads the latest attached file</span></div>`}`;
+}
+function bandColor(b,m){const r=(+b||0)/(m||6);return r>=0.75?'var(--good)':(r>=0.5?'#b07d22':'var(--crit)');}
+function statusColor(s){return s==='extending'?'var(--good)':(s==='lagging'?'var(--crit)':'var(--brand)');}
+function concernColor(c){return c==='high'?'var(--crit)':(c==='medium'?'#b07d22':'var(--good)');}
+async function assessIA(i){
+  const f=(filesOf(i)||[]).filter(x=>x.thumb&&/^data:/.test(x.thumb)).slice(-1)[0];
+  if(!f){toast('Attach the IA file (PDF or image) in Files below first');return;}
+  if(!aiEnabled()){aiSettingsModal();return;}
+  loadingModal('Reading & assessing the IA…');
+  try{const r=await aiExtract('ia_assess',{image:f.thumb});
+    if(!r||!Array.isArray(r.criteria)){closeModal();iaModal(i);toast('Could not assess — is the Worker deployed?');return;}
+    i.assess=Object.assign({at:Date.now(),fileName:f.name},r);save();closeModal();iaModal(i);toast('Assessment ready');
+  }catch(e){closeModal();iaModal(i);toast(e.message||'Assessment failed');}
+}
+function assessPanel(i){
+  const a=i.assess;if(!a)return '';
+  const crit=(a.criteria||[]).map(c=>`<div style="padding:5px 0;border-bottom:1px solid var(--line)"><div style="font-size:12.5px;font-weight:600">${esc(c.name)} <span style="color:${bandColor(c.band,c.max)}">${+c.band||0}/${c.max||6}</span></div><div class="mini">${esc(c.comment||'')}</div></div>`).join('');
+  const total=a.total!=null?a.total:(a.criteria||[]).reduce((s,c)=>s+(+c.band||0),0);
+  const comp=Math.max(0,Math.min(100,+a.completeness||0));
+  const stc=statusColor(a.status);const cc=concernColor((a.integrity||{}).concern);
+  const strengths=(a.strengths||[]).filter(Boolean).map(s=>`<li>${esc(s)}</li>`).join('');
+  const improves=(a.improvements||[]).filter(Boolean).map(s=>`<li>${esc(s)}</li>`).join('');
+  return `<div class="fld"><label>AI assessment · IB DP Physics IA${a.at?' · '+fmtDate(new Date(a.at).toISOString().slice(0,10)):''}</label>
+    <div style="border:1px solid var(--line);border-radius:10px;padding:12px 14px;background:var(--surface-2)">
+      <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
+        <span class="tag" style="background:var(--surface);border:1px solid ${stc};color:${stc};font-weight:700">${esc((a.status||'on track').toUpperCase())}</span>
+        <span class="tag subj">Total ${total}/24</span>
+        <span class="tag cat">${comp}% complete</span>
+      </div>
+      <div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink-mute);margin-bottom:4px"><span>Completeness</span><span>${comp}%</span></div>${bar(comp)}</div>
+      ${crit}
+      ${strengths?`<div style="margin-top:10px;font-size:12.5px"><b style="color:var(--good)">Strengths</b><ul style="margin:4px 0 0;padding-left:18px">${strengths}</ul></div>`:''}
+      ${improves?`<div style="margin-top:8px;font-size:12.5px"><b style="color:#b07d22">To improve</b><ul style="margin:4px 0 0;padding-left:18px">${improves}</ul></div>`:''}
+      ${a.feedback?`<div style="margin-top:10px;font-size:12.5px"><b>Suggested feedback</b><div style="margin-top:3px;color:var(--ink-soft)">${esc(a.feedback)}</div><button class="btn sm" id="i_applyfb" type="button" style="margin-top:6px">Copy to Feedback field</button></div>`:''}
+      <div style="margin-top:11px;padding-top:9px;border-top:1px solid var(--line)">
+        <div style="font-size:12.5px"><b style="color:${cc}">Integrity impression: ${esc(((a.integrity||{}).concern||'low').toUpperCase())}</b></div>
+        <div class="mini" style="margin-top:2px">${esc((a.integrity||{}).note||'')}</div>
+        <div class="mini" style="margin-top:4px;font-style:italic">Heuristic only — not a plagiarism scan or proof of AI use. Verify before acting.</div>
+      </div>
+    </div>
+    <div style="display:flex;gap:7px;margin-top:8px;flex-wrap:wrap;align-items:center">
+      <button class="btn sm" id="i_reassess" type="button">↻ Re-assess current file</button>
+      <label style="display:flex;align-items:center;gap:7px;font-size:12.5px;cursor:pointer;margin-left:auto"><input type="checkbox" id="i_flag" ${i.flagged?'checked':''}> <span style="color:var(--crit);font-weight:600">🚩 Flag this work</span></label>
+    </div>
+  </div>`;
 }
 function studentRow(i){
   const TD='padding:7px 9px;border-bottom:1px solid var(--line);font-size:13px;white-space:nowrap';
   return `<tr data-sopen="${i.id}" style="cursor:pointer${stuSel.has(i.id)?';background:var(--brand-soft,rgba(99,102,241,.08))':''}">
     <td style="${TD};text-align:center"><input type="checkbox" data-scheck="${i.id}" ${stuSel.has(i.id)?'checked':''}></td>
     <td style="${TD}">${esc((i.grade||'').replace('Grade ','Gr '))}</td>
-    <td style="${TD};font-weight:600">${esc(i.student||'')}</td>
+    <td style="${TD};font-weight:600">${i.flagged?'🚩 ':''}${esc(i.student||'')}</td>
     <td style="${TD};color:var(--ink-mute)">${esc(i.sid||'')}</td>
     <td style="${TD}">${i.hl?`<span class="tag ${i.hl==='HL'?'cat':'subj'}">${esc(i.hl)}</span>`:''}${i.ee?' <span class="tag" style="background:var(--brand-soft,rgba(99,102,241,.12));color:var(--brand)">EE</span>':''}</td>
     <td style="${TD}">${i.block?esc(i.block):''}</td>
@@ -2104,6 +2150,10 @@ function iaModal(i){
     $('#if_addlink').onclick=()=>{persistIA();let url=$('#if_link').value.trim();if(!url){toast('Paste a link first');return;}if(!/^https?:\/\//i.test(url))url='https://'+url;i.files=i.files||[];let nm='Drive link';try{nm=new URL(url).hostname.replace(/^www\./,'');}catch(e){}i.files.push({id:uid(),name:$('#if_note').value.trim()||nm,note:$('#if_note').value.trim()?'':('link · '+nm),link:url,stage:$('#if_stage').value,thumb:null,at:Date.now()});save();closeModal();iaModal(i);toast('Link added');};
     const aia=$('#i_assignia');if(aia)aia.onclick=()=>{persistIA();assignStudentTask(i,'IA');closeModal();iaModal(i);};
     const aee=$('#i_assignee');if(aee)aee.onclick=()=>{persistIA();assignStudentTask(i,'EE');closeModal();iaModal(i);};
+    const asb=$('#i_assess');if(asb)asb.onclick=()=>{persistIA();assessIA(i);};
+    const rab=$('#i_reassess');if(rab)rab.onclick=()=>{persistIA();assessIA(i);};
+    const afb=$('#i_applyfb');if(afb)afb.onclick=()=>{if(i.assess&&i.assess.feedback){$('#i_fb').value=i.assess.feedback;toast('Copied — edit as needed, then Save');}};
+    const flg=$('#i_flag');if(flg)flg.onchange=()=>{i.flagged=flg.checked;save();refreshBadges();};
   }
   {const ee=$('#i_ee');if(ee)ee.onchange=()=>{const box=$('#i_eebox');if(box)box.style.display=ee.checked?'block':'none';};}
   function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.sid=$('#i_sid').value.trim();i.grade=$('#i_grade').value;i.hl=$('#i_hl').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;i.ee=$('#i_ee').checked;i.eeSupervisor=i.ee?$('#i_eesup').value:'';i.eeStage=i.ee?$('#i_eestage').value:'';i.eeTopic=i.ee?$('#i_eetopic').value.trim():'';}
