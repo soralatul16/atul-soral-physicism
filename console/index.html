@@ -1768,6 +1768,22 @@ Avthu, Siddharth (INT10751 Siddharth)"></textarea></div>
 }
 /* ===================== Smart Capture (intent routing) ===================== */
 let scImage=null,scFileName='';
+function readImageScaled(file,cb){
+  const r=new FileReader();
+  r.onload=ev=>{
+    const img=new Image();
+    img.onload=()=>{
+      const max=1600;let w=img.width,h=img.height;
+      if(w>max||h>max){const s=Math.min(max/w,max/h);w=Math.round(w*s);h=Math.round(h*s);}
+      try{const c=document.createElement('canvas');c.width=w;c.height=h;c.getContext('2d').drawImage(img,0,0,w,h);cb(c.toDataURL('image/jpeg',0.82));}
+      catch(e){cb(ev.target.result);}
+    };
+    img.onerror=()=>cb(ev.target.result);
+    img.src=ev.target.result;
+  };
+  r.onerror=()=>cb(null);
+  r.readAsDataURL(file);
+}
 function routeContext(){
   const blocks=[...new Set(state.staff.flatMap(s=>(s.timetable||[]).map(x=>x.block)).filter(Boolean))];
   const students=state.ias.map(i=>i.student).filter(Boolean);
@@ -1794,7 +1810,7 @@ function smartCaptureInline(){
   </div>`;
 }
 function bindSmartInline(){
-  const sca=$('#sci_attach');if(sca)sca.onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;scFileName=f.name;const el=$('#sci_file');if(f.type.startsWith('image/')&&f.size<1800000){const r=new FileReader();r.onload=ev=>{scImage=ev.target.result;if(el)el.innerHTML=`<img src="${scImage}" style="max-height:80px;border-radius:8px;border:1px solid var(--line)">`;};r.readAsDataURL(f);}else{scImage=null;if(el)el.innerHTML=`<span class="tag subj">📄 ${esc(f.name)}</span>`;}};inp.click();};
+  const sca=$('#sci_attach');if(sca)sca.onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;scFileName=f.name;const el=$('#sci_file');if(f.type.startsWith('image/')){if(el)el.innerHTML='<span class="mini">Reading image…</span>';readImageScaled(f,data=>{scImage=data;if(el)el.innerHTML=scImage?`<img src="${scImage}" style="max-height:80px;border-radius:8px;border:1px solid var(--line)">`:`<span class="tag subj">📄 ${esc(f.name)}</span>`;});}else{scImage=null;if(el)el.innerHTML=`<span class="tag subj">📄 ${esc(f.name)}</span>`;}};inp.click();};
   const scg=$('#sci_go');if(scg)scg.onclick=()=>runRouteWith($('#sci_mat').value.trim(),$('#sci_do').value.trim(),scImage,scFileName,'');
 }
 function smartCaptureModal(preset){
@@ -1813,7 +1829,7 @@ function smartCaptureModal(preset){
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="sc_go">Understand &amp; file</button></div>`);
   scPreview();
-  $('#sc_attach').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;scFileName=f.name;if(f.type.startsWith('image/')&&f.size<1800000){const r=new FileReader();r.onload=ev=>{scImage=ev.target.result;scPreview();};r.readAsDataURL(f);}else{scImage=null;scPreview();}};inp.click();};
+  $('#sc_attach').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;scFileName=f.name;if(f.type.startsWith('image/')){readImageScaled(f,data=>{scImage=data;scPreview();});}else{scImage=null;scPreview();}};inp.click();};
   $('#sc_go').onclick=()=>runRouteWith($('#sc_mat').value.trim(),$('#sc_do').value.trim(),scImage,scFileName,'');
 }
 async function runRouteWith(mat,ins,image,fileName,answer){
