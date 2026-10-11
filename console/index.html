@@ -441,7 +441,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', outlineGrade='', stuGrade='all', stuSel=new Set();
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', outlineGrade='', stuGrade='all', stuSel=new Set(), stuHL='all', stuTeacher='all', stuTask='all';
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -1065,13 +1065,27 @@ function studentRow(i){
 function renderStudents(){
   let list=state.ias.slice();
   if(stuGrade!=='all')list=list.filter(i=>i.grade===stuGrade);
+  if(stuHL!=='all')list=list.filter(i=>(i.hl||'')===stuHL);
+  if(stuTeacher!=='all')list=list.filter(i=>(i.supervisor||'')===stuTeacher);
+  const hasOpenTask=i=>state.tasks.some(t=>t.student===i.student&&t.status!=='done');
+  if(stuTask==='with')list=list.filter(hasOpenTask);
+  else if(stuTask==='none')list=list.filter(i=>!hasOpenTask(i));
   const q=(searchQ||'').toLowerCase();
   if(q)list=list.filter(i=>(i.student||'').toLowerCase().includes(q)||(i.sid||'').toLowerCase().includes(q)||(i.block||'').toLowerCase().includes(q));
   list.sort((a,b)=>(a.grade||'').localeCompare(b.grade||'')||(a.student||'').localeCompare(b.student||''));
   const chips=['all',...GRADES].map(g=>`<button class="filt ${stuGrade===g?'active':''}" data-sgr="${g}">${g==='all'?'All classes':g.replace('Grade ','Gr ')}</button>`).join('');
   const byHL=h=>state.ias.filter(i=>i.hl===h).length;
+  const teacherNames=Array.from(new Set(state.ias.map(i=>i.supervisor).filter(Boolean))).sort();
+  const SEL='padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px;font-size:13px;background:var(--surface)';
+  const filtersActive=stuHL!=='all'||stuTeacher!=='all'||stuTask!=='all'||stuGrade!=='all'||q;
+  const filterBar=`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
+    <select id="stu_hl" style="${SEL}"><option value="all"${stuHL==='all'?' selected':''}>All levels</option><option${stuHL==='HL'?' selected':''}>HL</option><option${stuHL==='SL'?' selected':''}>SL</option></select>
+    <select id="stu_teacher" style="${SEL}"><option value="all">${stuTeacher==='all'?'All teachers':'All teachers'}</option>${teacherNames.map(n=>`<option ${n===stuTeacher?'selected':''}>${esc(n)}</option>`).join('')}</select>
+    <select id="stu_task" style="${SEL}"><option value="all"${stuTask==='all'?' selected':''}>Any tasks</option><option value="with"${stuTask==='with'?' selected':''}>Has open tasks</option><option value="none"${stuTask==='none'?' selected':''}>No open tasks</option></select>
+    ${filtersActive?'<button class="btn sm" data-sclearf>Clear filters</button>':''}
+  </div>`;
   const TH='padding:7px 9px;border-bottom:2px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-mute);text-align:left;white-space:nowrap';
-  const rows=list.length?list.map(studentRow).join(''):`<tr><td colspan="9" style="padding:18px;text-align:center;color:var(--ink-mute);font-size:13px">No students${stuGrade!=='all'?' in '+stuGrade:''} yet. Click “Add student” or “Import list”.</td></tr>`;
+  const rows=list.length?list.map(studentRow).join(''):`<tr><td colspan="9" style="padding:18px;text-align:center;color:var(--ink-mute);font-size:13px">No students match these filters. Adjust the filters, or add students.</td></tr>`;
   const shownIds=list.map(i=>i.id);const allShown=shownIds.length&&shownIds.every(id=>stuSel.has(id));
   const bulkBar=stuSel.size?`<div class="card" style="padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;background:var(--surface-2)">
     <b style="font-size:13px">${stuSel.size} selected</b>
@@ -1090,6 +1104,7 @@ function renderStudents(){
   </div>
   <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">${chips}</div>
   <div class="fld" style="margin-bottom:10px"><input id="stu_q" placeholder="Search name, ID or block…" value="${esc(searchQ||'')}"></div>
+  ${filterBar}
   <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:14px">
     ${tile('up',list.length,'Students shown')}
     ${tile('today',byHL('HL'),'HL')}
@@ -2163,6 +2178,10 @@ function bind(){
   document.querySelectorAll('[data-assign]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.assign);if(s)taskModal(null,{teacher:s.name,assignedBy:'Atul Soral'});});
   document.querySelectorAll('[data-staffgo]').forEach(c=>c.onclick=()=>go('teachers'));
   document.querySelectorAll('[data-sgr]').forEach(b=>b.onclick=()=>{stuGrade=b.dataset.sgr;render();});
+  {const h=$('#stu_hl');if(h)h.onchange=()=>{stuHL=h.value;render();}}
+  {const t=$('#stu_teacher');if(t)t.onchange=()=>{stuTeacher=t.value;render();}}
+  {const k=$('#stu_task');if(k)k.onchange=()=>{stuTask=k.value;render();}}
+  document.querySelectorAll('[data-sclearf]').forEach(b=>b.onclick=()=>{stuGrade='all';stuHL='all';stuTeacher='all';stuTask='all';searchQ='';render();});
   document.querySelectorAll('[data-saddnew]').forEach(b=>b.onclick=()=>iaModal());
   document.querySelectorAll('[data-simport]').forEach(b=>b.onclick=()=>importStudentsModal());
   document.querySelectorAll('[data-sopen]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-sdel2],[data-scheck]'))return;const i=state.ias.find(x=>x.id===r.dataset.sopen);if(i)iaModal(i);});
