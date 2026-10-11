@@ -354,6 +354,7 @@
     <div class="nav-group-label">Workstreams</div>
     <button class="nav-btn" data-view="tasks"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Tasks &amp; Deadlines<span class="nav-badge" id="nb-tasks">0</span></button>
     <button class="nav-btn" data-view="corrections"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>Exam Corrections<span class="nav-badge" id="nb-corr">0</span></button>
+    <button class="nav-btn" data-view="students"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 11h-6M22 15h-6"/></svg>Students<span class="nav-badge" id="nb-students">0</span></button>
     <button class="nav-btn" data-view="ia"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 2v6l-5 9a2 2 0 0 0 1.8 3h12.4a2 2 0 0 0 1.8-3l-5-9V2"/><path d="M8 2h8M7 15h10"/></svg>IA Lab<span class="nav-badge" id="nb-ia">0</span></button>
     <button class="nav-btn" data-view="teachers"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Teachers<span class="nav-badge" id="nb-staff">0</span></button>
     <button class="nav-btn" data-view="mentor"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Form Tutor<span class="nav-badge" id="nb-mentor">0</span></button>
@@ -440,7 +441,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', outlineGrade='';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', outlineGrade='', stuGrade='all';
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -635,6 +636,7 @@ function refreshBadges(){
   const trb=$('#nb-trash');if(trb){trb.textContent=(store.trash||[]).length;}
   const mb=$('#nb-mentor');if(mb)mb.textContent=state.ias.filter(i=>i.mentee).length;
   const cb2=$('#nb-cas');if(cb2)cb2.textContent=state.ias.filter(i=>i.cas).length;
+  const stb=$('#nb-students');if(stb)stb.textContent=state.ias.length;
 }
 function render(){
   refreshBadges();populateYears();
@@ -650,6 +652,7 @@ function render(){
     else if(view==='mentor')el.innerHTML=renderRole('mentee');
     else if(view==='cas')el.innerHTML=renderRole('cas');
     else if(view==='outline')el.innerHTML=renderOutline();
+    else if(view==='students')el.innerHTML=renderStudents();
     else if(view==='trash')el.innerHTML=renderTrash();
     else if(view==='documents')el.innerHTML=renderDocs();
     else el.innerHTML=renderDash();
@@ -1019,6 +1022,73 @@ function iaUpload(id){
   inp.click();
 }
 
+/* ===================== Students directory ===================== */
+function assignStudentTask(i,kind){
+  state.tasks.push({id:uid(),status:'open',subject:'Physics',recurring:null,createdAt:Date.now(),
+    title:kind+' — '+i.student+(i.topic?(' · '+i.topic):''),type:kind,grade:i.grade||'',teacher:i.supervisor||'',
+    student:i.student,category:'Student',audience:'',hat:'Physics Teacher',notes:'',assignedBy:'Atul Soral',
+    due:i.due||null,priority:'normal'});
+  save();toast(kind+' task assigned to '+i.student);
+}
+function studentPanel(i){
+  const tasks=state.tasks.filter(t=>t.student===i.student);
+  const open=tasks.filter(t=>t.status!=='done');
+  const mN=(i.mSessions||[]).length,cN=(i.cSessions||[]).length;
+  const canEE=/\b(11|12)\b/.test(i.grade||'');
+  const list=open.length?open.slice().sort(byDue).map(t=>`<div style="display:flex;justify-content:space-between;gap:8px;padding:4px 0;font-size:12.5px"><span>${esc(t.title)} <span class="tag type">${esc(t.type||'Task')}</span></span><span class="mini">${t.due?fmtDate(t.due):''}</span></div>`).join(''):'<div class="mini">No open tasks for this student.</div>';
+  return `<div class="fld"><label>This student at a glance</label>
+    <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px">
+      <span class="tag subj">Stage: ${esc(i.stage||'—')}</span>
+      <span class="tag cat">${open.length} open task${open.length!==1?'s':''}</span>
+      <span class="tag type">📎 ${filesOf(i).length} files</span>
+      ${mN?`<span class="tag">🧭 ${mN} mentor</span>`:''}${cN?`<span class="tag">🌟 ${cN} CAS</span>`:''}
+    </div>
+    <div style="border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--surface-2)">${list}</div>
+    <div style="display:flex;gap:7px;margin-top:8px;flex-wrap:wrap;align-items:center">
+      ${canEE?'<button class="btn sm" id="i_assignia" type="button">+ Assign IA task</button><button class="btn sm" id="i_assignee" type="button">+ Assign EE task</button>':'<span class="mini">IA / EE assignment is for Grade 11 & 12 students.</span>'}
+    </div></div>`;
+}
+function studentRow(i){
+  const TD='padding:7px 9px;border-bottom:1px solid var(--line);font-size:13px;white-space:nowrap';
+  return `<tr data-sopen="${i.id}" style="cursor:pointer">
+    <td style="${TD}">${esc((i.grade||'').replace('Grade ','Gr '))}</td>
+    <td style="${TD};font-weight:600">${esc(i.student||'')}</td>
+    <td style="${TD};color:var(--ink-mute)">${esc(i.sid||'')}</td>
+    <td style="${TD}">${i.hl?`<span class="tag ${i.hl==='HL'?'cat':'subj'}">${esc(i.hl)}</span>`:''}</td>
+    <td style="${TD}">${i.block?esc(i.block):''}</td>
+    <td style="${TD}">${esc(i.supervisor||'')}</td>
+    <td style="${TD}"><span class="tag type">${esc(i.stage||'—')}</span></td>
+    <td style="${TD};text-align:right"><button class="row-del" data-sdel2="${i.id}" title="Delete student"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></td>
+  </tr>`;
+}
+function renderStudents(){
+  let list=state.ias.slice();
+  if(stuGrade!=='all')list=list.filter(i=>i.grade===stuGrade);
+  const q=(searchQ||'').toLowerCase();
+  if(q)list=list.filter(i=>(i.student||'').toLowerCase().includes(q)||(i.sid||'').toLowerCase().includes(q)||(i.block||'').toLowerCase().includes(q));
+  list.sort((a,b)=>(a.grade||'').localeCompare(b.grade||'')||(a.student||'').localeCompare(b.student||''));
+  const chips=['all',...GRADES].map(g=>`<button class="filt ${stuGrade===g?'active':''}" data-sgr="${g}">${g==='all'?'All classes':g.replace('Grade ','Gr ')}</button>`).join('');
+  const byHL=h=>state.ias.filter(i=>i.hl===h).length;
+  const TH='padding:7px 9px;border-bottom:2px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-mute);text-align:left;white-space:nowrap';
+  const rows=list.length?list.map(studentRow).join(''):`<tr><td colspan="8" style="padding:18px;text-align:center;color:var(--ink-mute);font-size:13px">No students${stuGrade!=='all'?' in '+stuGrade:''} yet. Click “Add student” or “Import list”.</td></tr>`;
+  return `${pageHead('Students','Your full student directory — class, HL/SL, block and teacher. Click any student to edit, see their analytics, or assign an IA/EE task.')}
+  ${privacyNote()}
+  <div style="display:flex;gap:9px;flex-wrap:wrap;margin:4px 0 12px">
+    <button class="btn primary" data-saddnew><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add student</button>
+    <button class="btn" data-simport>Import list</button>
+  </div>
+  <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:10px">${chips}</div>
+  <div class="fld" style="margin-bottom:10px"><input id="stu_q" placeholder="Search name, ID or block…" value="${esc(searchQ||'')}"></div>
+  <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:14px">
+    ${tile('up',list.length,'Students shown')}
+    ${tile('today',byHL('HL'),'HL')}
+    ${tile('over',byHL('SL'),'SL')}
+  </div>
+  <div class="card" style="padding:6px 8px"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">
+    <tr><th style="${TH}">Class</th><th style="${TH}">Name</th><th style="${TH}">ID</th><th style="${TH}">HL/SL</th><th style="${TH}">Block</th><th style="${TH}">Teacher</th><th style="${TH}">Stage</th><th style="${TH}"></th></tr>
+    ${rows}
+  </table></div></div>`;
+}
 /* ===================== Course Outline tracker ===================== */
 function acadStartYear(){const m=(store.activeYear||'').match(/(\d{4})/);return m?+m[1]:new Date().getFullYear();}
 function normGrade(g){const m=(''+(g||'')).match(/\b(9|10|11|12)\b/);return m?('Grade '+m[1]):'';}
@@ -1647,7 +1717,7 @@ function yearModal(){
 function taskModal(t,preset){
   const edit=!!t;t=t||Object.assign({type:'Task',priority:'normal',subject:'Physics',recurring:'',assignedBy:'Atul Soral'},preset||{});
   const opt=(v,cur)=>`<option ${v===cur?'selected':''}>${v}</option>`;
-  const types=['Task','Moderation','Standardisation','Assessment','Question Paper','Markscheme','IA','Observation','Meeting','Predicted Grade','Intervention','Report','Lesson Plan','Unit Plan','Syllabus'];
+  const types=['Task','Moderation','Standardisation','Assessment','Question Paper','Markscheme','IA','EE','Observation','Meeting','Predicted Grade','Intervention','Report','Lesson Plan','Unit Plan','Syllabus'];
   const grades=['',...GRADES];
   const cats=['','Exam','Student','ECA','Other'];
   const auds=['','Teachers','HODs','Coordinators'];
@@ -1810,7 +1880,7 @@ function smartCaptureInline(){
   </div>`;
 }
 function bindSmartInline(){
-  const sca=$('#sci_attach');if(sca)sca.onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;scFileName=f.name;const el=$('#sci_file');if(f.type.startsWith('image/')){if(el)el.innerHTML='<span class="mini">Reading image…</span>';readImageScaled(f,data=>{scImage=data;if(el)el.innerHTML=scImage?`<img src="${scImage}" style="max-height:80px;border-radius:8px;border:1px solid var(--line)">`:`<span class="tag subj">📄 ${esc(f.name)}</span>`;});}else{scImage=null;if(el)el.innerHTML=`<span class="tag subj">📄 ${esc(f.name)}</span>`;}};inp.click();};
+  const sca=$('#sci_attach');if(sca)sca.onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.style.position='fixed';inp.style.left='-9999px';document.body.appendChild(inp);inp.onchange=e=>{const f=e.target.files[0];inp.remove();if(!f)return;scFileName=f.name;const el=$('#sci_file');if(f.type.startsWith('image/')){if(el)el.innerHTML='<span class="mini">Reading image…</span>';readImageScaled(f,data=>{scImage=data;if(el)el.innerHTML=scImage?`<img src="${scImage}" style="max-height:80px;border-radius:8px;border:1px solid var(--line)">`:`<span class="tag subj">📄 ${esc(f.name)}</span>`;});}else{scImage=null;if(el)el.innerHTML=`<span class="tag subj">📄 ${esc(f.name)}</span>`;}};inp.click();};
   const scg=$('#sci_go');if(scg)scg.onclick=()=>runRouteWith($('#sci_mat').value.trim(),$('#sci_do').value.trim(),scImage,scFileName,'');
 }
 function smartCaptureModal(preset){
@@ -1829,7 +1899,7 @@ function smartCaptureModal(preset){
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="sc_go">Understand &amp; file</button></div>`);
   scPreview();
-  $('#sc_attach').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.onchange=e=>{const f=e.target.files[0];if(!f)return;scFileName=f.name;if(f.type.startsWith('image/')){readImageScaled(f,data=>{scImage=data;scPreview();});}else{scImage=null;scPreview();}};inp.click();};
+  $('#sc_attach').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.style.position='fixed';inp.style.left='-9999px';document.body.appendChild(inp);inp.onchange=e=>{const f=e.target.files[0];inp.remove();if(!f)return;scFileName=f.name;if(f.type.startsWith('image/')){readImageScaled(f,data=>{scImage=data;scPreview();});}else{scImage=null;scPreview();}};inp.click();};
   $('#sc_go').onclick=()=>runRouteWith($('#sc_mat').value.trim(),$('#sc_do').value.trim(),scImage,scFileName,'');
 }
 async function runRouteWith(mat,ins,image,fileName,answer){
@@ -1895,6 +1965,7 @@ function iaModal(i){
       <div class="fld-row">
         <div class="fld"><label>Block</label><input id="i_block" value="${esc(i.block||'')}" placeholder="e.g. B7"></div>
         <div class="fld"><label>Class</label><select id="i_grade">${GRADES.map(g=>`<option ${g===i.grade?'selected':''}>${g}</option>`).join('')}</select></div>
+        <div class="fld"><label>HL / SL</label><select id="i_hl"><option value="" ${!i.hl?'selected':''}>—</option><option ${i.hl==='HL'?'selected':''}>HL</option><option ${i.hl==='SL'?'selected':''}>SL</option></select></div>
       </div>
       <div class="fld-row">
         <div class="fld"><label>Supervisor</label><select id="i_sup">${teachOpts.map(t=>`<option ${t===i.supervisor?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
@@ -1904,6 +1975,7 @@ function iaModal(i){
       <div class="fld"><label>Research question</label><textarea id="i_rq" rows="2" placeholder="The student's RQ">${esc(i.rq||'')}</textarea></div>
       <div class="fld"><label>Next deadline</label><input type="date" id="i_due" value="${i.due||''}"></div>
       <div class="fld"><label>Feedback</label><textarea id="i_fb" rows="2" placeholder="Your running feedback for this student">${esc(i.notes||'')}</textarea></div>
+      ${edit?studentPanel(i):''}
       ${edit?`<div class="fld"><label>Files (${files.length}) — attach a file, or paste a Google Drive link so it opens on any device</label><div style="border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--surface-2)">${fileList}</div>
         <div style="display:flex;gap:7px;margin-top:7px;flex-wrap:wrap;align-items:center">
           <input id="if_note" placeholder="Note e.g. Draft 2 comments" style="flex:1;min-width:120px;padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">
@@ -1917,19 +1989,21 @@ function iaModal(i){
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="i_save">${edit?'Save':'Add student'}</button></div>`);
   if(edit){
-    $('#if_add').onclick=()=>{persistIA();const inp=document.createElement('input');inp.type='file';
-      inp.onchange=e=>{const f=e.target.files[0];if(!f)return;i.files=i.files||[];const rec={id:uid(),name:f.name,note:$('#if_note').value.trim(),stage:$('#if_stage').value,thumb:null,at:Date.now()};i.fileName=f.name;
-        if(f.type.startsWith('image/')&&f.size<1600000){const r=new FileReader();r.onload=ev=>{rec.thumb=ev.target.result;i.fileThumb=ev.target.result;i.files.push(rec);save();closeModal();iaModal(i);toast('File added');};r.readAsDataURL(f);}
+    $('#if_add').onclick=()=>{persistIA();const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.style.position='fixed';inp.style.left='-9999px';document.body.appendChild(inp);
+      inp.onchange=e=>{const f=e.target.files[0];inp.remove();if(!f)return;i.files=i.files||[];const rec={id:uid(),name:f.name,note:$('#if_note').value.trim(),stage:$('#if_stage').value,thumb:null,at:Date.now()};i.fileName=f.name;
+        if(f.type.startsWith('image/')){readImageScaled(f,data=>{rec.thumb=data;i.fileThumb=data;i.files.push(rec);save();closeModal();iaModal(i);toast('File added');});}
         else{i.files.push(rec);save();closeModal();iaModal(i);toast('File added');}};
       inp.click();};
     document.querySelectorAll('[data-ifdel]').forEach(b=>b.onclick=()=>{i.files=(i.files||[]).filter(f=>f.id!==b.dataset.ifdel);save();closeModal();iaModal(i);});
     $('#if_addlink').onclick=()=>{persistIA();let url=$('#if_link').value.trim();if(!url){toast('Paste a link first');return;}if(!/^https?:\/\//i.test(url))url='https://'+url;i.files=i.files||[];let nm='Drive link';try{nm=new URL(url).hostname.replace(/^www\./,'');}catch(e){}i.files.push({id:uid(),name:$('#if_note').value.trim()||nm,note:$('#if_note').value.trim()?'':('link · '+nm),link:url,stage:$('#if_stage').value,thumb:null,at:Date.now()});save();closeModal();iaModal(i);toast('Link added');};
+    const aia=$('#i_assignia');if(aia)aia.onclick=()=>{persistIA();assignStudentTask(i,'IA');closeModal();iaModal(i);};
+    const aee=$('#i_assignee');if(aee)aee.onclick=()=>{persistIA();assignStudentTask(i,'EE');closeModal();iaModal(i);};
   }
-  function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.sid=$('#i_sid').value.trim();i.grade=$('#i_grade').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;}
+  function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.sid=$('#i_sid').value.trim();i.grade=$('#i_grade').value;i.hl=$('#i_hl').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;}
   $('#i_save').onclick=()=>{
     const student=$('#i_student').value.trim();if(!student){toast('Enter a student name');return;}
     if(edit){persistIA();}
-    else{state.ias.push({id:uid(),student,sid:$('#i_sid').value.trim(),block:$('#i_block').value.trim(),grade:$('#i_grade').value,supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null,notes:$('#i_fb').value,files:[],fileName:'',fileThumb:null,review:{},aiChecked:false,createdAt:Date.now()});}
+    else{state.ias.push({id:uid(),student,sid:$('#i_sid').value.trim(),block:$('#i_block').value.trim(),grade:$('#i_grade').value,hl:$('#i_hl').value,supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null,notes:$('#i_fb').value,files:[],fileName:'',fileThumb:null,review:{},aiChecked:false,createdAt:Date.now()});}
     save();closeModal();render();toast('Saved');
   };
 }
@@ -2027,6 +2101,12 @@ function bind(){
   document.querySelectorAll('[data-delstaff]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.delstaff);if(s&&confirm('Remove '+s.name+'? Work already assigned to them stays, and you can restore them from Trash.')){binItem('staff',b.dataset.delstaff,'Teacher');}});
   document.querySelectorAll('[data-assign]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.assign);if(s)taskModal(null,{teacher:s.name,assignedBy:'Atul Soral'});});
   document.querySelectorAll('[data-staffgo]').forEach(c=>c.onclick=()=>go('teachers'));
+  document.querySelectorAll('[data-sgr]').forEach(b=>b.onclick=()=>{stuGrade=b.dataset.sgr;render();});
+  document.querySelectorAll('[data-saddnew]').forEach(b=>b.onclick=()=>iaModal());
+  document.querySelectorAll('[data-simport]').forEach(b=>b.onclick=()=>importStudentsModal());
+  document.querySelectorAll('[data-sopen]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-sdel2]'))return;const i=state.ias.find(x=>x.id===r.dataset.sopen);if(i)iaModal(i);});
+  document.querySelectorAll('[data-sdel2]').forEach(b=>b.onclick=e=>{e.stopPropagation();const i=state.ias.find(x=>x.id===b.dataset.sdel2);if(i&&confirm('Delete '+i.student+'? This removes their record, files, IA and mentor/CAS logs.')){state.ias=state.ias.filter(x=>x.id!==b.dataset.sdel2);save();refreshBadges();render();}});
+  {const sq=$('#stu_q');if(sq)sq.oninput=()=>{searchQ=sq.value;render();const n=$('#stu_q');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length);}};}
   document.querySelectorAll('[data-ogr]').forEach(b=>b.onclick=()=>{outlineGrade=b.dataset.ogr;render();});
   document.querySelectorAll('[data-ostart]').forEach(b=>b.onclick=()=>{outlineFor(b.dataset.ostart,true);save();render();});
   document.querySelectorAll('[data-oaddrow]').forEach(b=>b.onclick=()=>{const o=state.outlines.find(x=>x.grade===outlineGrade);if(o){o.rows.push({id:uid(),month:'',my:'',topic:'',checks:{}});save();render();}});
@@ -2058,7 +2138,7 @@ function markCorr(id){const c=state.corrections.find(x=>x.id===id);if(!c)return;
 
 /* ===================== Global wiring ===================== */
 document.querySelectorAll('.nav-btn[data-view]').forEach(b=>b.onclick=()=>{searchQ='';$('#globalSearch').value='';go(b.dataset.view);});
-$('#newBtn').onclick=()=>{if(view==='corrections')corrModal(corrTab);else if(view==='ia')iaModal();else if(view==='teachers')teacherModal();else if(view==='outline'){const o=outlineFor(outlineGrade,true);o.rows.push({id:uid(),month:'',my:'',topic:'',checks:{}});save();render();}else taskModal();};
+$('#newBtn').onclick=()=>{if(view==='corrections')corrModal(corrTab);else if(view==='ia'||view==='students')iaModal();else if(view==='teachers')teacherModal();else if(view==='outline'){const o=outlineFor(outlineGrade,true);o.rows.push({id:uid(),month:'',my:'',topic:'',checks:{}});save();render();}else taskModal();};
 $('#globalSearch').addEventListener('input',e=>{searchQ=e.target.value.trim();render();});
 $('#filePick').addEventListener('change',e=>{if(e.target.files.length)addFiles(e.target.files);e.target.value='';});
 $('#modalScrim').addEventListener('click',e=>{if(e.target.id==='modalScrim')closeModal();});
