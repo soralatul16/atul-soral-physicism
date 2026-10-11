@@ -1857,6 +1857,7 @@ Avthu, Siddharth (INT10751 Siddharth)"></textarea></div>
       <div class="fld-row">
         <div class="fld"><label>Block</label><input id="imp_block" placeholder="e.g. B7"></div>
         <div class="fld"><label>Default class</label><select id="imp_grade">${GRADES.map(g=>`<option>${g}</option>`).join('')}</select></div>
+        <div class="fld"><label>HL / SL</label><select id="imp_hl"><option value="">—</option><option>HL</option><option>SL</option></select></div>
         <div class="fld"><label>Default supervisor</label><select id="imp_sup">${names.map(n=>`<option>${esc(n)}</option>`).join('')}</select></div>
       </div>
       <div id="imp_prev" class="mini">No rows yet.</div>
@@ -1867,9 +1868,9 @@ Avthu, Siddharth (INT10751 Siddharth)"></textarea></div>
   $('#imp_do').onclick=()=>{
     const rows=parseStudents($('#imp_text').value);
     if(!rows.length){toast('Nothing to import');return;}
-    const dg=$('#imp_grade').value,ds=$('#imp_sup').value,bl=$('#imp_block').value.trim();
-    rows.forEach(r=>state.ias.push({id:uid(),student:r.name,sid:r.id||'',block:bl,grade:r.grade||dg,supervisor:(bl&&blockTeacher(bl))||r.supervisor||ds,topic:r.topic||'',rq:'',stage:'Proposal',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()}));
-    save();closeModal();render();toast('Imported '+rows.length+' student'+(rows.length>1?'s':''));
+    const dg=$('#imp_grade').value,ds=$('#imp_sup').value,bl=$('#imp_block').value.trim(),dh=$('#imp_hl').value;
+    rows.forEach(r=>state.ias.push({id:uid(),student:r.name,sid:r.id||'',block:bl,grade:r.grade||dg,hl:dh,supervisor:(bl&&blockTeacher(bl))||r.supervisor||ds,topic:r.topic||'',rq:'',stage:'Proposal',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()}));
+    save();refreshBadges();closeModal();render();toast('Imported '+rows.length+' student'+(rows.length>1?'s':''));
   };
 }
 /* ===================== Smart Capture (intent routing) ===================== */
@@ -1959,7 +1960,7 @@ function dispatchRoute(plan,ctx){
   if(!plan||!plan.action){toast('Could not understand that — try rephrasing step 2');smartCaptureModal(ctx);return;}
   if(plan.action==='clarify'){clarifyModal(plan,ctx);return;}
   if(plan.action==='tasks'){const fh=hatFromText((ctx&&ctx.ins)||'')||hatFromText((ctx&&ctx.mat)||'');(plan.tasks||[]).forEach(t=>{if(!t.hat&&fh)t.hat=fh;});createTasksFromAI(plan.tasks||[]);return;}
-  if(plan.action==='students'){addStudentsToBlock(plan);return;}
+  if(plan.action==='students'){addStudentsToBlock(plan,ctx);return;}
   if(plan.action==='ia_file'){fileIaFromRoute(plan,ctx);return;}
   if(plan.action==='course_outline'||plan.action==='outline'){fileOutlineFromRoute(plan);return;}
   toast('Nothing to file from that');smartCaptureModal(ctx);
@@ -1977,13 +1978,22 @@ function clarifyModal(plan,ctx){
   document.querySelectorAll('[data-copt]').forEach(b=>b.onclick=()=>runRouteWith(ctx.mat,ctx.ins,ctx.image,ctx.fileName,b.dataset.copt));
   $('#c_go').onclick=()=>{const v=$('#c_own').value.trim();if(!v){toast('Pick or type an answer');return;}runRouteWith(ctx.mat,ctx.ins,ctx.image,ctx.fileName,v);};
 }
-function addStudentsToBlock(plan){
+function addStudentsToBlock(plan,ctx){
   const list=plan.students||[];if(!list.length){toast('No student names found');return;}
-  const block=(plan.block||'').trim();const teacher=(plan.teacher||blockTeacher(block)||'Atul Soral').trim();const grade=normGrade(plan.grade);
+  const ins=(((ctx&&ctx.ins)||'')+' '+((ctx&&ctx.mat)||''));
+  const bm=ins.match(/\bB\s?-?\s?(\d{1,2})\b/i);
+  const block=((plan.block||(bm?('B'+bm[1]):''))||'').trim();
+  let teacher=(plan.teacher||'').trim();
+  if(!teacher){const tm=ins.match(/teacher\s*:?\s*([^,;\n]+)/i);if(tm)teacher=tm[1].replace(/\b(mr|ms|mrs|dr)\.?\s*/i,'').trim();}
+  if(!teacher)teacher=blockTeacher(block)||'Atul Soral';
+  const grade=normGrade(plan.grade)||normGrade(ins)||'Grade 11';
+  let hl=(plan.hl||'').toUpperCase();
+  if(hl!=='HL'&&hl!=='SL'){hl=/\bSL\b/i.test(ins)?'SL':(/\bHL\b/i.test(ins)?'HL':'');}
   let n=0;list.forEach(s=>{const name=(s.name||'').trim();if(!name)return;
-    state.ias.push({id:uid(),student:name,sid:(s.id||'').trim(),block:block,grade:grade||'Grade 11',supervisor:teacher,topic:(s.topic||'').trim(),rq:'',stage:'Proposal',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()});n++;});
+    let shl=(s.hl||'').toUpperCase();if(shl!=='HL'&&shl!=='SL')shl=hl;
+    state.ias.push({id:uid(),student:name,sid:(s.id||'').trim(),block:block,grade:grade,hl:shl,supervisor:teacher,topic:(s.topic||'').trim(),rq:'',stage:'Proposal',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()});n++;});
   if(!n){toast('No student names found');return;}
-  save();go('ia');toast('Added '+n+' student'+(n>1?'s':'')+(block?' to Block '+block:''));
+  save();refreshBadges();go('students');toast('Added '+n+' student'+(n>1?'s':'')+(block?' · Block '+block:'')+(grade?' · '+grade.replace('Grade ','Gr '):'')+(hl?' · '+hl:''));
 }
 function fileIaFromRoute(plan,ctx){
   const name=(plan.student||'').trim();if(!name){toast('No student identified — try naming them in step 2');return;}
