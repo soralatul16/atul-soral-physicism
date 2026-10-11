@@ -1510,11 +1510,23 @@ function timetableGrid(s,week){
 }
 function timetableDay(s,dayShort,week){
   if(!dayShort)return '<div class="mini">Pick a date to see that day only.</div>';
-  const tt=s.timetable||[];
-  const rowsRaw=tt.map((x,i)=>({x,i})).filter(o=>o.x.day===dayShort&&(!week||(o.x.week||'A')===week)).sort((a,b)=>periodKey(a.x.period)-periodKey(b.x.period));
-  if(!rowsRaw.length)return `<div class="mini">Nothing scheduled on ${esc(dayShort)}.</div>`;
-  const seen={};const rows=[];rowsRaw.forEach(o=>{const k=lessonLabel(o.x.period)+'|'+(slotBlock(o.x)||'')+'|'+(o.x.sections||'');if(!seen[k]){seen[k]=1;rows.push(o);}});
-  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Lesson</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${rows.map(o=>`<tr class="clickcell" data-ttcell="${s.id}|${o.i}" title="Click to see or add tasks"><td class="perlbl">${esc(lessonLabel(o.x.period))}</td><td>${esc(o.x.time||'')}</td><td class="has"><b>${esc(slotBlock(o.x))}</b></td><td>${esc(condenseSections(o.x.sections)||'')}</td><td>${esc(o.x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
+  const all=s.timetable||[];
+  const tt=week?all.filter(x=>(x.week||'A')===week):all;
+  const rawPeriods=ttPeriods(tt);
+  const lessons=[];const seenL={};rawPeriods.forEach(p=>{const L=lessonLabel(p);if(!seenL[L]){seenL[L]=1;lessons.push(L);}});
+  if(!lessons.length)return `<div class="mini">No timetable yet for this teacher.</div>`;
+  const slotsFor=L=>{const m=[];all.forEach((x,idx)=>{if(x.day===dayShort&&(!week||(x.week||'A')===week)&&lessonLabel(x.period)===L)m.push({x,idx});});return m;};
+  let taught=0;
+  const body=lessons.map(L=>{
+    const matches=slotsFor(L);
+    if(!matches.length)return `<tr><td class="perlbl">${esc(L)}</td><td></td><td style="color:var(--good);font-weight:700">Free</td><td></td><td></td></tr>`;
+    taught++;
+    const uniq=[];const seen={};matches.forEach(m=>{const k=(slotBlock(m.x)||'')+'|'+(m.x.sections||'');if(!seen[k]){seen[k]=1;uniq.push(m);}});
+    const first=uniq[0];const blockText=uniq.map(m=>esc(slotBlock(m.x)||'·')).join(' / ');
+    return `<tr class="clickcell" data-ttcell="${s.id}|${first.idx}" title="Click to see or add tasks"><td class="perlbl">${esc(L)}</td><td>${esc(first.x.time||'')}</td><td class="has"><b>${blockText}</b></td><td>${esc(condenseSections(first.x.sections)||'')}</td><td>${esc(first.x.room||'')}</td></tr>`;
+  }).join('');
+  const free=lessons.length-taught;
+  return `<div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:7px"><b>${taught}</b> teaching · <b style="color:var(--good)">${free}</b> free of ${lessons.length} lessons</div><div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Lesson</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${body}</tbody></table></div>`;
 }
 function slotModal(sid,idx){
   const st=state.staff.find(x=>x.id===sid);if(!st)return;
