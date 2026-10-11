@@ -441,7 +441,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', outlineGrade='', stuGrade='all', stuSel=new Set(), stuHL='all', stuTeacher='all', stuTask='all';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', outlineGrade='', stuGrade='all', stuSel=new Set(), stuHL='all', stuTeacher='all', stuTask='all', stuEE='all', iaStageF='all', iaTeacherF='all', iaBlockF='all';
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -950,36 +950,52 @@ function iaState(i){
 function blockTeacher(code){if(!code)return '';const st=state.staff.find(s=>(s.timetable||[]).some(sl=>(sl.block||'').toLowerCase()===(''+code).toLowerCase()));return st?st.name:'';}
 function filesOf(i){return (i.files&&i.files.length)?i.files:(i.fileName?[{id:'legacy',name:i.fileName,thumb:i.fileThumb||null,note:'',stage:i.stage||'',at:i.createdAt}]:[]);}
 function renderIA(){
+  let ias=state.ias.slice();
+  if(iaStageF!=='all')ias=ias.filter(i=>(i.stage||'Proposal')===iaStageF);
+  if(iaTeacherF!=='all')ias=ias.filter(i=>(i.supervisor||'')===iaTeacherF);
+  if(iaBlockF!=='all')ias=ias.filter(i=>(i.block||'Unassigned')===iaBlockF);
   const groups={};
-  state.ias.forEach(i=>{const k=i.block||'Unassigned';(groups[k]=groups[k]||[]).push(i);});
+  ias.forEach(i=>{const k=i.block||'Unassigned';(groups[k]=groups[k]||[]).push(i);});
   const keys=Object.keys(groups).sort((a,b)=>a==='Unassigned'?1:(b==='Unassigned'?-1:(''+a).localeCompare(''+b,undefined,{numeric:true})));
-  const done=state.ias.filter(i=>i.stage==='Verified').length;
-  const behind=state.ias.filter(i=>i.stage!=='Verified'&&i.due&&daysBetween(todayISO(),i.due)<0).length;
+  const done=ias.filter(i=>i.stage==='Verified').length;
+  const behind=ias.filter(i=>i.stage!=='Verified'&&i.due&&daysBetween(todayISO(),i.due)<0).length;
+  const blocks=Array.from(new Set(state.ias.map(i=>i.block||'Unassigned'))).sort((a,b)=>a==='Unassigned'?1:(b==='Unassigned'?-1:(''+a).localeCompare(''+b,undefined,{numeric:true})));
+  const teacherNames=Array.from(new Set(state.ias.map(i=>i.supervisor).filter(Boolean))).sort();
+  const SEL='padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px;font-size:13px;background:var(--surface)';
+  const anyF=iaStageF!=='all'||iaTeacherF!=='all'||iaBlockF!=='all';
+  const filterBar=`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:0 0 14px">
+    <select id="ia_stagef" style="${SEL}"><option value="all"${iaStageF==='all'?' selected':''}>All stages</option>${IA_STAGES.map(s=>`<option ${s===iaStageF?'selected':''}>${s}</option>`).join('')}</select>
+    <select id="ia_teacherf" style="${SEL}"><option value="all">All supervisors</option>${teacherNames.map(n=>`<option ${n===iaTeacherF?'selected':''}>${esc(n)}</option>`).join('')}</select>
+    <select id="ia_blockf" style="${SEL}"><option value="all">All blocks</option>${blocks.map(b=>`<option ${b===iaBlockF?'selected':''}>${b==='Unassigned'?'Unassigned':'Block '+esc(b)}</option>`).join('')}</select>
+    ${anyF?'<button class="btn sm" data-iaclearf>Clear filters</button>':''}
+  </div>`;
   const body=keys.length?keys.map(k=>{
     const items=groups[k].sort((a,b)=>byDue(a,b));
     const teacher=blockTeacher(k)||(items.find(x=>x.supervisor)||{}).supervisor||'';
     return `<div class="section" style="margin-bottom:18px">
       <div class="section-head" style="margin-bottom:8px"><h2 style="font-size:16px">${k==='Unassigned'?'Unassigned':'Block '+esc(k)}${teacher?` <span style="font-weight:500;color:var(--ink-mute);font-size:13px">· ${esc(teacher)}</span>`:''}</h2><span class="count">${items.length} student${items.length>1?'s':''}</span></div>
       <div class="card rows">${items.map(iaRow).join('')}</div></div>`;
-  }).join(''):emptyMini('No students yet. Use Smart Capture or Paste student list to add them under a block.');
+  }).join(''):emptyMini(anyF?'No students match these filters.':'No students yet. Use Smart Capture or Paste student list to add them under a block.');
   return `${pageHead('Students & IA','Students grouped by their teaching block, each with their files, topic, feedback and IA stage. Click a student to open everything about them.')}
   ${privacyNote()}
   <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr))">
     ${tile('up',done,'Verified / complete')}
-    ${tile('today',state.ias.length-done,'In progress')}
+    ${tile('today',ias.length-done,'In progress')}
     ${tile('over',behind,'Behind schedule')}
   </div>
-  <div style="margin:4px 0 16px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">
+  <div style="margin:4px 0 12px;display:flex;gap:9px;flex-wrap:wrap;align-items:center">
     <button class="btn primary" data-smartcap><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg>Smart Capture</button>
     <button class="btn" data-newia><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Add student</button>
     <button class="btn" data-impstudents><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13H8M16 17H8M10 9H8M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>Paste student list</button>
     <div class="wk-toggle" style="margin-left:auto"><button class="wk ${iaView==='list'?'on':''}" data-iaview="list">List</button><button class="wk ${iaView==='board'?'on':''}" data-iaview="board">Board</button></div>
   </div>
-  ${iaView==='board'?renderIABoard():body}`;
+  ${filterBar}
+  ${iaView==='board'?renderIABoard(ias):body}`;
 }
-function renderIABoard(){
+function renderIABoard(src){
+  const pool=src||state.ias;
   const cols=IA_STAGES.map(st=>{
-    const items=state.ias.filter(i=>(i.stage||'Proposal')===st).sort((a,b)=>byDue(a,b));
+    const items=pool.filter(i=>(i.stage||'Proposal')===st).sort((a,b)=>byDue(a,b));
     const idx=IA_STAGES.indexOf(st);
     const cards=items.map(i=>`<div class="iacard" data-ia="${i.id}">
       <div style="font-weight:600;font-size:12.5px">${esc(i.student)}</div>
@@ -1024,8 +1040,10 @@ function iaUpload(id){
 
 /* ===================== Students directory ===================== */
 function assignStudentTask(i,kind){
+  const sup=(kind==='EE'&&i.eeSupervisor)?i.eeSupervisor:(i.supervisor||'');
+  const topic=(kind==='EE'&&i.eeTopic)?i.eeTopic:i.topic;
   state.tasks.push({id:uid(),status:'open',subject:'Physics',recurring:null,createdAt:Date.now(),
-    title:kind+' — '+i.student+(i.topic?(' · '+i.topic):''),type:kind,grade:i.grade||'',teacher:i.supervisor||'',
+    title:kind+' — '+i.student+(topic?(' · '+topic):''),type:kind,grade:i.grade||'',teacher:sup,
     student:i.student,category:'Student',audience:'',hat:'Physics Teacher',notes:'',assignedBy:'Atul Soral',
     due:i.due||null,priority:'normal'});
   save();toast(kind+' task assigned to '+i.student);
@@ -1041,6 +1059,7 @@ function studentPanel(i){
       <span class="tag subj">Stage: ${esc(i.stage||'—')}</span>
       <span class="tag cat">${open.length} open task${open.length!==1?'s':''}</span>
       <span class="tag type">📎 ${filesOf(i).length} files</span>
+      ${i.ee?`<span class="tag" style="background:var(--brand-soft,rgba(99,102,241,.12));color:var(--brand)">EE${i.eeSupervisor?' · '+esc(i.eeSupervisor):''}${i.eeStage?' · '+esc(i.eeStage):''}</span>`:''}
       ${mN?`<span class="tag">🧭 ${mN} mentor</span>`:''}${cN?`<span class="tag">🌟 ${cN} CAS</span>`:''}
     </div>
     <div style="border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--surface-2)">${list}</div>
@@ -1055,7 +1074,7 @@ function studentRow(i){
     <td style="${TD}">${esc((i.grade||'').replace('Grade ','Gr '))}</td>
     <td style="${TD};font-weight:600">${esc(i.student||'')}</td>
     <td style="${TD};color:var(--ink-mute)">${esc(i.sid||'')}</td>
-    <td style="${TD}">${i.hl?`<span class="tag ${i.hl==='HL'?'cat':'subj'}">${esc(i.hl)}</span>`:''}</td>
+    <td style="${TD}">${i.hl?`<span class="tag ${i.hl==='HL'?'cat':'subj'}">${esc(i.hl)}</span>`:''}${i.ee?' <span class="tag" style="background:var(--brand-soft,rgba(99,102,241,.12));color:var(--brand)">EE</span>':''}</td>
     <td style="${TD}">${i.block?esc(i.block):''}</td>
     <td style="${TD}">${esc(i.supervisor||'')}</td>
     <td style="${TD}"><span class="tag type">${esc(i.stage||'—')}</span></td>
@@ -1067,6 +1086,8 @@ function renderStudents(){
   if(stuGrade!=='all')list=list.filter(i=>i.grade===stuGrade);
   if(stuHL!=='all')list=list.filter(i=>(i.hl||'')===stuHL);
   if(stuTeacher!=='all')list=list.filter(i=>(i.supervisor||'')===stuTeacher);
+  if(stuEE==='ee')list=list.filter(i=>i.ee);
+  else if(stuEE==='non')list=list.filter(i=>!i.ee);
   const hasOpenTask=i=>state.tasks.some(t=>t.student===i.student&&t.status!=='done');
   if(stuTask==='with')list=list.filter(hasOpenTask);
   else if(stuTask==='none')list=list.filter(i=>!hasOpenTask(i));
@@ -1077,10 +1098,11 @@ function renderStudents(){
   const byHL=h=>state.ias.filter(i=>i.hl===h).length;
   const teacherNames=Array.from(new Set(state.ias.map(i=>i.supervisor).filter(Boolean))).sort();
   const SEL='padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px;font-size:13px;background:var(--surface)';
-  const filtersActive=stuHL!=='all'||stuTeacher!=='all'||stuTask!=='all'||stuGrade!=='all'||q;
+  const filtersActive=stuHL!=='all'||stuTeacher!=='all'||stuTask!=='all'||stuGrade!=='all'||stuEE!=='all'||q;
   const filterBar=`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
     <select id="stu_hl" style="${SEL}"><option value="all"${stuHL==='all'?' selected':''}>All levels</option><option${stuHL==='HL'?' selected':''}>HL</option><option${stuHL==='SL'?' selected':''}>SL</option></select>
     <select id="stu_teacher" style="${SEL}"><option value="all">${stuTeacher==='all'?'All teachers':'All teachers'}</option>${teacherNames.map(n=>`<option ${n===stuTeacher?'selected':''}>${esc(n)}</option>`).join('')}</select>
+    <select id="stu_ee" style="${SEL}"><option value="all"${stuEE==='all'?' selected':''}>IA & EE</option><option value="ee"${stuEE==='ee'?' selected':''}>EE students</option><option value="non"${stuEE==='non'?' selected':''}>No EE</option></select>
     <select id="stu_task" style="${SEL}"><option value="all"${stuTask==='all'?' selected':''}>Any tasks</option><option value="with"${stuTask==='with'?' selected':''}>Has open tasks</option><option value="none"${stuTask==='none'?' selected':''}>No open tasks</option></select>
     ${filtersActive?'<button class="btn sm" data-sclearf>Clear filters</button>':''}
   </div>`;
@@ -2050,6 +2072,14 @@ function iaModal(i){
       </div>
       <div class="fld"><label>Topic</label><input id="i_topic" value="${esc(i.topic||'')}" placeholder="e.g. Resistance of a thermistor vs temperature"></div>
       <div class="fld"><label>Research question</label><textarea id="i_rq" rows="2" placeholder="The student's RQ">${esc(i.rq||'')}</textarea></div>
+      <div class="fld" style="margin-top:4px"><label style="display:flex;align-items:center;gap:9px;cursor:pointer;font-weight:600"><input type="checkbox" id="i_ee" ${i.ee?'checked':''}> Also writing an Extended Essay (EE) in Physics</label></div>
+      <div id="i_eebox" style="display:${i.ee?'block':'none'};border:1px solid var(--line);border-radius:10px;padding:11px 13px;background:var(--surface-2);margin-bottom:12px">
+        <div class="fld-row">
+          <div class="fld"><label>EE supervisor</label><select id="i_eesup"><option value="">— select —</option>${teachOpts.map(t=>`<option ${t===i.eeSupervisor?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
+          <div class="fld"><label>EE stage</label><select id="i_eestage">${IA_STAGES.map(s=>`<option ${s===(i.eeStage||'Proposal')?'selected':''}>${s}</option>`).join('')}</select></div>
+        </div>
+        <div class="fld" style="margin-bottom:0"><label>EE topic / research question</label><input id="i_eetopic" value="${esc(i.eeTopic||'')}" placeholder="EE topic or RQ in Physics"></div>
+      </div>
       <div class="fld"><label>Next deadline</label><input type="date" id="i_due" value="${i.due||''}"></div>
       <div class="fld"><label>Feedback</label><textarea id="i_fb" rows="2" placeholder="Your running feedback for this student">${esc(i.notes||'')}</textarea></div>
       ${edit?studentPanel(i):''}
@@ -2075,11 +2105,12 @@ function iaModal(i){
     const aia=$('#i_assignia');if(aia)aia.onclick=()=>{persistIA();assignStudentTask(i,'IA');closeModal();iaModal(i);};
     const aee=$('#i_assignee');if(aee)aee.onclick=()=>{persistIA();assignStudentTask(i,'EE');closeModal();iaModal(i);};
   }
-  function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.sid=$('#i_sid').value.trim();i.grade=$('#i_grade').value;i.hl=$('#i_hl').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;}
+  {const ee=$('#i_ee');if(ee)ee.onchange=()=>{const box=$('#i_eebox');if(box)box.style.display=ee.checked?'block':'none';};}
+  function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.sid=$('#i_sid').value.trim();i.grade=$('#i_grade').value;i.hl=$('#i_hl').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;i.ee=$('#i_ee').checked;i.eeSupervisor=i.ee?$('#i_eesup').value:'';i.eeStage=i.ee?$('#i_eestage').value:'';i.eeTopic=i.ee?$('#i_eetopic').value.trim():'';}
   $('#i_save').onclick=()=>{
     const student=$('#i_student').value.trim();if(!student){toast('Enter a student name');return;}
     if(edit){persistIA();}
-    else{state.ias.push({id:uid(),student,sid:$('#i_sid').value.trim(),block:$('#i_block').value.trim(),grade:$('#i_grade').value,hl:$('#i_hl').value,supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null,notes:$('#i_fb').value,files:[],fileName:'',fileThumb:null,review:{},aiChecked:false,createdAt:Date.now()});}
+    else{state.ias.push({id:uid(),student,sid:$('#i_sid').value.trim(),block:$('#i_block').value.trim(),grade:$('#i_grade').value,hl:$('#i_hl').value,supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null,notes:$('#i_fb').value,ee:$('#i_ee').checked,eeSupervisor:$('#i_ee').checked?$('#i_eesup').value:'',eeStage:$('#i_ee').checked?$('#i_eestage').value:'',eeTopic:$('#i_ee').checked?$('#i_eetopic').value.trim():'',files:[],fileName:'',fileThumb:null,review:{},aiChecked:false,createdAt:Date.now()});}
     save();closeModal();render();toast('Saved');
   };
 }
@@ -2168,6 +2199,10 @@ function bind(){
   document.querySelectorAll('[data-sess]').forEach(b=>b.onclick=e=>{e.stopPropagation();const p=b.dataset.sess.split('|');sessionModal(p[0],p[1]);});
   document.querySelectorAll('[data-rolerm]').forEach(b=>b.onclick=e=>{e.stopPropagation();const p=b.dataset.rolerm.split('|');const i=state.ias.find(x=>x.id===p[0]);if(i&&confirm('Remove '+i.student+' from '+ROLE_CFG[p[1]].label+'? Their student record and files stay in Students & IA.')){i[ROLE_CFG[p[1]].flag]=false;save();refreshBadges();render();}});
   document.querySelectorAll('[data-iaview]').forEach(b=>b.onclick=()=>{iaView=b.dataset.iaview;render();});
+  {const s=$('#ia_stagef');if(s)s.onchange=()=>{iaStageF=s.value;render();}}
+  {const t=$('#ia_teacherf');if(t)t.onchange=()=>{iaTeacherF=t.value;render();}}
+  {const bl=$('#ia_blockf');if(bl)bl.onchange=()=>{iaBlockF=bl.value==='all'?'all':bl.value.replace(/^Block /,'');render();}}
+  document.querySelectorAll('[data-iaclearf]').forEach(b=>b.onclick=()=>{iaStageF='all';iaTeacherF='all';iaBlockF='all';render();});
   document.querySelectorAll('[data-iastage]').forEach(b=>b.onclick=e=>{e.stopPropagation();const parts=b.dataset.iastage.split('|');const it=state.ias.find(x=>x.id===parts[0]);if(!it)return;let idx=IA_STAGES.indexOf(it.stage||'Proposal');idx=parts[1]==='fwd'?Math.min(IA_STAGES.length-1,idx+1):Math.max(0,idx-1);it.stage=IA_STAGES[idx];save();render();});
   document.querySelectorAll('[data-iareview]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaReviewModal(b.dataset.iareview);});
   document.querySelectorAll('[data-iaup]').forEach(b=>b.onclick=e=>{e.stopPropagation();iaUpload(b.dataset.iaup);});
@@ -2180,8 +2215,9 @@ function bind(){
   document.querySelectorAll('[data-sgr]').forEach(b=>b.onclick=()=>{stuGrade=b.dataset.sgr;render();});
   {const h=$('#stu_hl');if(h)h.onchange=()=>{stuHL=h.value;render();}}
   {const t=$('#stu_teacher');if(t)t.onchange=()=>{stuTeacher=t.value;render();}}
+  {const ee=$('#stu_ee');if(ee)ee.onchange=()=>{stuEE=ee.value;render();}}
   {const k=$('#stu_task');if(k)k.onchange=()=>{stuTask=k.value;render();}}
-  document.querySelectorAll('[data-sclearf]').forEach(b=>b.onclick=()=>{stuGrade='all';stuHL='all';stuTeacher='all';stuTask='all';searchQ='';render();});
+  document.querySelectorAll('[data-sclearf]').forEach(b=>b.onclick=()=>{stuGrade='all';stuHL='all';stuTeacher='all';stuTask='all';stuEE='all';searchQ='';render();});
   document.querySelectorAll('[data-saddnew]').forEach(b=>b.onclick=()=>iaModal());
   document.querySelectorAll('[data-simport]').forEach(b=>b.onclick=()=>importStudentsModal());
   document.querySelectorAll('[data-sopen]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-sdel2],[data-scheck]'))return;const i=state.ias.find(x=>x.id===r.dataset.sopen);if(i)iaModal(i);});
