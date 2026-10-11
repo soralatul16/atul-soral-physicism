@@ -1498,15 +1498,23 @@ function timetableGrid(s,week){
   const rawPeriods=ttPeriods(tt);
   const lessons=[];const seenL={};rawPeriods.forEach(p=>{const L=lessonLabel(p);if(!seenL[L]){seenL[L]=1;lessons.push(L);}});
   const days=DAYS.filter(d=>tt.some(x=>x.day===d));const useDays=days.length?days:DAYS.slice(0,5);
-  const cell=(L,d)=>{
+  const descFor=(L,d)=>{
     const matches=[];all.forEach((x,idx)=>{if(x.day===d&&(!week||(x.week||'A')===week)&&lessonLabel(x.period)===L)matches.push({x,idx});});
-    if(!matches.length)return '<td></td>';
+    if(!matches.length)return {free:true};
     const uniq=[];const seen={};matches.forEach(m=>{const k=(slotBlock(m.x)||'')+'|'+(m.x.sections||'');if(!seen[k]){seen[k]=1;uniq.push(m);}});
-    const first=uniq[0];const sub=slotSub(first.x);
-    const blockText=uniq.map(m=>esc(slotBlock(m.x)||'·')).join(' / ');
-    return `<td class="has clickcell" data-ttcell="${s.id}|${first.idx}" title="Click to see or add tasks"><b>${blockText}</b>${sub?`<div class="ttmeta">${esc(sub)}</div>`:''}</td>`;
+    const first=uniq[0];const sub=slotSub(first.x);const block=uniq.map(m=>slotBlock(m.x)||'·').join(' / ');
+    return {free:false,sig:block+'|'+sub,block,sub,idx:first.idx};
   };
-  const rows=useDays.map(d=>`<tr><td class="perlbl">${d}</td>${lessons.map(L=>cell(L,d)).join('')}</tr>`).join('');
+  const rowFor=d=>{
+    const cells=lessons.map(L=>descFor(L,d));let html='';let i=0;
+    while(i<cells.length){const c=cells[i];
+      if(c.free){html+='<td></td>';i++;continue;}
+      let span=1;while(i+span<cells.length&&!cells[i+span].free&&cells[i+span].sig===c.sig)span++;
+      html+=`<td class="has clickcell" colspan="${span}" data-ttcell="${s.id}|${c.idx}" title="Click to see or add tasks"><b>${esc(c.block)}</b>${c.sub?`<div class="ttmeta">${esc(c.sub)}</div>`:''}</td>`;
+      i+=span;}
+    return `<tr><td class="perlbl">${d}</td>${html}</tr>`;
+  };
+  const rows=useDays.map(rowFor).join('');
   return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl"></th>${lessons.map(L=>`<th>${esc(L)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function timetableDay(s,dayShort,week){
