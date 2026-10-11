@@ -1731,6 +1731,15 @@ function sanitizeTeacher(r){
   const role=ROLES.includes(r.role)?r.role:'Teacher';
   return {name:r.name||'',role,classes,timetable:tt};
 }
+function fileTimetableFromRoute(plan){
+  const data=sanitizeTeacher(plan);
+  if(!data.name){toast('Could not read a teacher name from the timetable');return;}
+  if(!data.timetable.length){toast('No timetable cells found — try a clearer screenshot');return;}
+  let s=state.staff.find(x=>x.name&&x.name.toLowerCase()===data.name.toLowerCase());
+  if(s){s.timetable=data.timetable;if(data.classes.length)s.classes=Array.from(new Set([...(s.classes||[]),...data.classes]));if(data.role&&data.role!=='Teacher')s.role=data.role;}
+  else{s={id:uid(),createdAt:Date.now(),name:data.name,role:data.role,classes:data.classes,timetable:data.timetable};state.staff.push(s);}
+  save();refreshBadges();go('teachers');toast('Timetable filed for '+data.name+' · '+data.timetable.length+' slots');
+}
 function createTasksFromAI(tasks){
   if(!Array.isArray(tasks)||!tasks.length){toast('No tasks found in that email');return;}
   const CATS=['Exam','Student','ECA','Other'];
@@ -2044,6 +2053,14 @@ async function runRouteWith(mat,ins,image,fileName,answer){
       toast('I could not read any topics from that — is the Worker deployed?');smartCaptureModal({mat,ins,image,fileName});return;
     }catch(e){closeModal();toast(e.message||'Could not read the outline');smartCaptureModal({mat,ins,image,fileName});return;}
   }
+  const wantsTimetable=/time\s*table|teaching schedule|weekly schedule|class schedule/i.test(ins||'');
+  if(wantsTimetable){
+    loadingModal('Reading the timetable…');
+    try{const r=await aiExtract('timetable',{text,image:image||undefined});closeModal();
+      if(sanitizeTeacher(r).timetable.length){fileTimetableFromRoute(r);return;}
+      toast('I could not read the timetable — is the Worker deployed?');smartCaptureModal({mat,ins,image,fileName});return;
+    }catch(e){closeModal();toast(e.message||'Could not read the timetable');smartCaptureModal({mat,ins,image,fileName});return;}
+  }
   loadingModal('Working out where this goes…');
   try{const plan=await aiExtract('route',{text,image:image||undefined});closeModal();dispatchRoute(plan,{mat,ins,image,fileName});}
   catch(e){closeModal();toast(e.message||'Could not process that');smartCaptureModal({mat,ins,image,fileName});}
@@ -2055,6 +2072,7 @@ function dispatchRoute(plan,ctx){
   if(plan.action==='students'){addStudentsToBlock(plan,ctx);return;}
   if(plan.action==='ia_file'){fileIaFromRoute(plan,ctx);return;}
   if(plan.action==='course_outline'||plan.action==='outline'){fileOutlineFromRoute(plan);return;}
+  if(plan.action==='timetable'){fileTimetableFromRoute(plan);return;}
   toast('Nothing to file from that');smartCaptureModal(ctx);
 }
 function clarifyModal(plan,ctx){
