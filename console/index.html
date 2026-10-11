@@ -1486,8 +1486,9 @@ function ttPeriods(tt){
 function weekOf(iso){const anchor=store.weekAnchor;if(!anchor)return null;const a=dOnly(anchor),d=dOnly(iso);if(!a||!d)return null;const days=Math.floor((d-a)/86400000);const wk=Math.floor(days/7);return ((((wk%2)+2)%2)===0)?'A':'B';}
 function hasWeeks(tt){return (tt||[]).some(x=>(x.week||'A')==='B');}
 function slotBlock(slot){return slot.block||slot.cls||'';}
+function isTeachingBlock(b){return /^b\s?-?\s?\d/i.test(b||'');}
 function condenseSections(str){if(!str)return '';const parts=(''+str).split(/[\/,;|]+/).map(s=>s.trim()).filter(Boolean);const grades=[];parts.forEach(p=>{const m=p.match(/(\d{1,2})/);if(m&&grades.indexOf(m[1])<0)grades.push(m[1]);});return grades.length?('Gr '+grades.join('/')):str;}
-function slotSub(slot){return [condenseSections(slot.sections),slot.room].filter(Boolean).join(' · ');}
+function slotSub(slot){const sec=isTeachingBlock(slotBlock(slot))?condenseSections(slot.sections):'';return [sec,slot.room].filter(Boolean).join(' · ');}
 const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 function ttWeekday(iso){const d=dOnly(iso);return d?WD[d.getDay()]:'';}
 function lessonLabel(p){const m=(''+(p==null?'':p)).match(/^\s*(\d+)\s*$/);return m?String(Math.ceil((+m[1])/2)):(''+(p==null?'':p));}
@@ -1515,17 +1516,21 @@ function timetableDay(s,dayShort,week){
   const rawPeriods=ttPeriods(tt);
   const lessons=[];const seenL={};rawPeriods.forEach(p=>{const L=lessonLabel(p);if(!seenL[L]){seenL[L]=1;lessons.push(L);}});
   if(!lessons.length)return `<div class="mini">No timetable yet for this teacher.</div>`;
-  const slotsFor=L=>{const m=[];all.forEach((x,idx)=>{if(x.day===dayShort&&(!week||(x.week||'A')===week)&&lessonLabel(x.period)===L)m.push({x,idx});});return m;};
-  let taught=0;
-  const body=lessons.map(L=>{
-    const matches=slotsFor(L);
-    if(!matches.length)return `<tr><td class="perlbl">${esc(L)}</td><td></td><td style="color:var(--good);font-weight:700">Free</td><td></td><td></td></tr>`;
-    taught++;
-    const uniq=[];const seen={};matches.forEach(m=>{const k=(slotBlock(m.x)||'')+'|'+(m.x.sections||'');if(!seen[k]){seen[k]=1;uniq.push(m);}});
-    const first=uniq[0];const blockText=uniq.map(m=>esc(slotBlock(m.x)||'·')).join(' / ');
-    return `<tr class="clickcell" data-ttcell="${s.id}|${first.idx}" title="Click to see or add tasks"><td class="perlbl">${esc(L)}</td><td>${esc(first.x.time||'')}</td><td class="has"><b>${blockText}</b></td><td>${esc(condenseSections(first.x.sections)||'')}</td><td>${esc(first.x.room||'')}</td></tr>`;
+  const desc=lessons.map(L=>{
+    const m=[];all.forEach((x,idx)=>{if(x.day===dayShort&&(!week||(x.week||'A')===week)&&lessonLabel(x.period)===L)m.push({x,idx});});
+    if(!m.length)return {L,free:true};
+    const uniq=[];const seen={};m.forEach(o=>{const k=(slotBlock(o.x)||'')+'|'+(o.x.sections||'');if(!seen[k]){seen[k]=1;uniq.push(o);}});
+    const first=uniq[0];const block=uniq.map(o=>slotBlock(o.x)||'·').join(' / ');
+    const sections=isTeachingBlock(slotBlock(first.x))?(condenseSections(first.x.sections)||''):'';
+    return {L,free:false,block,sections,time:first.x.time||'',room:first.x.room||'',idx:first.idx};
+  });
+  const taught=desc.filter(d=>!d.free).length;const free=desc.length-taught;
+  const groups=[];desc.forEach(d=>{const sig=d.free?'FREE':(d.block+'|'+d.sections+'|'+(d.room||''));const last=groups[groups.length-1];if(last&&last.sig===sig){last.labels.push(d.L);}else{groups.push({sig,labels:[d.L],d});}});
+  const body=groups.map(g=>{
+    const label=g.labels.length>1?(g.labels[0]+'–'+g.labels[g.labels.length-1]):g.labels[0];
+    if(g.d.free)return `<tr><td class="perlbl">${esc(label)}</td><td></td><td style="color:var(--good);font-weight:700">Free</td><td></td><td></td></tr>`;
+    return `<tr class="clickcell" data-ttcell="${s.id}|${g.d.idx}" title="Click to see or add tasks"><td class="perlbl">${esc(label)}</td><td>${esc(g.d.time)}</td><td class="has"><b>${esc(g.d.block)}</b></td><td>${esc(g.d.sections)}</td><td>${esc(g.d.room)}</td></tr>`;
   }).join('');
-  const free=lessons.length-taught;
   return `<div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:7px"><b>${taught}</b> teaching · <b style="color:var(--good)">${free}</b> free of ${lessons.length} lessons</div><div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Lesson</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${body}</tbody></table></div>`;
 }
 function slotModal(sid,idx){
