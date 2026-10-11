@@ -1984,7 +1984,7 @@ function routeContext(){
 function scPreview(){const el=$('#sc_file');if(!el)return;el.innerHTML=scImage?`<img src="${scImage}" style="max-height:90px;border-radius:8px;border:1px solid var(--line)">`:(scFileName?`<span class="tag subj">📄 ${esc(scFileName)}</span>`:'');}
 function scShowPreview(elId,isImage){const el=$('#'+elId);if(!el)return;el.innerHTML=(scImage&&isImage)?`<img src="${scImage}" style="max-height:80px;border-radius:8px;border:1px solid var(--line)">`:(scFileName?`<span class="tag subj">📄 ${esc(scFileName)}${scImage?' · ready':''}</span>`:'');}
 function handleScFile(f,elId){
-  if(!f)return;scFileName=f.name;scImage=null;const el=$('#'+elId);
+  if(!f)return;scFileName=f.name||('pasted-'+todayISO()+'.png');scImage=null;const el=$('#'+elId);
   if(f.type&&f.type.startsWith('image/')){if(el)el.innerHTML='<span class="mini">Reading image…</span>';readImageScaled(f,data=>{scImage=data;scShowPreview(elId,true);});}
   else if(f.type==='application/pdf'||/\.pdf$/i.test(f.name)){if(el)el.innerHTML='<span class="mini">Reading PDF…</span>';readFileData(f,data=>{scImage=data;scShowPreview(elId,false);});}
   else{scImage=null;scShowPreview(elId,false);}
@@ -1996,7 +1996,7 @@ function smartCaptureInline(){
     <div class="sc-grid">
       <div style="display:flex;flex-direction:column">
         <label class="sc-lbl">1 · The material</label>
-        <textarea id="sci_mat" style="width:100%;flex:1;min-height:150px;resize:vertical" placeholder="Paste a student list, an email, a note… or attach a screenshot/file below."></textarea>
+        <textarea id="sci_mat" style="width:100%;flex:1;min-height:150px;resize:vertical" placeholder="Paste a student list, an email, a note… paste a screenshot with ⌘V, or attach a file below."></textarea>
         <div style="display:flex;align-items:center;gap:9px;margin-top:7px"><label class="btn sm" for="sci_fileinput" style="cursor:pointer">📎 Attach image / file</label><input type="file" id="sci_fileinput" accept="image/*,application/pdf" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none"><div id="sci_file"></div></div>
       </div>
       <div style="display:flex;flex-direction:column">
@@ -2009,6 +2009,7 @@ function smartCaptureInline(){
 }
 function bindSmartInline(){
   const fi=$('#sci_fileinput');if(fi)fi.onchange=e=>handleScFile(e.target.files[0],'sci_file');
+  const mat=$('#sci_mat');if(mat)mat.addEventListener('paste',e=>{const items=(e.clipboardData&&e.clipboardData.items)||[];for(let n=0;n<items.length;n++){if(items[n].type&&items[n].type.indexOf('image')===0){const f=items[n].getAsFile();if(f){e.preventDefault();handleScFile(f,'sci_file');toast('Screenshot pasted');return;}}}});
   const scg=$('#sci_go');if(scg)scg.onclick=()=>runRouteWith($('#sci_mat').value.trim(),$('#sci_do').value.trim(),scImage,scFileName,'');
 }
 function smartCaptureModal(preset){
@@ -2028,6 +2029,7 @@ function smartCaptureModal(preset){
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="sc_go">Understand &amp; file</button></div>`);
   scPreview();
   {const fi=$('#sc_fileinput');if(fi)fi.onchange=e=>handleScFile(e.target.files[0],'sc_file');}
+  {const mat=$('#sc_mat');if(mat)mat.addEventListener('paste',e=>{const items=(e.clipboardData&&e.clipboardData.items)||[];for(let n=0;n<items.length;n++){if(items[n].type&&items[n].type.indexOf('image')===0){const f=items[n].getAsFile();if(f){e.preventDefault();handleScFile(f,'sc_file');toast('Screenshot pasted');return;}}}});}
   $('#sc_go').onclick=()=>runRouteWith($('#sc_mat').value.trim(),$('#sc_do').value.trim(),scImage,scFileName,'');
 }
 async function runRouteWith(mat,ins,image,fileName,answer){
