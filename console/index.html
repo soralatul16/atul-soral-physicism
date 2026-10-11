@@ -1490,21 +1490,31 @@ function condenseSections(str){if(!str)return '';const parts=(''+str).split(/[\/
 function slotSub(slot){return [condenseSections(slot.sections),slot.room].filter(Boolean).join(' · ');}
 const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 function ttWeekday(iso){const d=dOnly(iso);return d?WD[d.getDay()]:'';}
+function lessonLabel(p){const m=(''+(p==null?'':p)).match(/^\s*(\d+)\s*$/);return m?String(Math.ceil((+m[1])/2)):(''+(p==null?'':p));}
 function timetableGrid(s,week){
   const all=s.timetable||[];
   const tt=week?all.filter(x=>(x.week||'A')===week):all;
-  const periods=ttPeriods(tt);
+  const rawPeriods=ttPeriods(tt);
+  const lessons=[];const seenL={};rawPeriods.forEach(p=>{const L=lessonLabel(p);if(!seenL[L]){seenL[L]=1;lessons.push(L);}});
   const days=DAYS.filter(d=>tt.some(x=>x.day===d));const useDays=days.length?days:DAYS.slice(0,5);
-  const cell=(p,d)=>{const idx=all.findIndex(x=>x.period===p&&x.day===d&&(!week||(x.week||'A')===week));if(idx<0)return '<td></td>';const slot=all[idx];const sub=slotSub(slot);return `<td class="has clickcell" data-ttcell="${s.id}|${idx}" title="Click to see or add tasks"><b>${esc(slotBlock(slot)||'·')}</b>${sub?`<div class="ttmeta">${esc(sub)}</div>`:''}</td>`;};
-  const rows=useDays.map(d=>`<tr><td class="perlbl">${d}</td>${periods.map(p=>cell(p,d)).join('')}</tr>`).join('');
-  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl"></th>${periods.map(p=>`<th>${esc(p)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  const cell=(L,d)=>{
+    const matches=[];all.forEach((x,idx)=>{if(x.day===d&&(!week||(x.week||'A')===week)&&lessonLabel(x.period)===L)matches.push({x,idx});});
+    if(!matches.length)return '<td></td>';
+    const uniq=[];const seen={};matches.forEach(m=>{const k=(slotBlock(m.x)||'')+'|'+(m.x.sections||'');if(!seen[k]){seen[k]=1;uniq.push(m);}});
+    const first=uniq[0];const sub=slotSub(first.x);
+    const blockText=uniq.map(m=>esc(slotBlock(m.x)||'·')).join(' / ');
+    return `<td class="has clickcell" data-ttcell="${s.id}|${first.idx}" title="Click to see or add tasks"><b>${blockText}</b>${sub?`<div class="ttmeta">${esc(sub)}</div>`:''}</td>`;
+  };
+  const rows=useDays.map(d=>`<tr><td class="perlbl">${d}</td>${lessons.map(L=>cell(L,d)).join('')}</tr>`).join('');
+  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl"></th>${lessons.map(L=>`<th>${esc(L)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function timetableDay(s,dayShort,week){
   if(!dayShort)return '<div class="mini">Pick a date to see that day only.</div>';
   const tt=s.timetable||[];
-  const rows=tt.map((x,i)=>({x,i})).filter(o=>o.x.day===dayShort&&(!week||(o.x.week||'A')===week)).sort((a,b)=>periodKey(a.x.period)-periodKey(b.x.period));
-  if(!rows.length)return `<div class="mini">Nothing scheduled on ${esc(dayShort)}.</div>`;
-  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Period</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${rows.map(o=>`<tr class="clickcell" data-ttcell="${s.id}|${o.i}" title="Click to see or add tasks"><td class="perlbl">${esc(o.x.period||'')}</td><td>${esc(o.x.time||'')}</td><td class="has"><b>${esc(slotBlock(o.x))}</b></td><td>${esc(condenseSections(o.x.sections)||'')}</td><td>${esc(o.x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
+  const rowsRaw=tt.map((x,i)=>({x,i})).filter(o=>o.x.day===dayShort&&(!week||(o.x.week||'A')===week)).sort((a,b)=>periodKey(a.x.period)-periodKey(b.x.period));
+  if(!rowsRaw.length)return `<div class="mini">Nothing scheduled on ${esc(dayShort)}.</div>`;
+  const seen={};const rows=[];rowsRaw.forEach(o=>{const k=lessonLabel(o.x.period)+'|'+(slotBlock(o.x)||'')+'|'+(o.x.sections||'');if(!seen[k]){seen[k]=1;rows.push(o);}});
+  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Lesson</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${rows.map(o=>`<tr class="clickcell" data-ttcell="${s.id}|${o.i}" title="Click to see or add tasks"><td class="perlbl">${esc(lessonLabel(o.x.period))}</td><td>${esc(o.x.time||'')}</td><td class="has"><b>${esc(slotBlock(o.x))}</b></td><td>${esc(condenseSections(o.x.sections)||'')}</td><td>${esc(o.x.room||'')}</td></tr>`).join('')}</tbody></table></div>`;
 }
 function slotModal(sid,idx){
   const st=state.staff.find(x=>x.id===sid);if(!st)return;
