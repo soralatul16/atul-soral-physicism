@@ -1491,22 +1491,21 @@ function condenseSections(str){if(!str)return '';const parts=(''+str).split(/[\/
 function slotSub(slot){const sec=isTeachingBlock(slotBlock(slot))?condenseSections(slot.sections):'';return [sec,slot.room].filter(Boolean).join(' · ');}
 const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 function ttWeekday(iso){const d=dOnly(iso);return d?WD[d.getDay()]:'';}
-function lessonLabel(p){const m=(''+(p==null?'':p)).match(/^\s*(\d+)\s*$/);return m?String(Math.ceil((+m[1])/2)):(''+(p==null?'':p));}
+function periodRange(a,b){return a===b?(''+a):(a+'–'+b);}
 function timetableGrid(s,week){
   const all=s.timetable||[];
   const tt=week?all.filter(x=>(x.week||'A')===week):all;
-  const rawPeriods=ttPeriods(tt);
-  const lessons=[];const seenL={};rawPeriods.forEach(p=>{const L=lessonLabel(p);if(!seenL[L]){seenL[L]=1;lessons.push(L);}});
+  const axis=ttPeriods(tt);
   const days=DAYS.filter(d=>tt.some(x=>x.day===d));const useDays=days.length?days:DAYS.slice(0,5);
-  const descFor=(L,d)=>{
-    const matches=[];all.forEach((x,idx)=>{if(x.day===d&&(!week||(x.week||'A')===week)&&lessonLabel(x.period)===L)matches.push({x,idx});});
+  const descAt=(p,d)=>{
+    const matches=[];all.forEach((x,idx)=>{if(x.day===d&&(!week||(x.week||'A')===week)&&x.period===p)matches.push({x,idx});});
     if(!matches.length)return {free:true};
     const uniq=[];const seen={};matches.forEach(m=>{const k=(slotBlock(m.x)||'')+'|'+(m.x.sections||'');if(!seen[k]){seen[k]=1;uniq.push(m);}});
-    const first=uniq[0];const sub=slotSub(first.x);const block=uniq.map(m=>slotBlock(m.x)||'·').join(' / ');
+    const first=uniq[0];const block=uniq.map(m=>slotBlock(m.x)||'·').join(' / ');const sub=slotSub(first.x);
     return {free:false,sig:block+'|'+sub,block,sub,idx:first.idx};
   };
   const rowFor=d=>{
-    const cells=lessons.map(L=>descFor(L,d));let html='';let i=0;
+    const cells=axis.map(p=>descAt(p,d));let html='';let i=0;
     while(i<cells.length){const c=cells[i];
       if(c.free){html+='<td></td>';i++;continue;}
       let span=1;while(i+span<cells.length&&!cells[i+span].free&&cells[i+span].sig===c.sig)span++;
@@ -1515,31 +1514,30 @@ function timetableGrid(s,week){
     return `<tr><td class="perlbl">${d}</td>${html}</tr>`;
   };
   const rows=useDays.map(rowFor).join('');
-  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl"></th>${lessons.map(L=>`<th>${esc(L)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl"></th>${axis.map(p=>`<th>${esc(p)}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function timetableDay(s,dayShort,week){
   if(!dayShort)return '<div class="mini">Pick a date to see that day only.</div>';
   const all=s.timetable||[];
   const tt=week?all.filter(x=>(x.week||'A')===week):all;
-  const rawPeriods=ttPeriods(tt);
-  const lessons=[];const seenL={};rawPeriods.forEach(p=>{const L=lessonLabel(p);if(!seenL[L]){seenL[L]=1;lessons.push(L);}});
-  if(!lessons.length)return `<div class="mini">No timetable yet for this teacher.</div>`;
-  const desc=lessons.map(L=>{
-    const m=[];all.forEach((x,idx)=>{if(x.day===dayShort&&(!week||(x.week||'A')===week)&&lessonLabel(x.period)===L)m.push({x,idx});});
-    if(!m.length)return {L,free:true};
+  const axis=ttPeriods(tt);
+  if(!axis.length)return `<div class="mini">No timetable yet for this teacher.</div>`;
+  const desc=axis.map(p=>{
+    const m=[];all.forEach((x,idx)=>{if(x.day===dayShort&&(!week||(x.week||'A')===week)&&x.period===p)m.push({x,idx});});
+    if(!m.length)return {p,free:true};
     const uniq=[];const seen={};m.forEach(o=>{const k=(slotBlock(o.x)||'')+'|'+(o.x.sections||'');if(!seen[k]){seen[k]=1;uniq.push(o);}});
     const first=uniq[0];const block=uniq.map(o=>slotBlock(o.x)||'·').join(' / ');
     const sections=isTeachingBlock(slotBlock(first.x))?(condenseSections(first.x.sections)||''):'';
-    return {L,free:false,block,sections,time:first.x.time||'',room:first.x.room||'',idx:first.idx};
+    return {p,free:false,block,sections,time:first.x.time||'',room:first.x.room||'',idx:first.idx,sig:block+'|'+sections+'|'+(first.x.room||'')};
   });
   const taught=desc.filter(d=>!d.free).length;const free=desc.length-taught;
-  const groups=[];desc.forEach(d=>{const sig=d.free?'FREE':(d.block+'|'+d.sections+'|'+(d.room||''));const last=groups[groups.length-1];if(last&&last.sig===sig){last.labels.push(d.L);}else{groups.push({sig,labels:[d.L],d});}});
+  const groups=[];desc.forEach(d=>{const sig=d.free?'FREE':d.sig;const last=groups[groups.length-1];if(last&&last.sig===sig){last.items.push(d);}else{groups.push({sig,items:[d],d});}});
   const body=groups.map(g=>{
-    const label=g.labels.length>1?(g.labels[0]+'–'+g.labels[g.labels.length-1]):g.labels[0];
+    const label=periodRange(g.items[0].p,g.items[g.items.length-1].p);
     if(g.d.free)return `<tr><td class="perlbl">${esc(label)}</td><td></td><td style="color:var(--good);font-weight:700">Free</td><td></td><td></td></tr>`;
     return `<tr class="clickcell" data-ttcell="${s.id}|${g.d.idx}" title="Click to see or add tasks"><td class="perlbl">${esc(label)}</td><td>${esc(g.d.time)}</td><td class="has"><b>${esc(g.d.block)}</b></td><td>${esc(g.d.sections)}</td><td>${esc(g.d.room)}</td></tr>`;
   }).join('');
-  return `<div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:7px"><b>${taught}</b> teaching · <b style="color:var(--good)">${free}</b> free of ${lessons.length} lessons</div><div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Lesson</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${body}</tbody></table></div>`;
+  return `<div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:7px"><b>${taught}</b> teaching · <b style="color:var(--good)">${free}</b> free of ${axis.length} periods</div><div class="tt-wrap"><table class="tt"><thead><tr><th class="perlbl">Period</th><th>Time</th><th>Block</th><th>Sections</th><th>Room</th></tr></thead><tbody>${body}</tbody></table></div>`;
 }
 function slotModal(sid,idx){
   const st=state.staff.find(x=>x.id===sid);if(!st)return;
