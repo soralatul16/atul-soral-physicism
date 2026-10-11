@@ -1854,6 +1854,7 @@ function readImageScaled(file,cb){
   r.onerror=()=>cb(null);
   r.readAsDataURL(file);
 }
+function readFileData(file,cb){const r=new FileReader();r.onload=ev=>cb(ev.target.result);r.onerror=()=>cb(null);r.readAsDataURL(file);}
 function routeContext(){
   const blocks=[...new Set(state.staff.flatMap(s=>(s.timetable||[]).map(x=>x.block)).filter(Boolean))];
   const students=state.ias.map(i=>i.student).filter(Boolean);
@@ -1880,7 +1881,7 @@ function smartCaptureInline(){
   </div>`;
 }
 function bindSmartInline(){
-  const sca=$('#sci_attach');if(sca)sca.onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.style.position='fixed';inp.style.left='-9999px';document.body.appendChild(inp);inp.onchange=e=>{const f=e.target.files[0];inp.remove();if(!f)return;scFileName=f.name;const el=$('#sci_file');if(f.type.startsWith('image/')){if(el)el.innerHTML='<span class="mini">Reading image…</span>';readImageScaled(f,data=>{scImage=data;if(el)el.innerHTML=scImage?`<img src="${scImage}" style="max-height:80px;border-radius:8px;border:1px solid var(--line)">`:`<span class="tag subj">📄 ${esc(f.name)}</span>`;});}else{scImage=null;if(el)el.innerHTML=`<span class="tag subj">📄 ${esc(f.name)}</span>`;}};inp.click();};
+  const sca=$('#sci_attach');if(sca)sca.onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.style.position='fixed';inp.style.left='-9999px';document.body.appendChild(inp);inp.onchange=e=>{const f=e.target.files[0];inp.remove();if(!f)return;scFileName=f.name;const el=$('#sci_file');if(f.type.startsWith('image/')){if(el)el.innerHTML='<span class="mini">Reading image…</span>';readImageScaled(f,data=>{scImage=data;if(el)el.innerHTML=scImage?`<img src="${scImage}" style="max-height:80px;border-radius:8px;border:1px solid var(--line)">`:`<span class="tag subj">📄 ${esc(f.name)}</span>`;});}else if(f.type==='application/pdf'){if(el)el.innerHTML='<span class="mini">Reading PDF…</span>';readFileData(f,data=>{scImage=data;if(el)el.innerHTML=`<span class="tag subj">📄 ${esc(f.name)} · ready</span>`;});}else{scImage=null;if(el)el.innerHTML=`<span class="tag subj">📄 ${esc(f.name)}</span>`;}};inp.click();};
   const scg=$('#sci_go');if(scg)scg.onclick=()=>runRouteWith($('#sci_mat').value.trim(),$('#sci_do').value.trim(),scImage,scFileName,'');
 }
 function smartCaptureModal(preset){
@@ -1899,13 +1900,21 @@ function smartCaptureModal(preset){
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="sc_go">Understand &amp; file</button></div>`);
   scPreview();
-  $('#sc_attach').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.style.position='fixed';inp.style.left='-9999px';document.body.appendChild(inp);inp.onchange=e=>{const f=e.target.files[0];inp.remove();if(!f)return;scFileName=f.name;if(f.type.startsWith('image/')){readImageScaled(f,data=>{scImage=data;scPreview();});}else{scImage=null;scPreview();}};inp.click();};
+  $('#sc_attach').onclick=()=>{const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.style.position='fixed';inp.style.left='-9999px';document.body.appendChild(inp);inp.onchange=e=>{const f=e.target.files[0];inp.remove();if(!f)return;scFileName=f.name;if(f.type.startsWith('image/')){readImageScaled(f,data=>{scImage=data;scPreview();});}else if(f.type==='application/pdf'){readFileData(f,data=>{scImage=data;scPreview();});}else{scImage=null;scPreview();}};inp.click();};
   $('#sc_go').onclick=()=>runRouteWith($('#sc_mat').value.trim(),$('#sc_do').value.trim(),scImage,scFileName,'');
 }
 async function runRouteWith(mat,ins,image,fileName,answer){
   if(!aiEnabled()){closeModal();aiSettingsModal();return;}
   if(!mat&&!image&&!fileName&&!ins){toast('Add some material or an instruction');return;}
   const text=`TODAY: ${todayISO()} (interpret any partial or relative date, e.g. "17 Oct", as the NEXT upcoming date from today — never a past date).\n\nMATERIAL:\n${mat||('(attached file: '+(fileName||'none')+')')}\n\nINSTRUCTION: ${ins||'(none given)'}${answer?'\n\nUSER PICKED: '+answer:''}\n\nCONTEXT: ${routeContext()}`;
+  const wantsOutline=/course\s*outline|scheme of work|syllabus|outline\s*(sheet|format|tracker|table)?|coverage sheet/i.test(ins||'');
+  if(wantsOutline){
+    loadingModal('Reading your course outline…');
+    try{const r=await aiExtract('outline',{text,image:image||undefined});closeModal();
+      if(r&&(Array.isArray(r.outlines)||Array.isArray(r.grades)||Array.isArray(r.rows)||Array.isArray(r.topics)||r.grade)){fileOutlineFromRoute(r);return;}
+      toast('I could not read any topics from that — is the Worker deployed?');smartCaptureModal({mat,ins,image,fileName});return;
+    }catch(e){closeModal();toast(e.message||'Could not read the outline');smartCaptureModal({mat,ins,image,fileName});return;}
+  }
   loadingModal('Working out where this goes…');
   try{const plan=await aiExtract('route',{text,image:image||undefined});closeModal();dispatchRoute(plan,{mat,ins,image,fileName});}
   catch(e){closeModal();toast(e.message||'Could not process that');smartCaptureModal({mat,ins,image,fileName});}
