@@ -633,7 +633,22 @@ function dueLabel(iso){
   return `${fmtDate(iso)} · ${diff}d`;
 }
 const openTasks=()=>state.tasks.filter(t=>t.status!=='done');
-const openReminders=()=>state.tasks.filter(t=>t.status!=='done'&&(t.kind==='reminder'||t.kind==='both'||(t.reminders||[]).length));
+const openReminders=()=>openReminderItems();
+// Unified list of live reminder lines: standalone reminder tasks + undone notes attached to any task.
+function openReminderItems(){
+  const items=[];
+  state.tasks.forEach(t=>{
+    if(t.status!=='done'&&t.kind==='reminder')items.push({type:'task',id:t.id,text:t.title,due:t.due||null});
+    (t.reminders||[]).forEach((r,ri)=>{if(r&&!r.done)items.push({type:'note',id:t.id,ri:ri,text:r.text,parent:t.title,due:null});});
+  });
+  return items;
+}
+// All not-done action items across every saved meeting.
+function openMeetingActions(){
+  const items=[];
+  (state.meetings||[]).forEach(m=>(m.actions||[]).forEach((a,i)=>{if(a&&!a.done)items.push({mid:m.id,i:i,text:a.text,owner:a.owner||'',due:a.due||null,meeting:m.title||'Meeting',taskId:a.taskId||null});}));
+  return items.sort((a,b)=>(a.due||'9999').localeCompare(b.due||'9999'));
+}
 function counts(){
   const o=openTasks();const td=todayISO();
   return {
@@ -809,11 +824,9 @@ function renderDash(){
   const soon=openTasks().filter(t=>t.due&&daysBetween(td,t.due)>=1&&daysBetween(td,t.due)<=7).sort(byDue);
   const corrPend=state.corrections.filter(x=>!x.submitted);
   const corrOver=corrPend.filter(x=>x.due&&daysBetween(td,x.due)<0);
-  const rems=openReminders();
   let alerts='';
   if(over.length)alerts+=`<div class="alert-strip crit"><div class="ac">${over.length} overdue task${over.length>1?'s':''} need attention</div><span class="go" data-go="tasks" data-filt="overdue">View</span></div>`;
   if(corrOver.length)alerts+=`<div class="alert-strip warn"><div class="ac">${corrOver.length} exam correction${corrOver.length>1?'s':''} overdue (set dates passed)</div><span class="go" data-go="corrections">View</span></div>`;
-  if(rems.length)alerts+=`<div class="alert-strip rem"><div class="ac">🔔 ${rems.length} active reminder${rems.length>1?'s':''} / heads-up${rems.length>1?'s':''}</div><span class="go" data-go="tasks" data-taskkind="reminder" data-filt="all">View</span></div>`;
   if(!over.length&&!corrOver.length&&(todays.length||c.week))alerts+=`<div class="alert-strip ok"><div class="ac">Nothing overdue — you're on track. ${todays.length} due today.</div></div>`;
   return `
   ${greeting()}
@@ -828,6 +841,8 @@ function renderDash(){
   </div>
   ${dashCharts()}
   ${alerts}
+  ${dashReminders()}
+  ${dashMeetingActions()}
   <div class="grid-2" style="margin-top:4px">
     <div class="section">
       <div class="section-head"><h2>Today &amp; overdue</h2><span class="count">${todays.length+over.length}</span></div>
@@ -842,6 +857,41 @@ function renderDash(){
   ${dashRoles()}
   ${dashCorr(corrPend)}
   `;
+}
+function dashReminders(){
+  const items=openReminderItems();
+  const rows=items.slice(0,12).map(it=>{
+    const key=it.type==='task'?('t|'+it.id):('n|'+it.id+'|'+it.ri);
+    const sub=it.parent?('on: '+esc(it.parent)):(it.due?('by '+esc(fmtDate(it.due))):'quick reminder');
+    return `<div class="rem-item" style="background:var(--surface)">
+      <input type="checkbox" data-remdash="${key}" style="margin-top:3px;flex-shrink:0;width:16px;height:16px;cursor:pointer">
+      <div class="rem-body"><p>${esc(it.text)}</p><span class="rem-at">${sub}</span></div>
+    </div>`;
+  }).join('');
+  return `<div class="section" style="margin-top:4px">
+    <div class="section-head"><h2>🔔 Reminders</h2><span class="count">${items.length}</span></div>
+    <div class="card" style="padding:13px 15px">
+      <div class="rem-box" style="max-height:none;border:none;background:none;padding:0">${items.length?rows:emptyMini('No active reminders — add a quick one below')}</div>
+      <div class="rem-add" style="margin-top:11px"><input id="remQuick" placeholder="Quick reminder — e.g. meet Mr Animesh re DP1, mail parents 15 Oct"><button class="btn primary" id="remQuickBtn" type="button">+ Add</button></div>
+      <div style="margin-top:9px"><span class="go" data-go="tasks" data-taskkind="reminder" data-filt="all" style="font-size:12px;text-decoration:underline;cursor:pointer">See all reminders (including done) ›</span></div>
+    </div></div>`;
+}
+function dashMeetingActions(){
+  const items=openMeetingActions();if(!items.length)return '';
+  const rows=items.slice(0,12).map(it=>{
+    const od=it.due&&daysBetween(todayISO(),it.due)<0;const key=it.mid+'|'+it.i;
+    const linked=it.taskId&&state.tasks.some(t=>t.id===it.taskId);
+    return `<div class="act-row">
+      <input type="checkbox" data-mactdone="${key}">
+      <div class="act-main"><p>${esc(it.text)}</p>
+        <div class="act-meta">${it.owner?`<span class="tag teach">${esc(it.owner)}</span>`:''}${it.due?`<span class="tag ${od?'rem':'grade'}">${od?'overdue · ':''}due ${esc(fmtDate(it.due))}</span>`:''}<span class="mini">from: ${esc(it.meeting)}</span></div>
+      </div>
+      ${linked?'<span class="tag" style="background:var(--good-soft);color:var(--good);flex-shrink:0">in Tasks ✓</span>':`<button class="btn sm" data-macttask="${key}" style="flex-shrink:0">+ Task</button>`}
+    </div>`;
+  }).join('');
+  return `<div class="section" style="margin-top:4px">
+    <div class="section-head"><h2>Meeting action items</h2><span class="count">${items.length} open</span></div>
+    <div class="card" style="padding:4px 16px">${rows}</div></div>`;
 }
 function dashRoles(){
   const lines=roleMiniLine('mentee')+roleMiniLine('cas');
@@ -877,7 +927,7 @@ function taskRow(t){
   const catCls=t.category==='Exam'?'c-exam':t.category==='Student'?'c-student':t.category==='ECA'?'c-eca':'';
   let donePill='';
   if(t.status==='done'&&t.due){const d=daysBetween(t.due,t.doneAt||todayISO());donePill=d>0?`<span class="pill late">Late · ${d}d</span>`:`<span class="pill ontime">On time</span>`;}
-  const rc=(t.reminders||[]).length;
+  const rc=(t.reminders||[]).filter(r=>!r.done).length;
   const kindChip=t.kind==='reminder'?'<span class="tag rem">🔔 Reminder</span>':(t.kind==='both'?'<span class="tag rem">🔔 Task + reminder</span>':'');
   return `<div class="row ${t.status==='done'?'done':''}" data-task="${t.id}">
     <div class="check ${t.status==='done'?'done':''}" data-toggle="${t.id}">${t.status==='done'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>':''}</div>
@@ -915,8 +965,10 @@ function renderTasks(){
   else if(f==='week')list=list.filter(t=>t.status!=='done'&&t.due&&daysBetween(td,t.due)>=0&&daysBetween(td,t.due)<=7);
   else if(f==='upcoming')list=list.filter(t=>t.status!=='done'&&(!t.due||daysBetween(td,t.due)>7));
   else if(f==='done')list=list.filter(t=>t.status==='done');
+  else if(taskKind==='reminder')list=list.filter(t=>true);
   else list=list.filter(t=>t.status!=='done');
   list.sort(byDue);
+  if(taskKind==='reminder'&&f!=='done')list.sort((a,b)=>(a.status==='done'?1:0)-(b.status==='done'?1:0));
   const fil=(k,l)=>`<button class="filt ${f===k?'active':''}" data-filt="${k}">${l}</button>`;
   const kindChip=(k,l)=>{const n=k==='all'?state.tasks.filter(t=>t.status!=='done').length:(k==='task'?state.tasks.filter(t=>t.status!=='done'&&(t.kind||'task')==='task').length:state.tasks.filter(t=>t.status!=='done'&&(t.kind==='reminder'||t.kind==='both'||(t.reminders||[]).length)).length);return `<button class="filt ${taskKind===k?'active':''}" data-taskkind="${k}">${l}${n?` <span style="opacity:.7">${n}</span>`:''}</button>`;};
   const hatChip=(k,l)=>{const n=state.tasks.filter(t=>t.status!=='done'&&(k==='all'||(t.hat||'')===k)).length;return `<button class="filt ${taskHat===k?'active':''}" data-taskhat="${k}">${l}${n?` <span style="opacity:.7">${n}</span>`:''}</button>`;};
@@ -2328,7 +2380,7 @@ function taskModal(t,preset){
   const names=state.settings.teachers;
   const kinds=[['task','Task — something to do'],['reminder','Reminder — a heads-up / note'],['both','Task & reminder — both']];
   const remList=(t.reminders||[]).length
-    ? t.reminders.map((r,ri)=>`<div class="rem-item"><span class="rem-dot">🔔</span><div class="rem-body"><p>${esc(r.text)}</p><span class="rem-at">${r.at?esc(r.at):''}</span></div><button class="rem-x" data-remdel="${ri}" title="Remove">×</button></div>`).join('')
+    ? t.reminders.map((r,ri)=>`<div class="rem-item"><input type="checkbox" data-remdone="${ri}" ${r.done?'checked':''} style="margin-top:3px;flex-shrink:0;width:15px;height:15px;cursor:pointer"><div class="rem-body"><p style="${r.done?'text-decoration:line-through;opacity:.55':''}">${esc(r.text)}</p><span class="rem-at">${r.done?'done'+(r.doneAt?' · '+esc(r.doneAt):''):(r.at?esc(r.at):'')}</span></div><button class="rem-x" data-remdel="${ri}" title="Remove">×</button></div>`).join('')
     : '<p class="mini" style="margin:4px 0 0">No reminders yet. Add notes like “timetable changed”, “students to go”, “needs substitution”.</p>';
   modal(`
     <div class="modal-head"><h3>${edit?'Edit':'New'} ${t.kind==='reminder'?'reminder':'task'}</h3><button class="x" data-close>×</button></div>
@@ -2368,6 +2420,7 @@ function taskModal(t,preset){
   $('#m_remadd').onclick=addRem;
   $('#m_remnew').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();addRem();}};
   document.querySelectorAll('[data-remdel]').forEach(b=>b.onclick=()=>{t.reminders.splice(+b.dataset.remdel,1);if(edit)save();taskModal(t);});
+  document.querySelectorAll('[data-remdone]').forEach(c=>c.onchange=()=>{const r=t.reminders[+c.dataset.remdone];if(r){r.done=c.checked;r.doneAt=c.checked?todayISO():null;}if(edit)save();taskModal(t);});
   $('#m_save').onclick=()=>{
     const title=$('#m_title').value.trim();if(!title){toast('Give it a title');return;}
     const data={title,kind:$('#m_kind').value||'task',reminders:t.reminders||[],type:$('#m_type').value,grade:$('#m_grade').value,due:$('#m_due').value||null,category:$('#m_cat').value,audience:$('#m_aud').value,hat:$('#m_hat').value,notes:$('#m_notes').value,
@@ -2781,6 +2834,17 @@ function bind(){
   document.querySelectorAll('[data-impstudents]').forEach(b=>b.onclick=()=>importStudentsModal());
   document.querySelectorAll('[data-smartcap]').forEach(b=>b.onclick=()=>smartCaptureModal());
   document.querySelectorAll('[data-exportics]').forEach(b=>b.onclick=()=>exportICS());
+  // dashboard reminders block
+  const rqAdd=()=>{const el=$('#remQuick');if(!el)return;const v=el.value.trim();if(!v){toast('Type the reminder first');return;}
+    state.tasks.push({id:uid(),status:'open',createdAt:Date.now(),kind:'reminder',reminders:[],title:v,type:'Task',category:'',audience:'',grade:'',teacher:'',hat:hatFromText(v)||'',notes:'',priority:'normal',subject:'Physics',assignedBy:'Atul Soral',due:dateFromText(v)});
+    save();refreshBadges();render();toast('Reminder added');};
+  const rqb=$('#remQuickBtn');if(rqb)rqb.onclick=rqAdd;
+  const rqi=$('#remQuick');if(rqi)rqi.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();rqAdd();}};
+  document.querySelectorAll('[data-remdash]').forEach(c=>c.onchange=()=>{const p=c.dataset.remdash.split('|');
+    if(p[0]==='t'){toggleTask(p[1]);}
+    else{const t=state.tasks.find(x=>x.id===p[1]);if(t&&t.reminders&&t.reminders[+p[2]]){t.reminders[+p[2]].done=true;t.reminders[+p[2]].doneAt=todayISO();save();refreshBadges();render();}}});
+  document.querySelectorAll('[data-mactdone]').forEach(c=>c.onchange=()=>{const p=c.dataset.mactdone.split('|');const m=state.meetings.find(x=>x.id===p[0]);if(m&&m.actions[+p[1]]){m.actions[+p[1]].done=true;save();refreshBadges();render();}});
+  document.querySelectorAll('[data-macttask]').forEach(b=>b.onclick=()=>{const p=b.dataset.macttask.split('|');meetingActionToTask(p[0],+p[1]);});
   bindSmartInline();
   document.querySelectorAll('[data-ia]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-iareview],[data-iaup],[data-iadel],[data-iastage],[data-sess],[data-rolerm],.calx'))return;const i=state.ias.find(x=>x.id===r.dataset.ia);if(i)iaModal(i);});
   document.querySelectorAll('[data-allot]').forEach(b=>b.onclick=e=>{e.stopPropagation();allotModal(b.dataset.allot);});
