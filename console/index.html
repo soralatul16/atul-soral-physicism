@@ -222,6 +222,7 @@
   .alert-strip.crit{background:var(--crit-soft);color:var(--crit)}
   .alert-strip.warn{background:var(--warn-soft);color:var(--warn)}
   .alert-strip.ok{background:var(--good-soft);color:var(--good)}
+  .alert-strip.rem{background:#fff4e2;color:#b06d12}
   .alert-strip .ac{flex:1}
   .alert-strip .go{font-size:12px;text-decoration:underline;cursor:pointer}
 
@@ -539,7 +540,8 @@ function classify(text){
   else if(/\bcoordinator/.test(t))audience='Coordinators';
   else if(/\bteacher|\bcolleague|\bfaculty\b|\bstaff\b/.test(t))audience='Teachers';
   let hat=hatFromText(t);
-  return {grade,type,teacher,priority,due,category,audience,hat,subject:'Physics'};
+  const kind=kindFromText(text);
+  return {grade,type,teacher,priority,due,category,audience,hat,kind,subject:'Physics'};
 }
 
 /* ===================== Capture ===================== */
@@ -555,19 +557,31 @@ function doCapture(text){
   const lines=text.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
   const isLong=text.length>140||lines.length>1;
   const title=isLong?summariseTitle(lines,c):cleanTitle(text,c);
-  const task={id:uid(),title,raw:text,type:c.type,grade:c.grade,subject:c.subject,category:c.category,audience:c.audience,hat:c.hat,
+  const dup=findDupTask(title,text);
+  if(dup){foldReminderInto(dup,text.slice(0,300));return;}
+  const task={id:uid(),title,raw:text,kind:c.kind||'task',reminders:[],type:c.type,grade:c.grade,subject:c.subject,category:c.category,audience:c.audience,hat:c.hat,
     teacher:c.teacher,due:c.due,priority:c.priority,status:'open',recurring:null,notes:isLong?text:'',createdAt:Date.now()};
   state.tasks.push(task);save();
-  toast(`Filed under ${c.category||c.type}${c.grade?' · '+c.grade:''}${c.due?' · due '+fmtDate(c.due):''}`);
+  toast(c.kind==='reminder'?('Reminder added'+(c.grade?' · '+c.grade:'')):`Filed under ${c.category||c.type}${c.grade?' · '+c.grade:''}${c.due?' · due '+fmtDate(c.due):''}`);
   go('tasks');
 }
 /* Turn a pasted email / long note into a short, readable task title. */
+function titleClip(s){s=(s||'').replace(/\s+/g,' ').trim();if(s.length>90)s=s.slice(0,88).trim()+'…';return s?s.charAt(0).toUpperCase()+s.slice(1):'';}
+const TITLE_JUNK=/^(dear\b|hi\b|hello\b|greetings\b|warm regards|kind regards|best regards|regards\b|best\b|thanks\b|thank you\b|sincerely\b|cheers\b|cc\s*:|to\s*:|from\s*:|sent\s*:|date\s*:|subject\s*:)/i;
+// Build a human-readable one-line title from any blob of text: drop greetings/sign-offs,
+// prefer the first sentence that carries a date or an actionable keyword.
+function smartTitle(text){
+  const lines=(text||'').replace(/\r/g,'').split(/\n+/).map(s=>s.trim()).filter(Boolean);
+  const sentences=[];
+  lines.forEach(l=>{if(TITLE_JUNK.test(l))return;l.split(/(?<=[.!?])\s+/).forEach(s=>{s=s.trim();if(s.length>6)sentences.push(s);});});
+  if(!sentences.length){const f=lines.find(l=>!TITLE_JUNK.test(l))||lines[0]||'';return titleClip(f);}
+  const key=/(meeting|ptm|revis|resched|changed|cancel|postpon|dead|due|submit|exam|moderation|report|mandator|held (from|on)|will be held|by \d|on \d|\d{1,2}\s*(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec))/i;
+  return titleClip(sentences.find(s=>key.test(s))||sentences[0]);
+}
 function summariseTitle(lines,c){
-  let subj=lines.find(l=>/^subject\s*:/i.test(l));
-  let s=subj?subj.replace(/^subject\s*:/i,'').trim():lines[0];
-  s=s.replace(/^(re|fwd|fw)\s*:\s*/i,'').replace(/\binbox\b/i,'').trim();
-  if(s.length>90)s=s.slice(0,88).trim()+'…';
-  return s.charAt(0).toUpperCase()+s.slice(1);
+  const subj=lines.find(l=>/^subject\s*:/i.test(l));
+  if(subj){let s=subj.replace(/^subject\s*:/i,'').replace(/^(re|fwd|fw)\s*:\s*/i,'').trim();if(s.length>6)return titleClip(s);}
+  return smartTitle(lines.join('\n'));
 }
 function cleanTitle(text,c){
   let s=text.trim();
@@ -611,6 +625,7 @@ function dueLabel(iso){
   return `${fmtDate(iso)} · ${diff}d`;
 }
 const openTasks=()=>state.tasks.filter(t=>t.status!=='done');
+const openReminders=()=>state.tasks.filter(t=>t.status!=='done'&&(t.kind==='reminder'||t.kind==='both'||(t.reminders||[]).length));
 function counts(){
   const o=openTasks();const td=todayISO();
   return {
@@ -714,7 +729,9 @@ function classBreakdown(){
   const map={};const bump=g=>{g=g||'Unfiled';map[g]=(map[g]||0)+1;};
   state.tasks.filter(t=>t.status!=='done').forEach(t=>bump(t.grade));
   state.corrections.filter(c=>!c.submitted).forEach(c=>bump(c.grade));
-  state.ias.filter(i=>i.stage!=='Verified').forEach(i=>bump(i.grade));
+  // Count a student/IA record as an "open item" only if it has real pending work —
+  // a due date or an open task tied to them. A plain roster entry is not pending.
+  state.ias.filter(i=>i.stage!=='Verified'&&(i.due||state.tasks.some(t=>t.student===i.student&&t.status!=='done'))).forEach(i=>bump(i.grade));
   const entries=Object.entries(map).sort((a,b)=>b[1]-a[1]);const max=Math.max(1,...entries.map(e=>e[1]));
   const col={'Grade 9':'#5f7fc4','Grade 10':'#3a9e7a','Grade 11':'#c0812e','Grade 12':'#9b6ab0','IGCSE':'#c0812e','Unfiled':'#9aa3b8'};
   return entries.map(([g,n])=>`<div style="display:flex;align-items:center;gap:11px;margin-bottom:10px">
@@ -782,9 +799,11 @@ function renderDash(){
   const soon=openTasks().filter(t=>t.due&&daysBetween(td,t.due)>=1&&daysBetween(td,t.due)<=7).sort(byDue);
   const corrPend=state.corrections.filter(x=>!x.submitted);
   const corrOver=corrPend.filter(x=>x.due&&daysBetween(td,x.due)<0);
+  const rems=openReminders();
   let alerts='';
   if(over.length)alerts+=`<div class="alert-strip crit"><div class="ac">${over.length} overdue task${over.length>1?'s':''} need attention</div><span class="go" data-go="tasks" data-filt="overdue">View</span></div>`;
   if(corrOver.length)alerts+=`<div class="alert-strip warn"><div class="ac">${corrOver.length} exam correction${corrOver.length>1?'s':''} overdue (set dates passed)</div><span class="go" data-go="corrections">View</span></div>`;
+  if(rems.length)alerts+=`<div class="alert-strip rem"><div class="ac">🔔 ${rems.length} active reminder${rems.length>1?'s':''} / heads-up${rems.length>1?'s':''}</div><span class="go" data-go="tasks" data-taskkind="reminder" data-filt="all">View</span></div>`;
   if(!over.length&&!corrOver.length&&(todays.length||c.week))alerts+=`<div class="alert-strip ok"><div class="ac">Nothing overdue — you're on track. ${todays.length} due today.</div></div>`;
   return `
   ${greeting()}
@@ -904,8 +923,9 @@ function renderTasks(){
   <div class="filters" style="margin-bottom:9px">
     ${hatChip('all','All roles')}${HATS.map(h=>hatChip(h,h)).join('')}
   </div>
-  <div class="filters" style="margin-bottom:9px">
-    ${kindChip('all','Everything')}${kindChip('task','Tasks')}${kindChip('reminder','Reminders')}
+  <div class="filters" style="margin-bottom:9px;justify-content:space-between">
+    <div style="display:flex;gap:6px;flex-wrap:wrap">${kindChip('all','Everything')}${kindChip('task','Tasks')}${kindChip('reminder','Reminders')}</div>
+    <button class="btn sm primary" data-newtask><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>New task / reminder</button>
   </div>
   <div class="filters">
     ${fil('all','All open')}${fil('today','Today')}${fil('overdue','Overdue')}${fil('week','This week')}${fil('upcoming','Upcoming')}${fil('done','Completed')}
@@ -1818,8 +1838,8 @@ function localTaskFromText(mat,ins){
   const text=(mat||'').replace(/\s+/g,' ').trim();
   if(!text&&!ins){toast('Nothing to add');return;}
   const sentences=(mat||'').split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(s=>s.length>8);
-  let title=sentences.find(s=>/(meeting|ptm|exam|deadline|submit|due|parent|revised|schedule|paper|moderation|report|intervention)/i.test(s))||sentences[0]||(ins||'New task');
-  title=title.replace(/^dear\s+(parents|all|team|sir|ma'?am|colleagues)[,:]?\s*/i,'').replace(/\s+/g,' ').trim().slice(0,110);
+  let title=smartTitle(mat||'');
+  if(!title)title=titleClip(ins||'New task');
   const kind=kindFromText((ins||'')+' '+text);
   const dup=findDupTask(title,text);
   if(dup){foldReminderInto(dup,(mat||ins||title).trim().slice(0,300));return;}
@@ -1864,8 +1884,10 @@ function createTasksFromAI(tasks){
   const CATS=['Exam','Student','ECA','Other'];
   const AUDS=['Teachers','HODs','Coordinators'];
   let n=0,folded=0;
-  tasks.forEach(t=>{if(!t||!(t.title||'').trim())return;
-    const title=(''+t.title).trim();
+  tasks.forEach(t=>{if(!t)return;
+    let title=(''+(t.title||'')).trim();
+    if(!title||TITLE_JUNK.test(title))title=smartTitle(t.summary||t.title||'');
+    if(!title)return;
     const dup=findDupTask(title,t.summary||'');
     if(dup){dup.reminders=dup.reminders||[];dup.reminders.push({text:(t.summary||title).trim().slice(0,300),at:todayISO()});if(dup.kind==='task'||!dup.kind)dup.kind='both';folded++;return;}
     const kind=['task','reminder','both'].includes(t.kind)?t.kind:kindFromText(title+' '+(t.summary||''));
@@ -1965,6 +1987,45 @@ function yearModal(){
   $('#y_save').onclick=()=>{const l=$('#y_label').value.trim();if(!l){toast('Enter a label');return;}closeModal();addYear(l,$('#y_carry').checked);};
 }
 
+function taskViewModal(t){
+  if(!t)return;
+  const done=t.status==='done';
+  const kindLabel=t.kind==='reminder'?'🔔 Reminder':(t.kind==='both'?'🔔 Task &amp; reminder':'✅ Task');
+  const chips=[];
+  if(t.hat)chips.push(`<span class="tag hatt">${esc(t.hat)}</span>`);
+  if(t.category)chips.push(`<span class="tag cat">${esc(t.category)}</span>`);
+  if(t.type&&t.type!=='Task')chips.push(`<span class="tag type">${esc(t.type)}</span>`);
+  if(t.grade)chips.push(`<span class="tag grade">${esc(t.grade)}</span>`);
+  if(t.teacher)chips.push(`<span class="tag teach">${esc(t.teacher)}</span>`);
+  if(t.priority==='high')chips.push(`<span class="tag" style="background:var(--crit-soft);color:var(--crit)">High priority</span>`);
+  if(t.recurring)chips.push(`<span class="tag subj">↻ ${esc(t.recurring)}</span>`);
+  const dueTxt=t.due?`${dueLabel(t.due)} · ${fmtDate(t.due)}`:'No date set';
+  const detail=(t.notes||t.raw||'').trim();
+  const rems=(t.reminders||[]);
+  modal(`
+    <div class="modal-head"><h3>${done?'✓ ':''}${esc(t.title||'(untitled)')}</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:4px">
+        <span class="tag" style="background:#eef2ff;color:#4a5aa6">${kindLabel}</span>${chips.join('')}
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:700;color:${t.due&&daysBetween(todayISO(),t.due)<0&&!done?'var(--crit)':'var(--ink)'};margin:6px 0 2px">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>${esc(dueTxt)}
+      </div>
+      ${t.image?`<img src="${t.image}" style="max-width:100%;max-height:220px;object-fit:contain;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);margin:8px 0">`:''}
+      ${detail?`<div class="fld"><label>What this is about</label><div style="white-space:pre-wrap;font-size:13.5px;line-height:1.5;color:var(--ink);background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:11px 13px;max-height:260px;overflow-y:auto">${esc(detail)}</div></div>`:'<p class="mini" style="margin:8px 0 0">No extra detail saved.</p>'}
+      ${rems.length?`<div class="fld"><label>Reminders (${rems.length})</label><div class="rem-box">${rems.map(r=>`<div class="rem-item"><span class="rem-dot">🔔</span><div class="rem-body"><p>${esc(r.text)}</p><span class="rem-at">${r.at?esc(r.at):''}</span></div></div>`).join('')}</div></div>`:''}
+    </div>
+    <div class="modal-foot" style="flex-wrap:wrap;gap:8px">
+      <button class="btn" data-vdel>Delete</button>
+      ${t.due?`<a class="btn" href="${gcalLink(t.title+(t.grade?' ('+t.grade+')':''),t.due)}" target="_blank" rel="noopener">📅 Calendar</a>`:''}
+      <button class="btn" data-vedit>Edit</button>
+      <button class="btn primary" data-vdone>${done?'Reopen':'Mark done'}</button>
+    </div>
+  `);
+  document.querySelector('[data-vedit]').onclick=()=>{closeModal();taskModal(t);};
+  document.querySelector('[data-vdone]').onclick=()=>{toggleTask(t.id);closeModal();render();};
+  document.querySelector('[data-vdel]').onclick=()=>{if(confirm('Delete this '+(t.kind==='reminder'?'reminder':'task')+'?')){binItem('tasks',t.id,t.kind==='reminder'?'Reminder':'Task');closeModal();}};
+}
 function taskModal(t,preset){
   const edit=!!t;t=t||Object.assign({type:'Task',priority:'normal',subject:'Physics',recurring:'',assignedBy:'Atul Soral',kind:'task',reminders:[]},preset||{});
   if(!t.kind)t.kind='task';if(!Array.isArray(t.reminders))t.reminders=[];
@@ -2379,6 +2440,8 @@ function bind(){
   if(ci){
     const prev=()=>{const v=ci.value.trim();const p=$('#capPreview');if(!v){p.innerHTML='';return;}
       const c=classify(v);const chips=[];
+      if(c.kind==='reminder')chips.push(`<span class="chip" style="background:#fff4e2;color:#b06d12"><b>🔔 Reminder</b></span>`);
+      else if(c.kind==='both')chips.push(`<span class="chip" style="background:#fff4e2;color:#b06d12"><b>🔔 Task + reminder</b></span>`);
       chips.push(`<span class="chip">→ <b>${c.type==='Correction'?'Exam Corrections':c.type}</b></span>`);
       if(c.grade)chips.push(`<span class="chip"><b>${c.grade}</b></span>`);
       if(c.due)chips.push(`<span class="chip">Due <b>${fmtDate(c.due)}</b></span>`);
@@ -2393,13 +2456,14 @@ function bind(){
     const cem=$('#capEmail');if(cem)cem.onclick=()=>emailTextModal(ci.value.trim());
   }
   document.querySelectorAll('[data-tile]').forEach(t=>t.onclick=()=>{const k=t.dataset.tile;taskFilter=k==='over'?'overdue':k==='week'?'week':k==='up'?'upcoming':'today';go('tasks');});
-  document.querySelectorAll('[data-go]').forEach(g=>g.onclick=()=>{if(g.dataset.filt)taskFilter=g.dataset.filt;go(g.dataset.go);});
+  document.querySelectorAll('[data-go]').forEach(g=>g.onclick=()=>{if(g.dataset.filt)taskFilter=g.dataset.filt;if(g.dataset.taskkind){taskKind=g.dataset.taskkind;}go(g.dataset.go);});
   document.querySelectorAll('[data-toggle]').forEach(c=>c.onclick=()=>toggleTask(c.dataset.toggle));
   document.querySelectorAll('[data-del]').forEach(b=>b.onclick=e=>{e.stopPropagation();binItem('tasks',b.dataset.del,'Task');});
-  document.querySelectorAll('[data-task]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-toggle],[data-del]'))return;const t=state.tasks.find(x=>x.id===r.dataset.task);if(t)taskModal(t);});
+  document.querySelectorAll('[data-task]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-toggle],[data-del]'))return;const t=state.tasks.find(x=>x.id===r.dataset.task);if(t)taskViewModal(t);});
   document.querySelectorAll('.filt[data-filt]').forEach(f=>f.onclick=()=>{taskFilter=f.dataset.filt;render();});
   document.querySelectorAll('[data-taskhat]').forEach(f=>f.onclick=()=>{taskHat=f.dataset.taskhat;render();});
   document.querySelectorAll('[data-taskkind]').forEach(f=>f.onclick=()=>{taskKind=f.dataset.taskkind;render();});
+  document.querySelectorAll('[data-newtask]').forEach(b=>b.onclick=()=>taskModal(null,taskKind==='reminder'?{kind:'reminder'}:{}));
   document.querySelectorAll('[data-ctab]').forEach(t=>t.onclick=()=>{corrTab=t.dataset.ctab;render();});
   document.querySelectorAll('[data-newcorr]').forEach(b=>b.onclick=()=>corrModal(b.dataset.newcorr));
   document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>markCorr(b.dataset.done));
@@ -2580,7 +2644,17 @@ function unlockGate(){
 })();
 
 /* ===================== Boot ===================== */
+// One-time cleanup: give any task that was filed with a blank or greeting-only title a readable one.
+function migrateTitles(){
+  let changed=false;
+  Object.values(store.years||{}).forEach(yr=>(yr.tasks||[]).forEach(t=>{
+    const ti=(t.title||'').trim();
+    if((!ti||TITLE_JUNK.test(ti))&&(t.notes||t.raw)){const nt=smartTitle(t.notes||t.raw||'');if(nt&&nt!==ti){t.title=nt;changed=true;}}
+  }));
+  if(changed)save();
+}
 try{
+  migrateTitles();
   if(store.seeded!==true){
     const empty=!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length;
     if(empty)seedData();
