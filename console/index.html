@@ -373,6 +373,7 @@
     <button class="nav-btn" data-view="mentor"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Form Tutor<span class="nav-badge" id="nb-mentor">0</span></button>
     <button class="nav-btn" data-view="cas"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.4-6.3-4.6L5.7 21.4 8 14 2 9.4h7.6z"/></svg>CAS Advisor<span class="nav-badge" id="nb-cas">0</span></button>
     <button class="nav-btn" data-view="outline"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>Course Outline</button>
+    <button class="nav-btn" data-view="meetings"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="10" cy="7" r="3"/><path d="M21 15.5V13a2 2 0 0 0-1.5-1.94M16 3.1a2 2 0 0 1 0 3.8"/></svg>Meetings<span class="nav-badge" id="nb-meet">0</span></button>
     <button class="nav-btn" data-view="documents"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>Documents</button>    <div class="spacer"></div>
     <div class="nav-group-label">Data</div>
     <button class="nav-btn" data-act="export"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg>Backup / Export</button>
@@ -417,8 +418,8 @@ const MKEY='asp_tracker_multi_v1';
 const ACCESS_CODE='soralism';
 const DEFAULT_AI_URL='https://asp-extract.atulsoralphysicism.workers.dev';
 function curAcademicYear(){const d=new Date();const y=d.getFullYear();return (d.getMonth()>=3)?`${y}–${String(y+1).slice(-2)}`:`${y-1}–${String(y).slice(-2)}`;}
-function blankYear(){return {tasks:[],corrections:[],docs:[],ias:[],staff:[],outlines:[],settings:{teachers:[...DEFAULT_TEACHERS]}};}
-function normYear(yr){yr.tasks=yr.tasks||[];yr.corrections=yr.corrections||[];yr.docs=yr.docs||[];yr.ias=yr.ias||[];yr.staff=yr.staff||[];yr.outlines=yr.outlines||[];yr.settings=yr.settings||{teachers:[...DEFAULT_TEACHERS]};yr.tasks.forEach(t=>{if(!t.kind)t.kind='task';if(!Array.isArray(t.reminders))t.reminders=[];});return yr;}
+function blankYear(){return {tasks:[],corrections:[],docs:[],ias:[],staff:[],outlines:[],meetings:[],settings:{teachers:[...DEFAULT_TEACHERS]}};}
+function normYear(yr){yr.tasks=yr.tasks||[];yr.corrections=yr.corrections||[];yr.docs=yr.docs||[];yr.ias=yr.ias||[];yr.staff=yr.staff||[];yr.outlines=yr.outlines||[];yr.meetings=yr.meetings||[];yr.settings=yr.settings||{teachers:[...DEFAULT_TEACHERS]};yr.tasks.forEach(t=>{if(!t.kind)t.kind='task';if(!Array.isArray(t.reminders))t.reminders=[];});return yr;}
 function loadStore(){
   try{const s=JSON.parse(localStorage.getItem(MKEY));if(s&&s.years&&s.activeYear&&s.years[s.activeYear]){Object.values(s.years).forEach(normYear);s.view=s.view||'dashboard';s.seeded=s.seeded!==false;if(!s.trash)s.trash=[];return s;}}catch(e){}
   try{const o=JSON.parse(localStorage.getItem(KEY));if(o&&o.tasks){const y=curAcademicYear();return {activeYear:y,view:o.view||'dashboard',seeded:true,trash:[],years:{[y]:normYear({tasks:o.tasks,corrections:o.corrections,docs:o.docs,ias:o.ias,staff:o.staff,settings:o.settings})}};}}catch(e){}
@@ -454,7 +455,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', taskKind='all', outlineGrade='', stuGrade='all', stuSel=new Set(), stuHL='all', stuTeacher='all', stuTask='all', stuEE='all', iaStageF='all', iaTeacherF='all', iaBlockF='all';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', taskKind='all', outlineGrade='', stuGrade='all', stuSel=new Set(), stuHL='all', stuTeacher='all', stuTask='all', stuEE='all', iaStageF='all', iaTeacherF='all', iaBlockF='all', meetFilter='all';
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -664,6 +665,7 @@ function refreshBadges(){
   const mb=$('#nb-mentor');if(mb)mb.textContent=state.ias.filter(i=>i.mentee).length;
   const cb2=$('#nb-cas');if(cb2)cb2.textContent=state.ias.filter(i=>i.cas).length;
   const stb=$('#nb-students');if(stb)stb.textContent=state.ias.length;
+  const mtb=$('#nb-meet');if(mtb){mtb.textContent=(state.meetings||[]).length;mtb.classList.toggle('alert',(state.meetings||[]).some(m=>(m.actions||[]).some(a=>!a.done&&a.due&&daysBetween(todayISO(),a.due)<0)));}
 }
 function render(){
   refreshBadges();populateYears();
@@ -679,6 +681,7 @@ function render(){
     else if(view==='mentor')el.innerHTML=renderRole('mentee');
     else if(view==='cas')el.innerHTML=renderRole('cas');
     else if(view==='outline')el.innerHTML=renderOutline();
+    else if(view==='meetings')el.innerHTML=renderMeetings();
     else if(view==='students')el.innerHTML=renderStudents();
     else if(view==='trash')el.innerHTML=renderTrash();
     else if(view==='documents')el.innerHTML=renderDocs();
@@ -1987,6 +1990,195 @@ function yearModal(){
   $('#y_save').onclick=()=>{const l=$('#y_label').value.trim();if(!l){toast('Enter a label');return;}closeModal();addYear(l,$('#y_carry').checked);};
 }
 
+/* ===================== Meetings / MOM ===================== */
+const MEETING_TYPES=['Department','IB DP','HOD / Leadership','Parent','Pastoral','Other'];
+// Turn pasted minutes into a structured meeting record. Pure local parsing — no AI/quota needed.
+function parseMOM(text){
+  const raw=(text||'').replace(/\r/g,'');
+  const lines=raw.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+  const out={title:'',date:null,type:'Department',attendees:[],agenda:'',decisions:[],actions:[],notes:raw.trim()};
+  const titleLine=lines.find(l=>/^(subject|title|meeting|topic|re)\s*:/i.test(l));
+  out.title=titleLine?titleClip(titleLine.replace(/^[^:]*:/,'').trim()):smartTitle(raw);
+  if(!out.title)out.title='Meeting — '+fmtDate(todayISO());
+  const dl=lines.find(l=>/^(date|held on|dated|on)\s*:/i.test(l));
+  out.date=dateFromText(dl||'')||dateFromText(raw)||todayISO();
+  const low=raw.toLowerCase();
+  if(/\bib\b|\bdp\b|diploma programme|diploma program/.test(low))out.type='IB DP';
+  else if(/\bhod\b|head of dep|leadership|slt\b/.test(low))out.type='HOD / Leadership';
+  else if(/parent|ptm/.test(low))out.type='Parent';
+  else if(/pastoral|form tutor|mentor|wellbeing/.test(low))out.type='Pastoral';
+  else if(/physics|department|dept|subject/.test(low))out.type='Department';
+  const parseAction=v=>{
+    v=v.replace(/^[-*•–—\d.\)\s]+/,'').trim();
+    let owner='',due=dateFromText(v);
+    let om=v.match(/\(([^)]+)\)/);if(om)owner=om[1].trim();
+    if(!owner){om=v.match(/@([A-Za-z][\w. ]{1,30})/);if(om)owner=om[1].trim();}
+    if(!owner){om=v.match(/\b(?:owner|resp(?:onsible)?|assigned to|action[:\-]?\s*by)\s*[:\-]?\s*([A-Z][a-zA-Z. ]{2,30})/i);if(om)owner=om[1].trim();}
+    return {text:titleClip(v)||v.slice(0,90),owner:owner,due:due,done:false,taskId:null};
+  };
+  const push=(sec,val)=>{val=(val||'').replace(/^[-*•–—\d.\)\s]+/,'').trim();if(!val)return;
+    if(sec==='att')out.attendees.push(...val.split(/[,;]/).map(s=>s.trim()).filter(Boolean));
+    else if(sec==='agenda')out.agenda+=(out.agenda?'\n':'')+val;
+    else if(sec==='dec')out.decisions.push(val);
+    else if(sec==='act')out.actions.push(parseAction(val));};
+  let sec='';
+  lines.forEach(l=>{
+    const m=l.match(/^([A-Za-z][A-Za-z \/-]{2,28}?)\s*:\s*(.*)$/);
+    if(m){const key=m[1].toLowerCase();let ns='';
+      if(/attend|present|members|participant/.test(key))ns='att';
+      else if(/agenda|discussion|points discussed|minutes/.test(key))ns='agenda';
+      else if(/decision|resolved|agreed|conclusion/.test(key))ns='dec';
+      else if(/action|to-?do|follow|next step/.test(key))ns='act';
+      if(ns){sec=ns;if(m[2].trim())push(sec,m[2]);return;}
+      if(/^(date|held on|dated|on|subject|title|meeting|topic|re|time|venue|chair)$/i.test(m[1].trim())){sec='';return;}}
+    if(sec)push(sec,l);
+  });
+  return out;
+}
+function fileMeetingFromText(text,insHint){
+  if(!(text||'').trim()){toast('Paste the minutes first');return;}
+  const m={id:uid(),createdAt:Date.now(),...parseMOM(text)};
+  state.meetings.unshift(m);save();refreshBadges();go('meetings');
+  toast('Meeting saved'+(m.actions.length?' · '+m.actions.length+' action item'+(m.actions.length>1?'s':'')+' found':'')+' — tap it to review');
+}
+function fileMeetingFromRoute(plan){
+  const p=parseMOM(plan.notes||plan.text||plan.material||'');
+  if(plan.title)p.title=titleClip(''+plan.title);
+  if(plan.date&&/^\d{4}-\d{2}-\d{2}$/.test(plan.date))p.date=plan.date;
+  if(MEETING_TYPES.includes(plan.type))p.type=plan.type;
+  if(Array.isArray(plan.attendees)&&plan.attendees.length)p.attendees=plan.attendees.map(x=>(''+x).trim()).filter(Boolean);
+  if(Array.isArray(plan.decisions)&&plan.decisions.length)p.decisions=plan.decisions.map(x=>(''+x).trim()).filter(Boolean);
+  if(Array.isArray(plan.actions)&&plan.actions.length)p.actions=plan.actions.map(a=>({text:titleClip(''+(a.text||a.title||a)),owner:(a.owner||'').trim(),due:(a.due&&/^\d{4}-\d{2}-\d{2}$/.test(a.due))?a.due:null,done:false,taskId:null}));
+  const m={id:uid(),createdAt:Date.now(),...p};
+  state.meetings.unshift(m);save();refreshBadges();go('meetings');
+  toast('Meeting saved'+(m.actions.length?' · '+m.actions.length+' action item'+(m.actions.length>1?'s':''):''));
+}
+function meetingActionToTask(mid,idx){
+  const m=state.meetings.find(x=>x.id===mid);if(!m)return;const a=(m.actions||[])[idx];if(!a)return;
+  if(a.taskId&&state.tasks.some(t=>t.id===a.taskId)){toast('Already in Tasks');return;}
+  const t={id:uid(),status:'open',createdAt:Date.now(),title:a.text,kind:'task',reminders:[],type:'Task',category:'',audience:'',grade:'',
+    teacher:a.owner||'',hat:'Coordinator',notes:'From meeting: '+(m.title||'')+(m.date?' ('+fmtDate(m.date)+')':''),priority:'normal',subject:'Physics',assignedBy:'Atul Soral',due:a.due||null,meetingId:m.id};
+  state.tasks.push(t);a.taskId=t.id;save();refreshBadges();render();toast('Added to Tasks'+(a.owner?' · '+a.owner:''));
+}
+function meetingStats(m){const a=m.actions||[];const done=a.filter(x=>x.done).length;return {total:a.length,done:done,open:a.length-done};}
+function renderMeetings(){
+  const all=state.meetings||[];
+  const types=['all',...MEETING_TYPES.filter(ty=>all.some(m=>m.type===ty))];
+  let list=all.slice();
+  if(meetFilter!=='all')list=list.filter(m=>m.type===meetFilter);
+  list.sort((a,b)=>(b.date||'').localeCompare(a.date||'')||(b.createdAt||0)-(a.createdAt||0));
+  const openActions=all.reduce((n,m)=>n+meetingStats(m).open,0);
+  const chip=(k,l)=>`<button class="filt ${meetFilter===k?'active':''}" data-meetf="${k}">${l}</button>`;
+  const stat=`<div class="section"><div class="card" style="padding:14px 18px;display:flex;gap:26px;flex-wrap:wrap">
+    <div><div style="font-size:22px;font-weight:800">${all.length}</div><div class="mini">meeting${all.length===1?'':'s'} on record</div></div>
+    <div><div style="font-size:22px;font-weight:800;color:${openActions?'var(--warn)':'var(--good)'}">${openActions}</div><div class="mini">open action item${openActions===1?'':'s'}</div></div>
+  </div></div>`;
+  const body=list.length?list.map(meetingCard).join(''):`<div class="card rows">${emptyMini('No meetings saved yet. Paste the minutes to keep a record.')}</div>`;
+  return `${pageHead('Meetings &amp; Minutes','A record of each meeting — attendees, decisions and action items. Turn any action into a tracked task in one tap.')}
+  <div style="margin-bottom:12px;display:flex;gap:9px;flex-wrap:wrap">
+    <button class="btn primary" data-newmeet><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>Save a meeting (paste MOM)</button>
+  </div>
+  ${all.length?stat:''}
+  ${all.length?`<div class="filters" style="margin-bottom:11px">${types.map(ty=>chip(ty,ty==='all'?'All types':ty)).join('')}</div>`:''}
+  ${body}`;
+}
+function meetingCard(m){
+  const s=meetingStats(m);
+  const att=(m.attendees||[]).length;
+  return `<div class="section"><div class="card" data-meet="${m.id}" style="padding:15px 17px;cursor:pointer">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+      <div style="min-width:0">
+        <p style="margin:0;font-size:15px;font-weight:700;color:var(--ink)">${esc(m.title||'(untitled meeting)')}</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;align-items:center">
+          <span class="tag type">${esc(m.type||'Other')}</span>
+          <span class="mini">${m.date?esc(fmtDate(m.date)):'no date'}</span>
+          ${att?`<span class="mini">· ${att} attendee${att>1?'s':''}</span>`:''}
+          ${(m.decisions||[]).length?`<span class="mini">· ${m.decisions.length} decision${m.decisions.length>1?'s':''}</span>`:''}
+        </div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        ${s.total?`<span class="tag ${s.open?'rem':''}" style="${s.open?'':'background:var(--good-soft);color:var(--good)'}">${s.done}/${s.total} actions</span>`:'<span class="mini">no actions</span>'}
+      </div>
+    </div>
+  </div></div>`;
+}
+function meetingViewModal(mid){
+  const m=state.meetings.find(x=>x.id===mid);if(!m)return;
+  const att=(m.attendees||[]);
+  const actRow=(a,i)=>{
+    const linked=a.taskId&&state.tasks.some(t=>t.id===a.taskId);
+    const overdue=a.due&&!a.done&&daysBetween(todayISO(),a.due)<0;
+    return `<div class="rem-item" style="border-color:var(--line)">
+      <input type="checkbox" data-actdone="${m.id}|${i}" ${a.done?'checked':''} style="margin-top:3px;flex-shrink:0">
+      <div class="rem-body"><p style="${a.done?'text-decoration:line-through;opacity:.6':''}">${esc(a.text)}</p>
+        <span class="rem-at">${a.owner?esc(a.owner):'owner —'}${a.due?' · due '+fmtDate(a.due)+(overdue?' (overdue)':''):''}</span></div>
+      ${linked?'<span class="tag" style="background:var(--good-soft);color:var(--good);flex-shrink:0">in Tasks</span>':`<button class="btn sm" data-acttask="${m.id}|${i}" style="flex-shrink:0">+ Task</button>`}
+    </div>`;
+  };
+  modal(`
+    <div class="modal-head"><h3>${esc(m.title||'(untitled meeting)')}</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px">
+        <span class="tag type">${esc(m.type||'Other')}</span>
+        <span class="tag grade">${m.date?esc(fmtDate(m.date)):'no date'}</span>
+      </div>
+      ${att.length?`<div class="fld"><label>Attendees (${att.length})</label><div style="display:flex;flex-wrap:wrap;gap:6px">${att.map(a=>`<span class="tag teach">${esc(a)}</span>`).join('')}</div></div>`:''}
+      ${(m.decisions||[]).length?`<div class="fld"><label>Decisions</label><ul style="margin:4px 0 0;padding-left:18px;font-size:13.5px;line-height:1.6">${m.decisions.map(d=>`<li>${esc(d)}</li>`).join('')}</ul></div>`:''}
+      <div class="fld"><label>Action items${(m.actions||[]).length?` (${meetingStats(m).open} open)`:''}</label>
+        ${(m.actions||[]).length?`<div class="rem-box" style="max-height:230px">${m.actions.map(actRow).join('')}</div>${meetingStats(m).open?'<div class="rem-add" style="margin-top:8px"><button class="btn sm" data-allactions="'+m.id+'">+ Add all open actions to Tasks</button></div>':''}`:'<p class="mini" style="margin:4px 0 0">No action items recorded.</p>'}
+      </div>
+      ${(m.agenda||'').trim()?`<div class="fld"><label>Agenda / discussion</label><div style="white-space:pre-wrap;font-size:13px;line-height:1.5;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-height:160px;overflow-y:auto">${esc(m.agenda.trim())}</div></div>`:''}
+      ${(m.notes||'').trim()?`<div class="fld"><label>Full minutes (as pasted)</label><div style="white-space:pre-wrap;font-size:13px;line-height:1.5;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-height:240px;overflow-y:auto">${esc(m.notes.trim())}</div></div>`:''}
+    </div>
+    <div class="modal-foot" style="flex-wrap:wrap;gap:8px">
+      <button class="btn" data-mdel>Delete</button>
+      <button class="btn primary" data-medit>Edit</button>
+    </div>
+  `);
+  document.querySelector('[data-medit]').onclick=()=>{closeModal();meetingModal(m);};
+  document.querySelector('[data-mdel]').onclick=()=>{if(confirm('Delete this meeting record? Tasks already created from it stay in Tasks.')){state.meetings=state.meetings.filter(x=>x.id!==m.id);save();refreshBadges();closeModal();render();toast('Meeting deleted');}};
+  document.querySelectorAll('[data-actdone]').forEach(c=>c.onchange=()=>{const p=c.dataset.actdone.split('|');const mm=state.meetings.find(x=>x.id===p[0]);if(mm&&mm.actions[+p[1]]){mm.actions[+p[1]].done=c.checked;save();refreshBadges();meetingViewModal(mm.id);}});
+  document.querySelectorAll('[data-acttask]').forEach(b=>b.onclick=()=>{const p=b.dataset.acttask.split('|');meetingActionToTask(p[0],+p[1]);meetingViewModal(p[0]);});
+  const aa=document.querySelector('[data-allactions]');if(aa)aa.onclick=()=>{const mm=state.meetings.find(x=>x.id===aa.dataset.allactions);if(!mm)return;(mm.actions||[]).forEach((a,i)=>{if(!a.done&&!(a.taskId&&state.tasks.some(t=>t.id===a.taskId)))meetingActionToTask(mm.id,i);});meetingViewModal(mm.id);};
+}
+function meetingModal(m){
+  const edit=!!m;m=m||{title:'',date:todayISO(),type:'Department',attendees:[],agenda:'',decisions:[],actions:[],notes:''};
+  const opt=(v,cur)=>`<option ${v===cur?'selected':''}>${v}</option>`;
+  modal(`
+    <div class="modal-head"><h3>${edit?'Edit meeting':'Save a meeting'}</h3><button class="x" data-close>×</button></div>
+    <div class="modal-body">
+      ${edit?'':`<div class="fld"><label>Paste the minutes (MOM) — I will auto-fill the fields below</label><textarea id="mm_paste" rows="4" placeholder="Paste the whole minutes here, then tap “Read minutes”. Headings like Attendees:, Decisions:, Action items: are picked up automatically."></textarea><div style="margin-top:7px"><button class="btn sm primary" id="mm_read" type="button">Read minutes & fill</button></div></div><hr style="border:none;border-top:1px solid var(--line);margin:14px 0">`}
+      <div class="fld-row">
+        <div class="fld"><label>Title</label><input id="mm_title" value="${esc(m.title||'')}" placeholder="e.g. Physics department meeting"></div>
+        <div class="fld"><label>Date</label><input type="date" id="mm_date" value="${m.date||''}"></div>
+      </div>
+      <div class="fld"><label>Type</label><select id="mm_type">${MEETING_TYPES.map(v=>opt(v,m.type)).join('')}</select></div>
+      <div class="fld"><label>Attendees (comma or new line)</label><textarea id="mm_att" rows="2" placeholder="Name, Name, Name">${esc((m.attendees||[]).join(', '))}</textarea></div>
+      <div class="fld"><label>Decisions (one per line)</label><textarea id="mm_dec" rows="3" placeholder="One decision per line">${esc((m.decisions||[]).join('\n'))}</textarea></div>
+      <div class="fld"><label>Action items (one per line — add owner in (brackets) and a date)</label><textarea id="mm_act" rows="4" placeholder="e.g. Prepare Grade 11 mock paper (Manish) by 20 Oct">${esc((m.actions||[]).map(a=>a.text+(a.owner?' ('+a.owner+')':'')+(a.due?' by '+fmtDate(a.due):'')).join('\n'))}</textarea></div>
+      <div class="fld"><label>Full minutes / notes (optional)</label><textarea id="mm_notes" rows="3" placeholder="Keep the full text for the record">${esc(m.notes||'')}</textarea></div>
+    </div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="mm_save">${edit?'Save':'Save meeting'}</button></div>
+  `);
+  const rd=$('#mm_read');if(rd)rd.onclick=()=>{const txt=$('#mm_paste').value.trim();if(!txt){toast('Paste the minutes first');return;}const p=parseMOM(txt);
+    $('#mm_title').value=p.title||'';$('#mm_date').value=p.date||todayISO();$('#mm_type').value=p.type;
+    $('#mm_att').value=(p.attendees||[]).join(', ');$('#mm_dec').value=(p.decisions||[]).join('\n');
+    $('#mm_act').value=(p.actions||[]).map(a=>a.text+(a.owner?' ('+a.owner+')':'')+(a.due?' by '+fmtDate(a.due):'')).join('\n');
+    $('#mm_notes').value=p.notes||txt;toast('Filled in — check and tweak, then Save');};
+  $('#mm_save').onclick=()=>{
+    const title=$('#mm_title').value.trim();if(!title){toast('Give the meeting a title');return;}
+    const atts=$('#mm_att').value.split(/[,\n]/).map(s=>s.trim()).filter(Boolean);
+    const decs=$('#mm_dec').value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    const actLines=$('#mm_act').value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    const prev=m.actions||[];
+    const acts=actLines.map((l,i)=>{let owner='',due=dateFromText(l);const om=l.match(/\(([^)]+)\)/);if(om)owner=om[1].trim();
+      const text=titleClip(l.replace(/\([^)]*\)/,'').replace(/\bby\s+\d.*$/i,'').trim())||l;
+      const old=prev[i];return {text:text,owner:owner,due:due,done:old?old.done:false,taskId:old?old.taskId:null};});
+    const data={title:title,date:$('#mm_date').value||todayISO(),type:$('#mm_type').value,attendees:atts,decisions:decs,actions:acts,notes:$('#mm_notes').value.trim(),agenda:m.agenda||''};
+    if(edit){Object.assign(m,data);}else{state.meetings.unshift({id:uid(),createdAt:Date.now(),...data});}
+    save();refreshBadges();closeModal();render();toast(edit?'Meeting updated':'Meeting saved');
+  };
+}
 function taskViewModal(t){
   if(!t)return;
   const done=t.status==='done';
@@ -2251,6 +2443,8 @@ async function runRouteWith(mat,ins,image,fileName,answer){
     const parsed=parseStudents(mat);
     if(parsed.length){closeModal();addStudentsToBlock({students:parsed},{ins,mat});return;}
   }
+  const wantsMeeting=/\b(mom|minutes|meeting notes|meeting record|dept(?:artment)? meeting|save (?:this|the)? ?meeting|minutes of (?:the )?meeting)\b/i.test(ins||'')||/\bminutes of (?:the )?meeting\b/i.test(mat||'');
+  if(wantsMeeting&&mat&&!image){closeModal();fileMeetingFromText(mat,ins);return;}
   const wantsOutline=/course\s*outline|scheme of work|syllabus|outline\s*(sheet|format|tracker|table)?|coverage sheet/i.test(ins||'');
   if(wantsOutline){
     loadingModal('Reading your course outline…');
@@ -2283,6 +2477,7 @@ function dispatchRoute(plan,ctx){
   if(plan.action==='ia_file'){fileIaFromRoute(plan,ctx);return;}
   if(plan.action==='course_outline'||plan.action==='outline'){fileOutlineFromRoute(plan);return;}
   if(plan.action==='timetable'){fileTimetableFromRoute(plan);return;}
+  if(plan.action==='meeting'||plan.action==='mom'||plan.action==='minutes'){fileMeetingFromRoute(plan);return;}
   toast('Nothing to file from that');smartCaptureModal(ctx);
 }
 function clarifyModal(plan,ctx){
@@ -2464,6 +2659,9 @@ function bind(){
   document.querySelectorAll('[data-taskhat]').forEach(f=>f.onclick=()=>{taskHat=f.dataset.taskhat;render();});
   document.querySelectorAll('[data-taskkind]').forEach(f=>f.onclick=()=>{taskKind=f.dataset.taskkind;render();});
   document.querySelectorAll('[data-newtask]').forEach(b=>b.onclick=()=>taskModal(null,taskKind==='reminder'?{kind:'reminder'}:{}));
+  document.querySelectorAll('[data-meet]').forEach(r=>r.onclick=()=>meetingViewModal(r.dataset.meet));
+  document.querySelectorAll('[data-newmeet]').forEach(b=>b.onclick=()=>meetingModal(null));
+  document.querySelectorAll('[data-meetf]').forEach(f=>f.onclick=()=>{meetFilter=f.dataset.meetf;render();});
   document.querySelectorAll('[data-ctab]').forEach(t=>t.onclick=()=>{corrTab=t.dataset.ctab;render();});
   document.querySelectorAll('[data-newcorr]').forEach(b=>b.onclick=()=>corrModal(b.dataset.newcorr));
   document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>markCorr(b.dataset.done));
