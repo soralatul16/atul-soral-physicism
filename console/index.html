@@ -1971,6 +1971,9 @@ function parseStudents(text){
     if(monthRe.test(raw))continue;                 // "July 18, 2025 …" activity/date line
     if(/^\d/.test(raw)&&/\b(19|20)\d{2}\b/.test(raw))continue; // bare date line
     if(/^(name|student|s\.?no\.?|roll|total|showing)\b/i.test(raw))continue;
+    if(raw.includes(':'))continue;                 // label lines e.g. "Homeroom: Present"
+    if(/\b(homeroom|attendance|present|absent|tardy|excused|unexcused)\b/i.test(raw))continue;
+    if(/^show\b/i.test(raw))continue;              // "Show Attendance"
     let id='',work=raw;
     const paren=work.match(/\(([^)]*)\)/);
     if(paren){const m=paren[1].trim().match(/[A-Za-z0-9]+/);id=m?m[0]:'';work=work.replace(/\([^)]*\)/,'').trim();}
@@ -2089,6 +2092,11 @@ async function runRouteWith(mat,ins,image,fileName,answer){
   if(!aiEnabled()){closeModal();aiSettingsModal();return;}
   if(!mat&&!image&&!fileName&&!ins){toast('Add some material or an instruction');return;}
   const text=`TODAY: ${todayISO()} (interpret any partial or relative date, e.g. "17 Oct", as the NEXT upcoming date from today — never a past date).\n\nMATERIAL:\n${mat||('(attached file: '+(fileName||'none')+')')}\n\nINSTRUCTION: ${ins||'(none given)'}${answer?'\n\nUSER PICKED: '+answer:''}\n\nCONTEXT: ${routeContext()}`;
+  const wantsStudents=/\b(student list|students?|roster|class list|manage ?bac)\b/i.test(ins||'');
+  if(wantsStudents&&mat&&!image){
+    const parsed=parseStudents(mat);
+    if(parsed.length){closeModal();addStudentsToBlock({students:parsed},{ins,mat});return;}
+  }
   const wantsOutline=/course\s*outline|scheme of work|syllabus|outline\s*(sheet|format|tracker|table)?|coverage sheet/i.test(ins||'');
   if(wantsOutline){
     loadingModal('Reading your course outline…');
