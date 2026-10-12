@@ -182,6 +182,13 @@
   .rem-x:hover{color:var(--crit)}
   .rem-add{display:flex;gap:6px;margin-top:7px}
   .rem-add input{flex:1}
+  .act-row{display:flex;align-items:flex-start;gap:12px;padding:12px 2px;border-bottom:1px solid var(--line)}
+  .act-row:last-child{border-bottom:none}
+  .act-row input[type=checkbox]{margin-top:2px;flex-shrink:0;width:17px;height:17px;cursor:pointer}
+  .act-row.done .act-main p{text-decoration:line-through;opacity:.5}
+  .act-main{flex:1;min-width:0}
+  .act-main p{margin:0;font-size:14px;font-weight:600;color:var(--ink);line-height:1.45}
+  .act-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;align-items:center}
   .due{font-size:12.5px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:5px}
   .due.over{color:var(--crit)} .due.today{color:var(--warn)} .due.soon{color:var(--accent)} .due.far{color:var(--ink-soft)} .due.none{color:var(--ink-mute);font-weight:500}
   .prio{width:7px;height:7px;border-radius:50%;flex:none}
@@ -455,7 +462,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', taskKind='all', outlineGrade='', stuGrade='all', stuSel=new Set(), stuHL='all', stuTeacher='all', stuTask='all', stuEE='all', iaStageF='all', iaTeacherF='all', iaBlockF='all', meetFilter='all';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', taskKind='all', outlineGrade='', stuGrade='all', stuSel=new Set(), stuHL='all', stuTeacher='all', stuTask='all', stuEE='all', iaStageF='all', iaTeacherF='all', iaBlockF='all', meetFilter='all', meetingOpenId=null;
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -648,7 +655,7 @@ function corrState(c){
 }
 
 /* ===================== Render router ===================== */
-function go(v){view=v;state.view=v;save();render();highlightNav();closeMobileNav();}
+function go(v){view=v;state.view=v;meetingOpenId=null;save();render();highlightNav();closeMobileNav();}
 function highlightNav(){document.querySelectorAll('.nav-btn[data-view]').forEach(b=>b.classList.toggle('active',b.dataset.view===view));}
 function refreshBadges(){
   $('#nb-tasks').textContent=openTasks().length;
@@ -2132,6 +2139,7 @@ function meetingActionToTask(mid,idx){
 function meetingStats(m){const a=m.actions||[];const done=a.filter(x=>x.done).length;return {total:a.length,done:done,open:a.length-done};}
 function renderMeetings(){
   const all=state.meetings||[];
+  if(meetingOpenId){const m=all.find(x=>x.id===meetingOpenId);if(m)return renderMeetingPage(m);meetingOpenId=null;}
   const types=['all',...MEETING_TYPES.filter(ty=>all.some(m=>m.type===ty))];
   let list=all.slice();
   if(meetFilter!=='all')list=list.filter(m=>m.type===meetFilter);
@@ -2171,46 +2179,66 @@ function meetingCard(m){
     </div>
   </div></div>`;
 }
-function meetingViewModal(mid){
-  const m=state.meetings.find(x=>x.id===mid);if(!m)return;
+function meetingViewModal(mid){meetingOpenId=mid;render();}
+function renderMeetingPage(m){
   const att=(m.attendees||[]);
+  const acts=m.actions||[];
+  const s=meetingStats(m);
+  const overdue=acts.filter(a=>!a.done&&a.due&&daysBetween(todayISO(),a.due)<0).length;
+  const linkedN=acts.filter(a=>a.taskId&&state.tasks.some(t=>t.id===a.taskId)).length;
+  const pct=s.total?Math.round(s.done/s.total*100):0;
+  const donePct=s.total?s.done/s.total*100:0, openPct=s.total?s.open/s.total*100:0;
+  const owners={};acts.forEach(a=>{const o=(a.owner||'').trim()||'Unassigned';owners[o]=owners[o]||{t:0,open:0};owners[o].t++;if(!a.done)owners[o].open++;});
+  const ownerRows=Object.entries(owners).sort((a,b)=>b[1].t-a[1].t);
+  const maxOwner=Math.max(1,...ownerRows.map(e=>e[1].t));
   const actRow=(a,i)=>{
     const linked=a.taskId&&state.tasks.some(t=>t.id===a.taskId);
-    const overdue=a.due&&!a.done&&daysBetween(todayISO(),a.due)<0;
-    return `<div class="rem-item" style="border-color:var(--line)">
-      <input type="checkbox" data-actdone="${m.id}|${i}" ${a.done?'checked':''} style="margin-top:3px;flex-shrink:0">
-      <div class="rem-body"><p style="${a.done?'text-decoration:line-through;opacity:.6':''}">${esc(a.text)}</p>
-        <span class="rem-at">${a.owner?esc(a.owner):'owner —'}${a.due?' · due '+fmtDate(a.due)+(overdue?' (overdue)':''):''}</span></div>
-      ${linked?'<span class="tag" style="background:var(--good-soft);color:var(--good);flex-shrink:0">in Tasks</span>':`<button class="btn sm" data-acttask="${m.id}|${i}" style="flex-shrink:0">+ Task</button>`}
+    const od=a.due&&!a.done&&daysBetween(todayISO(),a.due)<0;
+    return `<div class="act-row ${a.done?'done':''}">
+      <input type="checkbox" data-actdone="${m.id}|${i}" ${a.done?'checked':''}>
+      <div class="act-main"><p>${esc(a.text)}</p>
+        <div class="act-meta">${a.owner?`<span class="tag teach">${esc(a.owner)}</span>`:'<span class="mini">no owner</span>'}${a.due?`<span class="tag ${od?'rem':'grade'}">${od?'overdue · ':''}due ${esc(fmtDate(a.due))}</span>`:''}</div>
+      </div>
+      ${linked?'<span class="tag" style="background:var(--good-soft);color:var(--good);flex-shrink:0">in Tasks ✓</span>':`<button class="btn sm primary" data-acttask="${m.id}|${i}" style="flex-shrink:0">+ Task</button>`}
     </div>`;
   };
-  modal(`
-    <div class="modal-head"><h3>${esc(m.title||'(untitled meeting)')}</h3><button class="x" data-close>×</button></div>
-    <div class="modal-body">
-      <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:8px">
-        <span class="tag type">${esc(m.type||'Other')}</span>
-        <span class="tag grade">${m.date?esc(fmtDate(m.date)):'no date'}</span>
+  const tile=(n,l,col)=>`<div style="flex:1;min-width:84px"><div style="font-size:24px;font-weight:800;color:${col||'var(--ink)'}">${n}</div><div class="mini">${l}</div></div>`;
+  return `
+  <div style="display:flex;align-items:center;gap:12px;margin-bottom:4px;flex-wrap:wrap">
+    <button class="btn sm" data-meetback><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>All meetings</button>
+    <div style="flex:1"></div>
+    <button class="btn sm" data-mdel>Delete</button>
+    ${(m.notes||'').trim()?'<button class="btn sm" data-mreparse>Re-read minutes</button>':''}
+    <button class="btn sm primary" data-medit>Edit</button>
+  </div>
+  <h1 class="page-title" style="margin:4px 0 6px">${esc(m.title||'(untitled meeting)')}</h1>
+  <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-bottom:16px">
+    <span class="tag type">${esc(m.type||'Other')}</span>
+    <span class="tag grade">${m.date?esc(fmtDate(m.date)):'no date'}</span>
+    ${att.length?`<span class="mini">· ${att.length} attendee${att.length>1?'s':''}</span>`:''}
+  </div>
+  ${acts.length?`<div class="section"><div class="section-head"><h2>Action tracking</h2><span class="count">${pct}% complete</span></div>
+    <div class="card" style="padding:16px 18px">
+      <div style="display:flex;gap:20px;flex-wrap:wrap;margin-bottom:14px">
+        ${tile(s.total,'actions')}${tile(s.done,'done','var(--good)')}${tile(s.open,'open','var(--warn)')}${tile(overdue,'overdue',overdue?'var(--crit)':'var(--ink-mute)')}${tile(linkedN,'pushed to Tasks','var(--info)')}
       </div>
-      ${att.length?`<div class="fld"><label>Attendees (${att.length})</label><div style="display:flex;flex-wrap:wrap;gap:6px">${att.map(a=>`<span class="tag teach">${esc(a)}</span>`).join('')}</div></div>`:''}
-      ${(m.decisions||[]).length?`<div class="fld"><label>Decisions</label><ul style="margin:4px 0 0;padding-left:18px;font-size:13.5px;line-height:1.6">${m.decisions.map(d=>`<li>${esc(d)}</li>`).join('')}</ul></div>`:''}
-      <div class="fld"><label>Action items${(m.actions||[]).length?` (${meetingStats(m).open} open)`:''}</label>
-        ${(m.actions||[]).length?`<div class="rem-box" style="max-height:230px">${m.actions.map(actRow).join('')}</div>${meetingStats(m).open?'<div class="rem-add" style="margin-top:8px"><button class="btn sm" data-allactions="'+m.id+'">+ Add all open actions to Tasks</button></div>':''}`:'<p class="mini" style="margin:4px 0 0">No action items recorded.</p>'}
-      </div>
-      ${(m.agenda||'').trim()?`<div class="fld"><label>Agenda / discussion</label><div style="white-space:pre-wrap;font-size:13px;line-height:1.5;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-height:160px;overflow-y:auto">${esc(m.agenda.trim())}</div></div>`:''}
-      ${(m.notes||'').trim()?`<div class="fld"><label>Full minutes (as pasted)</label><div style="white-space:pre-wrap;font-size:13px;line-height:1.5;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:10px 12px;max-height:240px;overflow-y:auto">${esc(m.notes.trim())}</div></div>`:''}
-    </div>
-    <div class="modal-foot" style="flex-wrap:wrap;gap:8px">
-      <button class="btn" data-mdel>Delete</button>
-      ${(m.notes||'').trim()?'<button class="btn" data-mreparse>Re-read minutes</button>':''}
-      <button class="btn primary" data-medit>Edit</button>
-    </div>
-  `);
-  document.querySelector('[data-medit]').onclick=()=>{closeModal();meetingModal(m);};
-  const rp=document.querySelector('[data-mreparse]');if(rp)rp.onclick=()=>reparseMeeting(m.id);
-  document.querySelector('[data-mdel]').onclick=()=>{if(confirm('Delete this meeting record? Tasks already created from it stay in Tasks.')){state.meetings=state.meetings.filter(x=>x.id!==m.id);save();refreshBadges();closeModal();render();toast('Meeting deleted');}};
-  document.querySelectorAll('[data-actdone]').forEach(c=>c.onchange=()=>{const p=c.dataset.actdone.split('|');const mm=state.meetings.find(x=>x.id===p[0]);if(mm&&mm.actions[+p[1]]){mm.actions[+p[1]].done=c.checked;save();refreshBadges();meetingViewModal(mm.id);}});
-  document.querySelectorAll('[data-acttask]').forEach(b=>b.onclick=()=>{const p=b.dataset.acttask.split('|');meetingActionToTask(p[0],+p[1]);meetingViewModal(p[0]);});
-  const aa=document.querySelector('[data-allactions]');if(aa)aa.onclick=()=>{const mm=state.meetings.find(x=>x.id===aa.dataset.allactions);if(!mm)return;(mm.actions||[]).forEach((a,i)=>{if(!a.done&&!(a.taskId&&state.tasks.some(t=>t.id===a.taskId)))meetingActionToTask(mm.id,i);});meetingViewModal(mm.id);};
+      <div class="meter"><i class="g" style="width:${donePct}%"></i><i class="m" style="width:${openPct}%"></i></div>
+      <div class="legend"><span><span class="dot good"></span>Done · ${s.done}</span><span><span class="dot mute"></span>Open · ${s.open}</span></div>
+    </div></div>`:''}
+  ${ownerRows.length&&!(ownerRows.length===1&&ownerRows[0][0]==='Unassigned')?`<div class="section"><div class="section-head"><h2>By owner</h2></div><div class="card" style="padding:15px 18px">
+    ${ownerRows.map(([o,v])=>`<div style="display:flex;align-items:center;gap:11px;margin-bottom:9px">
+      <div style="width:130px;font-size:13px;font-weight:600;color:var(--ink-soft);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(o)}</div>
+      <div style="flex:1;background:var(--surface-2);border-radius:20px;height:11px;overflow:hidden"><i style="display:block;height:100%;width:${(v.t/maxOwner*100).toFixed(0)}%;background:${v.open?'var(--warn)':'var(--good)'};border-radius:20px"></i></div>
+      <div style="width:84px;text-align:right;font-size:12.5px;font-weight:700">${v.open} open / ${v.t}</div></div>`).join('')}
+  </div></div>`:''}
+  <div class="section"><div class="section-head"><h2>Action items</h2><span class="count">${s.open} open</span></div>
+    <div class="card" style="padding:6px 16px">${acts.length?acts.map(actRow).join(''):emptyMini('No action items recorded.')}</div>
+    ${s.open?'<div style="margin-top:10px"><button class="btn sm primary" data-allactions="'+m.id+'">+ Add all open actions to Tasks</button></div>':''}
+  </div>
+  ${att.length?`<div class="section"><div class="section-head"><h2>Attendees</h2><span class="count">${att.length}</span></div><div class="card" style="padding:15px 18px"><div style="display:flex;flex-wrap:wrap;gap:7px">${att.map(a=>`<span class="tag teach">${esc(a)}</span>`).join('')}</div></div></div>`:''}
+  ${(m.decisions||[]).length?`<div class="section"><div class="section-head"><h2>Decisions</h2><span class="count">${m.decisions.length}</span></div><div class="card" style="padding:14px 20px"><ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.7">${m.decisions.map(d=>`<li>${esc(d)}</li>`).join('')}</ul></div></div>`:''}
+  ${(m.agenda||'').trim()?`<div class="section"><div class="section-head"><h2>Agenda / focus</h2></div><div class="card" style="padding:14px 18px;white-space:pre-wrap;font-size:13.5px;line-height:1.55">${esc(m.agenda.trim())}</div></div>`:''}
+  ${(m.notes||'').trim()?`<div class="section"><div class="section-head"><h2>Full minutes (as pasted)</h2></div><div class="card" style="padding:14px 18px;white-space:pre-wrap;font-size:13px;line-height:1.5;max-height:340px;overflow-y:auto;color:var(--ink-soft)">${esc(m.notes.trim())}</div></div>`:''}`;
 }
 function meetingModal(m){
   const edit=!!m;m=m||{title:'',date:todayISO(),type:'Department',attendees:[],agenda:'',decisions:[],actions:[],notes:''};
@@ -2730,9 +2758,18 @@ function bind(){
   document.querySelectorAll('[data-taskhat]').forEach(f=>f.onclick=()=>{taskHat=f.dataset.taskhat;render();});
   document.querySelectorAll('[data-taskkind]').forEach(f=>f.onclick=()=>{taskKind=f.dataset.taskkind;render();});
   document.querySelectorAll('[data-newtask]').forEach(b=>b.onclick=()=>taskModal(null,taskKind==='reminder'?{kind:'reminder'}:{}));
-  document.querySelectorAll('[data-meet]').forEach(r=>r.onclick=()=>meetingViewModal(r.dataset.meet));
+  document.querySelectorAll('[data-meet]').forEach(r=>r.onclick=()=>{meetingOpenId=r.dataset.meet;render();});
   document.querySelectorAll('[data-newmeet]').forEach(b=>b.onclick=()=>meetingModal(null));
   document.querySelectorAll('[data-meetf]').forEach(f=>f.onclick=()=>{meetFilter=f.dataset.meetf;render();});
+  document.querySelectorAll('[data-meetback]').forEach(b=>b.onclick=()=>{meetingOpenId=null;render();});
+  (function(){const mo=meetingOpenId&&state.meetings.find(x=>x.id===meetingOpenId);if(!mo)return;
+    const ed=$('[data-medit]');if(ed)ed.onclick=()=>meetingModal(mo);
+    const rp=$('[data-mreparse]');if(rp)rp.onclick=()=>reparseMeeting(mo.id);
+    const dl=$('[data-mdel]');if(dl)dl.onclick=()=>{if(confirm('Delete this meeting record? Tasks already created from it stay in Tasks.')){state.meetings=state.meetings.filter(x=>x.id!==mo.id);meetingOpenId=null;save();refreshBadges();render();toast('Meeting deleted');}};
+    document.querySelectorAll('[data-actdone]').forEach(c=>c.onchange=()=>{const p=c.dataset.actdone.split('|');const mm=state.meetings.find(x=>x.id===p[0]);if(mm&&mm.actions[+p[1]]){mm.actions[+p[1]].done=c.checked;save();refreshBadges();render();}});
+    document.querySelectorAll('[data-acttask]').forEach(b=>b.onclick=()=>{const p=b.dataset.acttask.split('|');meetingActionToTask(p[0],+p[1]);});
+    const aa=$('[data-allactions]');if(aa)aa.onclick=()=>{(mo.actions||[]).forEach((a,i)=>{if(!a.done&&!(a.taskId&&state.tasks.some(t=>t.id===a.taskId)))meetingActionToTask(mo.id,i);});render();};
+  })();
   document.querySelectorAll('[data-ctab]').forEach(t=>t.onclick=()=>{corrTab=t.dataset.ctab;render();});
   document.querySelectorAll('[data-newcorr]').forEach(b=>b.onclick=()=>corrModal(b.dataset.newcorr));
   document.querySelectorAll('[data-done]').forEach(b=>b.onclick=()=>markCorr(b.dataset.done));
