@@ -2006,15 +2006,16 @@ function parseMOM(text){
   const lines=raw.split(/\n+/).map(s=>s.replace(/\s+$/,'')).filter(l=>l.trim());
   const out={title:'',date:null,type:'Department',attendees:[],agenda:'',decisions:[],actions:[],notes:raw.trim()};
   const actClip=s=>{s=(''+(s||'')).replace(/\s+/g,' ').trim();return s.length>150?s.slice(0,148).trim()+'…':s;};
-  const cols=l=>l.split(/\t| {2,}/).map(s=>s.trim());
+  const clean=s=>(''+s).replace(/^\s*[#>]+\s*/,'').replace(/^\*+|\*+$/g,'').trim();
+  const cols=l=>{if(/\|/.test(l))return l.replace(/^\s*\|/,'').replace(/\|\s*$/,'').split('|').map(clean);return l.split(/\t| {2,}/).map(clean);};
   const META_LABEL=/^(date|held on|dated|meeting date|department|members present|present|attendees|participants|members|in attendance|meeting focus|focus|agenda|purpose|objective|subject|title|topic|time|venue|chair|minutes of)/i;
-  const HEADKW=/^(s\.?\s*no|sr\.?\s*no|task|action|assigned|responsib|evidence|status|outcome|record|requirement|area|expected|peer|self|point|particular)/i;
+  const HEADKW=/^(s\.?\s*no|sr\.?\s*no|task|action|assigned|owner|responsib|evidence|status|outcome|record|requirement|area|expected|peer|self|point|particular|due|deadline|timeline|target|when)/i;
   const ownerPat=/^(mr|ms|mrs|dr|lab assistant|respective|physics dep|staff|whole|all |hod\b)/i;
   const knownOwner=c=>!!c&&(ownerPat.test(c)||state.settings.teachers.some(n=>n&&c.toLowerCase().indexOf((''+n).toLowerCase().replace(/^(mr|ms|mrs|dr)\.?\s*/i,''))>=0));
   // ---- meta ----
   const metaVal=re=>{for(const l of lines){const c=cols(l);if(c.length>=2&&re.test(c[0]))return c.slice(1).join(' ').trim();}return '';};
-  const titleHead=lines.find(l=>/^minutes of (the )?meeting|^mom\b|^meeting\s*(minutes|record)/i.test(l));
-  out.title=titleHead?titleClip(titleHead):(titleClip(metaVal(/^(subject|title|topic)$/i))||smartTitle(raw));
+  const titleHead=lines.find(l=>/^[#*>\s]*(minutes of (the )?meeting|mom\b|meeting\s*(minutes|record))/i.test(l));
+  out.title=titleHead?titleClip(clean(titleHead)):(titleClip(metaVal(/^(subject|title|topic)$/i))||smartTitle(raw));
   if(!out.title)out.title='Meeting — '+fmtDate(todayISO());
   out.date=parseAnyDate(metaVal(/^(date|held on|dated|meeting date)$/i))||parseAnyDate(raw)||todayISO();
   const attv=metaVal(/^(members present|present|attendees|participants|members|in attendance)$/i);
@@ -2028,30 +2029,37 @@ function parseMOM(text){
   else if(/pastoral|form tutor|mentor|wellbeing/.test(low))out.type='Pastoral';
   else if(/physics|department|dept|subject/.test(low))out.type='Department';
   const mkAction=(textCell,ownerCell,areaCell)=>{
-    let text=actClip(textCell);
-    if(areaCell&&areaCell.length<42&&areaCell.toLowerCase()!==(''+textCell).toLowerCase())text=actClip(areaCell+' — '+textCell);
+    let body=(''+(textCell||'')).trim();
+    let owner=(''+(ownerCell||'')).trim();
+    if(!owner){const om=body.match(/\(([^)]{2,40})\)\s*$/);if(om&&!/^\d/.test(om[1].trim())){owner=om[1].trim();body=body.replace(/\s*\([^)]*\)\s*$/,'').trim();}}
+    const due=parseAnyDate(textCell);
+    let text=actClip(body);
+    if(areaCell&&areaCell.length<42&&areaCell.toLowerCase()!==body.toLowerCase())text=actClip(areaCell+' — '+body);
     if(!text||text.length<4)return null;
-    let owner=(''+(ownerCell||'')).trim();if(/^(to be updated|tbd|pending|n\/a|-|–)$/i.test(owner))owner='';
-    return {text:text,owner:owner,due:parseAnyDate(textCell),done:false,taskId:null};
+    if(/^(to be updated|tbd|pending|n\/a|-|–)$/i.test(owner))owner='';
+    return {text:text,owner:owner,due:due,done:false,taskId:null};
   };
   // ---- walk: tables + colon sections ----
-  let colTask=-1,colAction=-1,colOwner=-1,inTable=false,sec='';
+  let colTask=-1,colAction=-1,colOwner=-1,colDue=-1,inTable=false,sec='';
   lines.forEach(l=>{
     const c=cols(l),ne=c.filter(Boolean);
+    // markdown table separator row ( |---|:--:|--- ) — ignore
+    if(ne.length&&ne.every(x=>/^:?-{2,}:?$/.test(x)))return;
     // section heading on its own line (A. … / Follow-up / Decisions …)
     if(ne.length===1){
       const h=ne[0];
       if(/^[A-Z]\.\s+\S/.test(h)||/^(individual responsibilities|common departmental tasks|follow[- ]?up|action items?|decisions?|agenda|discussion)\b/i.test(h)){
-        inTable=false;colTask=colAction=colOwner=-1;
+        inTable=false;colTask=colAction=colOwner=colDue=-1;
         sec=/decision|resolved|agreed/i.test(h)?'dec':(/agenda|discussion|focus/i.test(h)?'agenda':'act');return;
       }
     }
     // table header row
     if(c.length>=3&&c.filter(x=>x.length<36&&HEADKW.test(x)).length>=2){
-      colTask=colAction=colOwner=-1;
+      colTask=colAction=colOwner=colDue=-1;
       c.forEach((x,i)=>{
         if(/action|requirement/i.test(x)&&colAction<0)colAction=i;
-        if(/assigned\s*to|^responsibility$|^responsible$/i.test(x)&&colOwner<0)colOwner=i;
+        if(/assigned\s*to|^responsibility$|^responsible$|owner/i.test(x)&&colOwner<0)colOwner=i;
+        if(/due|deadline|by when|target date|timeline/i.test(x)&&colDue<0)colDue=i;
         if(/task|area/i.test(x)&&colTask<0)colTask=i;
       });
       inTable=true;return;
@@ -2065,7 +2073,7 @@ function parseMOM(text){
       let ownerCell=colOwner>=0?(c[colOwner]||''):'';
       if(!ownerCell){const oc=c.find(knownOwner);if(oc)ownerCell=oc;}
       const areaCell=(colAction>=0&&colTask>=0&&colTask!==colAction)?(c[colTask]||''):'';
-      if(textCell&&!HEADKW.test(textCell)){const a=mkAction(textCell,ownerCell,areaCell);if(a)out.actions.push(a);}
+      if(textCell&&!HEADKW.test(textCell)){const a=mkAction(textCell,ownerCell,areaCell);if(a){if(colDue>=0){const d=parseAnyDate(c[colDue]);if(d)a.due=d;}out.actions.push(a);}}
       return;
     }
     // colon-format lines (Attendees: … / Decisions: … / Action items: …)
