@@ -1029,13 +1029,12 @@ function iaRow(i){
 }
 function iaUpload(id){
   const i=state.ias.find(x=>x.id===id);if(!i)return;
-  const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf';inp.style.position='fixed';inp.style.left='-9999px';document.body.appendChild(inp);
+  const inp=document.createElement('input');inp.type='file';inp.accept='image/*,application/pdf,.doc,.docx';inp.style.position='fixed';inp.style.left='-9999px';document.body.appendChild(inp);
   inp.onchange=e=>{const f=e.target.files[0];inp.remove();if(!f)return;i.files=i.files||[];
     const rec={id:uid(),name:f.name,note:'',stage:i.stage||'',thumb:null,at:Date.now()};
     i.fileName=f.name;
     if(f.type&&f.type.startsWith('image/')){readImageScaled(f,data=>{rec.thumb=data;i.fileThumb=data;i.files.push(rec);save();render();toast('Attached to '+i.student);});}
-    else if(f.type==='application/pdf'||/\.pdf$/i.test(f.name)){readFileData(f,data=>{rec.thumb=data;i.files.push(rec);save();render();toast('Attached to '+i.student);});}
-    else{i.files.push(rec);save();render();toast('Attached to '+i.student);}};
+    else{readFileData(f,data=>{rec.thumb=data;i.files.push(rec);save();render();toast('Attached to '+i.student);});}};
   inp.click();
 }
 
@@ -1073,8 +1072,13 @@ function bandColor(b,m){const r=(+b||0)/(m||6);return r>=0.75?'var(--good)':(r>=
 function statusColor(s){return s==='extending'?'var(--good)':(s==='lagging'?'var(--crit)':'var(--brand)');}
 function concernColor(c){return c==='high'?'var(--crit)':(c==='medium'?'#b07d22':'var(--good)');}
 async function assessIA(i){
-  const f=(filesOf(i)||[]).filter(x=>x.thumb&&/^data:/.test(x.thumb)).slice(-1)[0];
-  if(!f){toast('Attach the IA file (PDF or image) in Files below first');return;}
+  const files=filesOf(i)||[];
+  const f=files.filter(x=>x.thumb&&/^data:(image\/|application\/pdf)/.test(x.thumb)).slice(-1)[0];
+  if(!f){
+    const other=files.filter(x=>x.thumb&&/^data:/.test(x.thumb)).slice(-1)[0];
+    if(other){toast('AI reads PDF or image files — save “'+other.name+'” as a PDF to assess it. The file is still stored.');return;}
+    toast('Attach the IA file (PDF or image) in Files below first');return;
+  }
   if(!aiEnabled()){aiSettingsModal();return;}
   loadingModal('Reading & assessing the IA…');
   try{const r=await aiExtract('ia_assess',{image:f.thumb});
@@ -2046,7 +2050,7 @@ function smartCaptureInline(){
       <div style="display:flex;flex-direction:column">
         <label class="sc-lbl">1 · The material</label>
         <textarea id="sci_mat" style="width:100%;flex:1;min-height:150px;resize:vertical" placeholder="Paste a student list, an email, a note… paste a screenshot with ⌘V, or attach a file below."></textarea>
-        <div style="display:flex;align-items:center;gap:9px;margin-top:7px"><label class="btn sm" for="sci_fileinput" style="cursor:pointer">📎 Attach image / file</label><input type="file" id="sci_fileinput" accept="image/*,application/pdf" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none"><div id="sci_file"></div></div>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:7px"><label class="btn sm" for="sci_fileinput" style="cursor:pointer">📎 Attach image / file</label><input type="file" id="sci_fileinput" accept="image/*,application/pdf,.doc,.docx" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none"><div id="sci_file"></div></div>
       </div>
       <div style="display:flex;flex-direction:column">
         <label class="sc-lbl">2 · What do you want done?</label>
@@ -2068,7 +2072,7 @@ function smartCaptureModal(preset){
     <div class="modal-body">
       <div class="fld"><label>1 · The material — paste text, or attach a screenshot/file</label>
         <textarea id="sc_mat" rows="4" placeholder="Paste an email, a student list, a note…">${esc(preset.mat||'')}</textarea>
-        <div style="display:flex;align-items:center;gap:9px;margin-top:6px"><label class="btn sm" for="sc_fileinput" style="cursor:pointer">📎 Attach image / file</label><input type="file" id="sc_fileinput" accept="image/*,application/pdf" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none"><div id="sc_file"></div></div>
+        <div style="display:flex;align-items:center;gap:9px;margin-top:6px"><label class="btn sm" for="sc_fileinput" style="cursor:pointer">📎 Attach image / file</label><input type="file" id="sc_fileinput" accept="image/*,application/pdf,.doc,.docx" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none"><div id="sc_file"></div></div>
       </div>
       <div class="fld"><label>2 · What do you want done with it?</label>
         <textarea id="sc_do" rows="2" placeholder="e.g. “These are my B7 IA students, save them” · “File this as Aarav’s draft 2” · “Make tasks from this email”">${esc(preset.ins||'')}</textarea>
@@ -2193,7 +2197,7 @@ function iaModal(i){
         <div style="display:flex;gap:7px;margin-top:7px;flex-wrap:wrap;align-items:center">
           <input id="if_note" placeholder="Note e.g. Draft 2 comments" style="flex:1;min-width:120px;padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">
           <select id="if_stage" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">${IA_STAGES.map(s=>`<option ${s===i.stage?'selected':''}>${s}</option>`).join('')}</select>
-          <label class="btn sm" for="if_fileinput" style="cursor:pointer">+ Attach file</label><input type="file" id="if_fileinput" accept="image/*,application/pdf" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none">
+          <label class="btn sm" for="if_fileinput" style="cursor:pointer">+ Attach file</label><input type="file" id="if_fileinput" accept="image/*,application/pdf,.doc,.docx" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none">
         </div>
         <div style="display:flex;gap:7px;margin-top:6px;flex-wrap:wrap;align-items:center">
           <input id="if_link" placeholder="Paste a Drive / web link…" style="flex:1;min-width:160px;padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px">
@@ -2204,8 +2208,7 @@ function iaModal(i){
   if(edit){
     {const fin=$('#if_fileinput');if(fin)fin.onchange=e=>{const f=e.target.files[0];if(!f)return;persistIA();i.files=i.files||[];const rec={id:uid(),name:f.name,note:$('#if_note').value.trim(),stage:$('#if_stage').value,thumb:null,at:Date.now()};i.fileName=f.name;
         if(f.type&&f.type.startsWith('image/')){readImageScaled(f,data=>{rec.thumb=data;i.fileThumb=data;i.files.push(rec);save();closeModal();iaModal(i);toast('File added');});}
-        else if(f.type==='application/pdf'||/\.pdf$/i.test(f.name)){readFileData(f,data=>{rec.thumb=data;i.files.push(rec);save();closeModal();iaModal(i);toast('File added');});}
-        else{i.files.push(rec);save();closeModal();iaModal(i);toast('File added');}};}
+        else{readFileData(f,data=>{rec.thumb=data;i.files.push(rec);save();closeModal();iaModal(i);toast('File added');});}};}
     document.querySelectorAll('[data-ifdel]').forEach(b=>b.onclick=()=>{i.files=(i.files||[]).filter(f=>f.id!==b.dataset.ifdel);save();closeModal();iaModal(i);});
     $('#if_addlink').onclick=()=>{persistIA();let url=$('#if_link').value.trim();if(!url){toast('Paste a link first');return;}if(!/^https?:\/\//i.test(url))url='https://'+url;i.files=i.files||[];let nm='Drive link';try{nm=new URL(url).hostname.replace(/^www\./,'');}catch(e){}i.files.push({id:uid(),name:$('#if_note').value.trim()||nm,note:$('#if_note').value.trim()?'':('link · '+nm),link:url,stage:$('#if_stage').value,thumb:null,at:Date.now()});save();closeModal();iaModal(i);toast('Link added');};
     const aia=$('#i_assignia');if(aia)aia.onclick=()=>{persistIA();assignStudentTask(i,'IA');closeModal();iaModal(i);};
