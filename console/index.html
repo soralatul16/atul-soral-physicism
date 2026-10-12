@@ -1784,6 +1784,26 @@ function fileTimetableFromRoute(plan){
   else{s={id:uid(),createdAt:Date.now(),name:data.name,role:data.role,classes:data.classes,timetable:data.timetable};state.staff.push(s);}
   save();refreshBadges();go('teachers');toast('Timetable filed for '+data.name+' · '+data.timetable.length+' slots');
 }
+function dateFromText(t){
+  const M={jan:0,feb:1,mar:2,apr:3,may:4,jun:5,jul:6,aug:7,sep:8,oct:9,nov:10,dec:11};
+  let m=(t||'').match(/\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*\.?\s+(\d{1,2})\b/i);
+  if(m)return mkIsoDate(M[m[1].toLowerCase().slice(0,3)],+m[2]);
+  m=(t||'').match(/\b(\d{1,2})\s*(?:st|nd|rd|th)?\s+(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*/i);
+  if(m)return mkIsoDate(M[m[2].toLowerCase().slice(0,3)],+m[1]);
+  return null;
+}
+function mkIsoDate(mo,d){if(mo==null||!d)return null;const y=new Date().getFullYear();return futureDue(y+'-'+pad2(mo+1)+'-'+pad2(d));}
+function localTaskFromText(mat,ins){
+  const text=(mat||'').replace(/\s+/g,' ').trim();
+  if(!text&&!ins){toast('Nothing to add');return;}
+  const sentences=(mat||'').split(/(?<=[.!?])\s+|\n+/).map(s=>s.trim()).filter(s=>s.length>8);
+  let title=sentences.find(s=>/(meeting|ptm|exam|deadline|submit|due|parent|revised|schedule|paper|moderation|report|intervention)/i.test(s))||sentences[0]||(ins||'New task');
+  title=title.replace(/^dear\s+(parents|all|team|sir|ma'?am|colleagues)[,:]?\s*/i,'').replace(/\s+/g,' ').trim().slice(0,110);
+  const cat=/(exam|paper|moderation|marking|markscheme|predicted)/i.test(text)?'Exam':(/(parent|ptm|mentor|report|intervention|personalised|student)/i.test(text)?'Student':(/(club|trip|activity|event|competition|assembly|anubhuti|masterclass)/i.test(text)?'ECA':'Other'));
+  const grade=/grade\s*12|g12\b|gr\.?\s*12/i.test(text)?'Grade 12':(/grade\s*11|g11\b|gr\.?\s*11/i.test(text)?'Grade 11':(/grade\s*10|g10\b/i.test(text)?'Grade 10':(/grade\s*9|g9\b/i.test(text)?'Grade 9':'')));
+  state.tasks.push({id:uid(),status:'open',title:title,type:'Task',category:cat,audience:'',grade:grade,teacher:'',hat:hatFromText(ins)||hatFromText(mat)||'Coordinator',notes:(mat||'').trim().slice(0,2000),priority:/(mandatory|urgent|asap|immediately|compulsory)/i.test(text)?'high':'normal',subject:'Physics',assignedBy:'Atul Soral',due:dateFromText(mat||''),createdAt:Date.now()});
+  save();refreshBadges();go('tasks');
+}
 function createTasksFromAI(tasks){
   if(!Array.isArray(tasks)||!tasks.length){toast('No tasks found in that email');return;}
   const CATS=['Exam','Student','ECA','Other'];
@@ -2115,7 +2135,11 @@ async function runRouteWith(mat,ins,image,fileName,answer){
   }
   loadingModal('Working out where this goes…');
   try{const plan=await aiExtract('route',{text,image:image||undefined});closeModal();dispatchRoute(plan,{mat,ins,image,fileName});}
-  catch(e){closeModal();toast(e.message||'Could not process that');smartCaptureModal({mat,ins,image,fileName});}
+  catch(e){closeModal();
+    const taskish=/\btask\b|to-?do|add this|remind|follow[- ]?up/i.test(ins||'');
+    if(taskish&&(mat||'').trim()){localTaskFromText(mat,ins);toast('AI was busy (rate limit) — added a task from your text. Edit the wording if needed.');return;}
+    toast(e.message||'Could not process that');smartCaptureModal({mat,ins,image,fileName});
+  }
 }
 function dispatchRoute(plan,ctx){
   if(!plan||!plan.action){toast('Could not understand that — try rephrasing step 2');smartCaptureModal(ctx);return;}
