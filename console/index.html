@@ -1992,48 +1992,109 @@ function yearModal(){
 
 /* ===================== Meetings / MOM ===================== */
 const MEETING_TYPES=['Department','IB DP','HOD / Leadership','Parent','Pastoral','Other'];
-// Turn pasted minutes into a structured meeting record. Pure local parsing — no AI/quota needed.
+// Parse numeric (12.10.2026 / 12-10-26) or worded (12 Oct) dates.
+function parseAnyDate(s){
+  if(!s)return null;
+  const m=(''+s).match(/\b(\d{1,2})[.\/\-](\d{1,2})[.\/\-](\d{2,4})\b/);
+  if(m){let d=+m[1],mo=+m[2],y=+m[3];if(y<100)y+=2000;if(mo>=1&&mo<=12&&d>=1&&d<=31)return y+'-'+pad2(mo)+'-'+pad2(d);}
+  return dateFromText(s);
+}
+// Turn pasted minutes into a structured meeting record. Handles table (tab/space columns)
+// AND "Label: value" formats. Pure local parsing — no AI/quota needed.
 function parseMOM(text){
   const raw=(text||'').replace(/\r/g,'');
-  const lines=raw.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+  const lines=raw.split(/\n+/).map(s=>s.replace(/\s+$/,'')).filter(l=>l.trim());
   const out={title:'',date:null,type:'Department',attendees:[],agenda:'',decisions:[],actions:[],notes:raw.trim()};
-  const titleLine=lines.find(l=>/^(subject|title|meeting|topic|re)\s*:/i.test(l));
-  out.title=titleLine?titleClip(titleLine.replace(/^[^:]*:/,'').trim()):smartTitle(raw);
+  const actClip=s=>{s=(''+(s||'')).replace(/\s+/g,' ').trim();return s.length>150?s.slice(0,148).trim()+'…':s;};
+  const cols=l=>l.split(/\t| {2,}/).map(s=>s.trim());
+  const META_LABEL=/^(date|held on|dated|meeting date|department|members present|present|attendees|participants|members|in attendance|meeting focus|focus|agenda|purpose|objective|subject|title|topic|time|venue|chair|minutes of)/i;
+  const HEADKW=/^(s\.?\s*no|sr\.?\s*no|task|action|assigned|responsib|evidence|status|outcome|record|requirement|area|expected|peer|self|point|particular)/i;
+  const ownerPat=/^(mr|ms|mrs|dr|lab assistant|respective|physics dep|staff|whole|all |hod\b)/i;
+  const knownOwner=c=>!!c&&(ownerPat.test(c)||state.settings.teachers.some(n=>n&&c.toLowerCase().indexOf((''+n).toLowerCase().replace(/^(mr|ms|mrs|dr)\.?\s*/i,''))>=0));
+  // ---- meta ----
+  const metaVal=re=>{for(const l of lines){const c=cols(l);if(c.length>=2&&re.test(c[0]))return c.slice(1).join(' ').trim();}return '';};
+  const titleHead=lines.find(l=>/^minutes of (the )?meeting|^mom\b|^meeting\s*(minutes|record)/i.test(l));
+  out.title=titleHead?titleClip(titleHead):(titleClip(metaVal(/^(subject|title|topic)$/i))||smartTitle(raw));
   if(!out.title)out.title='Meeting — '+fmtDate(todayISO());
-  const dl=lines.find(l=>/^(date|held on|dated|on)\s*:/i.test(l));
-  out.date=dateFromText(dl||'')||dateFromText(raw)||todayISO();
+  out.date=parseAnyDate(metaVal(/^(date|held on|dated|meeting date)$/i))||parseAnyDate(raw)||todayISO();
+  const attv=metaVal(/^(members present|present|attendees|participants|members|in attendance)$/i);
+  if(attv)out.attendees=attv.split(/[,;]|\s{2,}/).map(s=>s.trim()).filter(Boolean);
+  const focusv=metaVal(/^(meeting focus|focus|agenda|purpose|objective)$/i);
+  if(focusv)out.agenda=focusv;
   const low=raw.toLowerCase();
-  if(/\bib\b|\bdp\b|diploma programme|diploma program/.test(low))out.type='IB DP';
+  if(/\bib\b|\bdp\b|dp1|dp2|diploma/.test(low))out.type='IB DP';
   else if(/\bhod\b|head of dep|leadership|slt\b/.test(low))out.type='HOD / Leadership';
   else if(/parent|ptm/.test(low))out.type='Parent';
   else if(/pastoral|form tutor|mentor|wellbeing/.test(low))out.type='Pastoral';
   else if(/physics|department|dept|subject/.test(low))out.type='Department';
-  const parseAction=v=>{
-    v=v.replace(/^[-*•–—\d.\)\s]+/,'').trim();
-    let owner='',due=dateFromText(v);
-    let om=v.match(/\(([^)]+)\)/);if(om)owner=om[1].trim();
-    if(!owner){om=v.match(/@([A-Za-z][\w. ]{1,30})/);if(om)owner=om[1].trim();}
-    if(!owner){om=v.match(/\b(?:owner|resp(?:onsible)?|assigned to|action[:\-]?\s*by)\s*[:\-]?\s*([A-Z][a-zA-Z. ]{2,30})/i);if(om)owner=om[1].trim();}
-    return {text:titleClip(v)||v.slice(0,90),owner:owner,due:due,done:false,taskId:null};
+  const mkAction=(textCell,ownerCell,areaCell)=>{
+    let text=actClip(textCell);
+    if(areaCell&&areaCell.length<42&&areaCell.toLowerCase()!==(''+textCell).toLowerCase())text=actClip(areaCell+' — '+textCell);
+    if(!text||text.length<4)return null;
+    let owner=(''+(ownerCell||'')).trim();if(/^(to be updated|tbd|pending|n\/a|-|–)$/i.test(owner))owner='';
+    return {text:text,owner:owner,due:parseAnyDate(textCell),done:false,taskId:null};
   };
-  const push=(sec,val)=>{val=(val||'').replace(/^[-*•–—\d.\)\s]+/,'').trim();if(!val)return;
-    if(sec==='att')out.attendees.push(...val.split(/[,;]/).map(s=>s.trim()).filter(Boolean));
-    else if(sec==='agenda')out.agenda+=(out.agenda?'\n':'')+val;
-    else if(sec==='dec')out.decisions.push(val);
-    else if(sec==='act')out.actions.push(parseAction(val));};
-  let sec='';
+  // ---- walk: tables + colon sections ----
+  let colTask=-1,colAction=-1,colOwner=-1,inTable=false,sec='';
   lines.forEach(l=>{
+    const c=cols(l),ne=c.filter(Boolean);
+    // section heading on its own line (A. … / Follow-up / Decisions …)
+    if(ne.length===1){
+      const h=ne[0];
+      if(/^[A-Z]\.\s+\S/.test(h)||/^(individual responsibilities|common departmental tasks|follow[- ]?up|action items?|decisions?|agenda|discussion)\b/i.test(h)){
+        inTable=false;colTask=colAction=colOwner=-1;
+        sec=/decision|resolved|agreed/i.test(h)?'dec':(/agenda|discussion|focus/i.test(h)?'agenda':'act');return;
+      }
+    }
+    // table header row
+    if(c.length>=3&&c.filter(x=>x.length<36&&HEADKW.test(x)).length>=2){
+      colTask=colAction=colOwner=-1;
+      c.forEach((x,i)=>{
+        if(/action|requirement/i.test(x)&&colAction<0)colAction=i;
+        if(/assigned\s*to|^responsibility$|^responsible$/i.test(x)&&colOwner<0)colOwner=i;
+        if(/task|area/i.test(x)&&colTask<0)colTask=i;
+      });
+      inTable=true;return;
+    }
+    // known meta label line — already captured
+    if(ne.length>=2&&c.length<3&&META_LABEL.test(c.find(Boolean)||''))return;
+    // table data row
+    if(inTable&&c.length>=2){
+      const tcol=colAction>=0?colAction:(colTask>=0?colTask:-1);
+      let textCell=(tcol>=0&&c[tcol])?c[tcol]:(c.filter(x=>x&&!/^\d+\.?$/.test(x)&&!knownOwner(x)).sort((a,b)=>b.length-a.length)[0]||'');
+      let ownerCell=colOwner>=0?(c[colOwner]||''):'';
+      if(!ownerCell){const oc=c.find(knownOwner);if(oc)ownerCell=oc;}
+      const areaCell=(colAction>=0&&colTask>=0&&colTask!==colAction)?(c[colTask]||''):'';
+      if(textCell&&!HEADKW.test(textCell)){const a=mkAction(textCell,ownerCell,areaCell);if(a)out.actions.push(a);}
+      return;
+    }
+    // colon-format lines (Attendees: … / Decisions: … / Action items: …)
     const m=l.match(/^([A-Za-z][A-Za-z \/-]{2,28}?)\s*:\s*(.*)$/);
     if(m){const key=m[1].toLowerCase();let ns='';
       if(/attend|present|members|participant/.test(key))ns='att';
-      else if(/agenda|discussion|points discussed|minutes/.test(key))ns='agenda';
+      else if(/agenda|discussion|points discussed|focus/.test(key))ns='agenda';
       else if(/decision|resolved|agreed|conclusion/.test(key))ns='dec';
-      else if(/action|to-?do|follow|next step/.test(key))ns='act';
-      if(ns){sec=ns;if(m[2].trim())push(sec,m[2]);return;}
-      if(/^(date|held on|dated|on|subject|title|meeting|topic|re|time|venue|chair)$/i.test(m[1].trim())){sec='';return;}}
-    if(sec)push(sec,l);
+      else if(/action|to-?do|follow|next step|responsib/.test(key))ns='act';
+      if(ns){sec=ns;const rest=m[2].trim();if(rest){if(ns==='att')out.attendees.push(...rest.split(/[,;]/).map(s=>s.trim()).filter(Boolean));else if(ns==='agenda')out.agenda+=(out.agenda?'\n':'')+rest;else if(ns==='dec')out.decisions.push(rest);else{const a=mkAction(rest,'','');if(a)out.actions.push(a);}}return;}
+      if(META_LABEL.test(m[1].trim())){sec='';return;}}
+    // plain line under a running colon-section
+    if(c.length<=1){const v=l.replace(/^[-*•–—\d.\)\s]+/,'').trim();if(!v)return;
+      if(sec==='att')out.attendees.push(...v.split(/[,;]/).map(s=>s.trim()).filter(Boolean));
+      else if(sec==='agenda')out.agenda+=(out.agenda?'\n':'')+v;
+      else if(sec==='dec')out.decisions.push(v);
+      else if(sec==='act'){const a=mkAction(v,'','');if(a)out.actions.push(a);}}
   });
+  out.attendees=[...new Set(out.attendees)];
   return out;
+}
+// Re-run the parser on a meeting's saved text (e.g. one filed before the parser understood tables).
+function reparseMeeting(mid){
+  const m=state.meetings.find(x=>x.id===mid);if(!m||!(m.notes||'').trim()){toast('No saved minutes text to re-read');return;}
+  const p=parseMOM(m.notes);const prev=m.actions||[];
+  p.actions.forEach(a=>{const old=prev.find(x=>x.text===a.text);if(old){a.done=old.done;a.taskId=old.taskId;}});
+  m.title=p.title||m.title;m.date=p.date||m.date;m.type=p.type;m.attendees=p.attendees;m.decisions=p.decisions;m.actions=p.actions;if(p.agenda)m.agenda=p.agenda;
+  save();refreshBadges();meetingViewModal(mid);
+  toast('Re-read — '+p.attendees.length+' attendee'+(p.attendees.length===1?'':'s')+', '+p.actions.length+' action item'+(p.actions.length===1?'':'s'));
 }
 function fileMeetingFromText(text,insHint){
   if(!(text||'').trim()){toast('Paste the minutes first');return;}
@@ -2132,10 +2193,12 @@ function meetingViewModal(mid){
     </div>
     <div class="modal-foot" style="flex-wrap:wrap;gap:8px">
       <button class="btn" data-mdel>Delete</button>
+      ${(m.notes||'').trim()?'<button class="btn" data-mreparse>Re-read minutes</button>':''}
       <button class="btn primary" data-medit>Edit</button>
     </div>
   `);
   document.querySelector('[data-medit]').onclick=()=>{closeModal();meetingModal(m);};
+  const rp=document.querySelector('[data-mreparse]');if(rp)rp.onclick=()=>reparseMeeting(m.id);
   document.querySelector('[data-mdel]').onclick=()=>{if(confirm('Delete this meeting record? Tasks already created from it stay in Tasks.')){state.meetings=state.meetings.filter(x=>x.id!==m.id);save();refreshBadges();closeModal();render();toast('Meeting deleted');}};
   document.querySelectorAll('[data-actdone]').forEach(c=>c.onchange=()=>{const p=c.dataset.actdone.split('|');const mm=state.meetings.find(x=>x.id===p[0]);if(mm&&mm.actions[+p[1]]){mm.actions[+p[1]].done=c.checked;save();refreshBadges();meetingViewModal(mm.id);}});
   document.querySelectorAll('[data-acttask]').forEach(b=>b.onclick=()=>{const p=b.dataset.acttask.split('|');meetingActionToTask(p[0],+p[1]);meetingViewModal(p[0]);});
