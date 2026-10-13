@@ -1912,10 +1912,14 @@ async function aiExtract(mode,payload){
   if(payload){if(payload.image)body.image=payload.image;if(payload.text)body.text=payload.text;}
   const attempt=()=>fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
   let res=await attempt();
-  if(res.status===429||res.status===502){let peek='';try{peek=await res.clone().text();}catch(e){}
-    if(/429|quota|rate.?limit|exceeded/i.test(peek)){await new Promise(r=>setTimeout(r,7000));res=await attempt();}}
+  // Retry transient server errors (overloaded / bad gateway / rate limit) with backoff.
+  for(let i=0;i<2&&(res.status===429||res.status===500||res.status===502||res.status===503);i++){
+    await new Promise(r=>setTimeout(r,i===0?4000:9000));
+    res=await attempt();
+  }
   if(!res.ok){let m='AI request failed ('+res.status+').';try{const j=await res.json();if(j&&j.error)m=j.error;}catch(e){}
-    if(/429|quota|rate.?limit|exceeded/i.test(m))m='Google’s free AI limit is maxed out for the moment (rate limit). Wait about a minute and try again, and do one item at a time. Daily free limits reset after midnight US-Pacific.';
+    if(res.status===503||/503|overloaded|unavailable|try again/i.test(m))m='Google’s AI is overloaded right now (error 503). Wait 10–20 seconds and try again — it usually clears quickly. If it keeps failing, give it a minute and retry.';
+    else if(res.status===429||/429|quota|rate.?limit|exceeded/i.test(m))m='Google’s free AI limit is maxed out for the moment (rate limit). Wait about a minute and try again, and do one item at a time. Daily free limits reset after midnight US-Pacific.';
     throw new Error(m);}
   return await res.json();
 }
