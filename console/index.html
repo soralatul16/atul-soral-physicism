@@ -1615,11 +1615,18 @@ function slotSub(slot){const sec=isTeachingBlock(slotBlock(slot))?condenseSectio
 const WD=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
 function ttWeekday(iso){const d=dOnly(iso);return d?WD[d.getDay()]:'';}
 function periodRange(a,b){return a===b?(''+a):(a+'–'+b);}
+// Column set shared by every teacher: the union of all periods/days used anywhere in the school,
+// so a teacher's free periods show as blank cells instead of vanishing from the grid.
+function schoolAxis(week){
+  const combined=[];(state.staff||[]).forEach(t=>(t.timetable||[]).forEach(x=>{if(!week||(x.week||'A')===week)combined.push(x);}));
+  return {axis:ttPeriods(combined),days:DAYS.filter(d=>combined.some(x=>x.day===d))};
+}
 function timetableGrid(s,week){
   const all=s.timetable||[];
   const tt=week?all.filter(x=>(x.week||'A')===week):all;
-  const axis=ttPeriods(tt);
-  const days=DAYS.filter(d=>tt.some(x=>x.day===d));const useDays=days.length?days:DAYS.slice(0,5);
+  const g=schoolAxis(week);
+  const axis=g.axis.length?g.axis:ttPeriods(tt);
+  const useDays=g.days.length?g.days:(DAYS.filter(d=>tt.some(x=>x.day===d)).length?DAYS.filter(d=>tt.some(x=>x.day===d)):DAYS.slice(0,5));
   const descAt=(p,d)=>{
     const matches=[];all.forEach((x,idx)=>{if(x.day===d&&(!week||(x.week||'A')===week)&&x.period===p)matches.push({x,idx});});
     if(!matches.length)return {free:true};
@@ -1642,8 +1649,10 @@ function timetableGrid(s,week){
 function timetableDay(s,dayShort,week){
   if(!dayShort)return '<div class="mini">Pick a date to see that day only.</div>';
   const all=s.timetable||[];
+  if(!all.length)return `<div class="mini">No timetable yet for this teacher.</div>`;
   const tt=week?all.filter(x=>(x.week||'A')===week):all;
-  const axis=ttPeriods(tt);
+  const g=schoolAxis(week);
+  const axis=g.axis.length?g.axis:ttPeriods(tt);
   if(!axis.length)return `<div class="mini">No timetable yet for this teacher.</div>`;
   const desc=axis.map(p=>{
     const m=[];all.forEach((x,idx)=>{if(x.day===dayShort&&(!week||(x.week||'A')===week)&&x.period===p)m.push({x,idx});});
