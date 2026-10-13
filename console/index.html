@@ -1225,6 +1225,8 @@ function assessPanel(i){
     </div>
   </div>`;
 }
+// HL/SL only applies to DP (Grades 11 & 12). Grades 9 & 10 are IGCSE — no level.
+function isDP(g){g=''+(g||'');return g==='Grade 11'||g==='Grade 12';}
 function studentRow(i){
   const TD='padding:7px 9px;border-bottom:1px solid var(--line);font-size:13px;white-space:nowrap';
   return `<tr data-sopen="${i.id}" style="cursor:pointer${stuSel.has(i.id)?';background:var(--brand-soft,rgba(99,102,241,.08))':''}">
@@ -1232,7 +1234,7 @@ function studentRow(i){
     <td style="${TD}">${esc((i.grade||'').replace('Grade ','Gr '))}</td>
     <td style="${TD};font-weight:600">${i.flagged?'🚩 ':''}${esc(i.student||'')}</td>
     <td style="${TD};color:var(--ink-mute)">${esc(i.sid||'')}</td>
-    <td style="${TD}">${i.hl?`<span class="tag ${i.hl==='HL'?'cat':'subj'}">${esc(i.hl)}</span>`:''}${i.ee?' <span class="tag" style="background:var(--brand-soft,rgba(99,102,241,.12));color:var(--brand)">EE</span>':''}</td>
+    <td style="${TD}">${isDP(i.grade)?(i.hl?`<span class="tag ${i.hl==='HL'?'cat':'subj'}">${esc(i.hl)}</span>`:''):'<span class="mini">IGCSE</span>'}${i.ee?' <span class="tag" style="background:var(--brand-soft,rgba(99,102,241,.12));color:var(--brand)">EE</span>':''}</td>
     <td style="${TD}">${i.block?esc(i.block):''}</td>
     <td style="${TD}">${esc(i.supervisor||'')}</td>
     <td style="${TD}"><span class="tag type">${esc(i.stage||'—')}</span></td>
@@ -1258,7 +1260,7 @@ function renderStudents(){
   const SEL='padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px;font-size:13px;background:var(--surface)';
   const filtersActive=stuHL!=='all'||stuTeacher!=='all'||stuTask!=='all'||stuGrade!=='all'||stuEE!=='all'||q;
   const filterBar=`<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px">
-    <select id="stu_hl" style="${SEL}"><option value="all"${stuHL==='all'?' selected':''}>All levels</option><option${stuHL==='HL'?' selected':''}>HL</option><option${stuHL==='SL'?' selected':''}>SL</option></select>
+    ${(stuGrade==='all'||isDP(stuGrade))?`<select id="stu_hl" style="${SEL}"><option value="all"${stuHL==='all'?' selected':''}>All levels (DP)</option><option${stuHL==='HL'?' selected':''}>HL</option><option${stuHL==='SL'?' selected':''}>SL</option></select>`:''}
     <select id="stu_teacher" style="${SEL}"><option value="all">${stuTeacher==='all'?'All teachers':'All teachers'}</option>${teacherNames.map(n=>`<option ${n===stuTeacher?'selected':''}>${esc(n)}</option>`).join('')}</select>
     <select id="stu_ee" style="${SEL}"><option value="all"${stuEE==='all'?' selected':''}>IA & EE</option><option value="ee"${stuEE==='ee'?' selected':''}>EE students</option><option value="non"${stuEE==='non'?' selected':''}>No EE</option></select>
     <select id="stu_task" style="${SEL}"><option value="all"${stuTask==='all'?' selected':''}>Any tasks</option><option value="with"${stuTask==='with'?' selected':''}>Has open tasks</option><option value="none"${stuTask==='none'?' selected':''}>No open tasks</option></select>
@@ -2730,7 +2732,7 @@ function addStudentsToBlock(plan,ctx){
   let hl=(plan.hl||'').toUpperCase();
   if(hl!=='HL'&&hl!=='SL'){hl=/\bSL\b/i.test(ins)?'SL':(/\bHL\b/i.test(ins)?'HL':'');}
   let n=0;list.forEach(s=>{const name=(s.name||'').trim();if(!name)return;
-    let shl=(s.hl||'').toUpperCase();if(shl!=='HL'&&shl!=='SL')shl=hl;
+    let shl=(s.hl||'').toUpperCase();if(shl!=='HL'&&shl!=='SL')shl=hl;if(!isDP(grade))shl='';
     state.ias.push({id:uid(),student:name,sid:(s.id||'').trim(),block:block,grade:grade,hl:shl,supervisor:teacher,topic:(s.topic||'').trim(),rq:'',stage:'Proposal',due:null,files:[],fileName:'',fileThumb:null,review:{},notes:'',aiChecked:false,createdAt:Date.now()+Math.random()});n++;});
   if(!n){toast('No student names found');return;}
   save();refreshBadges();go('students');toast('Added '+n+' student'+(n>1?'s':'')+(block?' · Block '+block:'')+(grade?' · '+grade.replace('Grade ','Gr '):'')+(hl?' · '+hl:''));
@@ -2760,7 +2762,7 @@ function iaModal(i){
       <div class="fld-row">
         <div class="fld"><label>Block</label><input id="i_block" value="${esc(i.block||'')}" placeholder="e.g. B7"></div>
         <div class="fld"><label>Class</label><select id="i_grade">${GRADES.map(g=>`<option ${g===i.grade?'selected':''}>${g}</option>`).join('')}</select></div>
-        <div class="fld"><label>HL / SL</label><select id="i_hl"><option value="" ${!i.hl?'selected':''}>—</option><option ${i.hl==='HL'?'selected':''}>HL</option><option ${i.hl==='SL'?'selected':''}>SL</option></select></div>
+        <div class="fld" id="i_hlfld" style="${isDP(i.grade)?'':'display:none'}"><label>HL / SL <span class="mini">(DP only)</span></label><select id="i_hl"><option value="" ${!i.hl?'selected':''}>—</option><option ${i.hl==='HL'?'selected':''}>HL</option><option ${i.hl==='SL'?'selected':''}>SL</option></select></div>
       </div>
       <div class="fld-row">
         <div class="fld"><label>Supervisor</label><select id="i_sup">${teachOpts.map(t=>`<option ${t===i.supervisor?'selected':''}>${esc(t)}</option>`).join('')}</select></div>
@@ -2805,11 +2807,12 @@ function iaModal(i){
     const flg=$('#i_flag');if(flg)flg.onchange=()=>{i.flagged=flg.checked;save();refreshBadges();};
   }
   {const ee=$('#i_ee');if(ee)ee.onchange=()=>{const box=$('#i_eebox');if(box)box.style.display=ee.checked?'block':'none';};}
-  function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.sid=$('#i_sid').value.trim();i.grade=$('#i_grade').value;i.hl=$('#i_hl').value;i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;i.ee=$('#i_ee').checked;i.eeSupervisor=i.ee?$('#i_eesup').value:'';i.eeStage=i.ee?$('#i_eestage').value:'';i.eeTopic=i.ee?$('#i_eetopic').value.trim():'';}
+  {const gr=$('#i_grade');if(gr)gr.onchange=()=>{const f=$('#i_hlfld');if(f)f.style.display=isDP(gr.value)?'':'none';};}
+  function persistIA(){i.block=$('#i_block').value.trim();i.student=$('#i_student').value.trim()||i.student;i.sid=$('#i_sid').value.trim();i.grade=$('#i_grade').value;i.hl=isDP(i.grade)?$('#i_hl').value:'';i.supervisor=$('#i_sup').value;i.topic=$('#i_topic').value.trim();i.rq=$('#i_rq').value.trim();i.stage=$('#i_stage').value;i.due=$('#i_due').value||null;i.notes=$('#i_fb').value;i.ee=$('#i_ee').checked;i.eeSupervisor=i.ee?$('#i_eesup').value:'';i.eeStage=i.ee?$('#i_eestage').value:'';i.eeTopic=i.ee?$('#i_eetopic').value.trim():'';}
   $('#i_save').onclick=()=>{
     const student=$('#i_student').value.trim();if(!student){toast('Enter a student name');return;}
     if(edit){persistIA();}
-    else{state.ias.push({id:uid(),student,sid:$('#i_sid').value.trim(),block:$('#i_block').value.trim(),grade:$('#i_grade').value,hl:$('#i_hl').value,supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null,notes:$('#i_fb').value,ee:$('#i_ee').checked,eeSupervisor:$('#i_ee').checked?$('#i_eesup').value:'',eeStage:$('#i_ee').checked?$('#i_eestage').value:'',eeTopic:$('#i_ee').checked?$('#i_eetopic').value.trim():'',files:[],fileName:'',fileThumb:null,review:{},aiChecked:false,createdAt:Date.now()});}
+    else{state.ias.push({id:uid(),student,sid:$('#i_sid').value.trim(),block:$('#i_block').value.trim(),grade:$('#i_grade').value,hl:isDP($('#i_grade').value)?$('#i_hl').value:'',supervisor:$('#i_sup').value,topic:$('#i_topic').value.trim(),rq:$('#i_rq').value.trim(),stage:$('#i_stage').value,due:$('#i_due').value||null,notes:$('#i_fb').value,ee:$('#i_ee').checked,eeSupervisor:$('#i_ee').checked?$('#i_eesup').value:'',eeStage:$('#i_ee').checked?$('#i_eestage').value:'',eeTopic:$('#i_ee').checked?$('#i_eetopic').value.trim():'',files:[],fileName:'',fileThumb:null,review:{},aiChecked:false,createdAt:Date.now()});}
     save();closeModal();render();toast('Saved');
   };
 }
@@ -2941,7 +2944,7 @@ function bind(){
   document.querySelectorAll('[data-staffdown]').forEach(b=>b.onclick=e=>{e.stopPropagation();moveStaff(b.dataset.staffdown,1);});
   document.querySelectorAll('[data-addslot]').forEach(b=>b.onclick=e=>{e.stopPropagation();addSlot(b.dataset.addslot);});
   document.querySelectorAll('[data-staffgo]').forEach(c=>c.onclick=()=>go('teachers'));
-  document.querySelectorAll('[data-sgr]').forEach(b=>b.onclick=()=>{stuGrade=b.dataset.sgr;render();});
+  document.querySelectorAll('[data-sgr]').forEach(b=>b.onclick=()=>{stuGrade=b.dataset.sgr;if(stuGrade!=='all'&&!isDP(stuGrade))stuHL='all';render();});
   {const h=$('#stu_hl');if(h)h.onchange=()=>{stuHL=h.value;render();}}
   {const t=$('#stu_teacher');if(t)t.onchange=()=>{stuTeacher=t.value;render();}}
   {const ee=$('#stu_ee');if(ee)ee.onchange=()=>{stuEE=ee.value;render();}}
@@ -3101,6 +3104,9 @@ function migrateTitles(){
 }
 try{
   migrateTitles();
+  // IGCSE (Grades 9 & 10) never carry HL/SL — clear any that slipped in.
+  Object.values(store.years||{}).forEach(yr=>(yr.ias||[]).forEach(i=>{if(i.hl&&!isDP(i.grade))i.hl='';}));
+  save();
   if(store.seeded!==true){
     const empty=!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length;
     if(empty)seedData();
