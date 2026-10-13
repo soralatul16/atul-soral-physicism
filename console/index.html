@@ -1583,7 +1583,7 @@ function teamTrack(){
 }
 
 function periodKey(p){const s=(''+p).toLowerCase();if(/mct|morning circle/.test(s))return -2;if(/assembl/.test(s))return -1;if(/clos/.test(s))return 9999;if(/break|recess|lunch|interval/.test(s))return 1000;const m=s.match(/(\d+)/);return m?+m[1]:900;}
-function timeKey(t){const m=/^(\d{1,2}):(\d{2})/.exec((''+(t||'')).trim());return m?(+m[1]*60+ +m[2]):null;}
+function timeKey(t){const s=(''+(t||'')).trim();const m=/^(\d{1,2}):(\d{2})\s*(am|pm)?/i.exec(s);if(!m)return null;let h=+m[1];const min=+m[2],ap=(m[3]||'').toLowerCase();if(ap==='pm'&&h<12)h+=12;else if(ap==='am'&&h===12)h=0;else if(!ap&&h>=1&&h<=6)h+=12;return h*60+min;}
 function ttPeriods(tt){
   const map={};tt.forEach(x=>{if(!x.period)return;const k=timeKey(x.time);if(k!=null&&(map[x.period]==null||k<map[x.period]))map[x.period]=k;});
   const set=[...new Set(tt.map(x=>x.period).filter(Boolean))];
