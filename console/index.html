@@ -1584,10 +1584,22 @@ function teamTrack(){
 
 function periodKey(p){const s=(''+p).toLowerCase();if(/mct|morning circle/.test(s))return -2;if(/assembl/.test(s))return -1;if(/clos/.test(s))return 9999;if(/break|recess|lunch|interval/.test(s))return 1000;const m=s.match(/(\d+)/);return m?+m[1]:900;}
 function timeKey(t){const s=(''+(t||'')).trim();const m=/^(\d{1,2}):(\d{2})\s*(am|pm)?/i.exec(s);if(!m)return null;let h=+m[1];const min=+m[2],ap=(m[3]||'').toLowerCase();if(ap==='pm'&&h<12)h+=12;else if(ap==='am'&&h===12)h=0;else if(!ap&&h>=1&&h<=6)h+=12;return h*60+min;}
+// A single comparable minutes-of-day value for every period, so ordering stays correct
+// even when some periods (CAS, PL, meetings…) were stored without a time string.
+function periodMinutes(p,map){
+  if(map[p]!=null)return map[p];
+  const k=periodKey(p);
+  if(k===-2)return 455;        // MCT ~7:35
+  if(k===-1)return 475;        // assembly ~7:55
+  if(k>=1&&k<=17)return 480+(k-1)*23;   // from 8:00, monotonic through to afternoon
+  if(k===1000)return 525;      // generic break fallback
+  if(k>=9999)return 1250;      // closing — end of day
+  return 900;
+}
 function ttPeriods(tt){
   const map={};tt.forEach(x=>{if(!x.period)return;const k=timeKey(x.time);if(k!=null&&(map[x.period]==null||k<map[x.period]))map[x.period]=k;});
   const set=[...new Set(tt.map(x=>x.period).filter(Boolean))];
-  set.sort((a,b)=>{const ta=map[a],tb=map[b];if(ta!=null&&tb!=null)return ta-tb;if(ta!=null)return ta-periodKey(b)*60;if(tb!=null)return periodKey(a)*60-tb;return periodKey(a)-periodKey(b)||(''+a).localeCompare(''+b);});
+  set.sort((a,b)=>(periodMinutes(a,map)-periodMinutes(b,map))||(periodKey(a)-periodKey(b))||(''+a).localeCompare(''+b));
   return set;
 }
 function weekOf(iso){const anchor=store.weekAnchor;if(!anchor)return null;const a=dOnly(anchor),d=dOnly(iso);if(!a||!d)return null;const days=Math.floor((d-a)/86400000);const wk=Math.floor(days/7);return ((((wk%2)+2)%2)===0)?'A':'B';}
