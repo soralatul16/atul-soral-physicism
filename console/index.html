@@ -1244,7 +1244,7 @@ function studentRow(i){
 function renderStudents(){
   let list=state.ias.slice();
   if(stuGrade!=='all')list=list.filter(i=>i.grade===stuGrade);
-  if(stuHL!=='all')list=list.filter(i=>(i.hl||'')===stuHL);
+  if(stuHL!=='all'&&(stuGrade==='all'||isDP(stuGrade)))list=list.filter(i=>(i.hl||'')===stuHL);
   if(stuTeacher!=='all')list=list.filter(i=>(i.supervisor||'')===stuTeacher);
   if(stuEE==='ee')list=list.filter(i=>i.ee);
   else if(stuEE==='non')list=list.filter(i=>!i.ee);
@@ -1255,7 +1255,14 @@ function renderStudents(){
   if(q)list=list.filter(i=>(i.student||'').toLowerCase().includes(q)||(i.sid||'').toLowerCase().includes(q)||(i.block||'').toLowerCase().includes(q));
   list.sort((a,b)=>(a.grade||'').localeCompare(b.grade||'')||(a.student||'').localeCompare(b.student||''));
   const chips=['all',...GRADES].map(g=>`<button class="filt ${stuGrade===g?'active':''}" data-sgr="${g}">${g==='all'?'All classes':g.replace('Grade ','Gr ')}</button>`).join('');
-  const byHL=h=>state.ias.filter(i=>i.hl===h).length;
+  // HL/SL counts respect every active filter EXCEPT the HL/SL sub-filter, so they reflect the chosen grade.
+  const scope=state.ias.filter(i=>
+    (stuGrade==='all'||i.grade===stuGrade)&&
+    (stuTeacher==='all'||(i.supervisor||'')===stuTeacher)&&
+    (stuEE==='all'||(stuEE==='ee'?i.ee:!i.ee))&&
+    (stuTask==='all'||(stuTask==='with'?hasOpenTask(i):!hasOpenTask(i)))&&
+    (!q||((i.student||'').toLowerCase().includes(q)||(i.sid||'').toLowerCase().includes(q)||(i.block||'').toLowerCase().includes(q))));
+  const byHL=h=>scope.filter(i=>i.hl===h).length;
   const teacherNames=Array.from(new Set(state.ias.map(i=>i.supervisor).filter(Boolean))).sort();
   const SEL='padding:7px 9px;border:1px solid var(--line-strong);border-radius:8px;font-size:13px;background:var(--surface)';
   const filtersActive=stuHL!=='all'||stuTeacher!=='all'||stuTask!=='all'||stuGrade!=='all'||stuEE!=='all'||q;
@@ -1289,8 +1296,9 @@ function renderStudents(){
   ${filterBar}
   <div class="tiles" style="grid-template-columns:repeat(3,minmax(0,1fr));margin-bottom:14px">
     ${tile('up',list.length,'Students shown')}
-    ${tile('today',byHL('HL'),'HL')}
-    ${tile('over',byHL('SL'),'SL')}
+    ${(stuGrade!=='all'&&!isDP(stuGrade))
+      ? tile('today',scope.length,'IGCSE students')+tile('over','—','HL/SL · n/a')
+      : tile('today',byHL('HL'),'HL'+(stuGrade!=='all'?' · '+stuGrade.replace('Grade ','Gr '):''))+tile('over',byHL('SL'),'SL'+(stuGrade!=='all'?' · '+stuGrade.replace('Grade ','Gr '):''))}
   </div>
   ${bulkBar}
   <div class="card" style="padding:6px 8px"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">
