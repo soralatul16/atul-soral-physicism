@@ -1698,6 +1698,7 @@ function slotModal(sid,idx){
         <div class="fld"><label>Time (optional)</label><input id="sl_time" value="${esc(slot.time||'')}" placeholder="e.g. 1:20 (afternoon reads as PM)"></div>
       </div>
       <div class="fld"><label>Room (optional)</label><input id="sl_room" value="${esc(slot.room||'')}"></div>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;color:var(--ink-soft);margin-top:4px;cursor:pointer"><input type="checkbox" id="sl_allday" style="width:16px;height:16px">Apply to all weekdays (Mon–Fri) at this period &amp; week — handy for SEML / MCT</label>
       <div style="margin-top:6px"><div style="font-size:11px;font-weight:700;color:var(--ink-mute);margin-bottom:4px">TASKS ON THIS SLOT</div><div class="rows">${list}</div></div>
     </div>
     <div class="modal-foot" style="flex-wrap:wrap;gap:8px">
@@ -1710,6 +1711,13 @@ function slotModal(sid,idx){
     slot.block=$('#sl_block').value.trim();if('cls' in slot)delete slot.cls;
     slot.sections=$('#sl_sec').value.trim();slot.week=$('#sl_wk').value;slot.day=$('#sl_day').value;
     slot.period=$('#sl_per').value.trim();slot.time=$('#sl_time').value.trim();slot.room=$('#sl_room').value.trim();
+    if($('#sl_allday')&&$('#sl_allday').checked){
+      ['Mon','Tue','Wed','Thu','Fri'].forEach(d=>{if(d===slot.day)return;
+        const ex=st.timetable.find(x=>(x.week||'A')===slot.week&&x.day===d&&(''+(x.period||''))===(''+slot.period));
+        if(ex){ex.block=slot.block;ex.sections=slot.sections;ex.time=slot.time;ex.room=slot.room;if('cls' in ex)delete ex.cls;}
+        else st.timetable.push({week:slot.week,day:d,period:slot.period,time:slot.time,block:slot.block,sections:slot.sections,room:slot.room});
+      });
+    }
     save();closeModal();render();toast('Lesson updated');
   };
   $('[data-slotdel]').onclick=()=>{if(confirm('Delete this lesson from '+st.name+"'s timetable?")){st.timetable.splice(idx,1);save();closeModal();render();toast('Lesson removed');}};
@@ -1745,7 +1753,7 @@ function teacherCard(s,i,arr){
       <button class="btn sm ghost" data-editstaff="${s.id}">Edit</button>
       <button class="row-del" data-delstaff="${s.id}" style="opacity:.6"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
     </div>
-    <div class="grid-2" style="gap:18px">
+    <div class="tcard-body">
       <div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;flex-wrap:wrap">
           <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft)">Timetable${ttDate?` · ${esc(ttWeekday(ttDate))} ${esc(fmtDate(ttDate))} · Week ${esc(weekOf(ttDate)||ttWeek)}`:''}</div>
@@ -1757,7 +1765,7 @@ function teacherCard(s,i,arr){
         ${(s.timetable&&s.timetable.length)?(ttDate?timetableDay(s,ttWeekday(ttDate),weekOf(ttDate)||ttWeek):timetableGrid(s,hasWeeks(s.timetable)?ttWeek:null)):'<div class="mini">No timetable yet — add one via Edit, or paste the timetable screenshot (read in automatically when AI auto-extract is on).</div>'}
         ${s.ttImage?`<img src="${s.ttImage}" title="Pasted timetable" style="margin-top:8px;max-width:100%;max-height:150px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)">`:''}
       </div>
-      <div>
+      <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--line)">
         <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px">Assigned work <span style="color:var(--ink-mute)">(${st.open.length} open${st.overdue.length?`, ${st.overdue.length} overdue`:''})</span></div>
         <div class="rows">${openList}</div>
         <div style="margin-top:10px;font-size:12.5px;color:var(--ink-soft);font-weight:600">Exam corrections: ${cr}${st.ia.length?` · IA supervising: ${st.ia.length}`:''}</div>
