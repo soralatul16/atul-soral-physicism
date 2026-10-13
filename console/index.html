@@ -1677,25 +1677,52 @@ function slotModal(sid,idx){
   const block=slotBlock(slot);
   const linked=state.tasks.filter(t=>t.teacher===st.name&&(t.ttDay||'')===(slot.day||'')&&(t.ttPeriod||'')===(slot.period||'')&&(t.block||'')===(block||''));
   const list=linked.length?linked.sort(byDue).map(t=>`<div class="row" style="padding:8px 0;border-bottom:1px solid var(--line)"><span class="prio ${t.priority}"></span><div class="row-main"><p class="row-title" style="font-size:13px">${esc(t.title)}</p><div class="row-meta">${t.status==='done'?'<span class="tag subj">done</span>':''}${t.category?`<span class="tag cat">${esc(t.category)}</span>`:''}</div></div><span class="due ${dueClass(t.due)}">${dueLabel(t.due)}</span></div>`).join(''):'<div class="mini" style="padding:6px 0">No tasks on this slot yet.</div>';
+  const wkOpt=w=>`<option ${((slot.week||'A')===w)?'selected':''}>${w}</option>`;
+  const dayOpt=d=>`<option ${((slot.day||'')===d)?'selected':''}>${d}</option>`;
   modal(`
-    <div class="modal-head"><h3>${esc(block||'Slot')} — ${esc(st.name)}</h3><button class="x" data-close>×</button></div>
+    <div class="modal-head"><h3>Edit lesson — ${esc(st.name)}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <span class="tag aud">Week ${esc(slot.week||'A')}</span>
-        <span class="tag type">${esc(slot.day||'')}</span>
-        <span class="tag grade">${esc(slot.period||'')}${slot.time?' · '+esc(slot.time):''}</span>
-        ${block?`<span class="tag teach">${esc(block)}</span>`:''}
-        ${slot.sections?`<span class="tag subj">${esc(slot.sections)}</span>`:''}
-        ${slot.room?`<span class="tag subj">Room ${esc(slot.room)}</span>`:''}
+      <p class="mini" style="margin:0 0 10px">Fix a wrong block, or correct the week/day/period if the extraction got it wrong.</p>
+      <div class="fld-row">
+        <div class="fld"><label>Block / lesson</label><input id="sl_block" value="${esc(block)}" placeholder="e.g. B4, CAS, PL, HOD"></div>
+        <div class="fld"><label>Sections / class</label><input id="sl_sec" value="${esc(slot.sections||'')}" placeholder="e.g. 12A/12B or Gr 12"></div>
       </div>
-      <div><div style="font-size:11px;font-weight:700;color:var(--ink-mute);margin-bottom:4px">TASKS ON THIS SLOT</div><div class="rows">${list}</div></div>
+      <div class="fld-row">
+        <div class="fld"><label>Week</label><select id="sl_wk">${wkOpt('A')}${wkOpt('B')}</select></div>
+        <div class="fld"><label>Day</label><select id="sl_day">${DAYS.map(dayOpt).join('')}</select></div>
+      </div>
+      <div class="fld-row">
+        <div class="fld"><label>Period</label><input id="sl_per" value="${esc(slot.period||'')}" placeholder="e.g. 5"></div>
+        <div class="fld"><label>Time (optional)</label><input id="sl_time" value="${esc(slot.time||'')}" placeholder="e.g. 1:20 (afternoon reads as PM)"></div>
+      </div>
+      <div class="fld"><label>Room (optional)</label><input id="sl_room" value="${esc(slot.room||'')}"></div>
+      <div style="margin-top:6px"><div style="font-size:11px;font-weight:700;color:var(--ink-mute);margin-bottom:4px">TASKS ON THIS SLOT</div><div class="rows">${list}</div></div>
     </div>
-    <div class="modal-foot"><button class="btn" data-close>Close</button><button class="btn primary" id="slot_add">+ Add task for this slot</button></div>`);
+    <div class="modal-foot" style="flex-wrap:wrap;gap:8px">
+      <button class="btn" data-slotdel>Delete lesson</button>
+      <div style="flex:1"></div>
+      <button class="btn" id="slot_add">+ Task</button>
+      <button class="btn primary" id="slot_save">Save</button>
+    </div>`);
+  $('#slot_save').onclick=()=>{
+    slot.block=$('#sl_block').value.trim();if('cls' in slot)delete slot.cls;
+    slot.sections=$('#sl_sec').value.trim();slot.week=$('#sl_wk').value;slot.day=$('#sl_day').value;
+    slot.period=$('#sl_per').value.trim();slot.time=$('#sl_time').value.trim();slot.room=$('#sl_room').value.trim();
+    save();closeModal();render();toast('Lesson updated');
+  };
+  $('[data-slotdel]').onclick=()=>{if(confirm('Delete this lesson from '+st.name+"'s timetable?")){st.timetable.splice(idx,1);save();closeModal();render();toast('Lesson removed');}};
   $('#slot_add').onclick=()=>{
     closeModal();
     const g=normGrade(slot.sections)||normGrade(block);
     taskModal(null,{title:(block?block+' — ':'')+(slot.sections||''),teacher:st.name,grade:g,block:block,ttDay:slot.day,ttPeriod:slot.period,category:'',audience:'Teachers',assignedBy:'Atul Soral'});
   };
+}
+// Add a blank lesson to a teacher's timetable, then open it for editing.
+function addSlot(sid){
+  const st=state.staff.find(x=>x.id===sid);if(!st)return;
+  st.timetable=st.timetable||[];
+  st.timetable.push({week:(ttWeek||'A'),day:'Mon',period:'',time:'',block:'',sections:'',room:''});
+  save();slotModal(sid,st.timetable.length-1);
 }
 function teacherCard(s,i,arr){
   i=i||0;const total=(arr&&arr.length)||state.staff.length;
@@ -1720,7 +1747,10 @@ function teacherCard(s,i,arr){
       <div>
         <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:7px;flex-wrap:wrap">
           <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft)">Timetable${ttDate?` · ${esc(ttWeekday(ttDate))} ${esc(fmtDate(ttDate))} · Week ${esc(weekOf(ttDate)||ttWeek)}`:''}</div>
-          ${(!ttDate&&s.timetable&&hasWeeks(s.timetable))?`<div class="wk-toggle"><button class="wk ${ttWeek==='A'?'on':''}" data-wk="A">Week A</button><button class="wk ${ttWeek==='B'?'on':''}" data-wk="B">Week B</button></div>`:''}
+          <div style="display:flex;gap:6px;align-items:center">
+            ${(!ttDate&&s.timetable&&hasWeeks(s.timetable))?`<div class="wk-toggle"><button class="wk ${ttWeek==='A'?'on':''}" data-wk="A">Week A</button><button class="wk ${ttWeek==='B'?'on':''}" data-wk="B">Week B</button></div>`:''}
+            <button class="btn sm ghost" data-addslot="${s.id}" title="Add a lesson">+ Lesson</button>
+          </div>
         </div>
         ${(s.timetable&&s.timetable.length)?(ttDate?timetableDay(s,ttWeekday(ttDate),weekOf(ttDate)||ttWeek):timetableGrid(s,hasWeeks(s.timetable)?ttWeek:null)):'<div class="mini">No timetable yet — add one via Edit, or paste the timetable screenshot (read in automatically when AI auto-extract is on).</div>'}
         ${s.ttImage?`<img src="${s.ttImage}" title="Pasted timetable" style="margin-top:8px;max-width:100%;max-height:150px;object-fit:contain;border:1px solid var(--line);border-radius:8px;background:var(--surface-2)">`:''}
@@ -2895,6 +2925,7 @@ function bind(){
   document.querySelectorAll('[data-assign]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.assign);if(s)taskModal(null,{teacher:s.name,assignedBy:'Atul Soral'});});
   document.querySelectorAll('[data-staffup]').forEach(b=>b.onclick=e=>{e.stopPropagation();moveStaff(b.dataset.staffup,-1);});
   document.querySelectorAll('[data-staffdown]').forEach(b=>b.onclick=e=>{e.stopPropagation();moveStaff(b.dataset.staffdown,1);});
+  document.querySelectorAll('[data-addslot]').forEach(b=>b.onclick=e=>{e.stopPropagation();addSlot(b.dataset.addslot);});
   document.querySelectorAll('[data-staffgo]').forEach(c=>c.onclick=()=>go('teachers'));
   document.querySelectorAll('[data-sgr]').forEach(b=>b.onclick=()=>{stuGrade=b.dataset.sgr;render();});
   {const h=$('#stu_hl');if(h)h.onchange=()=>{stuHL=h.value;render();}}
