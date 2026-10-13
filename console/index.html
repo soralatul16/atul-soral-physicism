@@ -189,6 +189,10 @@
   .act-main{flex:1;min-width:0}
   .act-main p{margin:0;font-size:14px;font-weight:600;color:var(--ink);line-height:1.45}
   .act-meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;align-items:center}
+  .reorder{display:flex;flex-direction:column;gap:3px;flex-shrink:0}
+  .rbtn{border:1px solid var(--line);background:var(--surface);color:var(--ink-soft);border-radius:5px;width:22px;height:17px;font-size:9px;line-height:1;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center}
+  .rbtn:hover:not(:disabled){background:var(--brand);color:#fff;border-color:var(--brand)}
+  .rbtn:disabled{opacity:.3;cursor:default}
   .due{font-size:12.5px;font-weight:700;white-space:nowrap;display:flex;align-items:center;gap:5px}
   .due.over{color:var(--crit)} .due.today{color:var(--warn)} .due.soon{color:var(--accent)} .due.far{color:var(--ink-soft)} .due.none{color:var(--ink-mute);font-weight:500}
   .prio{width:7px;height:7px;border-radius:50%;flex:none}
@@ -1684,7 +1688,8 @@ function slotModal(sid,idx){
     taskModal(null,{title:(block?block+' — ':'')+(slot.sections||''),teacher:st.name,grade:g,block:block,ttDay:slot.day,ttPeriod:slot.period,category:'',audience:'Teachers',assignedBy:'Atul Soral'});
   };
 }
-function teacherCard(s){
+function teacherCard(s,i,arr){
+  i=i||0;const total=(arr&&arr.length)||state.staff.length;
   const st=teacherStats(s.name);const h=teacherHealth(st);
   const openList=st.open.sort(byDue).map(t=>`<div class="row" data-task="${t.id}" style="padding:9px 0;border-bottom:1px solid var(--line)">
     <span class="prio ${t.priority}"></span>
@@ -1694,6 +1699,7 @@ function teacherCard(s){
   const cr=(st.onTime+st.late)?`${st.onTime} on time · ${st.late} late · ${st.pendCorr.length} pending`:`${st.pendCorr.length} pending`;
   return `<div class="tcard" data-staff="${s.id}">
     <div class="tcard-head">
+      <div class="reorder"><button class="rbtn" data-staffup="${s.id}" ${i===0?'disabled':''} title="Move up">▲</button><button class="rbtn" data-staffdown="${s.id}" ${i>=total-1?'disabled':''} title="Move down">▼</button></div>
       <span class="avatar">${initials(s.name)}</span>
       <div style="flex:1;min-width:0"><div class="mc-name" style="font-size:16px">${esc(s.name)}</div><div class="mc-role">${esc(s.role||'Teacher')}${s.classes&&s.classes.length?' · '+s.classes.join(', '):''}</div></div>
       <span class="status-dot ${h}"></span>
@@ -1718,6 +1724,8 @@ function teacherCard(s){
     </div>
   </div>`;
 }
+// Reorder teacher cards (e.g. put Atul first). Persists the new order.
+function moveStaff(id,dir){const i=state.staff.findIndex(x=>x.id===id);if(i<0)return;const j=i+dir;if(j<0||j>=state.staff.length)return;const a=state.staff;const t=a[i];a[i]=a[j];a[j]=t;save();render();}
 function renderTeachers(){
   const body=state.staff.length?state.staff.map(teacherCard).join(''):emptyMini('No teachers yet. Add your team to start tracking their work.');
   return `${pageHead('Teachers','Each teacher\'s timetable and the work you (or others) assign them — with an individual track that rolls up to the dashboard.')}
@@ -2876,6 +2884,8 @@ function bind(){
   document.querySelectorAll('[data-editstaff]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.editstaff);if(s)teacherModal(s);});
   document.querySelectorAll('[data-delstaff]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.delstaff);if(s&&confirm('Remove '+s.name+'? Work already assigned to them stays, and you can restore them from Trash.')){binItem('staff',b.dataset.delstaff,'Teacher');}});
   document.querySelectorAll('[data-assign]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=state.staff.find(x=>x.id===b.dataset.assign);if(s)taskModal(null,{teacher:s.name,assignedBy:'Atul Soral'});});
+  document.querySelectorAll('[data-staffup]').forEach(b=>b.onclick=e=>{e.stopPropagation();moveStaff(b.dataset.staffup,-1);});
+  document.querySelectorAll('[data-staffdown]').forEach(b=>b.onclick=e=>{e.stopPropagation();moveStaff(b.dataset.staffdown,1);});
   document.querySelectorAll('[data-staffgo]').forEach(c=>c.onclick=()=>go('teachers'));
   document.querySelectorAll('[data-sgr]').forEach(b=>b.onclick=()=>{stuGrade=b.dataset.sgr;render();});
   {const h=$('#stu_hl');if(h)h.onchange=()=>{stuHL=h.value;render();}}
