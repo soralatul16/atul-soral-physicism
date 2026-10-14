@@ -1601,6 +1601,14 @@ function teamTrack(){
 }
 
 function periodKey(p){const s=(''+p).toLowerCase();if(/mct|morning circle/.test(s))return -2;if(/assembl/.test(s))return -1;if(/clos/.test(s))return 9999;if(/break|recess|lunch|interval/.test(s))return 1000;const m=s.match(/(\d+)/);return m?+m[1]:900;}
+// A block lesson may arrive as a range ("1-2", "9 & 10", "3 to 4"). Expand to individual
+// periods so every teacher's blocks merge identically and columns line up.
+function expandPeriods(p){
+  p=(''+(p||'')).trim();
+  const m=p.match(/^(\d{1,2})\s*(?:-|–|—|to|&|,|and)\s*(\d{1,2})$/i);
+  if(m){const a=+m[1],b=+m[2];if(b>=a&&(b-a)<=8){const out=[];for(let k=a;k<=b;k++)out.push(''+k);return out;}}
+  return [p];
+}
 function timeKey(t){const s=(''+(t||'')).trim();const m=/^(\d{1,2}):(\d{2})\s*(am|pm)?/i.exec(s);if(!m)return null;let h=+m[1];const min=+m[2],ap=(m[3]||'').toLowerCase();if(ap==='pm'&&h<12)h+=12;else if(ap==='am'&&h===12)h=0;else if(!ap&&h>=1&&h<=6)h+=12;return h*60+min;}
 // A single comparable minutes-of-day value for every period, so ordering stays correct
 // even when some periods (CAS, PL, meetings…) were stored without a time string.
@@ -1961,7 +1969,11 @@ function normPeriod(p){if(!p)return '';p=(''+p).toUpperCase().replace(/\s/g,'');
 function sanitizeTeacher(r){
   r=r||{};
   const classes=[...new Set((r.classes||[]).map(normGrade).filter(Boolean))];
-  const tt=(r.timetable||[]).map(x=>({week:(/^b$/i.test((''+(x.week||'')).trim())||/b/i.test((''+(x.week||'')).trim()))?'B':'A',day:normDay(x.day),period:(''+(x.period||'')).trim(),time:(''+(x.time||'')).trim(),block:(''+(x.block||x.cls||'')).trim(),sections:(''+(x.sections||'')).trim(),room:(''+(x.room||'')).trim()})).filter(x=>x.day&&(x.period||x.block||x.sections));
+  const tt=[];
+  (r.timetable||[]).forEach(x=>{
+    const base={week:(/^b$/i.test((''+(x.week||'')).trim())||/b/i.test((''+(x.week||'')).trim()))?'B':'A',day:normDay(x.day),time:(''+(x.time||'')).trim(),block:(''+(x.block||x.cls||'')).trim(),sections:(''+(x.sections||'')).trim(),room:(''+(x.room||'')).trim()};
+    expandPeriods((''+(x.period||'')).trim()).forEach(p=>{const e=Object.assign({},base,{period:p});if(e.day&&(e.period||e.block||e.sections))tt.push(e);});
+  });
   const role=ROLES.includes(r.role)?r.role:'Teacher';
   return {name:r.name||'',role,classes,timetable:tt};
 }
@@ -3119,6 +3131,12 @@ try{
   migrateTitles();
   // IGCSE (Grades 9 & 10) never carry HL/SL — clear any that slipped in.
   Object.values(store.years||{}).forEach(yr=>(yr.ias||[]).forEach(i=>{if(i.hl&&!isDP(i.grade))i.hl='';}));
+  // Expand any stored block-lesson period ranges ("1-2") into individual periods so blocks merge uniformly.
+  Object.values(store.years||{}).forEach(yr=>(yr.staff||[]).forEach(s=>{
+    if(!Array.isArray(s.timetable))return;const out=[];let touched=false;
+    s.timetable.forEach(x=>{const ps=expandPeriods((''+(x.period||'')).trim());if(ps.length>1){touched=true;ps.forEach(p=>out.push(Object.assign({},x,{period:p})));}else out.push(x);});
+    if(touched)s.timetable=out;
+  }));
   save();
   if(store.seeded!==true){
     const empty=!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length;
