@@ -3182,6 +3182,21 @@ try{
     s.timetable.forEach(x=>{const ps=expandPeriods((''+(x.period||'')).trim());if(ps.length>1){touched=true;ps.forEach(p=>out.push(Object.assign({},x,{period:p})));}else out.push(x);});
     if(touched)s.timetable=out;
   }));
+  // Block timetable runs in fixed 2-period pairs. If the AI captured only one half
+  // of a block (the paired period is empty), mirror it so the block renders full width.
+  const BLOCK_PAIRS=[['1','2'],['3','4'],['5','6'],['7','8'],['9','10'],['11','12'],['14','15'],['16','17']];
+  Object.values(store.years||{}).forEach(yr=>(yr.staff||[]).forEach(s=>{
+    if(!Array.isArray(s.timetable))return;
+    const have={};s.timetable.forEach(x=>{have[(x.week||'')+'|'+(x.day||'')+'|'+(''+(x.period||'')).trim()]=true;});
+    const add=[];
+    s.timetable.forEach(x=>{
+      if(!x.block)return;const per=(''+(x.period||'')).trim();
+      const pair=BLOCK_PAIRS.find(p=>p[0]===per||p[1]===per);if(!pair)return;
+      const other=pair[0]===per?pair[1]:pair[0];const k=(x.week||'')+'|'+(x.day||'')+'|'+other;
+      if(!have[k]){have[k]=true;add.push(Object.assign({},x,{period:other}));}
+    });
+    if(add.length)s.timetable=s.timetable.concat(add);
+  }));
   save();
   if(store.seeded!==true){
     const empty=!state.tasks.length&&!state.corrections.length&&!state.docs.length&&!state.ias.length&&!state.staff.length;
