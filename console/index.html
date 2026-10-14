@@ -1346,6 +1346,21 @@ function monthEndISO(my){if(!/^\d{4}-\d{2}$/.test(my||''))return '';const y=+my.
 function teachersForGrade(g){return state.staff.filter(s=>(s.classes||[]).includes(g)).map(s=>s.name);}
 function outlineFor(grade,create){let o=state.outlines.find(x=>x.grade===grade);if(!o&&create){o={id:uid(),grade:grade,teachers:teachersForGrade(grade),rows:[]};state.outlines.push(o);}return o;}
 function outlineStats(o){let cells=0,done=0,onTime=0,late=0;o.rows.forEach(r=>{(o.teachers||[]).forEach(tn=>{cells++;const c=r.checks&&r.checks[tn];if(c&&c.done){done++;const end=monthEndISO(r.my);if(end&&c.date&&c.date>end)late++;else onTime++;}});});return {cells,done,pending:cells-done,onTime,late,pct:cells?Math.round(100*done/cells):0};}
+// Auto one-line summary of an outline, used when no AI summary is stored.
+function outlineSummary(o){
+  const months=[...new Set(o.rows.map(r=>r.month).filter(Boolean))];
+  const st=outlineStats(o);
+  return `${o.rows.length} topic${o.rows.length===1?'':'s'} across ${months.length} month${months.length===1?'':'s'}${months.length?' ('+months.slice(0,10).join(', ')+(months.length>10?'…':'')+')':''}. Coverage ${st.pct}% — ${st.onTime} on time, ${st.late} late, ${st.pending} still to do.`;
+}
+// Per-teacher progress with an on-track vs lagging verdict (lagging = a planned month has passed and the topic is still unticked).
+function outlineTeacherStats(o){
+  const today=todayISO();
+  return (o.teachers||[]).map(tn=>{let done=0,onTime=0,late=0,overdue=0;const total=o.rows.length;
+    o.rows.forEach(r=>{const c=r.checks&&r.checks[tn];const end=monthEndISO(r.my);
+      if(c&&c.done){done++;if(end&&c.date&&c.date>end)late++;else onTime++;}
+      else if(end&&today>end)overdue++;});
+    return {tn,done,total,onTime,late,overdue,pct:total?Math.round(100*done/total):0,lagging:overdue>0};});
+}
 function outlineCell(o,r,tn){
   const c=(r.checks&&r.checks[tn])||null;const done=c&&c.done;let verdict='';
   if(done){const end=monthEndISO(r.my);const late=end&&c.date&&c.date>end;verdict=`<div style="font-size:10px;margin-top:2px;color:${late?'var(--crit)':'var(--good)'}">${late?'late':'on time'}${c.date?' · '+fmtDate(c.date):''}</div>`;}
@@ -1395,6 +1410,19 @@ function renderOutline(){
       <div style="display:flex;justify-content:space-between;font-size:12.5px;font-weight:600;margin-bottom:6px"><span>Coverage · ${st.done}/${st.cells} teacher-topic checks</span><span>${st.pct}%</span></div>
       ${bar(st.pct)}
     </div>
+    <div class="card" style="padding:14px 16px;margin-bottom:16px">
+      <div style="font-weight:700;font-size:13px;margin-bottom:6px">Summary</div>
+      <p style="margin:0;font-size:13px;color:var(--ink-soft);line-height:1.5">${esc(o.summary||outlineSummary(o))}</p>
+    </div>
+    ${(o.teachers&&o.teachers.length&&o.rows.length)?`<div class="card" style="padding:14px 16px;margin-bottom:16px">
+      <div style="font-weight:700;font-size:13px;margin-bottom:11px">Teacher progress — as of ${esc(fmtDate(todayISO()))}</div>
+      ${outlineTeacherStats(o).map(ts=>`<div style="display:flex;align-items:center;gap:11px;margin-bottom:10px">
+        <div style="width:120px;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(ts.tn)}</div>
+        <div style="flex:1;min-width:0;background:var(--surface-2);border-radius:20px;height:11px;overflow:hidden"><i style="display:block;height:100%;width:${ts.pct}%;background:${ts.lagging?'var(--crit)':'var(--good)'};border-radius:20px"></i></div>
+        <div style="width:210px;text-align:right;font-size:12px;font-weight:600;color:var(--ink-soft)">${ts.done}/${ts.total} done · ${ts.onTime} on time${ts.late?' · '+ts.late+' late':''}${ts.lagging?` · <span style="color:var(--crit)">${ts.overdue} overdue (lagging)</span>`:' · <span style="color:var(--good)">on track</span>'}</div>
+      </div>`).join('')}
+    </div>`:''}
+    ${(o.file&&o.file.data)?`<details open style="margin-bottom:16px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:var(--brand);padding:4px 0">📄 Uploaded outline file — ${esc(o.file.name||'file')}</summary><div style="margin-top:10px">${o.file.isImage?`<img src="${o.file.data}" style="max-width:100%;border:1px solid var(--line);border-radius:10px">`:(o.file.isPdf?`<iframe src="${o.file.data}" style="width:100%;height:560px;border:1px solid var(--line);border-radius:10px"></iframe>`:`<p class="mini">This file type (Word) cannot preview inline — the topics below were read from it. Re-upload as PDF or image to view it here.</p>`)}</div></details>`:(o.file&&o.file.name?`<p class="mini" style="margin-bottom:12px">Source file: ${esc(o.file.name)} — no inline preview (Word). Topics were read from it.</p>`:'')}
     ${(o.teachers&&o.teachers.length)?'':'<p class="mini" style="color:#b07d22;margin-bottom:8px">No teacher columns yet — click “Add teacher column” to add the teachers for this grade.</p>'}
     <div class="card" style="padding:6px 8px">${outlineTable(o)}</div>`;
   }else{
@@ -1435,9 +1463,12 @@ function fileOutlineFromRoute(plan){
   else if(plan.grade||plan.rows||plan.topics)blocks=[{grade:plan.grade,teachers:plan.teachers,rows:plan.rows||plan.topics}];
   if(!blocks.length){toast('No outline topics found — try rephrasing step 2');return;}
   let added=0,firstGrade='';
+  const srcFile=(scImage||scFileName)?{name:scFileName||'outline',data:scImage||'',isImage:(scImage||'').startsWith('data:image'),isPdf:((scImage||'').startsWith('data:application/pdf')||/\.pdf$/i.test(scFileName||''))}:null;
   blocks.forEach(b=>{
     const g=normGrade(b.grade)||'Grade 9';if(!firstGrade)firstGrade=g;
     const o=outlineFor(g,true);
+    if(srcFile)o.file=srcFile;
+    if(b.summary||plan.summary)o.summary=(''+(b.summary||plan.summary)).trim();
     if(Array.isArray(b.teachers)&&b.teachers.length)o.teachers=Array.from(new Set([...(o.teachers||[]),...b.teachers])).filter(Boolean);
     else if(!o.teachers||!o.teachers.length)o.teachers=teachersForGrade(g);
     (b.rows||[]).forEach(r=>{const month=r.month||r.when||r.period||'';o.rows.push({id:uid(),month:month,my:r.my||monthToMY(month),topic:r.topic||r.title||r.name||'',checks:{}});added++;});
@@ -2628,6 +2659,13 @@ function readImageScaled(file,cb){
   r.readAsDataURL(file);
 }
 function readFileData(file,cb){const r=new FileReader();r.onload=ev=>cb(ev.target.result);r.onerror=()=>cb(null);r.readAsDataURL(file);}
+// Let any textarea accept a dragged-in file (image / PDF / Word), same as the attach button.
+function attachDrop(el,previewId){
+  if(!el)return;
+  el.addEventListener('dragover',e=>{e.preventDefault();el.style.outline='2px dashed var(--brand)';});
+  el.addEventListener('dragleave',()=>{el.style.outline='';});
+  el.addEventListener('drop',e=>{e.preventDefault();el.style.outline='';const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];if(f){handleScFile(f,previewId);toast('File dropped — ready to file');}});
+}
 function routeContext(){
   const blocks=[...new Set(state.staff.flatMap(s=>(s.timetable||[]).map(x=>x.block)).filter(Boolean))];
   const students=state.ias.map(i=>i.student).filter(Boolean);
@@ -2649,7 +2687,7 @@ function smartCaptureInline(){
     <div class="sc-grid">
       <div style="display:flex;flex-direction:column">
         <label class="sc-lbl">1 · The material</label>
-        <textarea id="sci_mat" style="width:100%;flex:1;min-height:150px;resize:vertical" placeholder="Paste a student list, an email, a note… paste a screenshot with ⌘V, or attach a file below."></textarea>
+        <textarea id="sci_mat" style="width:100%;flex:1;min-height:150px;resize:vertical" placeholder="Paste a student list, an email, a note… paste a screenshot with ⌘V, or drag &amp; drop / attach a file (image, PDF, Word) below."></textarea>
         <div style="display:flex;align-items:center;gap:9px;margin-top:7px"><label class="btn sm" for="sci_fileinput" style="cursor:pointer">📎 Attach image / file</label><input type="file" id="sci_fileinput" accept="image/*,application/pdf,.doc,.docx" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;pointer-events:none"><div id="sci_file"></div></div>
       </div>
       <div style="display:flex;flex-direction:column">
@@ -2663,6 +2701,7 @@ function smartCaptureInline(){
 function bindSmartInline(){
   const fi=$('#sci_fileinput');if(fi)fi.onchange=e=>handleScFile(e.target.files[0],'sci_file');
   const mat=$('#sci_mat');if(mat)mat.addEventListener('paste',e=>{const items=(e.clipboardData&&e.clipboardData.items)||[];for(let n=0;n<items.length;n++){if(items[n].type&&items[n].type.indexOf('image')===0){const f=items[n].getAsFile();if(f){e.preventDefault();handleScFile(f,'sci_file');toast('Screenshot pasted');return;}}}});
+  attachDrop(mat,'sci_file');
   const scg=$('#sci_go');if(scg)scg.onclick=()=>runRouteWith($('#sci_mat').value.trim(),$('#sci_do').value.trim(),scImage,scFileName,'');
 }
 function smartCaptureModal(preset){
@@ -2682,7 +2721,7 @@ function smartCaptureModal(preset){
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="sc_go">Understand &amp; file</button></div>`);
   scPreview();
   {const fi=$('#sc_fileinput');if(fi)fi.onchange=e=>handleScFile(e.target.files[0],'sc_file');}
-  {const mat=$('#sc_mat');if(mat)mat.addEventListener('paste',e=>{const items=(e.clipboardData&&e.clipboardData.items)||[];for(let n=0;n<items.length;n++){if(items[n].type&&items[n].type.indexOf('image')===0){const f=items[n].getAsFile();if(f){e.preventDefault();handleScFile(f,'sc_file');toast('Screenshot pasted');return;}}}});}
+  {const mat=$('#sc_mat');if(mat){mat.addEventListener('paste',e=>{const items=(e.clipboardData&&e.clipboardData.items)||[];for(let n=0;n<items.length;n++){if(items[n].type&&items[n].type.indexOf('image')===0){const f=items[n].getAsFile();if(f){e.preventDefault();handleScFile(f,'sc_file');toast('Screenshot pasted');return;}}}});attachDrop(mat,'sc_file');}}
   $('#sc_go').onclick=()=>runRouteWith($('#sc_mat').value.trim(),$('#sc_do').value.trim(),scImage,scFileName,'');
 }
 async function runRouteWith(mat,ins,image,fileName,answer){
