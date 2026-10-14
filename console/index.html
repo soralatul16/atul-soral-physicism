@@ -1693,7 +1693,7 @@ function timetableGrid(s,week){
     const cells=axis.map(p=>descAt(p,d));let html='';let i=0;
     while(i<cells.length){const c=cells[i];
       if(c.free){html+='<td></td>';i++;continue;}
-      let span=1;while(i+span<cells.length&&!cells[i+span].free&&cells[i+span].sig===c.sig)span++;
+      let span=1;while(i+span<cells.length&&!cells[i+span].free&&(cells[i+span].block||'')===(c.block||''))span++;
       html+=`<td class="has clickcell" colspan="${span}" data-ttcell="${s.id}|${c.idx}" title="Click to see or add tasks"><b>${esc(prettyBlock(c.block))}</b>${c.sub?`<div class="ttmeta">${esc(c.sub)}</div>`:''}</td>`;
       i+=span;}
     return `<tr><td class="perlbl">${d}</td>${html}</tr>`;
@@ -1718,7 +1718,7 @@ function timetableDay(s,dayShort,week){
     return {p,free:false,block,sections,time:first.x.time||'',room:first.x.room||'',idx:first.idx,sig:block+'|'+sections+'|'+(first.x.room||'')};
   });
   const taught=desc.filter(d=>!d.free).length;const free=desc.length-taught;
-  const groups=[];desc.forEach(d=>{const sig=d.free?'FREE':d.sig;const last=groups[groups.length-1];if(last&&last.sig===sig){last.items.push(d);}else{groups.push({sig,items:[d],d});}});
+  const groups=[];desc.forEach(d=>{const sig=d.free?'FREE':('B|'+(d.block||''));const last=groups[groups.length-1];if(last&&last.sig===sig){last.items.push(d);}else{groups.push({sig,items:[d],d});}});
   const body=groups.map(g=>{
     const label=periodRange(g.items[0].p,g.items[g.items.length-1].p);
     if(g.d.free)return `<tr><td class="perlbl">${esc(label)}</td><td></td><td style="color:var(--good);font-weight:700">Free</td><td></td><td></td></tr>`;
