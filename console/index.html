@@ -2664,7 +2664,13 @@ function attachDrop(el,previewId){
   if(!el)return;
   el.addEventListener('dragover',e=>{e.preventDefault();el.style.outline='2px dashed var(--brand)';});
   el.addEventListener('dragleave',()=>{el.style.outline='';});
-  el.addEventListener('drop',e=>{e.preventDefault();el.style.outline='';const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];if(f){handleScFile(f,previewId);toast('File dropped — ready to file');}});
+  el.addEventListener('drop',e=>{e.preventDefault();el.style.outline='';
+    const dt=e.dataTransfer;if(!dt)return;
+    let f=(dt.files&&dt.files[0])||null;
+    if(!f&&dt.items){for(let n=0;n<dt.items.length;n++){if(dt.items[n].kind==='file'){const g=dt.items[n].getAsFile();if(g){f=g;break;}}}}
+    if(f){handleScFile(f,previewId);toast('File dropped — ready to file');}
+    else{toast('That drag had no file. Download the attachment first, then drop it (or use Attach).');}
+  });
 }
 function routeContext(){
   const blocks=[...new Set(state.staff.flatMap(s=>(s.timetable||[]).map(x=>x.block)).filter(Boolean))];
