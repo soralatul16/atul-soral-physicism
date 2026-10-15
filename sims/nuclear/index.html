@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nuclear Physics Simulations</title>
+<style>
+  :root{
+    --paper:#eaf5f2; --card:#ffffff; --ink:#17292a; --soft:#55696a;
+    --grid:#d3e8e6; --gridbold:#a7d0cd;
+    --alpha:#cc3b34; --beta:#2766ab; --betap:#8a4bbf; --node:#2f9e6b; --node-stable:#13703f;
+    --amber:#e0a21f; --amber-deep:#9c6c08;
+    --teal-deep:#176b64; --teal:#2a8f88; --teal-soft:#bfe3df;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI","Helvetica Neue",Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono","Menlo","Cascadia Mono","Consolas",monospace;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;}
+  body{
+    background:linear-gradient(155deg,#e7f4f1 0%,#e9f1f8 50%,#efeafb 100%);
+    background-attachment:fixed; min-height:100vh;
+    color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.55;
+    padding:26px 20px 72px;
+  }
+  .wrap{max-width:1200px;margin:0 auto;}
+
+  header.top{border-bottom:2.5px solid var(--teal-soft);padding-bottom:16px;margin-bottom:18px;}
+  .topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+  .eyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--teal);margin:0 0 7px;}
+  h1.brand{font-size:clamp(22px,3.2vw,32px);line-height:1.05;margin:0;font-weight:800;letter-spacing:.04em;color:var(--teal-deep);text-transform:uppercase;}
+  .brandsub{margin:4px 0 0;font-size:14.5px;color:var(--soft);}
+  .clock{font-family:var(--mono);font-size:13px;color:var(--teal);white-space:nowrap;background:var(--card);border:1px solid var(--teal-soft);border-radius:999px;padding:7px 14px;}
+  .parteyebrow{font-family:var(--mono);font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--teal);margin:0 0 5px;font-weight:700;}
+
+  /* tabs */
+  .tabs{display:flex;flex-wrap:wrap;gap:9px;margin:18px 0 24px;}
+  .tabs button{font-family:var(--sans);font-size:15px;font-weight:700;border:1.5px solid var(--gridbold);
+     background:var(--card);color:var(--teal-deep);border-radius:999px;padding:11px 18px;cursor:pointer;transition:.15s;}
+  .tabs button:hover{border-color:var(--teal);background:#f2fbf9;}
+  .tabs button.on{background:var(--teal-deep);color:#fff;border-color:var(--teal-deep);}
+  .tab{display:none;} .tab.on{display:block;}
+
+  .tabhead{margin:0 0 4px;font-size:clamp(23px,3vw,32px);font-weight:800;line-height:1.08;letter-spacing:-.01em;}
+  .tabhead .mass{font-family:var(--mono);color:var(--alpha);}
+  .lede{margin:0 0 18px;max-width:76ch;color:var(--soft);font-size:16.5px;}
+
+  .netchips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+  .chip{font-family:var(--mono);font-size:13px;background:var(--card);border:1px solid var(--gridbold);
+        border-radius:999px;padding:6px 13px;}
+  .chip b{color:var(--teal);}
+
+  .stage{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:22px;align-items:start;}
+  @media(max-width:880px){.stage{grid-template-columns:1fr;}}
+
+  .panelcard{background:var(--card);border:1px solid var(--gridbold);border-radius:14px;
+             box-shadow:0 1px 0 #fff inset,0 12px 28px -24px rgba(0,0,0,.45);}
+  .chartcard{padding:14px 14px 12px;}
+  .chartwrap{position:relative;width:100%;}
+  svg{width:100%;height:auto;display:block;}
+
+  .gridline{stroke:var(--grid);stroke-width:1;} .gridline.bold{stroke:var(--gridbold);}
+  .axlabel{font-family:var(--mono);font-size:12px;fill:var(--soft);}
+  .axtitle{font-family:var(--mono);font-size:14px;letter-spacing:.1em;fill:var(--ink);text-transform:uppercase;}
+  .arrow{stroke-linecap:round;fill:none;opacity:0;transition:opacity .4s;}
+  .arrow.alpha{stroke:var(--alpha);stroke-width:3.4;}
+  .arrow.beta{stroke:var(--beta);stroke-width:3.4;}
+  .arrow.shown{opacity:.95;}
+  .node circle.dot{fill:#e7eadf;stroke:#c3ccb6;stroke-width:1.6;transition:fill .4s,stroke .4s;}
+  .node .nlab{font-family:var(--mono);font-size:12.5px;font-weight:700;fill:#aeb4a4;text-anchor:middle;transition:fill .4s;}
+  .node.visited circle.dot{fill:var(--node);stroke:#1f6e4a;}
+  .node.visited .nlab{fill:var(--ink);}
+  .node.stable.visited circle.dot{fill:var(--node-stable);stroke:#0b542f;}
+  .node.current circle.dot{fill:var(--amber);stroke:var(--amber-deep);stroke-width:3;}
+  .pulse{fill:none;stroke:var(--amber);stroke-width:2.5;opacity:0;}
+  .node.current .pulse{animation:pulse 1.7s ease-out infinite;}
+  @keyframes pulse{0%{opacity:.7;r:10px;}100%{opacity:0;r:30px;}}
+  .particle text{font-family:var(--mono);font-size:12px;font-weight:bold;text-anchor:middle;dominant-baseline:middle;}
+
+  .controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px;}
+  button.ctl{font-family:var(--sans);font-size:14.5px;font-weight:700;border-radius:10px;border:1.5px solid var(--teal-deep);
+     background:var(--teal-deep);color:#fff;padding:11px 17px;cursor:pointer;transition:transform .08s,opacity .2s;}
+  button.ctl:hover{transform:translateY(-1px);}
+  button.ctl.ghost{background:var(--card);color:var(--teal-deep);}
+  button.ctl:disabled{opacity:.3;cursor:not-allowed;transform:none;}
+  button.ctl.go{background:var(--alpha);border-color:var(--alpha);}
+  button.ctl.go.beta{background:var(--beta);border-color:var(--beta);}
+  button.ctl.go.betap{background:var(--betap);border-color:var(--betap);}
+  button.ctl.go.done{background:var(--node-stable);border-color:var(--node-stable);}
+  .steptag{font-family:var(--mono);font-size:13.5px;color:var(--soft);}
+  .counters{display:flex;gap:14px;margin-left:auto;font-family:var(--mono);font-size:14px;align-items:center;}
+  .counters .ca{color:var(--alpha);font-weight:700;} .counters .cb{color:var(--beta);font-weight:700;}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12.5px;color:var(--soft);margin-top:11px;padding-top:11px;border-top:1px dashed var(--gridbold);}
+  .legend span{display:inline-flex;align-items:center;gap:7px;}
+  .swatch{width:24px;height:0;border-top:3.4px solid;border-radius:2px;}
+  .dotsw{width:13px;height:13px;border-radius:50%;}
+
+  /* info panel */
+  .info{padding:20px 22px 22px;}
+  .nuc{display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--gridbold);padding-bottom:15px;margin-bottom:15px;}
+  .nucsym{font-family:var(--mono);font-weight:800;font-size:46px;line-height:1;display:flex;align-items:center;}
+  .nucsym .az{display:inline-flex;flex-direction:column;font-size:18px;line-height:1.05;margin-right:4px;text-align:right;}
+  .nucsym .az .a{color:var(--alpha);} .nucsym .az .z{color:var(--beta);}
+  .nucmeta h3{margin:0;font-size:25px;font-weight:800;}
+  .nucmeta .old{font-family:var(--mono);font-size:13px;color:var(--teal);margin-top:3px;}
+  .stat{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-bottom:15px;}
+  .stat div{background:var(--paper);border:1px solid var(--gridbold);border-radius:10px;padding:9px 4px;text-align:center;}
+  .stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:var(--soft);text-transform:uppercase;}
+  .stat .v{font-family:var(--mono);font-size:21px;font-weight:800;margin-top:2px;}
+  .halflife{font-family:var(--mono);font-size:14px;color:var(--soft);margin:0 0 13px;}
+  .halflife b{color:var(--ink);}
+  .eq{font-family:var(--mono);font-size:19px;background:#eff9f7;border:1.5px solid var(--teal-soft);color:#15241f;
+      border-radius:11px;padding:14px 16px;margin-bottom:14px;overflow-x:auto;white-space:nowrap;}
+  .eq sup{color:var(--alpha);font-weight:700;} .eq sub{color:var(--beta);font-weight:700;}
+  .eq .tag{font-weight:800;margin-left:4px;}
+  .eq .tag.a{color:var(--alpha);} .eq .tag.b{color:var(--beta);} .eq .tag.bp{color:var(--betap);}
+  sup,sub{font-size:.66em;}
+  .modeline{font-family:var(--sans);font-size:14px;font-weight:700;display:inline-block;padding:5px 13px;border-radius:999px;margin-bottom:12px;}
+  .modeline.alpha{background:rgba(204,59,52,.13);color:var(--alpha);border:1px solid rgba(204,59,52,.45);}
+  .modeline.beta{background:rgba(39,102,171,.13);color:var(--beta);border:1px solid rgba(39,102,171,.45);}
+  .modeline.betap{background:rgba(138,75,191,.13);color:var(--betap);border:1px solid rgba(138,75,191,.45);}
+  .modeline.stable{background:rgba(19,112,63,.13);color:var(--node-stable);border:1px solid rgba(19,112,63,.45);}
+  .story{font-size:16.5px;margin:0 0 10px;}
+  .howfrom{font-size:15px;color:var(--soft);margin:0 0 6px;} .howfrom b{color:var(--ink);}
+  .next{font-family:var(--mono);font-size:13.5px;color:var(--soft);margin-top:8px;}
+
+  /* explainer blocks */
+  .why{margin-top:28px;}
+  .why .sub{font-family:var(--mono);font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin:0 0 6px;}
+  .why h3{font-size:25px;margin:0 0 16px;font-weight:800;}
+  .whygrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;}
+  .whygrid .b{background:var(--card);border:1px solid var(--gridbold);border-radius:12px;padding:17px 19px;}
+  .whygrid h4{margin:0 0 8px;font-size:17.5px;font-weight:800;}
+  .whygrid h4 .ic{color:var(--teal);margin-right:7px;}
+  .whygrid p{margin:0;font-size:15.5px;color:#2c251b;}
+  .whygrid .m{font-family:var(--mono);color:var(--beta);font-weight:700;}
+  footer{margin-top:26px;border-top:1px solid var(--teal-soft);padding-top:13px;font-family:var(--mono);font-size:12.5px;color:var(--soft);}
+
+  @media print{ body{padding:0;background:none;} .tabs,.controls button{display:none;}
+    .tab{display:block!important;break-after:page;} .stage{grid-template-columns:1fr;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="topbar">
+      <div>
+        <h1 class="brand">Atul Soral Physicism</h1>
+        <p class="brandsub">Nuclear Physics Simulations &middot; IB / IGCSE</p>
+      </div>
+      <span class="clock" id="clock">&nbsp;</span>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="on" data-tab="t1">Part 1 &middot; Decay Series</button>
+    <button data-tab="t2">Part 2 &middot; Beta&#8209;plus &amp; PET</button>
+    <button data-tab="t3">Part 3 &middot; Binding Energy</button>
+  </nav>
+
+  <!-- ================= TAB 1 : U-238 ================= -->
+  <section class="tab on" id="t1">
+    <p class="parteyebrow">Part 1 &middot; Radioactive Decay</p>
+    <h2 class="tabhead">Decay Series of Uranium&#8209;<span class="mass">238</span></h2>
+    <p class="lede">Click <b>Next decay</b> to walk the chain one step at a time. A red hop (α) sheds a helium nucleus; a blue hop (β⁻) turns a neutron into a proton &mdash; until the atom lands on stable lead‑206.</p>
+    <div class="netchips">
+      <span class="chip">Start <b>²³⁸U</b> (Z 92)</span><span class="chip">End <b>²⁰⁶Pb</b> (Z 82)</span>
+      <span class="chip">Net <b>8 α + 6 β⁻</b></span><span class="chip">14 decays · 15 nuclides</span>
+    </div>
+    <div class="stage">
+      <div class="panelcard chartcard">
+        <div class="chartwrap"><svg id="chart1" viewBox="0 0 820 650" role="img" aria-label="Neutron vs proton number chart"></svg></div>
+        <div class="controls">
+          <button class="ctl go" id="t1next">Next decay &#9654;</button>
+          <button class="ctl ghost" id="t1back">&#9664; Back</button>
+          <button class="ctl ghost" id="t1auto">Auto‑play</button>
+          <button class="ctl ghost" id="t1reset">Reset &#8635;</button>
+          <span class="steptag" id="t1step">Step 0 / 14</span>
+          <span class="counters"><span class="ca" id="t1ca">α 0</span><span class="cb" id="t1cb">β⁻ 0</span></span>
+        </div>
+        <div class="legend">
+          <span><span class="swatch" style="border-color:var(--alpha)"></span> α — down &amp; left (−2p, −2n)</span>
+          <span><span class="swatch" style="border-color:var(--beta)"></span> β⁻ — down &amp; right (+1p, −1n)</span>
+          <span><span class="swatch" style="border-color:#9aa6b2;border-top-style:dashed"></span> rare side‑branch (&lt;0.1%)</span>
+          <span><span class="dotsw" style="background:var(--node)"></span> reached</span>
+          <span><span class="dotsw" style="background:var(--amber)"></span> you are here</span>
+        </div>
+      </div>
+      <aside class="panelcard info" id="t1info"></aside>
+    </div>
+    <div class="why">
+      <p class="sub">The big question</p><h3>Why does the chain stop at lead‑206?</h3>
+      <div class="whygrid">
+        <div class="b"><h4><span class="ic">⚖</span>Two forces at war</h4><p>The <b>strong force</b> glues nucleons together but only reaches its nearest neighbours. The <b>electric force</b> pushes every proton apart across the whole nucleus. In a giant nucleus like uranium, repulsion nearly wins &mdash; so it keeps shedding pieces.</p></div>
+        <div class="b"><h4><span class="ic">∿</span>The neutron cushion</h4><p>Neutrons add glue but no charge, diluting proton repulsion. Heavy nuclei need extra neutrons, so the stable ratio climbs: <span class="m">U‑238 → N/Z ≈ 1.59</span> down to <span class="m">Pb‑206 → 1.51</span>. Each step steers toward that "valley of stability."</p></div>
+        <div class="b"><h4><span class="ic">★</span>A magic number: 82</h4><p>Nucleons fill shells like electrons do. Closed shells sit at the <b>magic numbers</b> 2, 8, 20, 28, 50, 82, 126. Lead has <span class="m">Z = 82</span> &mdash; a closed, magic proton shell &mdash; making it exceptionally tightly bound.</p></div>
+        <div class="b"><h4><span class="ic">⧉</span>Even loves even</h4><p>Pb‑206 has even protons (82) <i>and</i> even neutrons (124). Nucleons pair up, and even‑even nuclei gain extra "pairing energy" &mdash; one more reason this lead sits so comfortably.</p></div>
+        <div class="b"><h4><span class="ic">⬛</span>Lead is the end of the road</h4><p>Beyond bismuth (Z = 83) there are <b>no stable nuclei</b> &mdash; repulsion finally wins. Lead is the heaviest element with stable isotopes, so <i>all three</i> natural series end on lead.</p></div>
+        <div class="b"><h4><span class="ic">Σ</span>The bookkeeping</h4><p>From ²³⁸U to ²⁰⁶Pb: <b>8 α + 6 β⁻</b>. Mass: <span class="m">238 − 8×4 = 206</span>. Charge: <span class="m">92 − 8×2 + 6×1 = 82</span>. Exactly stable lead.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TAB 2 : BETA PLUS / PET ================= -->
+  <section class="tab" id="t2">
+    <p class="parteyebrow">Part 2 &middot; Positron Emission</p>
+    <h2 class="tabhead">Beta‑plus Decay &mdash; Fluorine‑<span class="mass">18</span> &amp; the PET scan</h2>
+    <p class="lede">A nucleus with <b>too many protons</b> does the opposite of β⁻: it turns a proton into a neutron and fires out a <b>positron</b> (β⁺). Click <b>Next step</b> to follow Fluorine‑18 all the way into a hospital PET scanner.</p>
+    <div class="netchips">
+      <span class="chip">β⁺: <b>p → n + e⁺ + ν</b></span><span class="chip">Moves <b>up &amp; left</b> on the chart</span>
+      <span class="chip">F‑18 half‑life <b>110 min</b></span><span class="chip">Daughter <b>¹⁸O</b> (stable)</span>
+    </div>
+    <div class="stage">
+      <div class="panelcard chartcard">
+        <div class="chartwrap"><svg id="chart2" viewBox="0 0 820 560" role="img" aria-label="Beta plus decay schematic"></svg></div>
+        <div class="controls">
+          <button class="ctl go betap" id="t2next">Next step &#9654;</button>
+          <button class="ctl ghost" id="t2back">&#9664; Back</button>
+          <button class="ctl ghost" id="t2reset">Reset &#8635;</button>
+          <span class="steptag" id="t2step">Step 1 / 5</span>
+        </div>
+        <div class="legend">
+          <span><span class="swatch" style="border-color:var(--betap)"></span> β⁺ — up &amp; left (−1p, +1n)</span>
+          <span><span class="swatch" style="border-color:var(--beta)"></span> β⁻ for comparison — down &amp; right</span>
+        </div>
+      </div>
+      <aside class="panelcard info" id="t2info"></aside>
+    </div>
+    <div class="why">
+      <p class="sub">The sibling process</p><h3>β⁺ vs β⁻ vs electron capture</h3>
+      <div class="whygrid">
+        <div class="b"><h4><span class="ic" style="color:var(--beta)">▸</span>β⁻ (too many neutrons)</h4><p>A neutron becomes a proton: <span class="m">n → p + e⁻ + ν̄</span>. Z rises by 1. This is what drives the uranium chain in Tab ①.</p></div>
+        <div class="b"><h4><span class="ic" style="color:var(--betap)">▸</span>β⁺ (too many protons)</h4><p>A proton becomes a neutron: <span class="m">p → n + e⁺ + ν</span>. Z falls by 1. Needs energy &gt; 1.02 MeV to create the positron.</p></div>
+        <div class="b"><h4><span class="ic">⤵</span>Electron capture</h4><p>Same destination, different route: the nucleus grabs an inner electron, <span class="m">p + e⁻ → n + ν</span>. Proton‑rich nuclei often do both.</p></div>
+        <div class="b"><h4><span class="ic">✦</span>The annihilation signature</h4><p>Every positron soon meets an electron and both vanish into <b>two 511 keV gamma photons flying exactly opposite</b>. That back‑to‑back pair is what makes PET possible.</p></div>
+        <div class="b"><h4><span class="ic">🏥</span>Where it is used</h4><p>F‑18 is bonded to glucose (<b>FDG</b>) and injected. Busy cells &mdash; tumours, brain, heart &mdash; soak up sugar and glow on the scan. Also used: C‑11, N‑13, O‑15.</p></div>
+        <div class="b"><h4><span class="ic">⚙</span>Made fresh, nearby</h4><p>With a 110‑minute half‑life, F‑18 can't be stored. A <b>cyclotron</b> near the hospital makes it the same morning it's used.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= TAB 3 : BINDING ENERGY ================= -->
+  <section class="tab" id="t3">
+    <p class="parteyebrow">Part 3 &middot; Nuclear Energy</p>
+    <h2 class="tabhead">The Binding Energy Curve</h2>
+    <p class="lede">Binding energy <b>per nucleon</b> tells you how tightly each proton and neutron is held &mdash; higher means more stable. Click <b>Next</b> to travel across the curve and see where <b>fusion</b> and <b>fission</b> release their enormous energy.</p>
+    <div class="netchips">
+      <span class="chip">Peak at <b>iron‑56</b> (≈ 8.8 MeV)</span><span class="chip">Left side → <b>fusion</b></span>
+      <span class="chip">Right side → <b>fission</b></span>
+    </div>
+    <div class="stage">
+      <div class="panelcard chartcard">
+        <div class="chartwrap"><svg id="chart3" viewBox="0 0 820 560" role="img" aria-label="Binding energy per nucleon versus mass number"></svg></div>
+        <div class="controls">
+          <button class="ctl go done" id="t3next">Next &#9654;</button>
+          <button class="ctl ghost" id="t3back">&#9664; Back</button>
+          <button class="ctl ghost" id="t3reset">Reset &#8635;</button>
+          <span class="steptag" id="t3step">Stage 1 / 6</span>
+        </div>
+      </div>
+      <aside class="panelcard info" id="t3info"></aside>
+    </div>
+    <div class="why">
+      <p class="sub">In one sentence</p><h3>Everything rolls toward iron</h3>
+      <div class="whygrid">
+        <div class="b"><h4><span class="ic">↗</span>Fusion (light nuclei)</h4><p>Joining light nuclei climbs the steep left slope toward stronger binding, releasing energy. Powers <b>the Sun and stars</b>, the hydrogen bomb, and experimental reactors like <b>ITER</b>.</p></div>
+        <div class="b"><h4><span class="ic">⛰</span>Iron: the bottom of the well</h4><p><b>Fe‑56 / Ni‑62</b> are the most tightly bound nuclei. You can't release energy by fusing or splitting them &mdash; which is why fusion inside a dying star stops at iron and triggers a <b>supernova</b>.</p></div>
+        <div class="b"><h4><span class="ic">↙</span>Fission (heavy nuclei)</h4><p>Splitting a heavy nucleus lets the fragments slide back up toward iron, releasing energy. Powers <b>nuclear reactors</b> and fission weapons &mdash; and it's the slow, natural version of this that drives Tab ①.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>Classroom simulations for IB / IGCSE Physics · ATUL SORAL PHYSICISM. Values shown are for the dominant branch of each process; a few sub‑0.1% branches are omitted for clarity.</footer>
+</div>
+
+<script>
+const SVGNS='http://www.w3.org/2000/svg';
+function mk(t,a){const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);return e;}
+const $=id=>document.getElementById(id);
+function nuc(A,Z,s){return '<sup>'+A+'</sup><sub>'+Z+'</sub>'+s;}
+
+/* ---------- tab switching ---------- */
+let activeTab='t1';
+document.querySelectorAll('.tabs button').forEach(b=>{
+  b.addEventListener('click',()=>{
+    activeTab=b.dataset.tab;
+    document.querySelectorAll('.tabs button').forEach(x=>x.classList.toggle('on',x===b));
+    document.querySelectorAll('.tab').forEach(s=>s.classList.toggle('on',s.id===activeTab));
+  });
+});
+
+/* ================= TAB 1 : U-238 ================= */
+const CHAIN=[
+ {sym:'U',A:238,Z:92,N:146,el:'Uranium',old:'Uranium I (UI)',half:'4.47 billion years',decay:'α',story:"Discovered by Martin Klaproth in 1789 and named for the just‑found planet Uranus. In 1896 Henri Becquerel left uranium salts on a photographic plate and discovered radioactivity itself. U‑238 is 99.3% of all natural uranium and has survived since before the Earth formed."},
+ {sym:'Th',A:234,Z:90,N:144,el:'Thorium',old:'Uranium X₁',half:'24.1 days',decay:'β⁻',story:"The first daughter. Studying this very step, Rutherford and Soddy proved one element really does transmute into another — alchemy, done by physics."},
+ {sym:'Pa',A:234,Z:91,N:143,el:'Protactinium',old:'Uranium X₂',half:'1.17 minutes',decay:'β⁻',story:"So short‑lived that Fajans first called it 'brevium' (brief) in 1913. The element — 'parent of actinium' — was pinned down by Lise Meitner and Otto Hahn in 1917."},
+ {sym:'U',A:234,Z:92,N:142,el:'Uranium',old:'Uranium II',half:'245,500 years',decay:'α',story:"A rare uranium isotope. Almost all U‑234 on Earth exists only because U‑238 keeps manufacturing it two decays upstream."},
+ {sym:'Th',A:230,Z:90,N:140,el:'Thorium',old:'Ionium',half:'75,400 years',decay:'α',story:"Once mistaken for a separate element called 'ionium.' Its slow decay in corals and sediments is now a favourite clock for past climates."},
+ {sym:'Ra',A:226,Z:88,N:138,el:'Radium',old:'Radium',half:'1,600 years',decay:'α',story:"Marie and Pierre Curie isolated it from tonnes of pitchblende in 1898. It glows in the dark; the 'Radium Girls' who painted watch dials paid a terrible price that reshaped worker‑safety law."},
+ {sym:'Rn',A:222,Z:86,N:136,el:'Radon',old:'Radon (emanation)',half:'3.82 days',decay:'α',story:"The only gas in the chain — heavy, invisible, radioactive. It seeps from rock into basements and is the second‑leading cause of lung cancer worldwide."},
+ {sym:'Po',A:218,Z:84,N:134,el:'Polonium',old:'Radium A',half:'3.05 minutes',decay:'α',story:"Polonium — discovered by Marie Curie in 1898 and named after her occupied homeland, Poland, to draw the world's attention to it."},
+ {sym:'Pb',A:214,Z:82,N:132,el:'Lead',old:'Radium B',half:'26.8 minutes',decay:'β⁻',story:"Lead appears twice — this is the first, unstable visit. Reaching Z = 82 is tantalisingly close to the end, but it still has too many neutrons."},
+ {sym:'Bi',A:214,Z:83,N:131,el:'Bismuth',old:'Radium C',half:'19.9 minutes',decay:'β⁻',story:"Bismuth — taught for a century as the heaviest stable element, until 2003 when Bi‑209 was finally caught decaying with an almost unimaginable half‑life."},
+ {sym:'Po',A:214,Z:84,N:130,el:'Polonium',old:"Radium C′",half:'164 microseconds',decay:'α',story:"Blink and you miss it: this isotope lives only ~160 millionths of a second before firing a very energetic alpha particle."},
+ {sym:'Pb',A:210,Z:82,N:128,el:'Lead',old:'Radium D',half:'22.3 years',decay:'β⁻',story:"A longer‑lived lead. Its 22‑year decay dates glaciers and lake beds — and even unmasks forged paintings by their lead‑white pigment."},
+ {sym:'Bi',A:210,Z:83,N:127,el:'Bismuth',old:'Radium E',half:'5.01 days',decay:'β⁻',story:"A brief bismuth landing on the way down, one neutron from the next polonium."},
+ {sym:'Po',A:210,Z:84,N:126,el:'Polonium',old:'Radium F',half:'138.4 days',decay:'α',story:"The last unstable link — infamous as the polonium‑210 used to poison Alexander Litvinenko in 2006. A speck too small to see releases enormous energy."},
+ {sym:'Pb',A:206,Z:82,N:124,el:'Lead',old:'Radium G',half:'STABLE',decay:null,stable:true,story:"Journey's end. Stable lead‑206 — the atomic graveyard where the uranium series rests, with a magic 82 protons and nowhere left to fall."}
+];
+const U=(function(){
+  const SVG=$('chart1');
+  const Zmin=80,Zmax=93,Nmin=123,Nmax=147,ML=66,MR=22,MT=22,MB=52,W=820,H=650;
+  const pW=W-ML-MR,pH=H-MT-MB,cw=pW/(Zmax-Zmin),ch=pH/(Nmax-Nmin);
+  const X=z=>ML+(z-Zmin)*cw,Y=n=>MT+(Nmax-n)*ch;
+  for(let z=Zmin;z<=Zmax;z++){SVG.appendChild(mk('line',{class:'gridline'+(z%5===0?' bold':''),x1:X(z),y1:MT,x2:X(z),y2:MT+pH}));
+    const t=mk('text',{class:'axlabel','text-anchor':'middle',x:X(z),y:MT+pH+17});t.textContent=z;SVG.appendChild(t);}
+  for(let n=Nmin;n<=Nmax;n++){SVG.appendChild(mk('line',{class:'gridline'+(n%5===0?' bold':''),x1:ML,y1:Y(n),x2:ML+pW,y2:Y(n)}));
+    const t=mk('text',{class:'axlabel','text-anchor':'end',x:ML-8,y:Y(n)+4});t.textContent=n;SVG.appendChild(t);}
+  let t=mk('text',{class:'axtitle','text-anchor':'middle',x:ML+pW/2,y:H-6});t.textContent='Proton number  Z →';SVG.appendChild(t);
+  const yt=mk('text',{class:'axtitle','text-anchor':'middle',x:16,y:MT+pH/2,transform:'rotate(-90 16 '+(MT+pH/2)+')'});yt.textContent='← Neutron number  N';SVG.appendChild(yt);
+  const aL=mk('g',{});SVG.appendChild(aL);const pL=mk('g',{});SVG.appendChild(pL);const nL=mk('g',{});SVG.appendChild(nL);
+  const arrows=[];
+  for(let i=0;i<CHAIN.length-1;i++){const a=CHAIN[i],b=CHAIN[i+1];const x1=X(a.Z),y1=Y(a.N),x2=X(b.Z),y2=Y(b.N);
+    const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,pad=13;
+    const ln=mk('line',{class:'arrow '+(a.decay==='α'?'alpha':'beta'),x1:x1+ux*pad,y1:y1+uy*pad,x2:x2-ux*pad,y2:y2-uy*pad});aL.appendChild(ln);arrows.push(ln);}
+  const nodes=[];
+  CHAIN.forEach(c=>{const g=mk('g',{class:'node'+(c.stable?' stable':'')});
+    g.appendChild(mk('circle',{class:'pulse',cx:X(c.Z),cy:Y(c.N),r:10}));
+    g.appendChild(mk('circle',{class:'dot',cx:X(c.Z),cy:Y(c.N),r:9}));
+    const lab=mk('text',{class:'nlab',x:X(c.Z),y:Y(c.N)-14});lab.textContent=c.A+c.sym;g.appendChild(lab);
+    nL.appendChild(g);nodes.push(g);});
+  // --- real side-branches: some elements decay two different ways ---
+  const BRANCHES=[
+    {pi:7, mode:'β⁻',pct:'0.02%',   sym:'At',A:218,Z:85,N:133,name:'Astatine‑218'},
+    {pi:9, mode:'α', pct:'0.021%',  sym:'Tl',A:210,Z:81,N:129,name:'Thallium‑210'},
+    {pi:12,mode:'α', pct:'0.00013%',sym:'Tl',A:206,Z:81,N:125,name:'Thallium‑206'}
+  ];
+  const brMap={};BRANCHES.forEach(b=>brMap[b.pi]=b);
+  BRANCHES.forEach(br=>{const p=CHAIN[br.pi];const x1=X(p.Z),y1=Y(p.N),x2=X(br.Z),y2=Y(br.N);
+    const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,pad=13;
+    aL.appendChild(mk('line',{class:'arrow '+(br.mode==='α'?'alpha':'beta'),style:'opacity:.5;stroke-dasharray:5 5',x1:x1+ux*pad,y1:y1+uy*pad,x2:x2-ux*pad,y2:y2-uy*pad}));
+    const g=mk('g',{style:'opacity:.55'});
+    g.appendChild(mk('circle',{class:'dot',cx:x2,cy:y2,r:7,style:'fill:#eef0ea;stroke:#c3ccb6'}));
+    const lab=mk('text',{class:'nlab',x:x2,y:y2-12,style:'fill:#8a9484'});lab.textContent=br.A+br.sym;g.appendChild(lab);
+    nL.appendChild(g);});
+  // --- decay compass: all three beta directions (shows where β⁺ WOULD point) ---
+  (function(){const cx=168,cy=118,r=44;const g=mk('g',{});
+    g.appendChild(mk('rect',{x:cx-92,y:cy-66,width:234,height:170,rx:12,fill:'rgba(255,253,248,.93)',stroke:'var(--gridbold)'}));
+    const cap=mk('text',{x:cx-82,y:cy-46,style:'font-family:var(--mono);font-size:12px;font-weight:700;fill:var(--ink)'});cap.textContent='DECAY COMPASS';g.appendChild(cap);
+    function ray(dx,dy,color,dash,label,lx,ly){g.appendChild(mk('line',{x1:cx,y1:cy,x2:cx+dx,y2:cy+dy,stroke:color,'stroke-width':3.4,'stroke-linecap':'round','stroke-dasharray':dash||''}));
+      const t=mk('text',{x:cx+lx,y:cy+ly,style:'font-family:var(--mono);font-size:13px;font-weight:700;fill:'+color});t.textContent=label;g.appendChild(t);}
+    ray(-r,r,'var(--alpha)','','α',-r-14,r+16);
+    ray(r,r,'var(--beta)','','β⁻',r+4,r+16);
+    ray(-r,-r,'var(--betap)','4 4','β⁺',-r-16,-r-8);
+    g.appendChild(mk('circle',{cx:cx,cy:cy,r:6,fill:'var(--ink)'}));
+    const note=mk('text',{x:cx-82,y:cy+90,style:'font-family:var(--sans);font-size:12px;fill:var(--soft)'});note.textContent='β⁺ never occurs here (all neutron‑rich)';g.appendChild(note);
+    SVG.appendChild(g);})();
+  let cur=0,busy=false,auto=null;
+  function eqHTML(i){const d=CHAIN[i],n=CHAIN[i+1];
+    if(d.decay==='α')return nuc(d.A,d.Z,d.sym)+' &rarr; '+nuc(n.A,n.Z,n.sym)+' + '+nuc(4,2,'He')+'<span class="tag a">(α)</span>';
+    return nuc(d.A,d.Z,d.sym)+' &rarr; '+nuc(n.A,n.Z,n.sym)+' + '+nuc(0,'−1','e')+' + ν̄<span class="tag b">(β⁻)</span>';}
+  function info(){const c=CHAIN[cur];
+    const az='<span class="az"><span class="a">'+c.A+'</span><span class="z">'+c.Z+'</span></span>';
+    let how,mode,eq='',nx='';
+    how=cur===0?'<p class="howfrom"><b>Primordial</b> — present since the Earth formed.</p>'
+       :'<p class="howfrom">Arrived via '+(CHAIN[cur-1].decay==='α'?'<b>α decay</b>':'<b>β⁻ decay</b>')+' of '+CHAIN[cur-1].A+CHAIN[cur-1].sym+'.</p>';
+    if(c.stable)mode='<span class="modeline stable">■ STABLE — the chain ends here</span>';
+    else{mode='<span class="modeline '+(c.decay==='α'?'alpha':'beta')+'">▶ decays by '+(c.decay==='α'?'α':'β⁻')+'</span>';
+      eq='<div class="eq">'+eqHTML(cur)+'</div>';nx='<p class="next">Next → '+CHAIN[cur+1].A+CHAIN[cur+1].sym+' ('+CHAIN[cur+1].el+')</p>';}
+    let brNote='';if(brMap[cur]){const b=brMap[cur];brNote='<p class="howfrom" style="color:var(--betap)">⤷ This one decays <b>two ways</b>: a rare <b>'+b.pct+'</b> also goes by '+(b.mode==='α'?'α':'β⁻')+' to '+b.name+' (dashed on the chart), which soon rejoins the series.</p>';}
+    $('t1info').innerHTML='<div class="nuc"><div class="nucsym">'+az+c.sym+'</div><div class="nucmeta"><h3>'+c.el+'&#8209;'+c.A+'</h3><div class="old">'+c.old+'</div></div></div>'+
+      '<div class="stat"><div><div class="k">Z prot</div><div class="v">'+c.Z+'</div></div><div><div class="k">N neut</div><div class="v">'+c.N+'</div></div><div><div class="k">A mass</div><div class="v">'+c.A+'</div></div><div><div class="k">N / Z</div><div class="v">'+(c.N/c.Z).toFixed(2)+'</div></div></div>'+
+      mode+'<p class="halflife">Half‑life: <b>'+c.half+'</b></p>'+eq+how+'<p class="story">'+c.story+'</p>'+brNote+nx;}
+  function chart(){nodes.forEach((g,i)=>{g.classList.toggle('visited',i<=cur);g.classList.toggle('current',i===cur);});
+    arrows.forEach((ln,i)=>ln.classList.toggle('shown',i<cur));}
+  function ui(){let a=0,b=0;for(let i=0;i<cur;i++){if(CHAIN[i].decay==='α')a++;else b++;}
+    $('t1ca').textContent='α '+a;$('t1cb').textContent='β⁻ '+b;$('t1step').textContent='Step '+cur+' / '+(CHAIN.length-1);
+    $('t1back').disabled=cur===0||busy;const n=$('t1next');
+    if(cur>=CHAIN.length-1){n.textContent='Stable — done ✓';n.className='ctl go done';n.disabled=true;stopAuto();}
+    else{const d=CHAIN[cur].decay;n.disabled=busy;n.textContent='Next decay ('+(d==='α'?'α':'β⁻')+') ▶';n.className='ctl go'+(d==='β⁻'?' beta':'');}}
+  function render(){chart();info();ui();}
+  function next(){if(busy||cur>=CHAIN.length-1)return;busy=true;ui();
+    const f=CHAIN[cur],t=CHAIN[cur+1],isA=f.decay==='α';const x1=X(f.Z),y1=Y(f.N),x2=X(t.Z),y2=Y(t.N);
+    arrows[cur].classList.add('shown');
+    const g=mk('g',{class:'particle'});g.appendChild(mk('circle',{r:isA?11:7,fill:isA?'rgba(204,59,52,.92)':'rgba(39,102,171,.92)',stroke:'#fff','stroke-width':1.5}));
+    const tx=mk('text',{y:1,fill:'#fff'});tx.textContent=isA?'α':'β';g.appendChild(tx);pL.appendChild(g);
+    const s=performance.now(),dur=820;
+    (function step(now){const p=Math.min(1,(now-s)/dur),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+      g.setAttribute('transform','translate('+(x1+(x2-x1)*e)+','+(y1+(y2-y1)*e)+')');
+      g.style.opacity=p<.12?p/.12:(p>.82?(1-p)/.18:1);
+      if(p<1)requestAnimationFrame(step);else{g.remove();cur++;busy=false;render();
+        if(auto&&cur<CHAIN.length-1)auto=setTimeout(next,650);else if(auto)stopAuto();}})(s);}
+  function back(){if(busy||cur===0)return;cur--;render();}
+  function reset(){stopAuto();cur=0;pL.innerHTML='';busy=false;render();}
+  function stopAuto(){if(auto){clearTimeout(auto);auto=null;}$('t1auto').textContent='Auto‑play';$('t1auto').classList.add('ghost');}
+  function toggleAuto(){if(auto){stopAuto();return;}if(cur>=CHAIN.length-1)reset();$('t1auto').textContent='Pause ❚❚';$('t1auto').classList.remove('ghost');auto=setTimeout(next,120);}
+  $('t1next').onclick=next;$('t1back').onclick=back;$('t1reset').onclick=reset;$('t1auto').onclick=toggleAuto;
+  render();
+  return {next,back,reset};
+})();
+
+/* ================= TAB 2 : BETA PLUS / PET ================= */
+const BP=(function(){
+  const SVG=$('chart2');const W=820,H=560;
+  const main=mk('g',{});SVG.appendChild(main);
+  const STAGES=[
+   {t:'Fluorine‑18 : a proton‑rich nucleus',
+    draw:drawNucleus,
+    sym:'F',A:18,Z:9,N:9,el:'Fluorine',old:'Fluorodeoxyglucose tracer',half:'110 minutes',mode:'betap',
+    eq:nuc(18,9,'F')+' &rarr; '+nuc(18,8,'O')+' + '+nuc(0,'+1','e')+' + ν<span class="tag bp">(β⁺)</span>',
+    how:'<p class="howfrom">Made in a <b>cyclotron</b> by firing protons at oxygen‑18 water.</p>',
+    story:"Fluorine‑18 has 9 protons and only 9 neutrons — slightly proton‑heavy. To reach stability it must convert a proton into a neutron.",
+    next:'Next → it emits a positron (β⁺)'},
+   {t:'Step 1 — positron emission (β⁺)',
+    draw:drawBetaPlus,sym:'O',A:18,Z:8,N:10,el:'Oxygen',old:'stable daughter',half:'STABLE',mode:'betap',
+    eq:nuc(18,9,'F')+' &rarr; '+nuc(18,8,'O')+' + '+nuc(0,'+1','e')+' + ν<span class="tag bp">(β⁺)</span>',
+    how:'<p class="howfrom">A proton became a neutron: <b>p → n + e⁺ + ν</b>. Z drops 9 → 8.</p>',
+    story:"The nucleus turns into stable oxygen‑18 and spits out a positron (e⁺) — the electron's antimatter twin — plus a neutrino. On the mini‑chart this hop goes up and to the left.",
+    next:'Next → the positron meets an electron'},
+   {t:'Step 2 — annihilation',
+    draw:drawAnnihilation,sym:'e⁺',A:0,Z:1,N:0,el:'Positron + electron',old:'matter meets antimatter',half:'~ instant',mode:'betap',
+    eq:nuc(0,'+1','e')+' + '+nuc(0,'−1','e')+' &rarr; 2γ (511 keV each)',
+    how:'<p class="howfrom">After travelling about <b>1 mm</b>, the positron collides with an electron.</p>',
+    story:"Matter and antimatter annihilate. Their mass becomes pure energy: two gamma‑ray photons of 511 keV each, flying off in exactly opposite directions (180° apart).",
+    next:'Next → the scanner detects them'},
+   {t:'Step 3 — the PET detector ring',
+    draw:drawDetector,sym:'PET',A:0,Z:0,N:0,el:'Coincidence detection',old:'line of response',half:'—',mode:'betap',
+    eq:'2γ detected back‑to‑back &rarr; a straight <b>line of response</b>',
+    how:'<p class="howfrom">A ring of detectors surrounds the patient.</p>',
+    story:"When two detectors on opposite sides fire at the same instant, the decay must have happened somewhere on the straight line between them. Millions of these lines are combined by computer into a 3‑D image.",
+    next:'Next → why doctors use it'},
+   {t:'Step 4 — where it is used',
+    draw:drawUses,sym:'FDG',A:0,Z:0,N:0,el:'Clinical PET imaging',old:'Positron Emission Tomography',half:'—',mode:'betap',
+    eq:'F‑18 + glucose = <b>FDG</b> &rarr; lights up the body’s busiest cells',
+    how:'<p class="howfrom">F‑18 is bonded onto a glucose molecule (FDG) and injected.</p>',
+    story:"Fast‑growing cells — tumours, the brain, the heart — devour sugar, so they accumulate FDG and glow brightly on the scan. PET is a frontline tool for finding cancer, mapping brain activity and checking heart tissue.",
+    next:'Reset to watch again ↺'}
+  ];
+  // mini N-Z chart helper (reused)
+  function miniChart(g,hi){
+    const Zmin=7,Zmax=10,Nmin=8,Nmax=11,ox=70,oy=40,cw=120,chh=110;
+    const X=z=>ox+(z-Zmin)*cw,Y=n=>oy+(Nmax-n)*chh;
+    for(let z=Zmin;z<=Zmax;z++){g.appendChild(mk('line',{class:'gridline',x1:X(z),y1:oy,x2:X(z),y2:oy+(Nmax-Nmin)*chh}));
+      const t=mk('text',{class:'axlabel','text-anchor':'middle',x:X(z),y:oy+(Nmax-Nmin)*chh+20});t.textContent='Z'+z;g.appendChild(t);}
+    for(let n=Nmin;n<=Nmax;n++){g.appendChild(mk('line',{class:'gridline',x1:ox,y1:Y(n),x2:ox+(Zmax-Zmin)*cw,y2:Y(n)}));
+      const t=mk('text',{class:'axlabel','text-anchor':'end',x:ox-10,y:Y(n)+4});t.textContent='N'+n;g.appendChild(t);}
+    // F-18 and O-18
+    const F={Z:9,N:9},O={Z:8,N:10};
+    if(hi>=1){const dx=O.Z-F.Z,dy=O.N-F.N,L=Math.hypot(dx,dy),ux=dx/L,uy=dy/L,pad=20;
+      g.appendChild(mk('line',{class:'arrow betap shown',style:'stroke:var(--betap);stroke-width:4',x1:X(F.Z)+ux*pad,y1:Y(F.N)+uy*pad,x2:X(O.Z)-ux*pad,y2:Y(O.N)-uy*pad,'marker':''}));}
+    const nodeF=mk('circle',{cx:X(F.Z),cy:Y(F.N),r:16,fill:hi>=1?'#d8cae8':'var(--amber)',stroke:'var(--amber-deep)','stroke-width':3});g.appendChild(nodeF);
+    let tf=mk('text',{x:X(F.Z),y:Y(F.N)+5,'text-anchor':'middle',style:'font-family:var(--mono);font-weight:700;font-size:14px'});tf.textContent='F‑18';g.appendChild(tf);
+    const nodeO=mk('circle',{cx:X(O.Z),cy:Y(O.N),r:16,fill:hi>=1?'var(--node-stable)':'#e7eadf',stroke:hi>=1?'#0b542f':'#c3ccb6','stroke-width':3});g.appendChild(nodeO);
+    let to=mk('text',{x:X(O.Z),y:Y(O.N)+5,'text-anchor':'middle',style:'font-family:var(--mono);font-weight:700;font-size:14px;fill:'+(hi>=1?'#fff':'#aeb4a4')});to.textContent='O‑18';g.appendChild(to);
+    let cap=mk('text',{x:ox,y:oy-14,style:'font-family:var(--mono);font-size:14px;fill:var(--betap);font-weight:700'});cap.textContent=hi>=1?'β⁺ : up & left (p→n)':'proton‑rich — about to decay';g.appendChild(cap);
+  }
+  function orb(cx,cy,r,fill,label){const g=mk('g',{});g.appendChild(mk('circle',{cx:cx,cy:cy,r:r,fill:fill,stroke:'#fff','stroke-width':2}));
+    const t=mk('text',{x:cx,y:cy+5,'text-anchor':'middle',style:'font-family:var(--mono);font-weight:700;font-size:16px;fill:#fff'});t.textContent=label;g.appendChild(t);return g;}
+  function drawNucleus(g){miniChart(g,0);}
+  function drawBetaPlus(g){miniChart(g,1);
+    g.appendChild(orb(560,180,30,'var(--betap)','e⁺'));
+    let t=mk('text',{x:560,y:240,'text-anchor':'middle',style:'font-family:var(--sans);font-size:16px;font-weight:700;fill:var(--betap)'});t.textContent='positron flies out →';g.appendChild(t);}
+  function drawAnnihilation(g){
+    g.appendChild(orb(410,230,26,'var(--betap)','e⁺'));g.appendChild(orb(470,230,26,'var(--beta)','e⁻'));
+    g.appendChild(mk('circle',{cx:440,cy:230,r:50,fill:'none',stroke:'var(--amber)','stroke-width':3,'stroke-dasharray':'5 6'}));
+    // two gamma arrows opposite
+    g.appendChild(mk('line',{x1:410,y1:230,x2:150,y2:120,stroke:'#c99400','stroke-width':4,'stroke-linecap':'round'}));
+    g.appendChild(mk('line',{x1:470,y1:230,x2:730,y2:340,stroke:'#c99400','stroke-width':4,'stroke-linecap':'round'}));
+    let a=mk('text',{x:150,y:106,'text-anchor':'middle',style:'font-family:var(--mono);font-weight:700;fill:#9c6c08;font-size:15px'});a.textContent='γ 511 keV';g.appendChild(a);
+    let b=mk('text',{x:730,y:362,'text-anchor':'middle',style:'font-family:var(--mono);font-weight:700;fill:#9c6c08;font-size:15px'});b.textContent='γ 511 keV';g.appendChild(b);
+    let c=mk('text',{x:440,y:330,'text-anchor':'middle',style:'font-family:var(--sans);font-size:16px;font-weight:700;fill:var(--ink)'});c.textContent='two photons, exactly 180° apart';g.appendChild(c);}
+  function drawDetector(g){const cx=410,cy=250,R=170;
+    for(let i=0;i<24;i++){const ang=i/24*Math.PI*2,x=cx+R*Math.cos(ang),y=cy+R*Math.sin(ang);
+      g.appendChild(mk('rect',{x:x-13,y:y-9,width:26,height:18,rx:3,fill:(i===4||i===16)?'var(--amber)':'#d7deea',stroke:'#9fb0c6','transform':'rotate('+(ang*180/Math.PI)+' '+x+' '+y+')'}));}
+    const a=cx+R*Math.cos(4/24*Math.PI*2),ay=cy+R*Math.sin(4/24*Math.PI*2),b=cx+R*Math.cos(16/24*Math.PI*2),by=cy+R*Math.sin(16/24*Math.PI*2);
+    g.appendChild(mk('line',{x1:a,y1:ay,x2:b,y2:by,stroke:'#c99400','stroke-width':3,'stroke-dasharray':'7 6'}));
+    g.appendChild(mk('circle',{cx:(a+b)/2,cy:(ay+by)/2,r:7,fill:'var(--betap)'}));
+    g.appendChild(mk('circle',{cx:cx,cy:cy,r:55,fill:'#f0d9b8',stroke:'#d8b98a','stroke-width':2}));
+    let t=mk('text',{x:cx,y:cy+5,'text-anchor':'middle',style:'font-family:var(--sans);font-size:15px;font-weight:700'});t.textContent='patient';g.appendChild(t);
+    let l=mk('text',{x:cx,y:cy+R+40,'text-anchor':'middle',style:'font-family:var(--mono);font-size:14px;fill:#9c6c08;font-weight:700'});l.textContent='two opposite detectors fire together = one line';g.appendChild(l);}
+  function drawUses(g){
+    const items=[['🧠','Brain','map activity, dementia'],['🎗','Tumours','find & stage cancer'],['❤','Heart','check live tissue']];
+    items.forEach((it,i)=>{const x=180+i*230,y=170;
+      g.appendChild(mk('circle',{cx:x,cy:y,r:52,fill:'#fff3dc',stroke:'var(--amber)','stroke-width':3}));
+      let e=mk('text',{x:x,y:y+6,'text-anchor':'middle',style:'font-size:34px'});e.textContent=it[0];g.appendChild(e);
+      let a=mk('text',{x:x,y:y+88,'text-anchor':'middle',style:'font-family:var(--sans);font-size:17px;font-weight:800'});a.textContent=it[1];g.appendChild(a);
+      let b=mk('text',{x:x,y:y+112,'text-anchor':'middle',style:'font-family:var(--sans);font-size:13.5px;fill:var(--soft)'});b.textContent=it[2];g.appendChild(b);});
+    let t=mk('text',{x:410,y:360,'text-anchor':'middle',style:'font-family:var(--sans);font-size:16px;font-weight:700;fill:var(--betap)'});t.textContent='FDG glows wherever cells burn the most sugar';g.appendChild(t);}
+  let i=0;
+  function render(){
+    main.innerHTML='';STAGES[i].draw(main);
+    const s=STAGES[i];
+    const az=s.A||s.Z||s.N?'<span class="az"><span class="a">'+s.A+'</span><span class="z">'+s.Z+'</span></span>':'';
+    const stat=(s.el&&s.half!=='—'&&s.A!==0)?
+      '<div class="stat"><div><div class="k">Z prot</div><div class="v">'+s.Z+'</div></div><div><div class="k">N neut</div><div class="v">'+s.N+'</div></div><div><div class="k">A mass</div><div class="v">'+s.A+'</div></div><div><div class="k">N / Z</div><div class="v">'+(s.Z?(s.N/s.Z).toFixed(2):'—')+'</div></div></div>':'';
+    $('t2info').innerHTML='<div class="nuc"><div class="nucsym">'+az+(s.A!==0?s.sym:'<span style="font-size:28px">'+s.sym+'</span>')+'</div><div class="nucmeta"><h3>'+s.t+'</h3><div class="old">'+s.old+'</div></div></div>'+
+      stat+'<span class="modeline betap">β⁺ process</span>'+(s.half!=='—'?'<p class="halflife">Half‑life: <b>'+s.half+'</b></p>':'')+
+      '<div class="eq">'+s.eq+'</div>'+s.how+'<p class="story">'+s.story+'</p><p class="next">'+s.next+'</p>';
+    $('t2step').textContent='Step '+(i+1)+' / '+STAGES.length;
+    $('t2back').disabled=i===0;$('t2next').disabled=i===STAGES.length-1;
+    $('t2next').textContent=i===STAGES.length-1?'End ✓':'Next step ▶';
+  }
+  $('t2next').onclick=()=>{if(i<STAGES.length-1){i++;render();}};
+  $('t2back').onclick=()=>{if(i>0){i--;render();}};
+  $('t2reset').onclick=()=>{i=0;render();};
+  render();
+  return {next:()=>$('t2next').onclick(),back:()=>$('t2back').onclick(),reset:()=>$('t2reset').onclick()};
+})();
+
+/* ================= TAB 3 : BINDING ENERGY ================= */
+const BE=(function(){
+  const SVG=$('chart3');const W=820,H=560,ML=74,MR=28,MT=28,MB=56;
+  const pW=W-ML-MR,pH=H-MT-MB,Amax=240,BAmax=9.2;
+  const X=a=>ML+a/Amax*pW,Y=b=>MT+(1-b/BAmax)*pH;
+  const DATA=[[1,0.0],[2,1.11],[3,2.83],[4,7.07],[6,5.33],[7,5.61],[9,6.46],[11,6.93],[12,7.68],[14,7.48],[16,7.98],[20,8.03],[24,8.26],[28,8.45],[32,8.49],[40,8.55],[48,8.67],[56,8.79],[62,8.795],[75,8.71],[84,8.72],[98,8.60],[107,8.55],[120,8.50],[140,8.38],[160,8.21],[180,8.06],[197,7.92],[208,7.87],[220,7.78],[235,7.59],[238,7.57]];
+  // axes
+  for(let a=0;a<=240;a+=40){SVG.appendChild(mk('line',{class:'gridline'+(a%80===0?' bold':''),x1:X(a),y1:MT,x2:X(a),y2:MT+pH}));
+    const t=mk('text',{class:'axlabel','text-anchor':'middle',x:X(a),y:MT+pH+18});t.textContent=a;SVG.appendChild(t);}
+  for(let b=0;b<=9;b+=1){SVG.appendChild(mk('line',{class:'gridline',x1:ML,y1:Y(b),x2:ML+pW,y2:Y(b)}));
+    const t=mk('text',{class:'axlabel','text-anchor':'end',x:ML-8,y:Y(b)+4});t.textContent=b;SVG.appendChild(t);}
+  let xt=mk('text',{class:'axtitle','text-anchor':'middle',x:ML+pW/2,y:H-8});xt.textContent='Mass number  A →';SVG.appendChild(xt);
+  let yt=mk('text',{class:'axtitle','text-anchor':'middle',x:16,y:MT+pH/2,transform:'rotate(-90 16 '+(MT+pH/2)+')'});yt.textContent='Binding energy / nucleon (MeV)';SVG.appendChild(yt);
+  // curve
+  let d='';DATA.forEach((p,k)=>{d+=(k?' L':'M')+X(p[0])+' '+Y(p[1]);});
+  const path=mk('path',{d:d,fill:'none',stroke:'#2f6fb0','stroke-width':3.5,'stroke-linejoin':'round'});SVG.appendChild(path);
+  // key labelled points
+  const KEY={2:'²H',4:'⁴He',12:'¹²C',16:'¹⁶O',56:'⁵⁶Fe',235:'²³⁵U'};
+  function baAt(A){let best=DATA[0];for(const p of DATA)if(Math.abs(p[0]-A)<Math.abs(best[0]-A))best=p;return best[1];}
+  Object.keys(KEY).forEach(a=>{a=+a;const b=baAt(a);SVG.appendChild(mk('circle',{cx:X(a),cy:Y(b),r:5,fill:'#2f6fb0'}));
+    const t=mk('text',{x:X(a),y:Y(b)-12,'text-anchor':'middle',style:'font-family:var(--mono);font-size:13px;font-weight:700;fill:#1b4a7a'});t.textContent=KEY[a];SVG.appendChild(t);});
+  const marker=mk('g',{});SVG.appendChild(marker);
+  const dot=mk('circle',{r:12,fill:'var(--amber)',stroke:'var(--amber-deep)','stroke-width':3});marker.appendChild(dot);
+  const vline=mk('line',{stroke:'var(--amber-deep)','stroke-width':1.5,'stroke-dasharray':'4 4'});marker.appendChild(vline);
+  const anno=mk('g',{});SVG.appendChild(anno);
+  const STAGES=[
+    {A:30,title:'Reading the curve',what:"Up means more stable. Each point is one nucleus; the height is how much energy, per nucleon, you'd need to pull it apart. The curve climbs fast, peaks near iron, then slowly falls.",used:"This single curve explains both the Sun and the nuclear reactor — everything below is written on it."},
+    {A:4,title:'Light nuclei & fusion',what:"On the far left, nucleons are loosely held. Fuse two light nuclei and the product sits HIGHER on the curve — the leftover binding energy is released. Notice ²H and the big jump up to ⁴He.",used:"Powers the Sun and every star, the hydrogen bomb, and experimental reactors such as ITER chasing clean fusion energy."},
+    {A:4,title:'The helium‑4 spike',what:"⁴He pokes well above its neighbours — 2 protons + 2 neutrons form an unusually tight, doubly‑magic bundle. That extra stability is exactly why big nuclei prefer to eject helium as an alpha particle (Tab ①).",used:"Why stars make so much helium, and why alpha decay is the universe's favourite way to shed mass."},
+    {A:56,title:'Iron‑56 : the summit',what:"Here binding energy per nucleon is greatest (~8.8 MeV) — the most stable nuclei of all. You cannot release energy by fusing OR splitting iron; it sits at the bottom of the energy valley.",used:"Fusion inside a massive star halts at iron. With no more energy to give, the core collapses and the star explodes as a supernova."},
+    {A:235,title:'Heavy nuclei & fission',what:"On the right the curve dips. Split a heavy nucleus like ²³⁵U and the two fragments land HIGHER on the curve, closer to iron — releasing energy. This is fission.",used:"Powers nuclear reactors and fission weapons. The slow, natural cousin of this is the α/β decay chain you saw in Tab ①."},
+    {A:120,title:'The whole story',what:"Both ends roll downhill toward iron: fusion climbs from the left, fission slides from the right. The peak at iron is why it is the ash of stellar burning and the most common heavy element in planetary cores.",used:"Fusion → stars & future power. Fission → today's reactors. Decay chains → geology, dating and medicine."}
+  ];
+  let i=0;
+  function render(){
+    const s=STAGES[i],b=baAt(s.A);
+    marker.setAttribute('transform','translate(0,0)');
+    dot.setAttribute('cx',X(s.A));dot.setAttribute('cy',Y(b));
+    vline.setAttribute('x1',X(s.A));vline.setAttribute('y1',Y(b));vline.setAttribute('x2',X(s.A));vline.setAttribute('y2',MT+pH);
+    anno.innerHTML='';
+    if(i===1){arrowAnno(X(2),Y(1.11),X(4),Y(7.07),'↗ fusion');}
+    if(i===4){arrowAnno(X(235),Y(7.59),X(118),Y(8.5),'↙ fission');}
+    $('t3info').innerHTML='<div class="nuc"><div class="nucsym" style="font-size:30px">'+(s.title)+'</div></div>'+
+      '<span class="modeline betap" style="background:rgba(224,162,31,.14);color:var(--amber-deep);border-color:rgba(224,162,31,.5)">◆ Stage '+(i+1)+'</span>'+
+      '<p class="story"><b>What is happening:</b> '+s.what+'</p>'+
+      '<p class="story" style="background:var(--paper);border:1px solid var(--gridbold);border-radius:10px;padding:12px 14px"><b>Where it is used:</b> '+s.used+'</p>';
+    $('t3step').textContent='Stage '+(i+1)+' / '+STAGES.length;
+    $('t3back').disabled=i===0;$('t3next').disabled=i===STAGES.length-1;
+    $('t3next').textContent=i===STAGES.length-1?'End ✓':'Next ▶';
+  }
+  function arrowAnno(x1,y1,x2,y2,label){
+    anno.appendChild(mk('line',{x1:x1,y1:y1,x2:x2,y2:y2,stroke:'var(--alpha)','stroke-width':3,'stroke-dasharray':'6 5','stroke-linecap':'round'}));
+    const t=mk('text',{x:(x1+x2)/2,y:(y1+y2)/2-10,'text-anchor':'middle',style:'font-family:var(--sans);font-size:16px;font-weight:800;fill:var(--alpha)'});t.textContent=label;anno.appendChild(t);}
+  $('t3next').onclick=()=>{if(i<STAGES.length-1){i++;render();}};
+  $('t3back').onclick=()=>{if(i>0){i--;render();}};
+  $('t3reset').onclick=()=>{i=0;render();};
+  render();
+  return {next:()=>$('t3next').onclick(),back:()=>$('t3back').onclick(),reset:()=>$('t3reset').onclick()};
+})();
+
+/* keyboard routes to the active tab */
+document.addEventListener('keydown',e=>{
+  const T=activeTab==='t1'?U:activeTab==='t2'?BP:BE;
+  if(e.key===' '||e.key==='ArrowRight'){e.preventDefault();T.next();}
+  else if(e.key==='ArrowLeft'){e.preventDefault();T.back();}
+  else if(e.key.toLowerCase()==='r'){T.reset();}
+});
+/* live header clock, in the style of the other sims */
+(function clock(){const el=$('clock');if(!el)return;function f(){const d=new Date();
+  const mon=d.toLocaleString('en-US',{month:'short'}),day=d.getDate();
+  let h=d.getHours();const m=d.getMinutes(),ap=h<12?'AM':'PM';h=h%12||12;
+  el.textContent=mon+' '+day+' · '+(h<10?'0'+h:h)+':'+(m<10?'0'+m:m)+' '+ap;}
+  f();setInterval(f,15000);})();
+</script>
+</body>
+</html>
