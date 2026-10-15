@@ -2,12 +2,12 @@ const DP_SIMS = [
   { id: "stationary-waves", title: "Stationary Waves", icon: "🎻", topic: "8.1", topicName: "Superposition · Cambridge A Level", description: "Formation of standing waves, nodes & antinodes, harmonics on strings, air columns and microwaves.", file: "sims/stationary-waves.html" },
   { id: "diffraction", title: "Diffraction", icon: "🌊", topic: "8.2", topicName: "Superposition · Cambridge A Level", description: "Spreading of waves at a gap; gap-to-wavelength effect across water, sound, light, microwaves and radio.", file: "sims/diffraction.html" },
   { id: "interference", title: "Interference", icon: "💫", topic: "8.3", topicName: "Superposition · Cambridge A Level", description: "Superposition, coherence, two-source experiments and Young's double slit with λ = ax/D.", file: "sims/interference.html" },
-{id:"progressive-waves", title:"7.1 Progressive Waves", icon:"🌊", topic:"7.1", topicName:"Waves · Cambridge A Level", description:"Build every wave quantity — displacement, amplitude, wavelength, period, frequency and phase difference — then the CRO, the v = fλ derivation, and intensity ∝ amplitude², with worked examples and a quiz.", file:"sims/progressive-waves.html"},
-{id:"transverse-longitudinal-waves", title:"7.2 Transverse & Longitudinal Waves", icon:"〰️", topic:"7.2", topicName:"Waves · Cambridge A Level", description:"Compare transverse and longitudinal waves side by side and master the exam skill of reading a longitudinal displacement graph to find compressions and rarefactions.", file:"sims/transverse-longitudinal-waves.html"},
-{id:"sound-frequency-wavelength", title:"7.3 Frequency & Wavelength of Sound", icon:"🔊", topic:"7.3", topicName:"Waves · Cambridge A Level", description:"Measure the frequency of sound on a calibrated oscilloscope and its wavelength from the nodes of a stationary wave, then combine them to find the speed of sound.", file:"sims/sound-frequency-wavelength.html"},
-{id:"doppler-effect-a-level", title:"7.4 The Doppler Effect", icon:"🚑", topic:"7.4", topicName:"Waves · Cambridge A Level", description:"See wavefronts bunch ahead of a moving source and stretch behind, use fₒ = fₛv/(v ± vₛ), and watch the pitch step down as a siren flies past.", file:"sims/doppler-effect-a-level.html"},
-{id:"electromagnetic-spectrum", title:"7.5 The Electromagnetic Spectrum", icon:"🌈", topic:"7.5", topicName:"Waves · Cambridge A Level", description:"Explore the spectrum from radio to γ-rays on a log scale, see the oscillating E and B fields of an EM wave, and compare every region's wavelength, frequency, production and uses.", file:"sims/electromagnetic-spectrum.html"},
-{id:"polarisation", title:"7.6 Polarisation", icon:"🕶️", topic:"7.6", topicName:"Waves · Cambridge A Level", description:"See why only transverse waves polarise, then use Malus's law I = I₀cos²θ for one analyser and for a series of filters — including the crossed-polariser surprise.", file:"sims/polarisation.html"},
+  {id:"progressive-waves", title:"7.1 Progressive Waves", icon:"🌊", topic:"7.1", topicName:"Waves · Cambridge A Level", description:"Build every wave quantity — displacement, amplitude, wavelength, period, frequency and phase difference — then the CRO, the v = fλ derivation, and intensity ∝ amplitude², with worked examples and a quiz.", file:"sims/progressive-waves.html"},
+  {id:"transverse-longitudinal-waves", title:"7.2 Transverse & Longitudinal Waves", icon:"〰️", topic:"7.2", topicName:"Waves · Cambridge A Level", description:"Compare transverse and longitudinal waves side by side and master the exam skill of reading a longitudinal displacement graph to find compressions and rarefactions.", file:"sims/transverse-longitudinal-waves.html"},
+  {id:"sound-frequency-wavelength", title:"7.3 Frequency & Wavelength of Sound", icon:"🔊", topic:"7.3", topicName:"Waves · Cambridge A Level", description:"Measure the frequency of sound on a calibrated oscilloscope and its wavelength from the nodes of a stationary wave, then combine them to find the speed of sound.", file:"sims/sound-frequency-wavelength.html"},
+  {id:"doppler-effect-a-level", title:"7.4 The Doppler Effect", icon:"🚑", topic:"7.4", topicName:"Waves · Cambridge A Level", description:"See wavefronts bunch ahead of a moving source and stretch behind, use fₒ = fₛv/(v ± vₛ), and watch the pitch step down as a siren flies past.", file:"sims/doppler-effect-a-level.html"},
+  {id:"electromagnetic-spectrum", title:"7.5 The Electromagnetic Spectrum", icon:"🌈", topic:"7.5", topicName:"Waves · Cambridge A Level", description:"Explore the spectrum from radio to γ-rays on a log scale, see the oscillating E and B fields of an EM wave, and compare every region's wavelength, frequency, production and uses.", file:"sims/electromagnetic-spectrum.html"},
+  {id:"polarisation", title:"7.6 Polarisation", icon:"🕶️", topic:"7.6", topicName:"Waves · Cambridge A Level", description:"See why only transverse waves polarise, then use Malus's law I = I₀cos²θ for one analyser and for a series of filters — including the crossed-polariser surprise.", file:"sims/polarisation.html"},
   {id:"hookes-law", title:"Hooke's Law & Elastic Energy", icon:"🪝", topic:"A.3", topicName:"Work, energy and power", description:"Hang loads on soft, stiff or copper-wire springs, watch the extension, and plot force–extension graphs to find the spring constant and the elastic energy stored — with a built-in, auto-marking practical worksheet you can print.", file:"sims/hookes-law.html"},
   {id:"terminal-velocity", title:"Free Fall & Terminal Velocity", icon:"🪂", topic:"A.2", topicName:"Forces and momentum", description:"Drop a skydiver, sink a steel ball through water, release a feather, or watch true free fall on the Moon — weight, drag and upthrust battle to set the terminal velocity, with a live velocity–time graph and CSV export.", file:"sims/terminal-velocity.html"},
   {id:"circular-motion", title:"Uniform Circular Motion & Centripetal Force", icon:"🎡", topic:"A.2", topicName:"Forces and momentum", description:"Ball, car, planets or an electron — change v, r and m, watch the force and velocity vectors, and fit a graph like an IB IA.", file:"sims/circular-motion.html"},
@@ -92,7 +92,7 @@ const DP_SIMS = [
     description: "Compare rotational inertia of different shapes. Explore angular acceleration, rolling, and the parallel axis theorem.",
     file: "sims/moment-of-inertia.html"
   },
-    {
+  {
     id: "thermal-physics",
     title: "Thermal Physics Lab",
     icon: "🌡️",
@@ -101,7 +101,7 @@ const DP_SIMS = [
     description: "Explore temperature, heat, specific heat capacity, latent heat, and heating curves with interactive experiments.",
     file: "sims/thermal-physics.html"
   },
-    {
+  {
     id: "thermal-conduction",
     title: "Thermal Conduction",
     icon: "🔥",
@@ -110,7 +110,7 @@ const DP_SIMS = [
     description: "Explore conduction, thermal conductivity, Fourier's law, R-values, and insulation with interactive experiments.",
     file: "sims/thermal-conduction.html"
   },
-    {
+  {
     id: "stability-3d",
     title: "Stability & Toppling 3D",
     icon: "🧱",
@@ -119,7 +119,7 @@ const DP_SIMS = [
     description: "Explore centre of gravity, base of support, stability conditions, and critical toppling angles in 3D.",
     file: "sims/stability-3d.html"
   },
-    {
+  {
     id: "heat-transfer-modes",
     title: "Heat Transfer Modes",
     icon: "♨️",
@@ -128,7 +128,7 @@ const DP_SIMS = [
     description: "Compare conduction, convection, and radiation. Explore Stefan-Boltzmann law, Newton's cooling, and emissivity.",
     file: "sims/heat-transfer-modes.html"
   },
-    {
+  {
     id: "blackbody-radiation",
     title: "Blackbody Radiation",
     icon: "☀️",
@@ -173,7 +173,7 @@ const DP_SIMS = [
     description: "Explore transverse, longitudinal, water, sound, and light waves. Visualise wavelength, frequency, amplitude, and wave speed.",
     file: "sims/waves-lab.html"
   },
-    {
+  {
     id: "wave-phenomena-v3",
     title: "Wave Phenomena Lab",
     icon: "🔮",
@@ -182,7 +182,7 @@ const DP_SIMS = [
     description: "Explore reflection, refraction, diffraction, interference, and dispersion. Visualise wavefronts and Snell's law.",
     file: "sims/wave-phenomena.html"
   },
-    {
+  {
     id: "kepler-laws",
     title: "Kepler's Laws",
     icon: "🪐",
@@ -191,7 +191,7 @@ const DP_SIMS = [
     description: "Explore elliptical orbits, equal areas in equal times, and the T²∝a³ relationship. Visualise orbital mechanics.",
     file: "sims/kepler-laws.html"
   },
-    {
+  {
     id: "doppler-effect",
     title: "Doppler Effect Lab",
     icon: "🔊",
@@ -200,7 +200,7 @@ const DP_SIMS = [
     description: "Explore the Doppler effect for sound and light. Visualise moving sources, shock waves, Mach cones, and redshift.",
     file: "sims/doppler-effect.html"
   },
-    {
+  {
     id: "density-lab",
     title: "Density Lab",
     icon: "⚖️",
@@ -218,7 +218,7 @@ const DP_SIMS = [
     description: "Compare efficiency of different devices with animated Sankey diagrams. Explore energy transfers, calculate running costs, and investigate load effects.",
     file: "sims/energy-efficiency.html"
   },
-    {
+  {
     id: "radioactive-decay-lab",
     title: "Radioactive Decay Lab",
     icon: "☢️",
@@ -227,7 +227,7 @@ const DP_SIMS = [
     description: "Simulate radioactive decay with real isotopes. Explore half-life, activity, nuclear equations, dice analogy, carbon dating, and side-by-side isotope comparison.",
     file: "sims/radioactive-decay.html"
   },
-    {
+  {
     id: "electromagnetism-lab",
     title: "Electromagnetism Lab",
     icon: "🧲",
@@ -338,6 +338,14 @@ const DP_SIMS = [
     file: "sims/rigid-body-angular-momentum.html"
   },
   {id:"igcse-centre-of-gravity", title:"Centre of Gravity", icon:"🎯", topic:"1.5.3", topicName:"Forces · IGCSE", description:"Core IGCSE 1.5.3 — define the centre of gravity, find it for an irregular lamina with a plumb line, and investigate stability and toppling with a record-and-plot graph and a printable activity sheet.", file:"sims/igcse-centre-of-gravity.html", level:"IGCSE"},
-  {id:"igcse-momentum", title:"Momentum ]; Impulse", icon:"🎱", topic:"1.6", topicName:"Momentum · IGCSE", description:"IGCSE 1.6 Supplement — p = mv, impulse = FΔt = Δ(mv), conservation of momentum in 1D collisions, and F = Δp/Δt, with a guided investigate graph and printable activity sheet.", file:"sims/igcse-momentum.html", level:"IGCSE"},
-  {id:"igcse-momentum", title:"Momentum ]; Impulse", icon:"🎱", topic:"1.6", topicName:"Momentum · IGCSE", description:"IGCSE 1.6 Supplement — p = mv, impulse = FΔt = Δ(mv), conservation of momentum in 1D collisions, and F = Δp/Δt, with an egg-drop force demo, a launch-and-coast impulse animation, a guided investigate graph and a printable activity sheet.", file:"sims/igcse-momentum.html", level:"IGCSE"},
+  {id:"igcse-momentum", title:"Momentum & Impulse", icon:"🎱", topic:"1.6", topicName:"Momentum · IGCSE", description:"IGCSE 1.6 Supplement — p = mv, impulse = FΔt = Δ(mv), conservation of momentum in 1D collisions, and F = Δp/Δt, with an egg-drop force demo, a launch-and-coast impulse animation, a guided investigate graph and a printable activity sheet.", file:"sims/igcse-momentum.html", level:"IGCSE"},
+  {
+    id: "nuclear-decay-series",
+    title: "Nuclear Decay Series & Binding Energy",
+    icon: "☢️",
+    topic: "E.3",
+    topicName: "Radioactive Decay & Binding Energy",
+    description: "Walk the uranium-238 decay series one step at a time on an N–Z chart (α and β⁻), explore β⁺ emission and PET imaging with fluorine-18, then travel the binding-energy-per-nucleon curve to see fusion, fission and why the chain ends at lead.",
+    file: "sims/nuclear-decay-series.html"
+  },
 ];
