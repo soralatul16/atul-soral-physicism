@@ -1443,7 +1443,7 @@ function renderOutline(){
         <div style="width:210px;text-align:right;font-size:12px;font-weight:600;color:var(--ink-soft)">${ts.done}/${ts.total} done · ${ts.onTime} on time${ts.late?' · '+ts.late+' late':''}${ts.lagging?` · <span style="color:var(--crit)">${ts.overdue} overdue (lagging)</span>`:' · <span style="color:var(--good)">on track</span>'}</div>
       </div>`).join('')}
     </div>`:''}
-    ${(o.file&&o.file.data)?`<details open style="margin-bottom:16px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:var(--brand);padding:4px 0">📄 Uploaded outline file — ${esc(o.file.name||'file')}</summary><div style="margin-top:10px">${o.file.isImage?`<img src="${o.file.data}" style="max-width:100%;border:1px solid var(--line);border-radius:10px">`:(o.file.isPdf?`<iframe src="${o.file.data}" style="width:100%;height:560px;border:1px solid var(--line);border-radius:10px"></iframe>`:`<p class="mini">This file type (Word) cannot preview inline — the topics below were read from it. Re-upload as PDF or image to view it here.</p>`)}</div></details>`:(o.file&&o.file.name?`<p class="mini" style="margin-bottom:12px">Source file: ${esc(o.file.name)} — no inline preview (Word). Topics were read from it.</p>`:'')}
+    ${(o.file&&(o.file.data||o.file.text))?`<details open style="margin-bottom:16px"><summary style="cursor:pointer;font-weight:700;font-size:13px;color:var(--brand);padding:4px 0">📄 Uploaded outline file — ${esc(o.file.name||'file')}</summary><div style="margin-top:10px">${o.file.isImage?`<img src="${o.file.data}" style="max-width:100%;border:1px solid var(--line);border-radius:10px">`:(o.file.isPdf?`<iframe src="${o.file.data}" style="width:100%;height:560px;border:1px solid var(--line);border-radius:10px"></iframe>`:(o.file.text?`<div style="white-space:pre-wrap;max-height:560px;overflow:auto;padding:14px 16px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);font-size:13px;line-height:1.55">${esc(o.file.text)}</div>`:`<p class="mini">This file type (Word) cannot preview inline — the topics below were read from it. Re-upload as PDF or image to view it here.</p>`))}</div></details>`:(o.file&&o.file.name?`<p class="mini" style="margin-bottom:12px">Source file: ${esc(o.file.name)} — no inline preview (Word). Topics were read from it.</p>`:'')}
     ${(o.teachers&&o.teachers.length)?'':'<p class="mini" style="color:#b07d22;margin-bottom:8px">No teacher columns yet — click “Add teacher column” to add the teachers for this grade.</p>'}
     <div class="card" style="padding:6px 8px">${outlineTable(o)}</div>`;
   }else{
@@ -1486,14 +1486,18 @@ function fileOutlineFromRoute(plan){
   if(!blocks.length){toast('No outline topics found — try rephrasing step 2');return;}
   let added=0,firstGrade='';
   const srcFile=(scImage||scFileName)?{name:scFileName||'outline',data:scImage||'',isImage:(scImage||'').startsWith('data:image'),isPdf:((scImage||'').startsWith('data:application/pdf')||/\.pdf$/i.test(scFileName||''))}:null;
+  if(srcFile&&!srcFile.data&&scLastDocText)srcFile.text=scLastDocText.slice(0,60000);
   blocks.forEach(b=>{
-    const g=normGrade(b.grade)||'Grade 9';if(!firstGrade)firstGrade=g;
+    const g=normGrade(b.grade)||normGrade(outlineGrade)||'Grade 9';if(!firstGrade)firstGrade=g;
     const o=outlineFor(g,true);
+    // Re-uploading replaces the plan instead of duplicating it; ticks carry over for matching topics.
+    const prev={};(o.rows||[]).forEach(r=>{prev[(r.topic||'').toLowerCase().trim()]=r.checks||{};});
+    if((b.rows||[]).length)o.rows=[];
     if(srcFile)o.file=srcFile;
     if(b.summary||plan.summary)o.summary=(''+(b.summary||plan.summary)).trim();
     if(Array.isArray(b.teachers)&&b.teachers.length)o.teachers=Array.from(new Set([...(o.teachers||[]),...b.teachers])).filter(Boolean);
     else if(!o.teachers||!o.teachers.length)o.teachers=teachersForGrade(g);
-    (b.rows||[]).forEach(r=>{const month=r.month||r.when||r.period||'';o.rows.push({id:uid(),month:month,my:r.my||monthToMY(month),topic:r.topic||r.title||r.name||'',checks:{}});added++;});
+    (b.rows||[]).forEach(r=>{const month=r.month||r.when||r.period||'';const topic=r.topic||r.title||r.name||'';o.rows.push({id:uid(),month:month,my:r.my||monthToMY(month),topic:topic,checks:prev[topic.toLowerCase().trim()]||{}});added++;});
   });
   save();outlineGrade=firstGrade;go('outline');toast('Course outline added · '+added+' topics');
 }
@@ -2663,7 +2667,7 @@ Avthu, Siddharth (INT10751 Siddharth)"></textarea></div>
   };
 }
 /* ===================== Smart Capture (intent routing) ===================== */
-let scImage=null,scFileName='';
+let scImage=null,scFileName='',scDocText='',scLastDocText='';
 function readImageScaled(file,cb){
   const r=new FileReader();
   r.onload=ev=>{
@@ -2681,6 +2685,57 @@ function readImageScaled(file,cb){
   r.readAsDataURL(file);
 }
 function readFileData(file,cb){const r=new FileReader();r.onload=ev=>cb(ev.target.result);r.onerror=()=>cb(null);r.readAsDataURL(file);}
+// A .docx is a zip: find word/document.xml, inflate it in the browser and flatten the XML to plain text.
+async function docxToText(file){
+  const buf=new Uint8Array(await file.arrayBuffer());const dv=new DataView(buf.buffer);
+  let eocd=-1;for(let i=buf.length-22;i>=Math.max(0,buf.length-65557);i--){if(dv.getUint32(i,true)===0x06054b50){eocd=i;break;}}
+  if(eocd<0)throw new Error('not a docx');
+  const n=dv.getUint16(eocd+10,true);let p=dv.getUint32(eocd+16,true);
+  for(let k=0;k<n;k++){
+    if(dv.getUint32(p,true)!==0x02014b50)break;
+    const method=dv.getUint16(p+10,true),csize=dv.getUint32(p+20,true),nlen=dv.getUint16(p+28,true),xlen=dv.getUint16(p+30,true),clen=dv.getUint16(p+32,true),loff=dv.getUint32(p+42,true);
+    const name=new TextDecoder().decode(buf.subarray(p+46,p+46+nlen));
+    if(name==='word/document.xml'){
+      const start=loff+30+dv.getUint16(loff+26,true)+dv.getUint16(loff+28,true);const data=buf.subarray(start,start+csize);
+      const xml=method===0?new TextDecoder().decode(data):await new Response(new Blob([data]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text();
+      return xml.replace(/<w:tab\/>/g,'\t').replace(/<w:br[^>]*\/>/g,'\n').replace(/<\/w:p>/g,'\n').replace(/<\/w:tc>/g,'\t').replace(/<\/w:tr>/g,'\n').replace(/<[^>]+>/g,'')
+        .replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&').replace(/\n\s*\n\s*\n+/g,'\n\n').trim();
+    }
+    p+=46+nlen+xlen+clen;
+  }
+  throw new Error('no document text');
+}
+// Back-up reader for month-by-month syllabus tables — used when the AI is busy or finds nothing.
+function parseOutlineText(txt,ins){
+  const NAMES=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec'];
+  const MON=/^(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b\.?\s*,?\s*(\d{4})?\s*[-–:]?\s*(.*)$/i;
+  const SKIP=/^(unit|month|topic|month\s+topic(\s+unit)?|motion|behaviour|fields|heritage|international|xperiential school|\[embedded images text\].*|=== page.*|\d{1,3})$/i;
+  const lines=(txt||'').split(/[\n\t]+/).map(s=>s.replace(/\s+/g,' ').trim()).filter(Boolean);
+  const rows=[];let inPlan=false,cur=null;
+  const addTopic=t=>{t=(t||'').trim();if(!t||!cur)return;
+    if(SKIP.test(t)||/^[A-E]\.\s+[A-Z]/.test(t)||/^theme\s+[A-E]\b/i.test(t)||/summer break|holidays?|vacation/i.test(t))return;
+    if(/^\(/.test(t)&&rows.length&&rows[rows.length-1].month===cur.label){rows[rows.length-1].topic+=' '+t;return;}
+    rows.push({month:cur.label,my:cur.my,topic:t});};
+  for(const ln of lines){
+    if(/^(key dates|physics roadmap|assessment overview|grade boundaries)/i.test(ln)&&rows.length)break;
+    if(/syllabus coverage|coverage plan|teaching schedule|scheme of work|^month\b/i.test(ln)){inPlan=true;continue;}
+    const m=ln.match(MON);
+    if(m&&(inPlan||m[2])){inPlan=true;const mi=NAMES.indexOf(m[1].slice(0,3).toLowerCase())+1;
+      const label=m[1].charAt(0).toUpperCase()+m[1].slice(1).toLowerCase()+(m[2]?' '+m[2]:'');
+      cur={label,my:m[2]?m[2]+'-'+pad2(mi):monthToMY(label)};addTopic(m[3]);continue;}
+    if(inPlan)addTopic(ln);
+  }
+  if(rows.length<2)return null;
+  const gm=(txt||'').match(/grade\s*(9|10|11|12)\b/i);
+  const grade=normGrade(ins)||(gm?'Grade '+gm[1]:'');
+  const im=(txt||'').match(/instructors?\s*:\s*([^\n]+)/i);let teachers=[];
+  if(im){const known=[...new Set([...(state.settings.teachers||[]),...state.staff.map(s=>s.name)])];
+    im[1].split(/,|&|\band\b/).map(s=>s.trim().split(/\s+/)[0]).filter(Boolean).forEach(fn=>{const hit=known.find(k=>k.toLowerCase().replace(/^(mr|ms|mrs|dr)\.?\s+/,'').startsWith(fn.toLowerCase()));if(hit)teachers.push(hit);});}
+  const units=[...new Set(rows.map(r=>(r.topic.match(/^([A-E])\.\d/)||[])[1]).filter(Boolean))];
+  const summary=rows.length+' items planned from '+rows[0].month+' to '+rows[rows.length-1].month+(units.length?' · themes '+units.join(', '):'')+'.';
+  return {action:'course_outline',outlines:[{grade,teachers,summary,rows}]};
+}
+function outlineRowCount(r){if(!r)return 0;const b=Array.isArray(r.outlines)?r.outlines:Array.isArray(r.grades)?r.grades:[r];return b.reduce((s,x)=>s+((x&&(x.rows||x.topics))||[]).length,0);}
 // Let any textarea accept a dragged-in file (image / PDF / Word), same as the attach button.
 function attachDrop(el,previewId){
   if(!el)return;
@@ -2703,13 +2758,17 @@ function routeContext(){
 function scPreview(){const el=$('#sc_file');if(!el)return;el.innerHTML=scImage?`<img src="${scImage}" style="max-height:90px;border-radius:8px;border:1px solid var(--line)">`:(scFileName?`<span class="tag subj">📄 ${esc(scFileName)}</span>`:'');}
 function scShowPreview(elId,isImage){const el=$('#'+elId);if(!el)return;el.innerHTML=(scImage&&isImage)?`<img src="${scImage}" style="max-height:80px;border-radius:8px;border:1px solid var(--line)">`:(scFileName?`<span class="tag subj">📄 ${esc(scFileName)}${scImage?' · ready':''}</span>`:'');}
 function handleScFile(f,elId){
-  if(!f)return;scFileName=f.name||('pasted-'+todayISO()+'.png');scImage=null;const el=$('#'+elId);
+  if(!f)return;scFileName=f.name||('pasted-'+todayISO()+'.png');scImage=null;scDocText='';scLastDocText='';const el=$('#'+elId);
   if(f.type&&f.type.startsWith('image/')){if(el)el.innerHTML='<span class="mini">Reading image…</span>';readImageScaled(f,data=>{scImage=data;scShowPreview(elId,true);});}
   else if(f.type==='application/pdf'||/\.pdf$/i.test(f.name)){if(el)el.innerHTML='<span class="mini">Reading PDF…</span>';readFileData(f,data=>{scImage=data;scShowPreview(elId,false);});}
+  else if(/\.docx$/i.test(f.name)){if(el)el.innerHTML='<span class="mini">Reading Word file…</span>';
+    docxToText(f).then(t=>{scDocText=t;const w=(t.match(/\S+/g)||[]).length;if(el)el.innerHTML=`<span class="tag subj">📄 ${esc(scFileName)} · ${w} words read</span>`;})
+      .catch(()=>{scShowPreview(elId,false);toast('Could not read that Word file — save it as PDF and try again');});}
+  else if(/\.doc$/i.test(f.name)){scShowPreview(elId,false);toast('Old .doc files cannot be read — save it as .docx or PDF');}
   else{scImage=null;scShowPreview(elId,false);}
 }
 function smartCaptureInline(){
-  scImage=null;scFileName='';
+  scImage=null;scFileName='';scDocText='';
   return `<div class="card" style="padding:16px 18px;margin-bottom:18px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:11px"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--brand)" stroke-width="2"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/></svg><b style="font-size:14px">Smart Capture</b><span class="mini">paste anything, say what to do — it files it, and asks if it is unsure</span></div>
     <div class="sc-grid">
@@ -2733,7 +2792,7 @@ function bindSmartInline(){
   const scg=$('#sci_go');if(scg)scg.onclick=()=>runRouteWith($('#sci_mat').value.trim(),$('#sci_do').value.trim(),scImage,scFileName,'');
 }
 function smartCaptureModal(preset){
-  preset=preset||{};scImage=preset.image||null;scFileName=preset.fileName||'';
+  preset=preset||{};scImage=preset.image||null;scFileName=preset.fileName||'';scDocText='';
   modal(`
     <div class="modal-head"><h3>Smart Capture</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
@@ -2755,6 +2814,8 @@ function smartCaptureModal(preset){
 async function runRouteWith(mat,ins,image,fileName,answer){
   if(!aiEnabled()){closeModal();aiSettingsModal();return;}
   if(!mat&&!image&&!fileName&&!ins){toast('Add some material or an instruction');return;}
+  // Word file text read in the browser travels to the AI as ordinary material.
+  if(scDocText&&!image){mat=(mat?mat+'\n\n':'')+scDocText;scLastDocText=scDocText;scDocText='';}
   const text=`TODAY: ${todayISO()} (interpret any partial or relative date, e.g. "17 Oct", as the NEXT upcoming date from today — never a past date).\n\nMATERIAL:\n${mat||('(attached file: '+(fileName||'none')+')')}\n\nINSTRUCTION: ${ins||'(none given)'}${answer?'\n\nUSER PICKED: '+answer:''}\n\nCONTEXT: ${routeContext()}`;
   const wantsStudents=/\b(student list|students?|roster|class list|manage ?bac)\b/i.test(ins||'');
   if(wantsStudents&&mat&&!image){
@@ -2763,13 +2824,16 @@ async function runRouteWith(mat,ins,image,fileName,answer){
   }
   const wantsMeeting=/\b(mom|minutes|meeting notes|meeting record|dept(?:artment)? meeting|save (?:this|the)? ?meeting|minutes of (?:the )?meeting)\b/i.test(ins||'')||/\bminutes of (?:the )?meeting\b/i.test(mat||'');
   if(wantsMeeting&&mat&&!image){closeModal();fileMeetingFromText(mat,ins);return;}
-  const wantsOutline=/course\s*outline|scheme of work|syllabus|outline\s*(sheet|format|tracker|table)?|coverage sheet/i.test(ins||'');
+  const wantsOutline=/course\s*outline|scheme of work|syllabus|outline\s*(sheet|format|tracker|table)?|coverage sheet/i.test(ins||'')
+    ||((ins||'').length<60&&/syllabus coverage|course outline|scheme of work/i.test(mat||''));
   if(wantsOutline){
+    const local=parseOutlineText(mat||'',ins);
     loadingModal('Reading your course outline…');
     try{const r=await aiExtract('outline',{text,image:image||undefined});closeModal();
-      if(r&&(Array.isArray(r.outlines)||Array.isArray(r.grades)||Array.isArray(r.rows)||Array.isArray(r.topics)||r.grade)){fileOutlineFromRoute(r);return;}
-      toast('I could not read any topics from that — is the Worker deployed?');smartCaptureModal({mat,ins,image,fileName});return;
-    }catch(e){closeModal();toast(e.message||'Could not read the outline');smartCaptureModal({mat,ins,image,fileName});return;}
+      if(outlineRowCount(r)){fileOutlineFromRoute(r);return;}
+    }catch(e){closeModal();}
+    if(local){fileOutlineFromRoute(local);return;}
+    toast('No month-by-month topics found. Upload it as PDF, or paste the syllabus table as text.');smartCaptureModal({mat,ins,image,fileName});return;
   }
   const wantsTimetable=/time\s*table|teaching schedule|weekly schedule|class schedule/i.test(ins||'');
   if(wantsTimetable){
