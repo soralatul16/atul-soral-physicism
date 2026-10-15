@@ -466,7 +466,7 @@ function restoreTrash(tid){
 }
 function purgeTrash(tid){store.trash=(store.trash||[]).filter(t=>t.tid!==tid);save();render();toast('Deleted permanently');}
 function emptyTrash(){if(confirm('Permanently delete everything in Trash? This cannot be undone.')){store.trash=[];save();render();toast('Trash emptied');}}
-let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', taskKind='all', outlineGrade='', stuGrade='all', stuSel=new Set(), stuHL='all', stuTeacher='all', stuTask='all', stuEE='all', iaStageF='all', iaTeacherF='all', iaBlockF='all', meetFilter='all', meetingOpenId=null, stuBlock='all';
+let taskFilter='all', corrTab='mine', searchQ='', ttDate='', ttWeek='A', iaView='list', taskHat='all', taskKind='all', outlineGrade='', stuGrade='all', stuSel=new Set(), stuHL='all', stuTeacher='all', stuTask='all', stuEE='all', iaStageF='all', iaTeacherF='all', iaBlockF='all', meetFilter='all', meetingOpenId=null, stuBlock='all', iaSortMark=false;
 
 /* ===================== Helpers ===================== */
 const $=s=>document.querySelector(s);
@@ -1227,9 +1227,19 @@ function assessPanel(i){
 }
 // HL/SL only applies to DP (Grades 11 & 12). Grades 9 & 10 are IGCSE — no level.
 function isDP(g){g=''+(g||'');return g==='Grade 11'||g==='Grade 12';}
+// IA assessment helpers — surface the AI mark on the main student list for quick triage.
+function iaTotalOf(i){const a=i&&i.assess;if(!a)return null;return a.total!=null?+a.total:(a.criteria||[]).reduce((s,c)=>s+(+c.band||0),0);}
+function iaUrgent(i){const t=iaTotalOf(i);return !!(i.flagged||(t!=null&&t<10));}
+function iaMarkPill(i){const t=iaTotalOf(i);
+  if(t==null)return '<span class="mini" style="color:var(--ink-mute)">not assessed</span>';
+  const col=t<10?'var(--crit)':t<15?'#b07d22':'var(--good)';
+  const bg=t<10?'rgba(220,38,38,.12)':t<15?'rgba(176,125,34,.14)':'var(--good-soft)';
+  const comp=(i.assess&&i.assess.completeness!=null)?Math.round(i.assess.completeness)+'%':'';
+  return `<span class="tag" style="background:${bg};color:${col};font-weight:700" title="AI estimate out of 24">${t}/24</span>${comp?` <span class="mini">${comp}</span>`:''}`;
+}
 function studentRow(i){
   const TD='padding:7px 9px;border-bottom:1px solid var(--line);font-size:13px;white-space:nowrap';
-  return `<tr data-sopen="${i.id}" style="cursor:pointer${stuSel.has(i.id)?';background:var(--brand-soft,rgba(99,102,241,.08))':''}">
+  return `<tr data-sopen="${i.id}" style="cursor:pointer${stuSel.has(i.id)?';background:var(--brand-soft,rgba(99,102,241,.08))':''}${iaUrgent(i)?';box-shadow:inset 3px 0 0 var(--crit)':''}">
     <td style="${TD};text-align:center"><input type="checkbox" data-scheck="${i.id}" ${stuSel.has(i.id)?'checked':''}></td>
     <td style="${TD}">${esc((i.grade||'').replace('Grade ','Gr '))}</td>
     <td style="${TD};font-weight:600">${i.flagged?'🚩 ':''}${esc(i.student||'')}</td>
@@ -1238,6 +1248,7 @@ function studentRow(i){
     <td style="${TD}">${i.block?esc(i.block):''}</td>
     <td style="${TD}">${esc(i.supervisor||'')}</td>
     <td style="${TD}"><span class="tag type">${esc(i.stage||'—')}</span></td>
+    <td style="${TD}">${iaMarkPill(i)}</td>
     <td style="${TD};text-align:right"><button class="row-del" data-sdel2="${i.id}" title="Delete student"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></td>
   </tr>`;
 }
@@ -1255,6 +1266,10 @@ function renderStudents(){
   const q=(searchQ||'').toLowerCase();
   if(q)list=list.filter(i=>(i.student||'').toLowerCase().includes(q)||(i.sid||'').toLowerCase().includes(q)||(i.block||'').toLowerCase().includes(q));
   list.sort((a,b)=>(a.grade||'').localeCompare(b.grade||'')||(a.student||'').localeCompare(b.student||''));
+  if(iaSortMark)list.sort((a,b)=>((iaTotalOf(a)==null?999:iaTotalOf(a))-(iaTotalOf(b)==null?999:iaTotalOf(b)))||((b.flagged?1:0)-(a.flagged?1:0)));
+  const iaAssessed=list.filter(i=>iaTotalOf(i)!=null);
+  const iaUrgentN=list.filter(iaUrgent).length;
+  const iaAvg=iaAssessed.length?Math.round(iaAssessed.reduce((s,i)=>s+iaTotalOf(i),0)/iaAssessed.length):null;
   const chips=['all',...GRADES].map(g=>`<button class="filt ${stuGrade===g?'active':''}" data-sgr="${g}">${g==='all'?'All classes':g.replace('Grade ','Gr ')}</button>`).join('');
   // HL/SL counts respect every active filter EXCEPT the HL/SL sub-filter, so they reflect the chosen grade.
   const scope=state.ias.filter(i=>
@@ -1278,7 +1293,7 @@ function renderStudents(){
     ${filtersActive?'<button class="btn sm" data-sclearf>Clear filters</button>':''}
   </div>`;
   const TH='padding:7px 9px;border-bottom:2px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.03em;color:var(--ink-mute);text-align:left;white-space:nowrap';
-  const rows=list.length?list.map(studentRow).join(''):`<tr><td colspan="9" style="padding:18px;text-align:center;color:var(--ink-mute);font-size:13px">No students match these filters. Adjust the filters, or add students.</td></tr>`;
+  const rows=list.length?list.map(studentRow).join(''):`<tr><td colspan="10" style="padding:18px;text-align:center;color:var(--ink-mute);font-size:13px">No students match these filters. Adjust the filters, or add students.</td></tr>`;
   const shownIds=list.map(i=>i.id);const allShown=shownIds.length&&shownIds.every(id=>stuSel.has(id));
   const bulkBar=stuSel.size?`<div class="card" style="padding:10px 14px;margin-bottom:10px;display:flex;align-items:center;gap:9px;flex-wrap:wrap;background:var(--surface-2)">
     <b style="font-size:13px">${stuSel.size} selected</b>
@@ -1304,9 +1319,15 @@ function renderStudents(){
       ? tile('today',scope.length,'IGCSE students')+tile('over','—','HL/SL · n/a')
       : tile('today',byHL('HL'),'HL'+(stuGrade!=='all'?' · '+stuGrade.replace('Grade ','Gr '):''))+tile('over',byHL('SL'),'SL'+(stuGrade!=='all'?' · '+stuGrade.replace('Grade ','Gr '):''))}
   </div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;align-items:center;margin-bottom:12px;padding:9px 13px;border:1px solid var(--line);border-radius:10px;background:var(--surface-2);font-size:13px">
+    <span><b>⚡ ${iaAssessed.length}</b> / ${list.length} assessed by AI</span>
+    <span style="color:${iaUrgentN?'var(--crit)':'var(--ink-mute)'}"><b>🚩 ${iaUrgentN}</b> need urgent help</span>
+    ${iaAvg!=null?`<span>Avg <b>${iaAvg}/24</b></span>`:''}
+    <button class="btn sm ${iaSortMark?'primary':''}" data-sortmark style="margin-left:auto">${iaSortMark?'✓ Lowest marks first':'Sort: lowest marks first'}</button>
+  </div>
   ${bulkBar}
   <div class="card" style="padding:6px 8px"><div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse">
-    <tr><th style="${TH};text-align:center"><input type="checkbox" id="scheckall" ${allShown?'checked':''} title="Select all shown"></th><th style="${TH}">Class</th><th style="${TH}">Name</th><th style="${TH}">ID</th><th style="${TH}">HL/SL</th><th style="${TH}">Block</th><th style="${TH}">Teacher</th><th style="${TH}">Stage</th><th style="${TH}"></th></tr>
+    <tr><th style="${TH};text-align:center"><input type="checkbox" id="scheckall" ${allShown?'checked':''} title="Select all shown"></th><th style="${TH}">Class</th><th style="${TH}">Name</th><th style="${TH}">ID</th><th style="${TH}">HL/SL</th><th style="${TH}">Block</th><th style="${TH}">Teacher</th><th style="${TH}">Stage</th><th style="${TH}">AI /24</th><th style="${TH}"></th></tr>
     ${rows}
   </table></div></div>`;
 }
@@ -1435,6 +1456,7 @@ function renderOutline(){
   return `${pageHead('Course Outline','Track syllabus coverage per grade — tick each topic as teachers finish it, and see on-time vs late against its planned month.')}
   ${privacyNote()}
   <div style="display:flex;gap:7px;flex-wrap:wrap;margin-bottom:14px">${chips}</div>
+  <div style="margin-bottom:14px"><button class="btn primary" data-oupload><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Upload / paste a course outline</button> <span class="mini">reads the file or text and builds the sheet for you — no keyword needed</span></div>
   ${body}`;
 }
 function outlineTeacherModal(grade){
@@ -3020,6 +3042,7 @@ function bind(){
   {const ee=$('#stu_ee');if(ee)ee.onchange=()=>{stuEE=ee.value;render();}}
   {const k=$('#stu_task');if(k)k.onchange=()=>{stuTask=k.value;render();}}
   document.querySelectorAll('[data-sclearf]').forEach(b=>b.onclick=()=>{stuGrade='all';stuHL='all';stuTeacher='all';stuTask='all';stuEE='all';stuBlock='all';searchQ='';render();});
+  document.querySelectorAll('[data-sortmark]').forEach(b=>b.onclick=()=>{iaSortMark=!iaSortMark;render();});
   document.querySelectorAll('[data-saddnew]').forEach(b=>b.onclick=()=>iaModal());
   document.querySelectorAll('[data-simport]').forEach(b=>b.onclick=()=>importStudentsModal());
   document.querySelectorAll('[data-sopen]').forEach(r=>r.onclick=e=>{if(e.target.closest('[data-sdel2],[data-scheck]'))return;const i=state.ias.find(x=>x.id===r.dataset.sopen);if(i)iaModal(i);});
@@ -3029,6 +3052,7 @@ function bind(){
   document.querySelectorAll('[data-sdel2]').forEach(b=>b.onclick=e=>{e.stopPropagation();const i=state.ias.find(x=>x.id===b.dataset.sdel2);if(i&&confirm('Delete '+i.student+'? This removes their record, files, IA and mentor/CAS logs.')){state.ias=state.ias.filter(x=>x.id!==b.dataset.sdel2);save();refreshBadges();render();}});
   {const sq=$('#stu_q');if(sq)sq.oninput=()=>{searchQ=sq.value;render();const n=$('#stu_q');if(n){n.focus();n.setSelectionRange(n.value.length,n.value.length);}};}
   document.querySelectorAll('[data-ogr]').forEach(b=>b.onclick=()=>{outlineGrade=b.dataset.ogr;render();});
+  document.querySelectorAll('[data-oupload]').forEach(b=>b.onclick=()=>smartCaptureModal({ins:'Make a course outline sheet for '+outlineGrade}));
   document.querySelectorAll('[data-ostart]').forEach(b=>b.onclick=()=>{outlineFor(b.dataset.ostart,true);save();render();});
   document.querySelectorAll('[data-oaddrow]').forEach(b=>b.onclick=()=>{const o=state.outlines.find(x=>x.grade===outlineGrade);if(o){o.rows.push({id:uid(),month:'',my:'',topic:'',checks:{}});save();render();}});
   document.querySelectorAll('[data-oaddtea]').forEach(b=>b.onclick=()=>outlineTeacherModal(outlineGrade));
