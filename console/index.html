@@ -1892,22 +1892,31 @@ function dayAllGrid(iso){
     combined.forEach(consider);if(best)return best;
     staff.forEach(s=>(s.timetable||[]).forEach(x=>{if(!wkFor(s)||(x.week||'A')===wkFor(s))consider(x);}));return best||'';};
   const shortName=n=>(''+(n||'')).replace(/^(mr|ms|mrs|dr)\.?\s+/i,'').trim();
-  const freeBy=axis.map(()=>[]);
+  // Block lessons run in pairs (1–2, 3–4 …), so each pair is one column; MCT etc. stay single.
+  const cols=[];axis.forEach(p=>{const k=pairOf(p);const last=cols[cols.length-1];
+    if(last&&!k.startsWith('solo')&&last.key===k)last.ps.push(p);else cols.push({key:k,ps:[p]});});
+  const freeBy=cols.map(()=>({full:[],part:[]}));
+  const lessonAt=(mine,p)=>{const m=mine.filter(o=>o.x.period===p);if(!m.length)return null;
+    const uniq=[];const seen={};m.forEach(o=>{const key=(slotBlock(o.x)||'')+'|'+(o.x.sections||'');if(!seen[key]){seen[key]=1;uniq.push(o);}});
+    return {o:uniq[0],sig:uniq.map(o=>(slotBlock(o.x)||'')+'|'+(o.x.sections||'')).join('/'),block:uniq.map(o=>prettyBlock(slotBlock(o.x))||'·').join(' / '),sub:slotSub(uniq[0].x)};};
+  const lesCell=(s,L,label)=>`<td class="dgles" data-ttcell="${s.id}|${L.o.idx}" title="${esc(s.name)} · period ${esc(label)} — click to see or add tasks"><b>${esc(L.block)}</b>${L.sub?`<div class="ttmeta">${esc(L.sub)}</div>`:''}</td>`;
   const rows=staff.map(s=>{
     const name=`<td class="dgname">${esc(s.name)}</td>`;
-    if(!(s.timetable||[]).length)return `<tr>${name}<td class="dgnone" colspan="${axis.length}">No timetable yet — not counted in free teachers</td></tr>`;
+    if(!(s.timetable||[]).length)return `<tr>${name}<td class="dgnone" colspan="${cols.length}">No timetable yet — not counted in free teachers</td></tr>`;
     const mine=onDay(s);
-    const cells=axis.map((p,k)=>{
-      const m=mine.filter(o=>o.x.period===p);
-      if(!m.length){freeBy[k].push(shortName(s.name));return '<td class="dgfree">Free</td>';}
-      const uniq=[];const seen={};m.forEach(o=>{const key=(slotBlock(o.x)||'')+'|'+(o.x.sections||'');if(!seen[key]){seen[key]=1;uniq.push(o);}});
-      const block=uniq.map(o=>prettyBlock(slotBlock(o.x))||'·').join(' / ');const sub=slotSub(uniq[0].x);
-      return `<td class="dgles" data-ttcell="${s.id}|${uniq[0].idx}" title="${esc(s.name)} · period ${esc(p)} — click to see or add tasks"><b>${esc(block)}</b>${sub?`<div class="ttmeta">${esc(sub)}</div>`:''}</td>`;
+    const cells=cols.map((c,k)=>{
+      const ls=c.ps.map(p=>lessonAt(mine,p));const label=c.ps.join('–');
+      if(ls.every(l=>!l)){freeBy[k].full.push(shortName(s.name));return '<td class="dgfree">Free</td>';}
+      if(ls.every(l=>l&&l.sig===ls[0].sig))return lesCell(s,ls[0],label);
+      // The two halves differ (e.g. one lesson + one free period): show both, stacked.
+      if(ls.some(l=>!l))freeBy[k].part.push(shortName(s.name)+' ('+c.ps.filter((p,j)=>!ls[j]).join(',')+')');
+      const half=ls.map((l,j)=>l?`<div data-ttcell="${s.id}|${l.o.idx}" style="cursor:pointer;padding:2px 0"><span class="mini">${esc(c.ps[j])}</span> <b style="display:inline">${esc(l.block)}</b>${l.sub?`<div class="ttmeta">${esc(l.sub)}</div>`:''}</div>`:`<div style="color:#2a8f88;font-weight:800;padding:2px 0"><span class="mini">${esc(c.ps[j])}</span> Free</div>`).join('<div style="border-top:1px dashed var(--line);margin:3px 0"></div>');
+      return `<td class="dgles" style="cursor:default">${half}</td>`;
     }).join('');
     return `<tr>${name}${cells}</tr>`;
   }).join('');
-  const head=`<tr><th class="dgname">${esc(day)} ${esc(fmtDate(iso))} · Week ${esc(week)}</th>${axis.map(p=>{const t=timeOf(p);return `<th>${esc(p)}${t?`<span class="dgt">${esc(t)}</span>`:''}</th>`;}).join('')}</tr>`;
-  const sum=`<tr class="dgsum"><td class="dgname">Free teachers</td>${freeBy.map(list=>`<td><span class="dgn ${list.length?'':'zero'}">${list.length}</span>${list.length?`<span class="dgnames">${list.map(esc).join('<br>')}</span>`:'<span class="dgnames">none</span>'}</td>`).join('')}</tr>`;
+  const head=`<tr><th class="dgname">${esc(day)} ${esc(fmtDate(iso))} · Week ${esc(week)}</th>${cols.map(c=>{const t=timeOf(c.ps[0]);return `<th>${esc(c.ps.join('–'))}${t?`<span class="dgt">${esc(t)}</span>`:''}</th>`;}).join('')}</tr>`;
+  const sum=`<tr class="dgsum"><td class="dgname">Free teachers</td>${freeBy.map(f=>`<td><span class="dgn ${f.full.length?'':'zero'}">${f.full.length}</span>${f.full.length?`<span class="dgnames">${f.full.map(esc).join('<br>')}</span>`:'<span class="dgnames">none</span>'}${f.part.length?`<span class="dgnames" style="color:var(--ink-mute)">part: ${f.part.map(esc).join(', ')}</span>`:''}</td>`).join('')}</tr>`;
   return `<div style="margin-bottom:18px">
     <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px">Whole-school day · ${esc(day)} ${esc(fmtDate(iso))} · Week ${esc(week)} <span style="text-transform:none;letter-spacing:0;font-weight:600;color:var(--ink-mute)">— scan down a column to find who is free for cover</span></div>
     <div class="dg-wrap"><table class="dg"><thead>${head}</thead><tbody>${rows}${sum}</tbody></table></div>
