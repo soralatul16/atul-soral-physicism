@@ -333,6 +333,25 @@
   .tt td.has b{font-size:12px;display:inline-block;max-width:120px;white-space:normal;overflow-wrap:anywhere;line-height:1.22}
   .tt .perlbl{background:var(--surface-2);color:var(--ink-mute);font-weight:700;min-width:48px;position:sticky;left:0;z-index:1}
   .tt-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px}
+  /* Whole-school day grid: sticky period header + sticky teacher column */
+  .dg-wrap{overflow:auto;max-height:72vh;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+  .dg{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%}
+  .dg th,.dg td{border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:7px 8px;text-align:center;font-size:12px;min-width:84px;vertical-align:middle}
+  .dg thead th{position:sticky;top:0;z-index:2;background:var(--surface-2);color:var(--ink-soft);font-weight:800}
+  .dg thead th .dgt{display:block;font-size:11px;font-weight:600;color:var(--ink-mute);margin-top:2px}
+  .dg .dgname{position:sticky;left:0;z-index:1;background:var(--surface-2);text-align:left;font-weight:700;color:var(--ink);min-width:150px;white-space:nowrap}
+  .dg thead th.dgname{z-index:3}
+  .dg td.dgles{background:var(--accent-soft);color:#2f7468;font-weight:600;cursor:pointer}
+  .dg td.dgles:hover{outline:2px solid var(--brand);outline-offset:-2px}
+  .dg td.dgles b{display:block;font-size:12px;line-height:1.2;overflow-wrap:anywhere}
+  .dg td.dgles .ttmeta{font-size:11px;color:#4f8a80;margin-top:2px}
+  .dg td.dgfree{background:#e3f5f2;color:#2a8f88;font-weight:800;letter-spacing:.02em}
+  .dg td.dgnone{color:var(--ink-mute);font-style:italic;text-align:left}
+  .dg tr.dgsum td{background:#f4fbfa;border-top:2px solid var(--brand);font-size:11.5px;color:var(--ink-soft);vertical-align:top}
+  .dg tr.dgsum td.dgname{background:#e8f6f3;color:var(--ink)}
+  .dg tr.dgsum .dgn{display:block;font-size:15px;font-weight:800;color:#2a8f88}
+  .dg tr.dgsum .dgn.zero{color:var(--crit)}
+  .dg tr.dgsum .dgnames{display:block;margin-top:3px;line-height:1.35;white-space:normal}
   .tt-slot{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:6px}
   .tt-slot .tag{cursor:default}
   .mini-tag{display:inline-flex;align-items:center;gap:5px;background:var(--surface-2);border:1px solid var(--line);border-radius:7px;padding:3px 8px;font-size:11.5px;font-weight:600;color:var(--ink-soft)}
@@ -1698,6 +1717,9 @@ function ttWeekday(iso){const d=dOnly(iso);return d?WD[d.getDay()]:'';}
 function periodRange(a,b){return a===b?(''+a):(a+'–'+b);}
 // Column set shared by every teacher: the union of all periods/days used anywhere in the school,
 // so a teacher's free periods show as blank cells instead of vanishing from the grid.
+// Lessons run in fixed 2-period pairs; a merged cell never crosses from one pair into the next.
+const TT_PAIRS=[['1','2'],['3','4'],['5','6'],['7','8'],['9','10'],['11','12'],['14','15'],['16','17']];
+function pairOf(p){p=(''+(p||'')).trim();const k=TT_PAIRS.findIndex(x=>x[0]===p||x[1]===p);return k<0?'solo:'+p:'pair:'+k;}
 function schoolAxis(week){
   const combined=[];(state.staff||[]).forEach(t=>(t.timetable||[]).forEach(x=>{if(!week||(x.week||'A')===week)combined.push(x);}));
   return {axis:ttPeriods(combined),days:DAYS.filter(d=>combined.some(x=>x.day===d))};
@@ -1719,7 +1741,7 @@ function timetableGrid(s,week){
     const cells=axis.map(p=>descAt(p,d));let html='';let i=0;
     while(i<cells.length){const c=cells[i];
       if(c.free){html+='<td></td>';i++;continue;}
-      let span=1;while(i+span<cells.length&&!cells[i+span].free&&(cells[i+span].block||'')===(c.block||''))span++;
+      let span=1;while(i+span<cells.length&&!cells[i+span].free&&(cells[i+span].block||'')===(c.block||'')&&pairOf(axis[i+span])===pairOf(axis[i])&&!pairOf(axis[i]).startsWith('solo'))span++;
       html+=`<td class="has clickcell" colspan="${span}" data-ttcell="${s.id}|${c.idx}" title="Click to see or add tasks"><b>${esc(prettyBlock(c.block))}</b>${c.sub?`<div class="ttmeta">${esc(c.sub)}</div>`:''}</td>`;
       i+=span;}
     return `<tr><td class="perlbl">${d}</td>${html}</tr>`;
@@ -1744,7 +1766,7 @@ function timetableDay(s,dayShort,week){
     return {p,free:false,block,sections,time:first.x.time||'',room:first.x.room||'',idx:first.idx,sig:block+'|'+sections+'|'+(first.x.room||'')};
   });
   const taught=desc.filter(d=>!d.free).length;const free=desc.length-taught;
-  const groups=[];desc.forEach(d=>{const sig=d.free?'FREE':('B|'+(d.block||''));const last=groups[groups.length-1];if(last&&last.sig===sig){last.items.push(d);}else{groups.push({sig,items:[d],d});}});
+  const groups=[];desc.forEach(d=>{const sig=d.free?'FREE':('B|'+(d.block||'')+'|'+pairOf(d.p)+(pairOf(d.p).startsWith('solo')?'|'+d.p:''));const last=groups[groups.length-1];if(last&&last.sig===sig){last.items.push(d);}else{groups.push({sig,items:[d],d});}});
   const body=groups.map(g=>{
     const label=periodRange(g.items[0].p,g.items[g.items.length-1].p);
     if(g.d.free)return `<tr><td class="perlbl">${esc(label)}</td><td></td><td style="color:var(--good);font-weight:700">Free</td><td></td><td></td></tr>`;
@@ -1854,6 +1876,43 @@ function teacherCard(s,i,arr){
 }
 // Reorder teacher cards (e.g. put Atul first). Persists the new order.
 function moveStaff(id,dir){const i=state.staff.findIndex(x=>x.id===id);if(i<0)return;const j=i+dir;if(j<0||j>=state.staff.length)return;const a=state.staff;const t=a[i];a[i]=a[j];a[j]=t;save();render();}
+// One day, every teacher: periods across, teachers down, free periods highlighted for cover planning.
+// Read-only — never writes to saved teachers or timetables.
+function dayAllGrid(iso){
+  const day=ttWeekday(iso);const week=weekOf(iso)||ttWeek;
+  const staff=state.staff||[];
+  if(!staff.length)return '';
+  const wkFor=s=>hasWeeks(s.timetable)?week:null;
+  const onDay=s=>(s.timetable||[]).map((x,idx)=>({x,idx})).filter(o=>o.x.day===day&&(!wkFor(s)||(o.x.week||'A')===wkFor(s)));
+  const combined=[];staff.forEach(s=>onDay(s).forEach(o=>combined.push(o.x)));
+  if(!combined.length)return `<div class="card" style="padding:14px 16px;margin-bottom:16px"><b>${esc(day)}, ${esc(fmtDate(iso))}</b> <span class="mini">— no lessons on this day for any teacher${/Sat|Sun/.test(day)?' (weekend)':''}.</span></div>`;
+  const ax=schoolAxis(week).axis;const axis=ax.length?ax:ttPeriods(combined);
+  // Start time per period: earliest time seen for that period today, else any day this week.
+  const timeOf=p=>{let best=null,bk=null;const consider=x=>{if(x.period!==p||!x.time)return;const k=timeKey(x.time);if(k!=null&&(bk==null||k<bk)){bk=k;best=x.time;}};
+    combined.forEach(consider);if(best)return best;
+    staff.forEach(s=>(s.timetable||[]).forEach(x=>{if(!wkFor(s)||(x.week||'A')===wkFor(s))consider(x);}));return best||'';};
+  const shortName=n=>(''+(n||'')).replace(/^(mr|ms|mrs|dr)\.?\s+/i,'').trim();
+  const freeBy=axis.map(()=>[]);
+  const rows=staff.map(s=>{
+    const name=`<td class="dgname">${esc(s.name)}</td>`;
+    if(!(s.timetable||[]).length)return `<tr>${name}<td class="dgnone" colspan="${axis.length}">No timetable yet — not counted in free teachers</td></tr>`;
+    const mine=onDay(s);
+    const cells=axis.map((p,k)=>{
+      const m=mine.filter(o=>o.x.period===p);
+      if(!m.length){freeBy[k].push(shortName(s.name));return '<td class="dgfree">Free</td>';}
+      const uniq=[];const seen={};m.forEach(o=>{const key=(slotBlock(o.x)||'')+'|'+(o.x.sections||'');if(!seen[key]){seen[key]=1;uniq.push(o);}});
+      const block=uniq.map(o=>prettyBlock(slotBlock(o.x))||'·').join(' / ');const sub=slotSub(uniq[0].x);
+      return `<td class="dgles" data-ttcell="${s.id}|${uniq[0].idx}" title="${esc(s.name)} · period ${esc(p)} — click to see or add tasks"><b>${esc(block)}</b>${sub?`<div class="ttmeta">${esc(sub)}</div>`:''}</td>`;
+    }).join('');
+    return `<tr>${name}${cells}</tr>`;
+  }).join('');
+  const head=`<tr><th class="dgname">${esc(day)} ${esc(fmtDate(iso))} · Week ${esc(week)}</th>${axis.map(p=>{const t=timeOf(p);return `<th>${esc(p)}${t?`<span class="dgt">${esc(t)}</span>`:''}</th>`;}).join('')}</tr>`;
+  const sum=`<tr class="dgsum"><td class="dgname">Free teachers</td>${freeBy.map(list=>`<td><span class="dgn ${list.length?'':'zero'}">${list.length}</span>${list.length?`<span class="dgnames">${list.map(esc).join('<br>')}</span>`:'<span class="dgnames">none</span>'}</td>`).join('')}</tr>`;
+  return `<div style="margin-bottom:18px">
+    <div style="font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:7px">Whole-school day · ${esc(day)} ${esc(fmtDate(iso))} · Week ${esc(week)} <span style="text-transform:none;letter-spacing:0;font-weight:600;color:var(--ink-mute)">— scan down a column to find who is free for cover</span></div>
+    <div class="dg-wrap"><table class="dg"><thead>${head}</thead><tbody>${rows}${sum}</tbody></table></div>
+  </div>`;
+}
 function renderTeachers(){
   const body=state.staff.length?state.staff.map(teacherCard).join(''):emptyMini('No teachers yet. Add your team to start tracking their work.');
   return `${pageHead('Teachers','Each teacher\'s timetable and the work you (or others) assign them — with an individual track that rolls up to the dashboard.')}
@@ -1864,6 +1923,7 @@ function renderTeachers(){
     <div style="display:flex;align-items:center;gap:7px"><label style="font-size:12.5px;font-weight:700;color:var(--ink-soft)" title="A Monday that begins a Week A, used to work out A vs B for any date">Week A starts:</label><input type="date" id="wkAnchor" value="${store.weekAnchor||''}" style="padding:7px 9px;border:1px solid var(--line-strong);border-radius:9px;font-size:13px"></div>
     ${ttDate?`<button class="btn sm" id="ttDateClear">Show full week</button><span class="mini">Showing <b>${esc(ttWeekday(ttDate))}, ${esc(fmtDate(ttDate))}</b>${weekOf(ttDate)?` · Week <b>${esc(weekOf(ttDate))}</b>`:' · set “Week A starts” to label A/B'}</span>`:'<span class="mini">Pick a date to see each teacher\'s classes for that day only.</span>'}
   </div>
+  ${ttDate?dayAllGrid(ttDate):''}
   ${body}`;
 }
 
