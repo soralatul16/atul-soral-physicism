@@ -348,4 +348,5 @@ const DP_SIMS = [
     description: "Walk the uranium-238 decay series one step at a time on an N–Z chart (α and β⁻), explore β⁺ emission and PET imaging with fluorine-18, then travel the binding-energy-per-nucleon curve to see fusion, fission and why the chain ends at lead.",
     file: "sims/nuclear-decay-series.html"
   },
+  {id:"igcse-energy", title:"Energy: Stores, Transfers & Conservation", icon:"🔋", topic:"1.7.1", topicName:"Energy, work and power · IGCSE", description:"IGCSE 1.7.1 Core + Supplement. Explore the seven energy stores and the transfer pathways with interactive pictures and animations, watch energy move between GPE, kinetic and thermal stores on a live track, build multi-stage energy chains with Sankey diagrams, and practise with 10 step-by-step IGCSE question sets using Ek = ½mv² and ΔEp = mgΔh.", file:"sims/igcse-energy.html", level:"IGCSE"},
 ];
