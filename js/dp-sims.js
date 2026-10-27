@@ -218,15 +218,8 @@ const DP_SIMS = [
     description: "Compare efficiency of different devices with animated Sankey diagrams. Explore energy transfers, calculate running costs, and investigate load effects.",
     file: "sims/energy-efficiency.html"
   },
-  {
-    id: "radioactive-decay-lab",
-    title: "Radioactive Decay Lab",
-    icon: "☢️",
-    topic: "E.3",
-    topicName: "Radioactive Decay",
-    description: "Simulate radioactive decay with real isotopes. Explore half-life, activity, nuclear equations, dice analogy, carbon dating, and side-by-side isotope comparison.",
-    file: "sims/radioactive-decay.html"
-  },
+  {id:"dp-e3-radioactive-decay", title:"E.3 Radioactive Decay", icon:"☢️", topic:"E.3", topicName:"Radioactive decay · IB DP (SL &amp; HL)", description:"The whole of E.3 in one page. Build isotopes proton by proton, find mass defect and binding energy from real atomic masses, and switch off the strong force to watch two protons fly apart. Watch α, β⁻, β⁺ and γ decay in slow motion and identify the missing particle, follow uranium-238 to lead-206 on an N–Z chart, and see the evidence for nuclear energy levels and the neutrino in decay spectra (HL). Test penetration with paper, aluminium and lead, watch tracks in a cloud chamber, measure background radiation, roll dice to see random decay, and measure the half-life of protactinium-234m in a virtual experiment. Includes the decay law N = N₀e^(−λt) (HL), carbon dating, a choose-the-isotope game, 9 uses of radioactivity, a history timeline, notes with all four guiding questions and every linking question, misconceptions, a quiz, an unlimited calculation drill, 12 Paper 1A/1B/2 sets and a timed mini-mock.", file:"sims/dp-e3-radioactive-decay.html"},
+
   {
     id: "electromagnetism-lab",
     title: "Electromagnetism Lab",
