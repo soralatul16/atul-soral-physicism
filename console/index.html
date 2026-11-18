@@ -2582,12 +2582,19 @@ function meetingReviewModal(p,opts){
   acts.forEach(a=>{if(a._keep===undefined)a._keep=looksLikeAction(a);});
   const likely=acts.filter(a=>a._keep).length;
   const opt=(v,cur)=>`<option ${v===cur?'selected':''}>${v}</option>`;
-  const rows=acts.map((a,k)=>`<div data-rvrow="${k}" style="display:grid;grid-template-columns:22px minmax(0,1fr) 130px 132px;gap:7px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);${a._keep?'':'opacity:.55'}">
-      <input type="checkbox" data-rvk="${k}" ${a._keep?'checked':''} style="width:16px;height:16px;accent-color:var(--brand)" title="Keep as an action item">
-      <input data-rvt="${k}" value="${esc(a.text)}" style="border:1px solid var(--line-strong);border-radius:8px;padding:6px 8px;font-size:13px;min-width:0">
-      <input data-rvo="${k}" value="${esc(a.owner||'')}" placeholder="Owner" style="border:1px solid var(--line-strong);border-radius:8px;padding:6px 8px;font-size:12.5px;min-width:0">
-      <input type="date" data-rvd="${k}" value="${esc(a.due||'')}" style="border:1px solid var(--line-strong);border-radius:8px;padding:5px 6px;font-size:12.5px;min-width:0">
-    </div>`).join('');
+  // One editable list: each line is a Task (goes to Tasks) or a Minute (kept as a point in the meeting record).
+  const items=acts.map(a=>({kind:'task',text:a.text||'',owner:a.owner||'',due:a.due||'',keep:!!a._keep,done:!!a.done,taskId:a.taskId||null}))
+    .concat((p.decisions||[]).map(d=>({kind:'minute',text:''+d,owner:'',due:'',keep:true,done:false,taskId:null})));
+  const fs='border:1px solid var(--line-strong);border-radius:8px;padding:6px 8px;font-size:12.5px;min-width:0';
+  const rowHTML=(a,k)=>`<div data-rvrow="${k}" style="display:grid;grid-template-columns:22px minmax(0,1fr) 92px 118px 128px 30px;gap:6px;align-items:center;padding:7px 0;border-bottom:1px solid var(--line);${a.keep?'':'opacity:.5'}">
+      <input type="checkbox" data-rvk="${k}" ${a.keep?'checked':''} style="width:16px;height:16px;accent-color:var(--brand)" title="Keep this line">
+      <input data-rvt="${k}" value="${esc(a.text)}" placeholder="${a.kind==='task'?'What has to be done':'Minute / point recorded'}" style="${fs};font-size:13px">
+      <select data-rvkind="${k}" style="${fs};padding:5px 4px;font-weight:700;color:${a.kind==='task'?'var(--brand)':'var(--ink-soft)'}" title="Task or minute"><option value="task" ${a.kind==='task'?'selected':''}>Task</option><option value="minute" ${a.kind==='minute'?'selected':''}>Minute</option></select>
+      <input data-rvo="${k}" value="${esc(a.owner)}" placeholder="Owner" style="${fs};${a.kind==='task'?'':'visibility:hidden'}">
+      <input type="date" data-rvd="${k}" value="${esc(a.due)}" style="${fs};padding:5px 6px;${a.kind==='task'?'':'visibility:hidden'}">
+      <button type="button" data-rvx="${k}" title="Delete this line" style="border:none;background:none;color:var(--crit);font-size:17px;cursor:pointer;padding:0">✕</button>
+    </div>`;
+  const rows=items.map(rowHTML).join('');
   modal(`
     <div class="modal-head"><h3>${editM?'Re-check this meeting':'Check the minutes before saving'}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">
@@ -2599,38 +2606,52 @@ function meetingReviewModal(p,opts){
         <div class="fld"><label>Type</label><select id="rv_type">${MEETING_TYPES.map(v=>opt(v,p.type)).join('')}</select></div>
         <div class="fld"><label>Attendees</label><input id="rv_att" value="${esc((p.attendees||[]).join(', '))}" placeholder="Name, Name"></div>
       </div>
-      <div class="mini">${(p.decisions||[]).length} decision${(p.decisions||[]).length===1?'':'s'} found · the full minutes are kept with the meeting either way.</div>
+      <div class="mini">Each line is a <b>Task</b> (goes to Tasks &amp; Deadlines) or a <b>Minute</b> (a point kept in the meeting record). Change it with the dropdown, ✕ to delete a line. The full minutes text is kept either way.</div>
       ${opts.source==='ai'?`<div class="alert-strip" style="margin:0;background:var(--good-soft);color:var(--good)"><span class="ac">✨ AI read the whole minutes and worked out ${acts.length} task${acts.length===1?'':'s'}. Edit the wording, owner or date, and untick any you don’t want.</span></div>`
         :(opts.source==='local'?`<div class="alert-strip warn" style="margin:0;flex-wrap:wrap"><span class="ac">Read line by line on this device${opts.aiError?' — AI could not be used ('+esc(opts.aiError)+')':(aiEnabled()?'':' — AI is not set up')}. Lines that look like actions are ticked.</span>${(aiEnabled()&&opts.retry)?'<button class="btn sm" type="button" id="rv_retry">✨ Try AI again</button>':''}</div>`:'')}
       <div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
-          <b style="font-size:14px">Action items</b>
-          <span class="mini">${acts.length?(opts.source==='ai'?`${likely} of ${acts.length} ticked`:`${likely} of ${acts.length} lines look like real actions and are ticked. Untick anything that is not a task.`):'No action items found — add them below.'}</span>
-          ${acts.length?'<span style="margin-left:auto;display:flex;gap:6px"><button class="btn sm" type="button" id="rv_all">Tick all</button><button class="btn sm" type="button" id="rv_none">Untick all</button></span>':''}
+          <b style="font-size:14px">Tasks &amp; minutes</b>
+          <span class="mini" id="rv_count"></span>
+          <span style="margin-left:auto;display:flex;gap:6px"><button class="btn sm" type="button" id="rv_all">Tick all</button><button class="btn sm" type="button" id="rv_none">Untick all</button></span>
         </div>
-        <div style="max-height:46vh;overflow-y:auto">${rows}</div>
+        <div style="display:grid;grid-template-columns:22px minmax(0,1fr) 92px 118px 128px 30px;gap:6px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-mute);padding:2px 0 4px;border-bottom:1px solid var(--line)"><span></span><span>Line</span><span>Save as</span><span>Owner</span><span>Due</span><span></span></div>
+        <div id="rv_rows" style="max-height:46vh;overflow-y:auto">${rows}</div>
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap"><button class="btn sm" type="button" id="rv_addtask">＋ Add task line</button><button class="btn sm" type="button" id="rv_addmin">＋ Add minute line</button></div>
       </div>
-      <div class="fld"><label>Missing a task? Add it here — one per line</label><textarea id="rv_extra" rows="2" placeholder="e.g. Prepare the Grade 11 IA timeline (Mr. Rahul) by 30 Nov"></textarea></div>
-      <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-soft)"><input type="checkbox" id="rv_totasks" ${editM?'':'checked'} style="width:15px;height:15px;accent-color:var(--brand)">Also add the ticked actions to Tasks &amp; Deadlines</label>
+      <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-soft)"><input type="checkbox" id="rv_totasks" ${editM?'':'checked'} style="width:15px;height:15px;accent-color:var(--brand)">Also add the ticked task lines to Tasks &amp; Deadlines</label>
     </div>
     <div class="modal-foot" style="flex-wrap:wrap">${(!editM&&opts.raw)?'<button class="btn" id="rv_notmom" style="margin-right:auto">Not minutes? Make tasks instead</button>':''}<button class="btn" data-close>Cancel</button><button class="btn primary" id="rv_save">${editM?'Save changes':'Save meeting'}</button></div>`);
-  {const md=$('#modalScrim .modal');if(md)md.style.maxWidth='780px';}
+  {const md=$('#modalScrim .modal');if(md)md.style.maxWidth='900px';}
   if($('#rv_notmom'))$('#rv_notmom').onclick=()=>{closeModal();localCaptureReview(opts.raw,opts.ins||'',{noMom:true});};
   if($('#rv_retry'))$('#rv_retry').onclick=()=>{closeModal();opts.retry();};
   const q=(a,k)=>document.querySelector('['+a+'="'+k+'"]');
-  const dim=k=>{const r=q('data-rvrow',k),c=q('data-rvk',k);if(r&&c)r.style.opacity=c.checked?'1':'.55';};
-  document.querySelectorAll('[data-rvk]').forEach(c=>c.onchange=()=>dim(c.dataset.rvk));
-  if($('#rv_all'))$('#rv_all').onclick=()=>{document.querySelectorAll('[data-rvk]').forEach(c=>{c.checked=true;dim(c.dataset.rvk);});};
-  if($('#rv_none'))$('#rv_none').onclick=()=>{document.querySelectorAll('[data-rvk]').forEach(c=>{c.checked=false;dim(c.dataset.rvk);});};
+  // Read what is typed on screen back into items, so redraws (add / delete / Task↔Minute) never lose edits.
+  const sync=()=>items.forEach((a,k)=>{const c=q('data-rvk',k);if(!c)return;a.keep=c.checked;a.text=q('data-rvt',k).value;a.kind=q('data-rvkind',k).value;a.owner=q('data-rvo',k).value;a.due=q('data-rvd',k).value;});
+  const count=()=>{const t=items.filter(a=>a.keep&&a.kind==='task'&&a.text.trim()).length,mi=items.filter(a=>a.keep&&a.kind==='minute'&&a.text.trim()).length;const el=$('#rv_count');if(el)el.textContent=t+' task'+(t===1?'':'s')+' · '+mi+' minute'+(mi===1?'':'s')+' ticked';};
+  const draw=focusK=>{const box=$('#rv_rows');if(!box)return;const top=box.scrollTop;box.innerHTML=items.length?items.map(rowHTML).join(''):'<p class="mini" style="padding:12px 0;margin:0">No lines yet — add a task or a minute below.</p>';box.scrollTop=top;bindRows();count();
+    if(focusK!==undefined){const t=q('data-rvt',focusK);if(t){t.focus();t.scrollIntoView({block:'nearest'});}}};
+  const bindRows=()=>{
+    document.querySelectorAll('[data-rvk]').forEach(c=>c.onchange=()=>{sync();const r=q('data-rvrow',c.dataset.rvk);if(r)r.style.opacity=c.checked?'1':'.5';count();});
+    document.querySelectorAll('[data-rvkind]').forEach(s=>s.onchange=()=>{sync();draw();});
+    document.querySelectorAll('[data-rvt]').forEach(t=>t.oninput=()=>{sync();count();});
+    document.querySelectorAll('[data-rvx]').forEach(b=>b.onclick=()=>{sync();items.splice(+b.dataset.rvx,1);draw();});
+  };
+  const addLine=kind=>{sync();items.push({kind:kind,text:'',owner:'',due:'',keep:true,done:false,taskId:null});draw(items.length-1);};
+  bindRows();count();
+  $('#rv_addtask').onclick=()=>addLine('task');
+  $('#rv_addmin').onclick=()=>addLine('minute');
+  $('#rv_all').onclick=()=>{sync();items.forEach(a=>a.keep=true);draw();};
+  $('#rv_none').onclick=()=>{sync();items.forEach(a=>a.keep=false);draw();};
   $('#rv_save').onclick=()=>{
     const title=$('#rv_title').value.trim();if(!title){toast('Give the meeting a title');return;}
-    const kept=[];
-    acts.forEach((a,k)=>{const c=q('data-rvk',k);if(!c||!c.checked)return;const text=(q('data-rvt',k).value||'').trim();if(!text)return;
-      kept.push({text:text,owner:(q('data-rvo',k).value||'').trim(),due:q('data-rvd',k).value||null,done:!!a.done,taskId:a.taskId||null});});
-    ($('#rv_extra').value||'').split('\n').map(s=>s.replace(/^[-*•–\d.\)\s]+/,'').trim()).filter(s=>s.length>3).forEach(s=>{
-      let owner='';const om=s.match(/\(([^)]{2,40})\)/);if(om&&!/^\d/.test(om[1].trim())){owner=om[1].trim();}
-      kept.push({text:titleClip(s.replace(/\s*\([^)]{2,40}\)/,'')),owner:owner,due:parseAnyDate(s)||null,done:false,taskId:null});});
-    const data={title:title,date:$('#rv_date').value||todayISO(),type:$('#rv_type').value,attendees:$('#rv_att').value.split(/[,;\n]/).map(s=>s.trim()).filter(Boolean),decisions:p.decisions||[],actions:kept,notes:p.notes||'',agenda:p.agenda||''};
+    sync();
+    const live=items.filter(a=>a.keep&&a.text.trim());
+    const kept=live.filter(a=>a.kind==='task').map(a=>({text:titleClip(a.text),owner:a.owner.trim(),due:a.due||null,done:a.done,taskId:a.taskId}));
+    const minutes=live.filter(a=>a.kind==='minute').map(a=>a.text.replace(/\s+/g,' ').trim());
+    // A line switched from Task to Minute should not leave its old task behind.
+    if(editM)(editM.actions||[]).forEach(a=>{if(a.taskId&&!kept.some(k=>k.taskId===a.taskId)){const t=state.tasks.find(x=>x.id===a.taskId);if(t&&t.status!=='done'&&confirm('“'+t.title+'” is no longer a task in this meeting. Remove it from Tasks too?'))binMany('tasks',[t.id],'Task');}});
+    const data={title:title,date:$('#rv_date').value||todayISO(),type:$('#rv_type').value,attendees:$('#rv_att').value.split(/[,;\n]/).map(s=>s.trim()).filter(Boolean),decisions:minutes,actions:kept,notes:p.notes||'',agenda:p.agenda||''};
     let m;
     if(editM){m=editM;Object.assign(m,data);}else{m={id:uid(),createdAt:Date.now(),...data};state.meetings.unshift(m);}
     let n=0;
@@ -2641,7 +2662,7 @@ function meetingReviewModal(p,opts){
         state.tasks.push(t);a.taskId=t.id;n++;});}
     view='meetings';state.view='meetings';meetingOpenId=m.id;
     save();refreshBadges();closeModal();highlightNav();render();
-    toast((editM?'Meeting updated':'Meeting saved')+' · '+m.actions.length+' action item'+(m.actions.length===1?'':'s')+(n?' · '+n+' added to Tasks':''));
+    toast((editM?'Meeting updated':'Meeting saved')+' · '+m.actions.length+' task'+(m.actions.length===1?'':'s')+', '+minutes.length+' minute'+(minutes.length===1?'':'s')+(n?' · '+n+' added to Tasks':''));
   };
 }
 function meetingDeleteModal(m){
@@ -2787,7 +2808,7 @@ function renderMeetingPage(m){
     ${s.open?'<div style="margin-top:10px"><button class="btn sm primary" data-allactions="'+m.id+'">+ Add all open actions to Tasks</button></div>':''}
   </div>
   ${att.length?`<div class="section"><div class="section-head"><h2>Attendees</h2><span class="count">${att.length}</span></div><div class="card" style="padding:15px 18px"><div style="display:flex;flex-wrap:wrap;gap:7px">${att.map(a=>`<span class="tag teach">${esc(a)}</span>`).join('')}</div></div></div>`:''}
-  ${(m.decisions||[]).length?`<div class="section"><div class="section-head"><h2>Decisions</h2><span class="count">${m.decisions.length}</span></div><div class="card" style="padding:14px 20px"><ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.7">${m.decisions.map(d=>`<li>${esc(d)}</li>`).join('')}</ul></div></div>`:''}
+  ${(m.decisions||[]).length?`<div class="section"><div class="section-head"><h2>Minutes &amp; decisions</h2><span class="count">${m.decisions.length}</span></div><div class="card" style="padding:14px 20px"><ul style="margin:0;padding-left:18px;font-size:14px;line-height:1.7">${m.decisions.map(d=>`<li>${esc(d)}</li>`).join('')}</ul></div></div>`:''}
   ${(m.agenda||'').trim()?`<div class="section"><div class="section-head"><h2>Agenda / focus</h2></div><div class="card" style="padding:14px 18px;white-space:pre-wrap;font-size:13.5px;line-height:1.55">${esc(m.agenda.trim())}</div></div>`:''}
   ${(m.notes||'').trim()?`<div class="section"><div class="section-head"><h2>Full minutes (as pasted)</h2></div><div class="card" style="padding:14px 18px;white-space:pre-wrap;font-size:13px;line-height:1.5;max-height:340px;overflow-y:auto;color:var(--ink-soft)">${esc(m.notes.trim())}</div></div>`:''}`;
 }
@@ -2804,7 +2825,7 @@ function meetingModal(m){
       </div>
       <div class="fld"><label>Type</label><select id="mm_type">${MEETING_TYPES.map(v=>opt(v,m.type)).join('')}</select></div>
       <div class="fld"><label>Attendees (comma or new line)</label><textarea id="mm_att" rows="2" placeholder="Name, Name, Name">${esc((m.attendees||[]).join(', '))}</textarea></div>
-      <div class="fld"><label>Decisions (one per line)</label><textarea id="mm_dec" rows="3" placeholder="One decision per line">${esc((m.decisions||[]).join('\n'))}</textarea></div>
+      <div class="fld"><label>Minutes &amp; decisions (one per line)</label><textarea id="mm_dec" rows="3" placeholder="One decision per line">${esc((m.decisions||[]).join('\n'))}</textarea></div>
       <div class="fld"><label>Action items (one per line — add owner in (brackets) and a date)</label><textarea id="mm_act" rows="4" placeholder="e.g. Prepare Grade 11 mock paper (Manish) by 20 Oct">${esc((m.actions||[]).map(a=>a.text+(a.owner?' ('+a.owner+')':'')+(a.due?' by '+fmtDate(a.due):'')).join('\n'))}</textarea></div>
       <div class="fld"><label>Full minutes / notes (optional)</label><textarea id="mm_notes" rows="3" placeholder="Keep the full text for the record">${esc(m.notes||'')}</textarea></div>
     </div>
