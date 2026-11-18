@@ -2495,13 +2495,66 @@ function parseMOM(text){
   out.attendees=[...new Set(out.attendees)];
   return out;
 }
-// Re-run the parser on a meeting's saved text, then let the user pick the real actions again.
-function reparseMeeting(mid){
+// Re-read a meeting's saved minutes (with AI when available), then let the user pick the real actions again.
+async function reparseMeeting(mid){
   const m=state.meetings.find(x=>x.id===mid);if(!m||!(m.notes||'').trim()){toast('No saved minutes text to re-read');return;}
-  const p=parseMOM(m.notes);const prev=m.actions||[];
+  const r=await readMinutes(m.notes);const p=r.p;const prev=m.actions||[];
   p.actions.forEach(a=>{const old=prev.find(x=>x.text===a.text);if(old){a.done=old.done;a.taskId=old.taskId;a._keep=true;}});
   p.title=m.title||p.title;p.date=m.date||p.date;p.type=m.type||p.type;
-  meetingReviewModal(p,{editId:mid});
+  meetingReviewModal(p,{editId:mid,source:r.source,aiError:r.aiError,retry:()=>reparseMeeting(mid)});
+}
+// Ask the AI to read the whole minutes and return the real, consolidated tasks (not one task per line).
+const MOM_AI_INSTRUCTION='These are the MINUTES OF A MEETING. File them as a meeting (action: "meeting"). Read the WHOLE document first and work out the real follow-up tasks that someone has to do after the meeting. '
+  +'Combine everything that belongs to the same task into ONE task: a heading with its bullet points, a sentence split over several lines, or one task repeated in different places. '
+  +'Do NOT make tasks from headings, titles, dates, attendee names, agenda items, discussion points, opinions, decisions or general information. '
+  +'For each task give: text = one short clear sentence that starts with a verb and says what must be done (keep important specifics such as grade, class or document name); owner = the person or group responsible if the minutes say so, otherwise ""; due = the deadline as YYYY-MM-DD if one is stated, otherwise "". '
+  +'Also give title (e.g. "Physics Department Meeting No. 3"), date (YYYY-MM-DD), attendees (array of names) and decisions (array of short sentences). Return the tasks in "actions".';
+async function aiMeetingRead(text){
+  const body=`TODAY: ${todayISO()} (interpret any partial or relative date as the NEXT upcoming date from today — never a past date).\n\nMATERIAL:\n${text}\n\nINSTRUCTION: ${MOM_AI_INSTRUCTION}\n\nCONTEXT: ${routeContext()}`;
+  const r=await aiExtract('route',{text:body});
+  const plan=(r&&(r.meeting||r.plan))||r||{};
+  const p=parseMOM(text);
+  const iso=d=>(d&&/^\d{4}-\d{2}-\d{2}$/.test(''+d))?(''+d):null;
+  const clip=s=>{s=(''+(s||'')).replace(/\s+/g,' ').trim();if(s.length>160)s=s.slice(0,158).trim()+'…';return s?s.charAt(0).toUpperCase()+s.slice(1):'';};
+  if(plan.title)p.title=titleClip(''+plan.title);
+  if(iso(plan.date))p.date=plan.date;
+  if(MEETING_TYPES.includes(plan.type))p.type=plan.type;
+  if(Array.isArray(plan.attendees)&&plan.attendees.length)p.attendees=plan.attendees.map(x=>(''+(x&&x.name||x)).trim()).filter(Boolean);
+  if(Array.isArray(plan.decisions)&&plan.decisions.length)p.decisions=plan.decisions.map(x=>(''+(x&&x.text||x)).trim()).filter(Boolean);
+  const src=plan.actions||plan.action_items||plan.actionItems||plan.tasks||[];
+  const acts=(Array.isArray(src)?src:[]).map(a=>{
+    if(typeof a==='string')return {text:clip(a),owner:'',due:null};
+    a=a||{};return {text:clip(a.text||a.title||a.task||a.action||a.description),
+      owner:(''+(a.owner||a.assigned_to||a.assignedTo||a.responsible||a.teacher||a.who||'')).trim(),
+      due:iso(a.due||a.deadline||a.due_date||a.dueDate)};
+  }).filter(a=>a.text&&a.text.length>3);
+  if(!acts.length)throw new Error('the AI did not find any tasks');
+  const seen=new Set();
+  p.actions=acts.filter(a=>{const k=a.text.toLowerCase();if(seen.has(k))return false;seen.add(k);return true;})
+    .map(a=>({text:a.text,owner:/^(n\/a|none|-|tbd|not stated|unknown)$/i.test(a.owner)?'':a.owner,due:a.due,done:false,taskId:null,_keep:true}));
+  return p;
+}
+// On-device fallback: join lines that were split mid-sentence so one task is not cut into several.
+function mergeActionLines(acts){
+  const out=[];
+  (acts||[]).forEach(a=>{
+    const prev=out[out.length-1];const s=(a.text||'').trim();
+    const cont=prev&&!a.owner&&!a.due&&(/^[a-z(&]/.test(s)||/^(and|or|including|with|for|to|by|of|in|on|so that|which|who)\b/i.test(s)||/[,;\-–(\/&]$|\b(and|or|the|of|to|for|with|by|in|on|a|an)$/i.test((prev.text||'').trim()));
+    if(cont){prev.text=(prev.text.replace(/[\s\-–]+$/,'')+' '+s).replace(/\s+/g,' ').trim();if(prev.text.length>200)prev.text=prev.text.slice(0,198).trim()+'…';}
+    else out.push(Object.assign({},a));
+  });
+  return out;
+}
+// Read minutes: AI first (understands the tasks), on-device line reader if the AI is off or busy.
+async function readMinutes(text){
+  let aiError='';
+  if(aiEnabled()){
+    loadingModal('Reading the minutes and working out the tasks…');
+    try{const p=await aiMeetingRead(text);closeModal();return {p:p,source:'ai'};}
+    catch(e){aiError=(e&&e.message)||'AI unavailable';closeModal();}
+  }
+  const p=parseMOM(text);p.actions=mergeActionLines(p.actions);
+  return {p:p,source:'local',aiError:aiError};
 }
 // Does this line read like something someone has to do (vs. a heading, a name list or discussion text)?
 const MOM_ACTION_VERB=/\b(prepare|submit|share|send|complete|update|upload|ensure|conduct|organi[sz]e|review|plan|create|finali[sz]e|mark|collect|arrange|schedule|follow[- ]?up|check|monitor|distribute|design|develop|maintain|inform|train|attend|start|begin|track|draft|compile|revise|moderate|record|enter|fill|print|book|order|contact|coordinate|implement|set up|identify|analy[sz]e|discuss with|meet|assign|allot|circulate|display|present|evaluate|assess|verify|confirm|provide|give|take|make|write|close|clear|return)\b/i;
@@ -2547,19 +2600,23 @@ function meetingReviewModal(p,opts){
         <div class="fld"><label>Attendees</label><input id="rv_att" value="${esc((p.attendees||[]).join(', '))}" placeholder="Name, Name"></div>
       </div>
       <div class="mini">${(p.decisions||[]).length} decision${(p.decisions||[]).length===1?'':'s'} found · the full minutes are kept with the meeting either way.</div>
+      ${opts.source==='ai'?`<div class="alert-strip" style="margin:0;background:var(--good-soft);color:var(--good)"><span class="ac">✨ AI read the whole minutes and worked out ${acts.length} task${acts.length===1?'':'s'}. Edit the wording, owner or date, and untick any you don’t want.</span></div>`
+        :(opts.source==='local'?`<div class="alert-strip warn" style="margin:0;flex-wrap:wrap"><span class="ac">Read line by line on this device${opts.aiError?' — AI could not be used ('+esc(opts.aiError)+')':(aiEnabled()?'':' — AI is not set up')}. Lines that look like actions are ticked.</span>${(aiEnabled()&&opts.retry)?'<button class="btn sm" type="button" id="rv_retry">✨ Try AI again</button>':''}</div>`:'')}
       <div>
         <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
           <b style="font-size:14px">Action items</b>
-          <span class="mini">${acts.length?`${likely} of ${acts.length} lines look like real actions and are ticked. Untick anything that is not a task.`:'No action lines found — you can add them later with Edit.'}</span>
+          <span class="mini">${acts.length?(opts.source==='ai'?`${likely} of ${acts.length} ticked`:`${likely} of ${acts.length} lines look like real actions and are ticked. Untick anything that is not a task.`):'No action items found — add them below.'}</span>
           ${acts.length?'<span style="margin-left:auto;display:flex;gap:6px"><button class="btn sm" type="button" id="rv_all">Tick all</button><button class="btn sm" type="button" id="rv_none">Untick all</button></span>':''}
         </div>
         <div style="max-height:46vh;overflow-y:auto">${rows}</div>
       </div>
+      <div class="fld"><label>Missing a task? Add it here — one per line</label><textarea id="rv_extra" rows="2" placeholder="e.g. Prepare the Grade 11 IA timeline (Mr. Rahul) by 30 Nov"></textarea></div>
       <label style="display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600;color:var(--ink-soft)"><input type="checkbox" id="rv_totasks" ${editM?'':'checked'} style="width:15px;height:15px;accent-color:var(--brand)">Also add the ticked actions to Tasks &amp; Deadlines</label>
     </div>
     <div class="modal-foot" style="flex-wrap:wrap">${(!editM&&opts.raw)?'<button class="btn" id="rv_notmom" style="margin-right:auto">Not minutes? Make tasks instead</button>':''}<button class="btn" data-close>Cancel</button><button class="btn primary" id="rv_save">${editM?'Save changes':'Save meeting'}</button></div>`);
   {const md=$('#modalScrim .modal');if(md)md.style.maxWidth='780px';}
   if($('#rv_notmom'))$('#rv_notmom').onclick=()=>{closeModal();localCaptureReview(opts.raw,opts.ins||'',{noMom:true});};
+  if($('#rv_retry'))$('#rv_retry').onclick=()=>{closeModal();opts.retry();};
   const q=(a,k)=>document.querySelector('['+a+'="'+k+'"]');
   const dim=k=>{const r=q('data-rvrow',k),c=q('data-rvk',k);if(r&&c)r.style.opacity=c.checked?'1':'.55';};
   document.querySelectorAll('[data-rvk]').forEach(c=>c.onchange=()=>dim(c.dataset.rvk));
@@ -2570,6 +2627,9 @@ function meetingReviewModal(p,opts){
     const kept=[];
     acts.forEach((a,k)=>{const c=q('data-rvk',k);if(!c||!c.checked)return;const text=(q('data-rvt',k).value||'').trim();if(!text)return;
       kept.push({text:text,owner:(q('data-rvo',k).value||'').trim(),due:q('data-rvd',k).value||null,done:!!a.done,taskId:a.taskId||null});});
+    ($('#rv_extra').value||'').split('\n').map(s=>s.replace(/^[-*•–\d.\)\s]+/,'').trim()).filter(s=>s.length>3).forEach(s=>{
+      let owner='';const om=s.match(/\(([^)]{2,40})\)/);if(om&&!/^\d/.test(om[1].trim())){owner=om[1].trim();}
+      kept.push({text:titleClip(s.replace(/\s*\([^)]{2,40}\)/,'')),owner:owner,due:parseAnyDate(s)||null,done:false,taskId:null});});
     const data={title:title,date:$('#rv_date').value||todayISO(),type:$('#rv_type').value,attendees:$('#rv_att').value.split(/[,;\n]/).map(s=>s.trim()).filter(Boolean),decisions:p.decisions||[],actions:kept,notes:p.notes||'',agenda:p.agenda||''};
     let m;
     if(editM){m=editM;Object.assign(m,data);}else{m={id:uid(),createdAt:Date.now(),...data};state.meetings.unshift(m);}
@@ -2604,9 +2664,10 @@ function meetingDeleteModal(m){
     toast('Meeting deleted'+(n?' · '+n+' task'+(n>1?'s':'')+' removed':'')+' — restore from Trash if needed');
   };
 }
-function fileMeetingFromText(text,insHint){
+async function fileMeetingFromText(text,insHint){
   if(!(text||'').trim()){toast('Paste the minutes first');return;}
-  meetingReviewModal(parseMOM(text),{raw:text,ins:insHint||''});
+  const r=await readMinutes(text);
+  meetingReviewModal(r.p,{raw:text,ins:insHint||'',source:r.source,aiError:r.aiError,retry:()=>fileMeetingFromText(text,insHint)});
 }
 function fileMeetingFromRoute(plan){
   const p=parseMOM(plan.notes||plan.text||plan.material||'');
@@ -2749,7 +2810,7 @@ function meetingModal(m){
     </div>
     <div class="modal-foot"><button class="btn" data-close>Cancel</button><button class="btn primary" id="mm_save">${edit?'Save':'Save meeting'}</button></div>
   `);
-  const rd=$('#mm_read');if(rd)rd.onclick=()=>{const txt=$('#mm_paste').value.trim();if(!txt){toast('Paste the minutes or attach the file first');return;}closeModal();meetingReviewModal(parseMOM(txt),{});};
+  const rd=$('#mm_read');if(rd)rd.onclick=()=>{const txt=$('#mm_paste').value.trim();if(!txt){toast('Paste the minutes or attach the file first');return;}closeModal();fileMeetingFromText(txt,'');};
   const mf=$('#mm_file');if(mf)mf.onchange=e=>{const f=e.target.files[0];if(!f)return;const st=$('#mm_filest');if(st)st.textContent='Reading '+f.name+'…';
     const job=/\.docx$/i.test(f.name)?docxToText(f):pdfToText(f);
     job.then(t=>{if(!t||t.replace(/\s/g,'').length<20){if(st)st.textContent='No text found — it may be a scanned PDF. Copy the text out of it and paste it above.';return;}
