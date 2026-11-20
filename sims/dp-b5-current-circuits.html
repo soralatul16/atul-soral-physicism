@@ -1209,7 +1209,20 @@ It is like height in a gravitational field: lifting 2 kg needs twice the work of
 <!-- ===================== SERIES & PARALLEL ===================== -->
 <section class="panel" id="p-sp">
 <div class="mainhead"><div><h2>Series, parallel and combination circuits</h2><p>Change the resistors and watch every ammeter and voltmeter. See the current split at junctions, the pd shared in series, and how the total resistance of a parallel set is less than the smallest branch. Then reduce networks step by step.</p></div></div>
-<nav class="subnav" data-p="sp"><button class="on" data-s="lab">Circuit lab</button><button data-s="red">Step-by-step reduction</button><button data-s="quiz">✔ Section quiz</button></nav>
+<nav class="subnav" data-p="sp"><button class="on" data-s="lab">Circuit lab</button><button data-s="step">🪜 Solve it step by step</button><button data-s="red">Reduction drill</button><button data-s="quiz">✔ Section quiz</button></nav>
+<div class="sub" id="s-sp-step">
+<div class="gqbar"><b>Solve it step by step</b><span>Choose the arrangement and type your own values, then press <b>Next step</b> (or the → key). Each click reveals one line of working, and the circuit changes to match: the parts used light up, values replace the <b>?</b> marks, and electrons begin to flow in each part as soon as its current is known.</span></div>
+<div class="grid2"><div class="stack">
+<div class="card"><div class="row" style="margin:0 0 8px;justify-content:space-between;flex-wrap:wrap;gap:8px"><h4 style="margin:0">The circuit</h4><div class="seg" id="ssM" style="flex-wrap:wrap"><button class="on" data-m="ser">Series</button><button data-m="par">Parallel</button><button data-m="c1">R₁ + (R₂ ∥ R₃)</button><button data-m="c2">(R₁ + R₂) ∥ R₃</button></div></div>
+<div class="cv big"><canvas id="ssCv"></canvas></div>
+<div class="ssbar"><button class="btn" id="ssPrev">◀ Back</button><button class="btn pri" id="ssNext">Next step ▶</button><button class="btn" id="ssAll">Show all steps</button><button class="btn" id="ssRst">↻ Start again</button><span class="score" id="ssProg"></span></div>
+<div class="ssbar"><button class="btn sm" id="ssPause">❚❚ Pause the flow</button><button class="btn sm" id="ssDir"></button><button class="btn sm" id="ssPred"></button></div></div>
+<div class="card sslegend"><b>Reading the circuit.</b> <i style="background:var(--eth)"></i> glowing outline: the parts used in this step. <i style="background:var(--ep)"></i> blue dots marked −: electrons, leaving the − terminal and returning to the + terminal (switch to conventional current to see + charges going the other way). <b>?</b> marks a value not yet found. Faster dots mean a larger current.</div>
+</div><div class="stack">
+<div class="card"><h4>Set up the problem</h4><div class="ssin"><div><label>Supply emf ε / V</label><input type="number" id="ssE" value="12" min="0.5" step="any"></div><div><label>R₁ / Ω</label><input type="number" id="ssR1" value="4" min="0.1" step="any"></div><div><label>R₂ / Ω</label><input type="number" id="ssR2" value="6" min="0.1" step="any"></div><div><label>R₃ / Ω</label><input type="number" id="ssR3" value="12" min="0.1" step="any"></div></div>
+<div class="row" style="flex-wrap:wrap"><button class="btn sm" id="ssRnd">🎲 Random values</button><span style="font-size:14px;color:var(--muted)">The supply has no internal resistance.</span></div></div>
+<div class="card"><h4>The solution, one click at a time</h4><div class="sslist" id="ssList"></div></div>
+</div></div></div>
 <div class="sub on" id="s-sp-lab">
 <div class="grid2"><div class="stack">
 <div class="card"><div class="row" style="margin:0 0 8px;justify-content:space-between;flex-wrap:wrap;gap:8px"><h4 style="margin:0">The circuit</h4><div class="seg" id="spM" style="flex-wrap:wrap"><button class="on" data-m="ser">Series</button><button data-m="par">Parallel</button><button data-m="c1">R₁ + (R₂ ∥ R₃)</button><button data-m="c2">(R₁ + R₂) ∥ R₃</button></div></div>
@@ -1238,8 +1251,50 @@ It is like height in a gravitational field: lifting 2 kg needs twice the work of
 <!-- ===================== INTERNAL RESISTANCE ===================== -->
 <section class="panel" id="p-intr">
 <div class="mainhead"><div><h2>Internal resistance</h2><p>A real cell hides a resistance inside it. Change the load, take readings, plot the V–I graph and find ε and r from the intercept and gradient. Try a short circuit and an open circuit, and combine cells in series and parallel.</p></div></div>
-<nav class="subnav" data-p="intr"><button class="on" data-s="lab">Find ε and r</button><button data-s="pow">Power to the load</button><button data-s="cells">Cells in series and parallel</button><button data-s="quiz">✔ Section quiz</button></nav>
-<div class="sub on" id="s-intr-lab">
+<nav class="subnav" data-p="intr"><button class="on" data-s="why">What is internal resistance?</button><button data-s="step">🪜 Solve it step by step</button><button data-s="lab">Find ε and r</button><button data-s="pow">Power to the load</button><button data-s="cells">Cells in series and parallel</button><button data-s="quiz">✔ Section quiz</button></nav>
+<div class="sub on" id="s-intr-why">
+<div class="grid2"><div class="stack">
+<div class="card"><h4>Follow one coulomb round the circuit: the potential at every point</h4><div class="cv big"><canvas id="cIx"></canvas></div>
+<div class="row" style="flex-wrap:wrap"><button class="btn" id="ixPause">❚❚ Pause</button><button class="btn" id="ixOpen">Open the switch: off</button></div></div>
+<div class="srcgrid">
+<div class="card"><h4>1 · Where does r come from?</h4><p style="margin:0">Charge has to pass <b>through the cell itself</b>: through the electrolyte (ions moving) and the electrodes. These materials resist the flow like any conductor. We model a real cell as an <b>ideal emf ε in series with a small resistor r</b>. You cannot take r out of the cell: it is spread through the cell’s materials.</p></div>
+<div class="card"><h4>2 · Emf and terminal pd</h4><p style="margin:0"><b>Emf ε</b>: the energy given to each coulomb by the cell’s chemical reaction. <b>Terminal pd V</b>: the energy each coulomb delivers to the external circuit. They differ by the energy transferred inside the cell: <b>V = ε − Ir</b>.</p></div>
+<div class="card"><h4>3 · Lost volts, Ir</h4><p style="margin:0">The pd across r. It is the energy per coulomb transferred <b>inside the cell</b> (the cell gets warm). It grows with the current, so a <b>smaller load R</b> means a bigger current, more lost volts and a <b>lower</b> terminal pd.</p></div>
+<div class="card"><h4>4 · The two extremes</h4><p style="margin:0"><b>Open circuit</b> (no current): nothing is lost, so V = ε. That is how an emf is measured. <b>Short circuit</b> (R = 0): I = ε/r, the largest possible current, V = 0 and all the energy heats the cell.</p></div>
+<div class="card"><h4>5 · Why it matters</h4><p style="margin:0">A car’s starter motor draws over 100 A, so the lost volts are large and the headlights dim. Lithium cells have a very small r, so a short circuit gives a huge, dangerous current. School EHT supplies are built with a very large r so that the current is always safe. As a battery ages its r increases.</p></div>
+<div class="card"><h4>6 · The equations</h4><p style="margin:0">ε = I(R + r) · V = IR = ε − Ir<br>power from the cell = εI · useful power = I²R · wasted power = I²r<br>efficiency = R ÷ (R + r)</p></div>
+</div>
+</div><div class="stack">
+<div id="prIx"></div>
+<div class="card"><div class="ctl"><label>emf ε <span id="vixE">6.0 V</span></label><input type="range" id="ixE" min="1.5" max="12" step="0.1" value="6"></div>
+<div class="ctl"><label>Internal resistance r <span id="vixr">1.5 Ω</span></label><input type="range" id="ixr" min="0" max="5" step="0.1" value="1.5"></div>
+<div class="ctl"><label>Load resistance R <span id="vixR">6.0 Ω</span></label><input type="range" id="ixR" min="0" max="30" step="0.5" value="6"></div></div>
+<div class="card"><h4>Readings and energy per coulomb</h4><div id="ixRd"></div></div>
+<div class="card"><h4>What is happening now?</h4><div class="explain" id="ixEx"></div></div>
+<div class="card"><h4>Common mistakes</h4>
+<div class="alert" style="margin-top:0"><b>✗ “The emf falls when a current flows.”</b> The emf is fixed by the chemistry of the cell. What falls is the <b>terminal pd</b>.</div>
+<div class="alert"><b>✗ “A voltmeter across a cell always reads its emf.”</b> Only when no current flows (open circuit). With a load connected it reads V = ε − Ir.</div>
+<div class="alert"><b>✗ “Internal resistance is a separate part inside the battery.”</b> It is the resistance of the cell’s own materials. The resistor r is only a model.</div></div>
+</div></div>
+<div class="card" style="margin-top:16px"><h3>IB practical: determining the emf and internal resistance of a cell</h3><div class="srcgrid">
+<div><h4>Method</h4><ol style="margin:0 0 0 18px;padding:0"><li>Connect the cell in series with a variable resistor, an ammeter and a switch. Connect a voltmeter across the cell’s terminals.</li><li>Close the switch, record I and V, then open the switch again straight away.</li><li>Change the resistance and repeat for at least 6 readings over as wide a range of current as possible.</li><li>Plot V (y-axis) against I (x-axis) and draw the line of best fit.</li></ol></div>
+<div><h4>Analysis</h4><p style="margin:0">V = −rI + ε has the form y = mx + c.<br><b>y-intercept = ε</b> (the pd when I = 0).<br><b>gradient = −r</b>, so r = −gradient.<br><b>x-intercept = ε/r</b>, the short-circuit current.<br>Find the gradient from a large triangle drawn on the line, not from two data points.</p></div>
+<div><h4>Errors and improvements</h4><p style="margin:0">The cell warms up and r changes if current flows for long: open the switch between readings. A cell with a very small r gives a nearly flat line: add a small known resistor in series with the cell and subtract it from the result. Use a high-resistance (digital) voltmeter so it takes almost no current.</p></div></div></div>
+</div>
+<div class="sub" id="s-intr-step">
+<div class="gqbar"><b>Solve it step by step</b><span>Choose the type of problem and the values, then press <b>Next step</b>. The circuit changes with each click: the parts used light up, the meters show their readings when they are found, and the electrons flow once the current is known.</span></div>
+<div class="grid2"><div class="stack">
+<div class="card"><div class="row" style="margin:0 0 8px;justify-content:space-between;flex-wrap:wrap;gap:8px"><h4 style="margin:0">The circuit: the dashed box is the real cell</h4><div class="seg" id="isK" style="flex-wrap:wrap"><button class="on" data-k="fwd">Given ε, r and R</button><button data-k="oc">Find r from an open-circuit reading</button><button data-k="two">Find ε and r from two readings</button></div></div>
+<div class="cv big"><canvas id="isCv"></canvas></div>
+<div class="ssbar"><button class="btn" id="isPrev">◀ Back</button><button class="btn pri" id="isNext">Next step ▶</button><button class="btn" id="isAll">Show all steps</button><button class="btn" id="isRst">↻ Start again</button><span class="score" id="isProg"></span></div>
+<div class="ssbar"><button class="btn sm" id="isPause">❚❚ Pause the flow</button><button class="btn sm" id="isDir"></button><button class="btn sm" id="isPred"></button></div></div>
+<div class="card sslegend"><b>Reading the circuit.</b> <i style="background:var(--eth)"></i> glowing outline: the parts used in this step. <i style="background:var(--ep)"></i> blue dots marked −: electrons. They flow through the inside of the cell too. <b>?</b> marks a value not yet found.</div>
+</div><div class="stack">
+<div class="card"><h4>Set up the problem</h4><div class="ssin"><div><label>emf ε / V</label><input type="number" id="isE" value="6" min="0.5" step="any"></div><div><label>internal resistance r / Ω</label><input type="number" id="isr" value="1.5" min="0" step="any"></div><div><label>load R / Ω</label><input type="number" id="isR" value="8" min="0" step="any"></div><div id="isBoxR2" style="display:none"><label>second load R₂ / Ω</label><input type="number" id="isR2" value="3" min="0" step="any"></div></div>
+<p style="margin:8px 0 0;font-size:14px;color:var(--muted)">In the two “find” problems, ε and r are hidden: they are only used to make the meter readings, and the steps work them out again.</p></div>
+<div class="card"><h4>The solution, one click at a time</h4><div class="sslist" id="isList"></div></div>
+</div></div></div>
+<div class="sub" id="s-intr-lab">
 <div class="grid2"><div class="stack">
 <div class="card"><h4>The circuit: the dashed box is the real cell</h4><div class="cv" style="height:300px"><canvas id="cIr"></canvas></div>
 <div class="row" style="flex-wrap:wrap"><button class="btn" id="irPause">❚❚ Pause</button><button class="btn sm" id="irShort">⚡ Short circuit (R = 0)</button><button class="btn sm" id="irOpen">Open circuit (R = ∞)</button></div></div>
@@ -1282,7 +1337,23 @@ It is like height in a gravitational field: lifting 2 kg needs twice the work of
 <!-- ===================== SENSORS & DIVIDERS ===================== -->
 <section class="panel" id="p-sens">
 <div class="mainhead"><div><h2>Sensors and potential dividers</h2><p>Heat a thermistor and shade an LDR and see why their resistance falls, then use them in a potential divider to design a street light, a fire alarm and a frost alarm.</p></div></div>
-<nav class="subnav" data-p="sens"><button class="on" data-s="th">NTC thermistor</button><button data-s="ldr">LDR</button><button data-s="div">Potential divider</button><button data-s="quiz">✔ Section quiz</button></nav>
+<nav class="subnav" data-p="sens"><button class="on" data-s="th">NTC thermistor</button><button data-s="ldr">LDR</button><button data-s="div">Potential divider</button><button data-s="step">🪜 Solve it step by step</button><button data-s="quiz">✔ Section quiz</button></nav>
+<div class="sub" id="s-sens-step">
+<div class="gqbar"><b>Solve it step by step</b><span>Choose which component goes at the top and at the bottom, set the conditions, then press <b>Next step</b>. Each click reveals one line of working and the circuit changes to match. The output is taken across the bottom component, R₂.</span></div>
+<div class="grid2"><div class="stack">
+<div class="card"><h4>The potential divider</h4><div class="cv big"><canvas id="dsCv"></canvas></div>
+<div class="ssbar"><button class="btn" id="dsPrev">◀ Back</button><button class="btn pri" id="dsNext">Next step ▶</button><button class="btn" id="dsAll">Show all steps</button><button class="btn" id="dsRst">↻ Start again</button><span class="score" id="dsProg"></span></div>
+<div class="ssbar"><button class="btn sm" id="dsPause">❚❚ Pause the flow</button><button class="btn sm" id="dsDir"></button><button class="btn sm" id="dsPred"></button></div></div>
+<div class="card sslegend"><b>Reading the circuit.</b> <i style="background:var(--eth)"></i> glowing outline: the parts used in this step. <i style="background:var(--ep)"></i> blue dots marked −: electrons. The ideal voltmeter takes no current, so no electrons flow through it. <b>?</b> marks a value not yet found.</div>
+</div><div class="stack">
+<div class="card"><h4>Set up the problem</h4>
+<div class="row" style="flex-wrap:wrap;margin:0 0 8px"><b style="font-size:14px">Quick start:</b><button class="btn sm" data-dsp='{"dsTop":"th","dsBot":"fix","dsT":"90"}'>Fire alarm</button><button class="btn sm" data-dsp='{"dsTop":"fix","dsBot":"th","dsT":"-5"}'>Frost alarm</button><button class="btn sm" data-dsp='{"dsTop":"fix","dsBot":"ldr","dsL":"2"}'>Street light</button></div>
+<div class="ssin"><div><label>Top component, R₁</label><select id="dsTop"><option value="fix">fixed resistor</option><option value="th">thermistor</option><option value="ldr">LDR</option></select></div><div><label>Bottom component, R₂</label><select id="dsBot"><option value="fix">fixed resistor</option><option value="th" selected>thermistor</option><option value="ldr">LDR</option></select></div>
+<div><label>Supply pd V<sub>in</sub> / V</label><input type="number" id="dsV" value="12" min="0.5" step="any"></div><div><label>R₁ if fixed / kΩ</label><input type="number" id="dsF1" value="10" min="0.01" step="any"></div><div><label>R₂ if fixed / kΩ</label><input type="number" id="dsF2" value="10" min="0.01" step="any"></div>
+<div><label>Temperature / °C</label><input type="number" id="dsT" value="20" min="-40" max="150" step="any"></div><div><label>Light intensity / lux</label><input type="number" id="dsL" value="100" min="1" max="100000" step="any"></div><div><label>Load resistance / kΩ</label><input type="number" id="dsRL" value="10" min="0.01" step="any"></div></div>
+<div class="row" style="flex-wrap:wrap"><button class="btn sm" id="dsLd">Connect a load across the output: off</button></div></div>
+<div class="card"><h4>The solution, one click at a time</h4><div class="sslist" id="dsList"></div></div>
+</div></div></div>
 <div class="sub on" id="s-sens-th">
 <div class="grid2"><div class="stack">
 <div class="card"><h4>A thermistor in a water bath</h4><div class="cv big"><canvas id="cTh"></canvas></div>
@@ -1330,9 +1401,12 @@ It is like height in a gravitational field: lifting 2 kg needs twice the work of
 <div class="mainhead"><div><h2>Step by step: derivations and calculations</h2><p>Every B.5 equation built up one line at a time, followed by a worked example and a question for you to try.</p></div></div>
 <nav class="subnav" data-p="der"><button class="on" data-s="main">📐 Step by step</button></nav>
 <div class="sub on" id="s-der-main">
-<div class="gqbar"><b>Step by step</b><span>Choose a calculation, then press <b>Next step</b> (or the → key) to reveal it one line at a time.</span></div>
+<div class="gqbar"><b>Step by step</b><span>Choose a calculation, then press <b>Next step</b> (or the → key) to reveal it one line at a time. The picture changes with every step: the parts being used light up and the flow of charge shows what each line of the derivation means.</span></div>
 <div class="dvwrap"><div class="card dvside"><h4>Choose a calculation</h4><div class="dvmenu" id="dvMenu"></div></div>
-<div class="card dvmain"><div class="dvbar"><button class="btn" id="dvPrev">◀ Back</button><button class="btn pri" id="dvNext">Next step ▶</button><button class="btn" id="dvAll">Show all steps</button><button class="btn" id="dvRst">↻ Start again</button><span class="score" id="dvProg"></span></div><div id="dvBody"></div></div></div></div>
+<div class="card dvmain"><div class="dvbar"><button class="btn" id="dvPrev">◀ Back</button><button class="btn pri" id="dvNext">Next step ▶</button><button class="btn" id="dvAll">Show all steps</button><button class="btn" id="dvRst">↻ Start again</button><span class="score" id="dvProg"></span></div>
+<div class="cv" style="height:300px"><canvas id="cDsc"></canvas></div>
+<div class="row" style="margin:6px 0 4px;align-items:center;gap:10px;flex-wrap:wrap"><button class="btn sm" id="dscPause">❚❚ Pause the picture</button><span class="sslegend"><i style="background:var(--ep)"></i> electrons · <i style="background:var(--eth)"></i> glowing outline: what this step is about</span></div>
+<div class="explain" id="dscCap" style="min-height:0;margin:0 0 12px"></div><div id="dvBody"></div></div></div></div>
 </section>
 
 <!-- ===================== CLASS ACTIVITY ===================== -->
@@ -2677,7 +2751,7 @@ function netGeom(m,w,h){const xl=60,xr=w-70,yt=64,yb=h-70,cy=(yt+yb)/2,X=f=>xl+(
  return G;}
 /* draws the network; o = {labels:[text lines per R], vals, lamp, glow:[], x (R3 removed), flow:{off,I}} */
 function drawNet(ctx,w,h,m,o){const G=netGeom(m,w,h),blank=(x1,y1,x2,y2,ww=64,hh=56)=>{ctx.fillStyle=css('--panel2');ctx.fillRect((x1+x2)/2-ww/2,(y1+y2)/2-hh/2,ww,hh);};
- G.wires.forEach(p=>wire(ctx,p));
+ G.wires.forEach(p=>wire(ctx,p));if(o.pre)o.pre(ctx,G);
  if(o.flow)G.paths.forEach(([p,k],j)=>{const I=k==='all'?o.flow.I:o.flow.br[k];if(Math.abs(I)>1e-6)flow(ctx,p,(o.flow.off[j]||0),30,{c:C.eth,r:3.8});});
  blank(...G.cell,50,60);sym(ctx,'cell',...G.cell,{len:40});if(o.E!=null)txtB(ctx,o.E+' V',G.xl-14,G.cy+5,{a:'right',sz:13,b:1});
  G.R.forEach((r,k)=>{const [x1,y1,x2,y2,side]=r,mx=(x1+x2)/2,my=(y1+y2)/2,gone=o.x&&k===2;blank(x1,y1,x2,y2,side==='b'?70:40,side==='b'?40:68);
@@ -2863,7 +2937,7 @@ function dvTest(){const c=PD.c;if(c==='free'){setEx('#pdFb','Choose a design cha
 segB('dvCh',d=>{PD.c=d.c;$('#dvTask').innerHTML=DVT[d.c];setEx('#pdFb','');});$('#dvTask').innerHTML=DVT.free;$('#pdChk').onclick=dvTest;
 ['dvTop','dvBot'].forEach(id=>$('#'+id).addEventListener('change',()=>safe(drawDv)));$('#dvBot').value='th';
 onIn('dvV dvF dvW dvT dvL',()=>{sv('dvV',v=>v+' V');sv('dvF',v=>eng(10**(v+3),'Ω',2));sv('dvW',v=>Math.round(v*100)+'%');sv('dvT',v=>v+' °C');sv('dvL',v=>Math.round(10**v)+' lux');drawDv();});
-sv('dvV',v=>v+' V');sv('dvF',v=>eng(10**(v+3),'Ω',2));sv('dvW',v=>Math.round(v*100)+'%');sv('dvT',v=>v+' °C');sv('dvL',v=>Math.round(10**v)+' lux');togT('dvLoad',DV,'load','Connect a 10 kΩ load across the output');
+sv('dvV',v=>v+' V');sv('dvF',v=>eng(10**(v+3),'Ω',2));sv('dvW',v=>Math.round(v*100)+'%');sv('dvT',v=>v+' °C');sv('dvL',v=>Math.round(10**v)+' lux');togT('dvLoad',PD,'load','Connect a 10 kΩ load across the output');
 PR('#prDv','A thermistor (R₁, top) and a fixed resistor (R₂, bottom) form a potential divider, with the output across R₂. The thermistor is heated. V_out…'.replace('V_out','the output pd'),['rises','falls','stays the same','drops to zero'],0,'The thermistor’s resistance falls, so it takes a smaller share of the supply pd and the fixed resistor takes a larger share: the output rises. This is a fire-alarm circuit.');
 </script>
 <script>
@@ -2917,6 +2991,357 @@ $('#dvNext').onclick=()=>{DV.n++;derShow();};$('#dvPrev').onclick=()=>{DV.n=Math
 $('#dvAll').onclick=()=>{DV.n=derAll(DER[DV.i]).filter(x=>!x.h).length;derShow();};$('#dvRst').onclick=()=>{DV.n=1;derShow();};
 document.addEventListener('keydown',e=>{if(!subOn('der-main')||/INPUT|SELECT|TEXTAREA/.test((e.target.tagName||'')))return;if(e.key==='ArrowRight'||e.key===' '){if(!$('#dvNext').disabled){e.preventDefault();$('#dvNext').click();}}else if(e.key==='ArrowLeft'){e.preventDefault();$('#dvPrev').click();}});
 derMenu();derShow();
+</script>
+<style>
+.ssbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 0}
+.ssbar .score{margin-left:auto}
+.ssin{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px 10px}
+.ssin label{display:block;font-size:14px;font-weight:600;color:var(--ink2)}
+.ssin input,.ssin select{font:16px var(--body);width:100%;box-sizing:border-box;padding:5px 7px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);color:var(--ink)}
+.sslist{max-height:560px;overflow-y:auto;padding-right:2px}
+.sslist .dstep{padding:8px 10px}
+.sslist .sst{font-weight:700;font-size:16.5px;color:var(--accent)}
+.sslist .ssm{font-size:17px;line-height:1.65;margin-top:2px;overflow-x:auto}
+.sslist .ssm .ans{color:var(--accent);font-weight:700;white-space:nowrap}
+.sslist .dstep.ask{border:2px dashed var(--eth)}
+.sslist .gfb{font-size:14.5px;margin-top:4px}
+.sslegend{font-size:14.5px;color:var(--ink2);line-height:1.5}
+.sslegend i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-1px;margin:0 3px}
+</style>
+<script>
+/* ---------- Click-through solver: one line of working per click, the circuit changes to match ----------
+ cfg = {p: id prefix, sub: sub-tab id, build() -> {steps, cur:{flowKey: current}}, draw(ctx,w,h,S,c)}
+ a step = {t: title, ct: short canvas title, m: working, w: why, hl: [parts to light up], rev: {values now known}, fl: [paths that now carry current], q: {l,a,u} for predictions} */
+const ans3=(v,u)=>`<span class="ans">${g3(v)} ${u}</span>`,n3=v=>String(g3(v));
+function hlR(ctx,x0,y0,x1,y1,t,col){col=col||C.eth;const a=.55+.35*Math.sin(t*5);ctx.save();ctx.globalAlpha=.16;ctx.fillStyle=col;ctx.beginPath();ctx.roundRect?ctx.roundRect(x0,y0,x1-x0,y1-y0,10):ctx.rect(x0,y0,x1-x0,y1-y0);ctx.fill();
+ ctx.globalAlpha=a;ctx.strokeStyle=col;ctx.lineWidth=3.5;ctx.stroke();ctx.restore();}
+function dashBox(ctx,b,col,lab,lx,ly,al){ctx.save();ctx.setLineDash([6,5]);ctx.strokeStyle=col;ctx.lineWidth=2;ctx.strokeRect(b[0],b[1],b[2]-b[0],b[3]-b[1]);ctx.restore();}
+const bUni=(a,b)=>[Math.min(a[0],b[0]),Math.min(a[1],b[1]),Math.max(a[2],b[2]),Math.max(a[3],b[3])],bPad=(b,p)=>[b[0]-p,b[1]-p,b[2]+p,b[3]+p];
+function Stepper(cfg){const S={n:0,steps:[],d:{cur:{}},run:true,el:true,pred:false,ask:false,off:{},t:0,guess:null},P=cfg.p,E=s=>$('#'+P+s);
+ const cum=()=>{const rev={},fl={};let hl=[];S.steps.slice(0,S.n).forEach((s,i)=>{Object.assign(rev,s.rev||{});(s.fl||[]).forEach(k=>fl[k]=1);(s.st0||[]).forEach(k=>delete fl[k]);if(i===S.n-1)hl=s.hl||[];});
+  const nx=S.steps[S.n];if(S.ask&&nx)hl=nx.hl||[];
+  const c={rev,fl,hl,cur:S.steps[S.n-1]||null,st:S.steps.slice(0,S.n).reduce((a,s)=>s.st!=null?s.st:a,null)};
+  c.flow=(ctx,p,k)=>{if(c.fl[k])flow(ctx,p,S.off[k]||0,28,S.el?{c:C.ep,r:5.2,sign:'−'}:{c:C.eth,r:4.4,sign:'+'});};return c;};
+ function list(){const tot=S.steps.length;let h='';
+  S.steps.slice(0,S.n).forEach((s,i)=>{const g=i===S.n-1&&S.guess?`<div class="gfb" style="color:${S.guess.ok?'var(--ok)':'var(--bad)'}">${S.guess.ok?'✓ Your prediction':'✗ Your prediction'} (${S.guess.v}) ${S.guess.ok?'matches.':'does not match. Compare your working with the line above.'}</div>`:'';
+   h+=`<div class="dstep ${s.fin?'res':''} ${i===S.n-1?'new':''}"><span class="dnum">${i+1}</span><div class="dbody"><div class="sst">${s.t}</div>${s.m?`<div class="ssm">${s.m}</div>`:''}${s.w?`<div class="dw">${s.w}</div>`:''}${g}</div></div>`;});
+  if(S.ask){const s=S.steps[S.n];h+=`<div class="dstep ask new"><span class="dnum">${S.n+1}</span><div class="dbody"><div class="sst">${s.t}</div><div class="dw">Predict first: what is <b>${s.q.l}</b>? The parts you need are lit up on the circuit.</div><div class="ansrow" style="margin-top:6px"><input type="text" id="${P}Gs" style="width:130px" placeholder="your value"><span class="unit">${s.q.u}</span><button class="btn pri sm" id="${P}Gc">Reveal ▶</button></div></div></div>`;}
+  if(!S.n&&!S.ask)h=`<div class="explain" style="min-height:0">Set up the circuit, then press <b>Next step</b> (or the → key). Each click adds one line of working, and the circuit changes to match: the parts used in that line light up, the values appear in place of <b>?</b>, and electrons start to flow in each part once its current is known.</div>`;
+  if(S.n>=tot&&tot)h+=`<div class="explain" style="min-height:0;margin-top:6px"><b>Every unknown has been found.</b> Change a value or the arrangement to get a new problem. <span class="who">${NAME} · ${stamp()}</span></div>`;
+  E('List').innerHTML=h;E('Prog').textContent=`step ${S.n} of ${tot}`;E('Prev').disabled=S.n<=0&&!S.ask;E('Next').disabled=S.n>=tot;E('Next').textContent=S.ask?'Reveal ▶':'Next step ▶';
+  if(S.ask){const go=()=>{const s=S.steps[S.n],v=cxNum($('#'+P+'Gs').value);S.guess=v==null?null:{v,ok:Math.abs(v-s.q.a)<=Math.abs(s.q.a)*.03+1e-12};S.ask=false;S.n++;list();};$('#'+P+'Gc').onclick=go;$('#'+P+'Gs').addEventListener('keydown',e=>{if(e.key==='Enter')go();});setTimeout(()=>{const i=$('#'+P+'Gs');if(i)i.focus({preventScroll:true});},30);}
+  const nw=E('List').querySelector('.new');if(nw&&S.n>2)nw.scrollIntoView({block:'nearest',behavior:'smooth'});safe(draw);}
+ function next(){const tot=S.steps.length;if(S.ask){$('#'+P+'Gc').click();return;}if(S.n>=tot)return;const s=S.steps[S.n];S.guess=null;if(S.pred&&s.q){S.ask=true;list();return;}S.n++;list();}
+ function rebuild(){const r=cfg.build();if(!r)return;S.d=r;S.steps=r.steps;S.n=0;S.ask=false;S.guess=null;S.off={};list();}
+ function draw(){if(!subOn(cfg.sub))return;const {ctx,w,h}=fit(E('Cv')),c=cum();cfg.draw(ctx,w,h,S,c);
+  const tot=S.steps.length,s=S.ask?S.steps[S.n]:c.cur;txtB(ctx,S.ask?`Step ${S.n+1} of ${tot}: predict ${s.q.l}`:s?`Step ${S.n} of ${tot}: ${s.ct||''}`:'Press Next step to begin',12,22,{sz:14,b:1,c:C.accent});
+  if(!S.run)txtB(ctx,'❚❚ paused',12,42,{sz:12.5,b:1,c:C.muted});wm(ctx,w,h);}
+ E('Next').onclick=next;E('Prev').onclick=()=>{S.guess=null;if(S.ask)S.ask=false;else S.n=Math.max(0,S.n-1);list();};
+ E('All').onclick=()=>{S.ask=false;S.guess=null;S.n=S.steps.length;list();};E('Rst').onclick=()=>{S.ask=false;S.guess=null;S.n=0;S.off={};list();};
+ E('Pause').onclick=()=>{S.run=!S.run;E('Pause').textContent=S.run?'❚❚ Pause the flow':'▶ Resume the flow';draw();};
+ const dl=()=>E('Dir').textContent=S.el?'Showing: electron flow (− to +)':'Showing: conventional current (+ to −)';E('Dir').onclick=()=>{S.el=!S.el;dl();draw();};dl();
+ togT(P+'Pred',S,'pred','Predict before each reveal',()=>{S.ask=false;list();});
+ document.addEventListener('keydown',e=>{if(!subOn(cfg.sub)||/INPUT|SELECT|TEXTAREA/.test(e.target.tagName||''))return;if(e.key==='ArrowRight'){e.preventDefault();next();}else if(e.key==='ArrowLeft'){e.preventDefault();E('Prev').click();}});
+ TICK.push(dt=>{if(!subOn(cfg.sub))return;if(S.run){S.t+=dt;const c=cum(),cur=S.d.cur||{},mx=Math.max(1e-12,...Object.keys(c.fl).map(k=>Math.abs(cur[k]||0)));
+  for(const k in c.fl){const I=Math.abs(cur[k]||0);if(I<1e-12)continue;S.off[k]=(S.off[k]||0)+dt*26*(.5+2.3*I/mx)*(S.el?-1:1);}}draw();});
+ return {S,rebuild,draw,list};}
+const numIn=(id,d,lo=1e-9)=>{const v=cxNum($('#'+id).value);return v!=null&&v>=lo?v:d;};
+</script>
+<script>
+/* ---------- Series & parallel: solve it step by step ---------- */
+const SSQ={m:'ser'},SSN=['₁','₂','₃'];
+function ssBuild(){const m=SSQ.m,E=numIn('ssE',12),R=[numIn('ssR1',4),numIn('ssR2',6),numIn('ssR3',12)],s=netSolve(m,E,R[0],R[1],R[2]),b=s.br,r=R.map(n3),e=n3(E);
+ const R23=R[1]*R[2]/(R[1]+R[2]),RA=R[0]+R[1],V=k=>b[k].V,I=k=>b[k].I,P=b.map(x=>x.I*x.V),Pt=E*s.I;
+ const pw={t:'Power in each resistor',ct:'power: P = IV in each resistor',m:`P₁ = I₁V₁ = ${ans3(P[0],'W')}, P₂ = ${ans3(P[1],'W')}, P₃ = ${ans3(P[2],'W')}<br>total = P₁ + P₂ + P₃ = ${n3(P[0]+P[1]+P[2])} W = εI = ${e} × ${n3(s.I)} = ${ans3(Pt,'W')} ✓`,w:'Energy is conserved: the power from the supply equals the total power in the resistors. As lamps, the one with the largest power would be the brightest.',hl:['r0','r1','r2','cell'],fin:1};
+ let st=[];
+ if(m==='ser')st=[
+  {t:'Spot the arrangement',ct:'one path only: a series circuit',m:'There is only <b>one path</b> for the charge, so R₁, R₂ and R₃ are in <b>series</b>.',w:'In series the <b>same current</b> flows through every component, and the supply pd is <b>shared</b> between them.',hl:['r0','r1','r2']},
+  {t:'Total resistance',ct:'add the resistances in series',m:`R<sub>total</sub> = R₁ + R₂ + R₃ = ${r[0]} + ${r[1]} + ${r[2]} = ${ans3(s.Rt,'Ω')}`,w:'Resistances in series add: the charge has to pass through every one of them.',hl:['r0','r1','r2'],rev:{Rt:1},q:{l:'the total resistance',a:s.Rt,u:'Ω'}},
+  {t:'Current from the supply',ct:'I = ε ÷ R total: the current starts to flow',m:`I = ε ÷ R<sub>total</sub> = ${e} ÷ ${n3(s.Rt)} = ${ans3(s.I,'A')}`,w:'This one current flows all the way round. The electrons move at the same rate through R₁, R₂ and R₃, and the ammeter reads I wherever it is placed.',hl:['cell','amm'],rev:{I:1,I0:1,I1:1,I2:1},fl:['main'],q:{l:'the current from the supply',a:s.I,u:'A'}},
+  ...[0,1,2].map(k=>({t:`Pd across R${SSN[k]}`,ct:`V${SSN[k]} = I R${SSN[k]}`,m:`V${SSN[k]} = I R${SSN[k]} = ${n3(s.I)} × ${r[k]} = ${ans3(V(k),'V')}`,w:k===0?'Each coulomb transfers energy V₁ in R₁. The bigger the resistance, the bigger its share of the pd.':'',hl:['r'+k],rev:{['V'+k]:1},q:{l:`the pd across R${SSN[k]}`,a:V(k),u:'V'}})),
+  {t:'Check: the pds add up to the supply pd',ct:'check: V₁ + V₂ + V₃ = ε',m:`V₁ + V₂ + V₃ = ${n3(V(0))} + ${n3(V(1))} + ${n3(V(2))} = ${n3(V(0)+V(1)+V(2))} V = ε ✓`,w:'Energy is conserved round the loop: all the energy each coulomb gains in the supply is transferred in the resistors.',hl:['r0','r1','r2','cell']},pw];
+ else if(m==='par')st=[
+  {t:'Spot the arrangement',ct:'each resistor is across the supply: parallel',m:`Each resistor is joined directly across the supply, so R₁, R₂ and R₃ are in <b>parallel</b>.<br>V₁ = V₂ = V₃ = ε = ${ans3(E,'V')}`,w:'Every branch has the <b>full supply pd</b> across it. The current splits at the junction.',hl:['r0','r1','r2','cell'],rev:{V0:1,V1:1,V2:1}},
+  ...[0,1,2].map(k=>({t:`Current in R${SSN[k]}`,ct:`I${SSN[k]} = V ÷ R${SSN[k]}: branch ${k+1} starts to flow`,m:`I${SSN[k]} = V ÷ R${SSN[k]} = ${e} ÷ ${r[k]} = ${ans3(I(k),'A')}`,w:k===0?'Electrons now flow through branch 1. Watch the speed of the dots: the smaller the resistance, the larger the current.':'',hl:['r'+k],rev:{['I'+k]:1},fl:['b'+k],q:{l:`the current in R${SSN[k]}`,a:I(k),u:'A'}})),
+  {t:'Add the branch currents',ct:'at the junction: I = I₁ + I₂ + I₃',m:`I = I₁ + I₂ + I₃ = ${n3(I(0))} + ${n3(I(1))} + ${n3(I(2))} = ${ans3(s.I,'A')}`,w:'Charge is conserved at a junction: the current into it equals the total current out of it. The ammeter in the main wire carries all of it.',hl:['amm','jn'],rev:{I:1},q:{l:'the current from the supply',a:s.I,u:'A'}},
+  {t:'Total resistance',ct:'R total = ε ÷ I',m:`R<sub>total</sub> = ε ÷ I = ${e} ÷ ${n3(s.I)} = ${ans3(s.Rt,'Ω')}<br>check: 1/R<sub>total</sub> = 1/${r[0]} + 1/${r[1]} + 1/${r[2]} = ${(1/s.Rt).toPrecision(3)} Ω⁻¹ ✓`,w:`The total, ${n3(s.Rt)} Ω, is <b>less than the smallest branch</b> (${n3(Math.min(...R))} Ω): every extra branch is an extra path, so more current flows for the same pd.`,hl:['r0','r1','r2'],rev:{Rt:1},q:{l:'the total resistance',a:s.Rt,u:'Ω'}},pw];
+ else if(m==='c1')st=[
+  {t:'Spot the parallel pair',ct:'R₂ and R₃ are joined at both ends',m:`R₂ and R₃ are joined at both ends, so they are in parallel. Replace them by one resistor:<br>R₂₃ = (R₂ × R₃) ÷ (R₂ + R₃) = (${r[1]} × ${r[2]}) ÷ (${r[1]} + ${r[2]}) = ${ans3(R23,'Ω')}`,w:'Always reduce the parallel part first.',hl:['g23'],rev:{g23:1},q:{l:'R₂₃, the parallel pair',a:R23,u:'Ω'}},
+  {t:'Total resistance',ct:'R₁ is in series with R₂₃',m:`R<sub>total</sub> = R₁ + R₂₃ = ${r[0]} + ${n3(R23)} = ${ans3(s.Rt,'Ω')}`,w:'All the current passes through R₁ and then through the pair, so R₁ is in series with R₂₃.',hl:['r0','g23'],rev:{Rt:1},q:{l:'the total resistance',a:s.Rt,u:'Ω'}},
+  {t:'Current from the supply',ct:'I = ε ÷ R total: current in the main wires',m:`I = ε ÷ R<sub>total</sub> = ${e} ÷ ${n3(s.Rt)} = ${ans3(s.I,'A')} (this is also the current in R₁)`,w:'Electrons now flow in the main wires and through R₁. We do not yet know how the current splits at the junction, so the branches are still waiting.',hl:['cell','amm','r0'],rev:{I:1,I0:1},fl:['main'],q:{l:'the current from the supply',a:s.I,u:'A'}},
+  {t:'Pd across R₁',ct:'V₁ = I R₁',m:`V₁ = I R₁ = ${n3(s.I)} × ${r[0]} = ${ans3(V(0),'V')}`,hl:['r0'],rev:{V0:1},q:{l:'the pd across R₁',a:V(0),u:'V'}},
+  {t:'Pd across the parallel pair',ct:'the rest of the supply pd is across R₂ and R₃',m:`V₂₃ = ε − V₁ = ${e} − ${n3(V(0))} = ${ans3(V(1),'V')} (or I R₂₃ = ${n3(s.I)} × ${n3(R23)})`,w:'R₂ and R₃ are in parallel, so they have the <b>same pd</b>: V₂ = V₃ = V₂₃.',hl:['g23'],rev:{V1:1,V2:1},q:{l:'the pd across R₂ and R₃',a:V(1),u:'V'}},
+  {t:'Current in R₂',ct:'I₂ = V₂₃ ÷ R₂: the current splits',m:`I₂ = V₂₃ ÷ R₂ = ${n3(V(1))} ÷ ${r[1]} = ${ans3(I(1),'A')}`,hl:['r1'],rev:{I1:1},fl:['b1'],q:{l:'the current in R₂',a:I(1),u:'A'}},
+  {t:'Current in R₃',ct:'I₃ = V₂₃ ÷ R₃',m:`I₃ = V₂₃ ÷ R₃ = ${n3(V(2))} ÷ ${r[2]} = ${ans3(I(2),'A')}`,hl:['r2'],rev:{I2:1},fl:['b2'],q:{l:'the current in R₃',a:I(2),u:'A'}},
+  {t:'Check at the junction',ct:'check: I₂ + I₃ = I',m:`I₂ + I₃ = ${n3(I(1))} + ${n3(I(2))} = ${n3(I(1)+I(2))} A = I ✓`,w:'The current that enters the junction leaves it: charge is conserved. The smaller resistor takes the larger share.',hl:['jn']},pw];
+ else st=[
+  {t:'Spot the series pair',ct:'R₁ and R₂ are in series in one branch',m:`R₁ and R₂ are one after the other in the same branch, so they are in series:<br>R<sub>A</sub> = R₁ + R₂ = ${r[0]} + ${r[1]} = ${ans3(RA,'Ω')}`,w:'This branch is then in parallel with R₃.',hl:['gA'],rev:{gA:1},q:{l:"the series pair, R₁ + R₂",a:RA,u:'Ω'}},
+  {t:'Total resistance',ct:'branch A in parallel with R₃',m:`R<sub>total</sub> = (R<sub>A</sub> × R₃) ÷ (R<sub>A</sub> + R₃) = (${n3(RA)} × ${r[2]}) ÷ (${n3(RA)} + ${r[2]}) = ${ans3(s.Rt,'Ω')}`,w:'Less than either branch on its own.',hl:['gA','r2'],rev:{Rt:1},q:{l:'the total resistance',a:s.Rt,u:'Ω'}},
+  {t:'Current from the supply',ct:'I = ε ÷ R total: current in the main wires',m:`I = ε ÷ R<sub>total</sub> = ${e} ÷ ${n3(s.Rt)} = ${ans3(s.I,'A')}`,w:'Electrons now flow in the main wires. Next: how does the current split between the two branches?',hl:['cell','amm'],rev:{I:1},fl:['main'],q:{l:'the current from the supply',a:s.I,u:'A'}},
+  {t:'Current in branch A',ct:'each branch has the full supply pd',m:`Both branches are across the supply, so branch A has pd ε.<br>I<sub>A</sub> = ε ÷ R<sub>A</sub> = ${e} ÷ ${n3(RA)} = ${ans3(I(0),'A')} (the same through R₁ and R₂)`,hl:['gA'],rev:{I0:1,I1:1},fl:['bA'],q:{l:'the current in branch A',a:I(0),u:'A'}},
+  {t:'Pds across R₁ and R₂',ct:'the branch pd is shared by R₁ and R₂',m:`V₁ = I<sub>A</sub>R₁ = ${n3(I(0))} × ${r[0]} = ${ans3(V(0),'V')}<br>V₂ = I<sub>A</sub>R₂ = ${n3(I(0))} × ${r[1]} = ${ans3(V(1),'V')}<br>V₁ + V₂ = ${n3(V(0)+V(1))} V = ε ✓`,hl:['r0','r1'],rev:{V0:1,V1:1},q:{l:'the pd across R₁',a:V(0),u:'V'}},
+  {t:'Current in R₃',ct:'I₃ = ε ÷ R₃',m:`V₃ = ε = ${e} V, so I₃ = ${e} ÷ ${r[2]} = ${ans3(I(2),'A')}`,hl:['r2'],rev:{I2:1,V2:1},fl:['b2'],q:{l:'the current in R₃',a:I(2),u:'A'}},
+  {t:'Check at the junction',ct:'check: I_A + I₃ = I',m:`I<sub>A</sub> + I₃ = ${n3(I(0))} + ${n3(I(2))} = ${n3(I(0)+I(2))} A = I ✓`,w:'Charge is conserved at the junction.',hl:['jn']},pw];
+ return {steps:st,m,E,R,s,R23,RA,cur:{main:s.I,b0:I(0),b1:I(1),b2:I(2),bA:I(0)}};}
+function ssPaths(m,G){const {xl,yt,yb,cy}=G,top=[xl,cy-28],bot=[xl,cy+28],xr=G.xr;
+ if(m==='ser')return [[[top,[xl,yt],[xr,yt],[xr,yb],[xl,yb],bot],'main']];
+ if(m==='par')return G.R.map((r,k)=>[[top,[xl,yt],[r[0],yt],[r[0],yb],[xl,yb],bot],'b'+k]);
+ const x0=m==='c1'?G.R[1][0]:G.R[0][0],x1=G.R[2][0],main=[[[top,[xl,yt],[x0,yt]],'main'],[[[x0,yb],[xl,yb],bot],'main']];
+ return [...main,[[[x0,yt],[x0,yb]],m==='c1'?'b1':'bA'],[[[x0,yt],[x1,yt],[x1,yb],[x0,yb]],'b2']];}
+const SST=Stepper({p:'ss',sub:'sp-step',build:ssBuild,draw(ctx,w,h,S,c){const d=S.d,m=d.m,s=d.s,rv=c.rev,G=netGeom(m,w,h);
+ const bb=k=>{const [x1,y1,x2,y2,side]=G.R[k],mx=(x1+x2)/2,my=(y1+y2)/2;return side==='b'?[mx-44,my-24,mx+44,my+24]:[mx-25,my-42,mx+25,my+42];};
+ const box=k=>k[0]==='r'?bb(+k[1]):k==='g23'?bPad(bUni(bb(1),bb(2)),6):k==='gA'?bPad(bUni(bb(0),bb(1)),6):k==='cell'?[G.xl-28,G.cy-40,G.xl+28,G.cy+40]:k==='amm'&&G.A?(()=>{const mx=(G.A[0]+G.A[2])/2,my=(G.A[1]+G.A[3])/2;return [mx-26,my-24,mx+26,my+24];})():null;
+ const labels=d.R.map((r,k)=>[`R${SSN[k]} = ${n3(r)} Ω`,'I = '+(rv['I'+k]?eng(s.br[k].I,'A'):'?'),'V = '+(rv['V'+k]?eng(s.br[k].V,'V'):'?')]);
+ drawNet(ctx,w,h,m,{labels,E:n3(d.E),A:rv.I?eng(s.I,'A'):'?',pre:(ctx,G)=>{
+  if(rv.g23)dashBox(ctx,bPad(bUni(bb(1),bb(2)),12),C.so);if(rv.gA)dashBox(ctx,bPad(bUni(bb(0),bb(1)),12),C.so);
+  c.hl.forEach(k=>{if(k==='jn'){(G.junc||[]).forEach(([x,y])=>hlR(ctx,x-14,y-14,x+14,y+14,S.t));return;}const b=box(k);if(b)hlR(ctx,...b,S.t);});
+  ssPaths(m,G).forEach(([p,k])=>c.flow(ctx,p,k));}});
+ if(rv.g23){const b=bPad(bUni(bb(1),bb(2)),12);txtB(ctx,`R₂₃ = ${n3(d.R23)} Ω`,(b[0]+b[2])/2,b[3]+18,{a:'center',sz:13.5,b:1,c:C.so});}
+ if(rv.gA){const b=bPad(bUni(bb(0),bb(1)),12);txtB(ctx,`branch A: ${n3(d.RA)} Ω`,b[0]-8,G.cy+5,{a:'right',sz:13.5,b:1,c:C.so});}
+ if((m==='c1'||m==='c2')&&rv.I&&!(rv.I1||rv.I0&&m==='c2')){const x0=m==='c1'?G.R[1][0]:G.R[0][0];txtB(ctx,'the current splits here: ?',x0+8,G.yt-12,{sz:12.5,b:1,c:C.eth});}
+ txtB(ctx,`R total = ${rv.Rt?eng(s.Rt,'Ω'):'?'} · supply current = ${rv.I?eng(s.I,'A'):'?'}`,12,h-12,{sz:13.5,b:1});}});
+function drawSs(){SST.draw();}
+segB('ssM',d=>{SSQ.m=d.m;SST.rebuild();});['ssE','ssR1','ssR2','ssR3'].forEach(id=>$('#'+id).addEventListener('change',()=>safe(SST.rebuild)));
+$('#ssRnd').onclick=()=>{$('#ssE').value=pick([6,9,12,18,24]);$('#ssR1').value=pick([2,3,4,5,6,8,10]);$('#ssR2').value=pick([3,4,6,8,10,12,15,20]);$('#ssR3').value=pick([4,6,8,12,20,30]);SST.rebuild();};
+SST.rebuild();
+</script>
+<script>
+/* ---------- Potential divider: solve it step by step ---------- */
+const DSQ={load:false},DSN={fix:'fixed resistor',th:'thermistor',ldr:'LDR'};
+function dsBuild(){const top=$('#dsTop').value,bot=$('#dsBot').value,Vin=numIn('dsV',12),F=[numIn('dsF1',10)*1e3,numIn('dsF2',10)*1e3],T=numIn('dsT',20,-40),lx=numIn('dsL',100,.5),RL=numIn('dsRL',10)*1e3,ld=DSQ.load;
+ const kind=[top,bot],Rof=(k,i)=>k==='fix'?F[i]:k==='th'?thK(T):ldrK(lx),R=[Rof(top,0),Rof(bot,1)],Re=ld?R[1]*RL/(R[1]+RL):R[1],Rt=R[0]+Re,I=Vin/Rt,V1=I*R[0],Vo=I*Re,I2=Vo/R[1],IL=ld?Vo/RL:0,on=Vo>Vin/2;
+ const k=v=>eng(v,'Ω'),kA=v=>`<span class="ans">${eng(v,'Ω')}</span>`,aV=v=>`<span class="ans">${eng(v,'V')}</span>`,aI=v=>`<span class="ans">${eng(v,'A')}</span>`,sub=['₁','₂'];
+ const why=(kd,i)=>kd==='th'?`At ${n3(T)} °C the thermistor’s resistance (read from its R–θ graph) is ${kA(R[i])}. Hotter means more free charge carriers and a <b>lower</b> resistance.`:kd==='ldr'?`In ${n3(lx)} lux the LDR’s resistance (read from its R–light graph) is ${kA(R[i])}. Brighter light frees more charge carriers, so its resistance is <b>lower</b>.`:`R${sub[i]} is a fixed resistor: ${kA(R[i])}.`;
+ const st=[0,1].map(i=>({t:`Resistance of R${sub[i]} (${DSN[kind[i]]})`,ct:`find R${sub[i]}, the ${i?'bottom':'top'} component`,m:why(kind[i],i),hl:['t'+i],rev:{['R'+i]:1}}));
+ if(ld)st.push({t:'Combine R₂ with the load',ct:'R₂ and the load are in parallel',m:`The load is connected across R₂, so they are in parallel:<br>R₂ ∥ R<sub>L</sub> = (${k(R[1])} × ${k(RL)}) ÷ (${k(R[1])} + ${k(RL)}) = ${kA(Re)}`,w:'The combination is always smaller than R₂ alone.',hl:['t1','ld'],rev:{Re:1},q:{l:'the resistance of R₂ in parallel with the load',a:Re,u:'Ω'}});
+ st.push({t:'Total resistance',ct:'the two parts are in series',m:`R<sub>total</sub> = R₁ + R₂${ld?' ∥ R<sub>L</sub>':''} = ${k(R[0])} + ${k(Re)} = ${kA(Rt)}`,hl:['t0','t1',...(ld?['ld']:[])],rev:{Rt:1},q:{l:'the total resistance',a:Rt,u:'Ω'}},
+  {t:'Current from the supply',ct:'I = V in ÷ R total: the current starts to flow',m:`I = V<sub>in</sub> ÷ R<sub>total</sub> = ${n3(Vin)} ÷ ${k(Rt)} = ${aI(I)}`,w:ld?'This current flows through R₁. At the output point it splits between R₂ and the load.':'R₁ and R₂ are in series, so this <b>same current</b> flows through both. The ideal voltmeter takes no current.',hl:['cell','amm'],rev:{I:1,...(ld?{}:{I2:1})},fl:ld?['main']:['main','b2'],q:{l:'the current from the supply',a:I,u:'A'}},
+  {t:'Pd across R₁',ct:'V₁ = I R₁',m:`V₁ = I R₁ = ${eng(I,'A')} × ${k(R[0])} = ${aV(V1)}`,hl:['t0'],rev:{V0:1},q:{l:'the pd across R₁',a:V1,u:'V'}},
+  {t:'Output pd',ct:'the output is the pd across R₂',m:`V<sub>out</sub> = V<sub>in</sub> − V₁ = ${n3(Vin)} − ${n3(V1)} = ${aV(Vo)}<br>or V<sub>out</sub> = V<sub>in</sub> × R₂${ld?'∥R<sub>L</sub>':''} ÷ R<sub>total</sub> = ${n3(Vin)} × ${k(Re)} ÷ ${k(Rt)} ✓`,w:'The supply pd is shared in the ratio of the resistances. The voltmeter across the output terminals reads V<sub>out</sub>.',hl:['t1','vm'],rev:{V1:1},q:{l:'the output pd',a:Vo,u:'V'}});
+ if(ld){const Vu=Vin*R[1]/(R[0]+R[1]);st.push({t:'Currents in R₂ and in the load',ct:'the current splits at the output point',m:`I₂ = V<sub>out</sub> ÷ R₂ = ${n3(Vo)} ÷ ${k(R[1])} = ${aI(I2)}<br>I<sub>L</sub> = V<sub>out</sub> ÷ R<sub>L</sub> = ${n3(Vo)} ÷ ${k(RL)} = ${aI(IL)}<br>I₂ + I<sub>L</sub> = ${eng(I2+IL,'A')} = I ✓`,w:`Without the load the output would be ${eng(Vu,'V')}. The load draws current and lowers V<sub>out</sub>, so a load should have a resistance much larger than R₂.`,hl:['t1','ld','jn'],rev:{I2:1,IL:1},fl:['b2','bL'],q:{l:'the current in the load',a:IL,u:'A'}});}
+ st.push({t:'Check with the ratio',ct:'check: V₁ ÷ V out = R₁ ÷ R₂',m:`V₁ ÷ V<sub>out</sub> = ${n3(V1)} ÷ ${n3(Vo)} = ${n3(V1/Vo)}<br>R₁ ÷ R₂${ld?'∥R<sub>L</sub>':''} = ${k(R[0])} ÷ ${k(Re)} = ${n3(R[0]/Re)} ✓`,w:'The larger resistance always takes the larger share of the pd.',hl:['t0','t1']},
+  {t:'Does the output device switch on?',ct:`output ${on?'above':'below'} half of V in: device ${on?'ON':'OFF'}`,m:`The device switches on when V<sub>out</sub> &gt; ½V<sub>in</sub> = ${n3(Vin/2)} V.<br>V<sub>out</sub> = ${n3(Vo)} V, so the device is <b style="color:var(--${on?'ok':'bad'})">${on?'ON':'OFF'}</b>.`,hl:['vm','dev'],rev:{dev:1}});
+ const sn=kind.indexOf('th')>=0?'th':kind.indexOf('ldr')>=0?'ldr':null;
+ if(sn){const i=kind.indexOf(sn),T2=sn==='th'?T+30:T,l2=sn==='ldr'?lx*10:lx,R2n=[kind[0]==='fix'?F[0]:kind[0]==='th'?thK(T2):ldrK(l2),kind[1]==='fix'?F[1]:kind[1]==='th'?thK(T2):ldrK(l2)],Re2=ld?R2n[1]*RL/(R2n[1]+RL):R2n[1],Vo2=Vin*Re2/(R2n[0]+Re2),up=Vo2>Vo;
+  st.push({t:'What if the conditions change?',ct:sn==='th'?'what if it gets 30 °C hotter?':'what if the light is 10 times brighter?',m:`${sn==='th'?`At ${n3(T2)} °C`:`In ${n3(l2)} lux`} the ${DSN[sn]} falls from ${k(R[i])} to ${kA(R2n[i])}.<br>New V<sub>out</sub> = ${n3(Vin)} × ${k(Re2)} ÷ (${k(R2n[0])} + ${k(Re2)}) = ${aV(Vo2)}: the output <b>${up?'rises':'falls'}</b>.`,w:`The ${DSN[sn]} is ${i?'the bottom component, across the output':'the top component'}. Its resistance falls, so its share of the pd falls${i?', and that share is the output':' and the other component’s share (the output) rises'}. ${up?'So this circuit switches on when it gets '+(sn==='th'?'hot (a fire alarm)':'bright')+'.':'So this circuit switches on when it gets '+(sn==='th'?'cold (a frost alarm)':'dark (a street light)')+'.'} Swap the two components to reverse the action.`,hl:['t'+i],fin:1});}
+ else st[st.length-1].fin=1;
+ return {steps:st,kind,R,RL,Re,Rt,I,V1,Vo,I2,IL,on,Vin,T,lx,ld,cur:{main:I,b2:I2,bL:IL}};}
+const DST=Stepper({p:'ds',sub:'sens-step',build:dsBuild,draw(ctx,w,h,S,c){const d=S.d,rv=c.rev,ld=d.ld,xl=62,xc=Math.max(190,w*.34),yt=62,yb=h-56,ym=(yt+yb)/2,xL=xc+96,xo=ld?xL+128:xc+110;
+ const tA=[xc,yt+26],tB=[xc,ym-16],bA=[xc,ym+16],bB=[xc,yb-26],ax=(xl+xc)/2,sy=[d.kind[0]==='th'?'therm':d.kind[0],d.kind[1]==='th'?'therm':d.kind[1]].map(s=>s==='fix'?'res':s);
+ wire(ctx,[[xl,ym-28],[xl,yt],[xc,yt],tA]);wire(ctx,[tB,bA]);wire(ctx,[bB,[xc,yb],[xl,yb],[xl,ym+28]]);wire(ctx,[[xc,ym],[xo,ym]]);wire(ctx,[[xc,yb],[xo,yb]]);
+ if(ld){wire(ctx,[[xL,ym],[xL,ym+22]]);wire(ctx,[[xL,yb-22],[xL,yb]]);}
+ wire(ctx,[[xo,ym],[xo,ym+24]],C.ink,2);wire(ctx,[[xo,yb-24],[xo,yb]],C.ink,2);
+ const bx={t0:[xc-30,tA[1]-6,xc+30,tB[1]+6],t1:[xc-30,bA[1]-6,xc+30,bB[1]+6],ld:[xL-28,ym+16,xL+28,yb-16],cell:[xl-28,ym-40,xl+28,ym+40],amm:[ax-26,yb-24,ax+26,yb+24],vm:[xo-26,(ym+yb)/2-26,xo+26,(ym+yb)/2+26]};
+ c.hl.forEach(k=>{if(k==='jn'){hlR(ctx,xc-14,ym-14,xc+14,ym+14,S.t);return;}if(bx[k])hlR(ctx,...bx[k],S.t);});
+ c.flow(ctx,[[xl,ym-28],[xl,yt],[xc,yt],[xc,ym]],'main');c.flow(ctx,[[xc,yb],[xl,yb],[xl,ym+28]],'main');c.flow(ctx,[[xc,ym],[xc,yb]],'b2');if(ld)c.flow(ctx,[[xc,ym],[xL,ym],[xL,yb],[xc,yb]],'bL');
+ const blank=(x,y,ww,hh)=>{ctx.fillStyle=css('--panel2');ctx.fillRect(x-ww/2,y-hh/2,ww,hh);};
+ blank(xl,ym,44,60);sym(ctx,'battery',xl,ym-28,xl,ym+28,{len:40});txtB(ctx,n3(d.Vin)+' V',xl-14,ym+5,{a:'right',sz:13,b:1});
+ blank(xc,(tA[1]+tB[1])/2,40,tB[1]-tA[1]);sym(ctx,sy[0],...tA,...tB,{len:Math.min(76,tB[1]-tA[1]-8)});blank(xc,(bA[1]+bB[1])/2,40,bB[1]-bA[1]);sym(ctx,sy[1],...bA,...bB,{len:Math.min(76,bB[1]-bA[1]-8)});
+ [0,1].forEach(i=>{const y=i?(bA[1]+bB[1])/2:(tA[1]+tB[1])/2,L=[`R${i?'₂':'₁'}: ${DSN[d.kind[i]]}`,'R = '+(rv['R'+i]?eng(d.R[i],'Ω'):'?'),'I = '+(rv[i?'I2':'I']?eng(i?d.I2:d.I,'A'):'?'),'V = '+(rv['V'+i]?eng(i?d.Vo:d.V1,'V'):'?')];
+  L.forEach((s,j)=>txtB(ctx,s,xc-34,y-20+j*16,{a:'right',sz:12.5,b:1,c:j?C.ink2:(i?C.ep:C.ek)}));});
+ if(ld){blank(xL,(ym+yb)/2,36,yb-ym-44);sym(ctx,'res',xL,ym+22,xL,yb-22,{len:50});[`load R = ${eng(d.RL,'Ω')}`,'I = '+(rv.IL?eng(d.IL,'A'):'?')].forEach((s,j)=>txtB(ctx,s,xL+16,(ym+yb)/2-4+j*16,{sz:12.5,b:1,c:j?C.ink2:C.ink}));}
+ ctx.fillStyle=C.ink;[[xc,ym],[xc,yb],...(ld?[[xL,ym],[xL,yb]]:[])].forEach(([x,y])=>{ctx.beginPath();ctx.arc(x,y,4.5,0,TAU);ctx.fill();});
+ blank(ax,yb,40,36);sym(ctx,'amm',ax+18,yb,ax-18,yb,{len:30});txtB(ctx,'I = '+(rv.I?eng(d.I,'A'):'?'),ax,yb-24,{a:'center',sz:13,b:1,c:C.eth});
+ blank(xo,(ym+yb)/2,36,40);sym(ctx,'volt',xo,(ym+yb)/2-20,xo,(ym+yb)/2+20,{len:30});txtB(ctx,'output pd = '+(rv.V1?eng(d.Vo,'V'):'?'),xo+22,(ym+yb)/2+5,{sz:13,b:1,c:C.ok});
+ if(rv.dev){const lx=Math.min(w-50,xo+60),ly=yt+44;sym(ctx,'lamp',lx-20,ly,lx+20,ly,{len:40,glow:d.on?1:0});txtB(ctx,'device '+(d.on?'ON':'OFF'),lx,ly+36,{a:'center',sz:13,b:1,c:d.on?C.ok:C.muted});if(c.hl.includes('dev'))hlR(ctx,lx-30,ly-26,lx+30,ly+44,S.t);}
+ txtB(ctx,`conditions: ${n3(d.T)} °C · ${n3(d.lx)} lux · R total = ${rv.Rt?eng(d.Rt,'Ω'):'?'}`,12,h-12,{sz:13,b:1});}});
+function drawDs(){DST.draw();}
+['dsTop','dsBot','dsV','dsF1','dsF2','dsT','dsL','dsRL'].forEach(id=>$('#'+id).addEventListener('change',()=>safe(DST.rebuild)));
+togT('dsLd',DSQ,'load','Connect a load across the output',()=>DST.rebuild());
+$$('[data-dsp]').forEach(b=>b.onclick=()=>{const p=JSON.parse(b.dataset.dsp);for(const k in p)$('#'+k).value=p[k];DST.rebuild();});
+DST.rebuild();
+</script>
+<script>
+/* ---------- Internal resistance: solve it step by step ---------- */
+const ISQ={k:'fwd'};
+function isBuild(){const k=ISQ.k,E=numIn('isE',6),r=numIn('isr',1.5,0),R=numIn('isR',8,0),R2=numIn('isR2',3,0),q=v=>g3(v);
+ const I=E/(R+r),V=E-I*r,Pt=E*I,Pu=I*I*R,Pw=I*I*r,ef=R/(R+r);
+ let st=[];
+ if(k==='fwd')st=[
+  {t:'Model the real cell',ct:'a real cell = ideal emf ε + internal resistance r',m:`Inside the dashed box: an ideal source of emf ε = ${q(E)} V in series with the cell’s own resistance r = ${q(r)} Ω.`,w:'r comes from the materials inside the cell: the electrolyte and electrodes resist the movement of charge, like any conductor.',hl:['cell'],rev:{E:1,r:1,R:1}},
+  {t:'Total resistance of the circuit',ct:'R and r are in series',m:`R<sub>total</sub> = R + r = ${q(R)} + ${q(r)} = ${ans3(R+r,'Ω')}`,w:'The same current flows through the load and through the inside of the cell.',hl:['r','load'],rev:{Rt:1},q:{l:'the total resistance',a:R+r,u:'Ω'}},
+  {t:'Current',ct:'I = ε ÷ (R + r): the current starts to flow',m:`I = ε ÷ (R + r) = ${q(E)} ÷ ${q(R+r)} = ${ans3(I,'A')}`,w:'Electrons now flow round the whole circuit, including through the cell itself.',hl:['amm','E'],rev:{I:1},fl:['main'],q:{l:'the current',a:I,u:'A'}},
+  {t:'Lost volts inside the cell',ct:'lost volts = I r',m:`lost volts = I r = ${q(I)} × ${q(r)} = ${ans3(I*r,'V')}`,w:'Each coulomb transfers this much energy (in J) inside the cell itself, warming it up. It never reaches the load.',hl:['r'],rev:{lost:1},q:{l:'the lost volts',a:I*r,u:'V'}},
+  {t:'Terminal pd',ct:'V = ε − I r: what the voltmeter reads',m:`V = ε − I r = ${q(E)} − ${q(I*r)} = ${ans3(V,'V')}`,w:'The voltmeter across the terminals reads the <b>terminal pd</b>, which is less than the emf whenever a current flows.',hl:['vm'],rev:{V:1},q:{l:'the terminal pd',a:V,u:'V'}},
+  {t:'Check across the load',ct:'check: V = I R',m:`V = I R = ${q(I)} × ${q(R)} = ${q(I*R)} V ✓`,w:'The terminal pd is the pd across the external circuit.',hl:['load']},
+  {t:'Where the energy goes',ct:'power: total εI = I²R + I²r',m:`total power from the cell: εI = ${q(E)} × ${q(I)} = ${ans3(Pt,'W')}<br>useful, in R: I²R = ${ans3(Pu,'W')}; wasted, in r: I²r = ${ans3(Pw,'W')}<br>efficiency = R ÷ (R + r) = ${Math.round(ef*100)}%`,hl:['load','r']},
+  {t:'The two extremes',ct:'open circuit and short circuit',m:`Open circuit (I = 0): V = ε = ${q(E)} V.<br>Short circuit (R = 0): I = ε ÷ r = ${r>0?ans3(E/r,'A'):'∞'} and V = 0.`,w:'An open-circuit voltmeter reading gives ε. A short circuit gives the largest possible current, and all the energy heats the cell: dangerous for batteries with a small r.',hl:['cell'],fin:1}];
+ else if(k==='oc'){const Vm=q(V),Im=Vm/R,lost=E-Vm,rr=lost/Im;st=[
+  {t:'Open circuit: read the emf',ct:'switch open: no current, so V = ε',st:'open',m:`With the switch open no current flows, so nothing is lost inside the cell: the voltmeter reads ε = ${ans3(E,'V')}.`,w:'A high-resistance voltmeter across a cell on open circuit reads (almost exactly) its emf.',hl:['vm','E'],rev:{E:1,V:1}},
+  {t:'Close the switch: the reading falls',ct:'switch closed: current flows, the reading drops',st:'R',m:`With the load R = ${q(R)} Ω connected, the voltmeter reads V = ${ans3(Vm,'V')}.`,w:'The reading falls because some of each coulomb’s energy is now transferred inside the cell.',hl:['vm','load'],rev:{V:1,R:1},fl:['main']},
+  {t:'Current',ct:'I = V ÷ R',m:`I = V ÷ R = ${q(Vm)} ÷ ${q(R)} = ${ans3(Im,'A')}`,hl:['load','amm'],rev:{I:1},q:{l:'the current',a:Im,u:'A'}},
+  {t:'Lost volts',ct:'lost volts = ε − V',m:`lost volts = ε − V = ${q(E)} − ${q(Vm)} = ${ans3(lost,'V')}`,hl:['r'],rev:{lost:1},q:{l:'the lost volts',a:lost,u:'V'}},
+  {t:'Internal resistance',ct:'r = lost volts ÷ I',m:`r = (ε − V) ÷ I = ${q(lost)} ÷ ${q(Im)} = ${ans3(rr,'Ω')}`,hl:['r'],rev:{r:1},q:{l:'the internal resistance',a:rr,u:'Ω'}},
+  {t:'Check',ct:'check: ε = I (R + r)',m:`I (R + r) = ${q(Im)} × (${q(R)} + ${q(rr)}) = ${q(Im*(R+rr))} V = ε ✓`,hl:['cell','load'],fin:1}];}
+ else{const I1=q(E/(R+r)),V1=q(E-E/(R+r)*r),I2=q(E/(R2+r)),V2=q(E-E/(R2+r)*r),rr=(V1-V2)/(I2-I1),ee=V1+I1*rr;st=[
+  {t:'Reading 1',ct:`reading 1: load R = ${q(R)} Ω`,st:1,m:`I₁ = ${q(I1)} A, V₁ = ${q(V1)} V.<br>ε = V₁ + I₁r, so ε = ${q(V1)} + ${q(I1)}r`,w:'ε and r are unknown: the cell is a black box. Every reading gives one equation.',hl:['amm','vm'],rev:{I:1,V:1,R:1},fl:['main']},
+  {t:'Reading 2',ct:`reading 2: load changed to ${q(R2)} Ω`,st:2,m:`I₂ = ${q(I2)} A, V₂ = ${q(V2)} V.<br>ε = ${q(V2)} + ${q(I2)}r`,w:`A ${R2<R?'smaller':'larger'} load gives a ${R2<R?'larger':'smaller'} current, ${R2<R?'more':'fewer'} lost volts and a ${R2<R?'lower':'higher'} terminal pd. Watch the flow ${R2<R?'speed up':'slow down'}.`,hl:['amm','vm','load'],rev:{I:1,V:1,R:1}},
+  {t:'Eliminate ε',ct:'same cell, same ε: subtract the equations',m:`${q(V1)} + ${q(I1)}r = ${q(V2)} + ${q(I2)}r<br>r = (V₁ − V₂) ÷ (I₂ − I₁) = ${q(V1-V2)} ÷ ${q(I2-I1)} = ${ans3(rr,'Ω')}`,hl:['r'],rev:{r:1},q:{l:'the internal resistance',a:rr,u:'Ω'}},
+  {t:'Find the emf',ct:'substitute r back in',m:`ε = V₁ + I₁r = ${q(V1)} + ${q(I1)} × ${q(rr)} = ${ans3(ee,'V')}`,hl:['E'],rev:{E:1,lost:1},q:{l:'the emf',a:ee,u:'V'}},
+  {t:'The same result from a graph',ct:'V = −r I + ε: a straight line',m:`V = ε − I r has the form y = c + mx: plot V against I.<br>gradient = (V₂ − V₁) ÷ (I₂ − I₁) = −${q(rr)} Ω, so r = ${q(rr)} Ω; intercept = ε = ${q(ee)} V`,w:'In the lab, take many readings and draw the line of best fit: this averages out random errors. Open the switch between readings so the cell does not warm up and change r.',hl:['cell'],fin:1}];}
+ return {steps:st,k,E,r,R,R2,I,V,cur:{main:I}};}
+const IST=Stepper({p:'is',sub:'intr-step',build:isBuild,draw(ctx,w,h,S,c){const d=S.d,rv=c.rev,xl=64,xr=w-92,yt=94,yb=h-62,cx=(xl+xr)/2,bx0=cx-112,bx1=cx+112,stt=c.st,open=stt==='open'||(d.k==='oc'&&stt==null);
+ let R=d.R,I=d.I,V=d.V;if(d.k==='two'&&stt===2){R=d.R2;I=d.E/(d.R2+d.r);V=d.E-I*d.r;}if(open){I=0;V=d.E;}S.d.cur.main=I;
+ const ym=(yt+yb)/2,bx={cell:[bx0-8,yt-44,bx1+8,yt+44],E:[bx0+8,yt-30,bx0+86,yt+30],r:[cx+2,yt-24,cx+98,yt+24],load:[xr-30,ym-48,xr+30,ym+48],amm:[cx-28,yb-26,cx+28,yb+26],vm:[cx-28,yt+50,cx+28,yt+98]};
+ wire(ctx,[[bx1,yt],[xr,yt],[xr,yb],[xl,yb],[xl,yt],[bx0,yt]]);wire(ctx,[[bx0,yt],[bx1,yt]]);
+ wire(ctx,[[bx0,yt],[bx0,yt+74],[cx-18,yt+74]],C.ink,2);wire(ctx,[[cx+18,yt+74],[bx1,yt+74],[bx1,yt]],C.ink,2);
+ c.hl.forEach(k=>{if(bx[k])hlR(ctx,...bx[k],S.t);});
+ if(!open)c.flow(ctx,[[bx1,yt],[xr,yt],[xr,yb],[xl,yb],[xl,yt],[bx0,yt],[bx1,yt]],'main');
+ ctx.save();ctx.setLineDash([6,5]);ctx.strokeStyle=C.so;ctx.lineWidth=2;ctx.strokeRect(bx0,yt-36,bx1-bx0,72);ctx.restore();txtB(ctx,'real cell',bx0+4,yt-42,{sz:12.5,b:1,c:C.so});
+ ctx.fillStyle=css('--panel2');ctx.fillRect(bx0+14,yt-22,70,44);ctx.fillRect(cx+6,yt-18,90,36);sym(ctx,'cell',bx0+70,yt,bx0+20,yt,{len:36,pm:false});txtB(ctx,'+',bx0+78,yt-14,{a:'center',sz:13,b:1,c:C.ek});
+ txtB(ctx,'ε = '+(rv.E?g3(d.E)+' V':'?'),bx0+48,yt+30,{a:'center',sz:13.5,b:1,c:C.ek});sym(ctx,'res',cx+10,yt,cx+90,yt,{len:56});txtB(ctx,'r = '+(rv.r?g3(d.r)+' Ω':'?'),cx+50,yt+30,{a:'center',sz:13.5,b:1,c:C.ek});
+ txtB(ctx,'lost volts Ir = '+(rv.lost&&!open?eng(I*d.r,'V'):'?'),cx+50,yt-42,{a:'center',sz:12.5,b:1,c:C.bad});
+ [[bx0,yt],[bx1,yt]].forEach(([x,y])=>{ctx.fillStyle=css('--panel');ctx.strokeStyle=C.ink;ctx.lineWidth=2;ctx.beginPath();ctx.arc(x,y,5,0,TAU);ctx.fill();ctx.stroke();});
+ ctx.fillStyle=css('--panel2');ctx.fillRect(cx-20,yt+56,40,36);sym(ctx,'volt',cx-18,yt+74,cx+18,yt+74,{len:30});txtB(ctx,'V = '+(rv.V?eng(V,'V'):'?'),cx,yt+116,{a:'center',sz:13.5,b:1,c:C.ep});
+ ctx.fillStyle=css('--panel2');ctx.fillRect(xr-22,ym-42,44,84);sym(ctx,open?'swo':'res',xr,ym-36,xr,ym+36,{len:58});txtB(ctx,open?'switch open':'R = '+(rv.R||d.k==='fwd'?g3(R)+' Ω':'?'),xr-30,ym+5,{a:'right',sz:13.5,b:1});
+ ctx.fillStyle=css('--panel2');ctx.fillRect(cx-22,yb-20,44,40);sym(ctx,'amm',cx+18,yb,cx-18,yb,{len:30});txtB(ctx,'I = '+(open?'0':rv.I?eng(I,'A'):'?'),cx,yb-26,{a:'center',sz:13.5,b:1,c:C.eth});
+ txtB(ctx,open?'no current: nothing lost inside, so V = ε':rv.V&&rv.lost?`ε = V + Ir: ${g3(d.E)} = ${g3(V)} + ${g3(I*d.r)} V`:'',12,h-12,{sz:13.5,b:1});}});
+function drawIs(){IST.draw();}
+segB('isK',dd=>{ISQ.k=dd.k;$('#isBoxR2').style.display=dd.k==='two'?'':'none';IST.rebuild();});['isE','isr','isR','isR2'].forEach(id=>$('#'+id).addEventListener('change',()=>safe(IST.rebuild)));
+IST.rebuild();
+</script>
+<script>
+/* ---------- Internal resistance explained: potential round the circuit ---------- */
+const IX={run:true,t:0,open:false};
+function ixVals(){const E=+$('#ixE').value,r=+$('#ixr').value,R=+$('#ixR').value,I=IX.open?0:E/(R+r||1e-9),V=E-I*r;return {E,r,R,I,V,lost:I*r};}
+function drawIx(){if(!subOn('intr-why'))return;const {ctx,w,h}=fit($('#cIx')),v=ixVals(),x0=56,x1=w-40,X=f=>x0+(x1-x0)*f,ys=76,gy0=h-46,gy1=150,Y=p=>gy0-(gy0-gy1)*p/12;
+ /* the circuit, opened out into a straight line */
+ ctx.save();ctx.setLineDash([6,5]);ctx.strokeStyle=C.so;ctx.lineWidth=2;ctx.strokeRect(X(0)-10,ys-34,X(.40)-X(0)+20,68);ctx.restore();txtB(ctx,'inside the cell',X(0)-6,ys-40,{sz:12.5,b:1,c:C.so});
+ wire(ctx,[[X(0),ys],[X(1),ys]]);const bl=(x,ww)=>{ctx.fillStyle=css('--panel2');ctx.fillRect(x-ww/2,ys-20,ww,40);};
+ bl(X(.12),50);sym(ctx,'cell',X(.12)-22,ys,X(.12)+22,ys,{len:30,pm:false});bl(X(.30),70);sym(ctx,'res',X(.25),ys,X(.35),ys,{len:52});bl(X(.69),90);sym(ctx,IX.open?'swo':'res',X(.60),ys,X(.78),ys,{len:IX.open?40:70});
+ txtB(ctx,'emf ε',X(.12),ys+34,{a:'center',sz:12.5,b:1,c:C.ek});txtB(ctx,'r',X(.30),ys+34,{a:'center',sz:12.5,b:1,c:C.bad});txtB(ctx,IX.open?'switch open':'load R',X(.69),ys+34,{a:'center',sz:12.5,b:1,c:C.ep});
+ [['−',0],['+',.40]].forEach(([s,f])=>{ctx.fillStyle=css('--panel');ctx.strokeStyle=C.ink;ctx.lineWidth=2;ctx.beginPath();ctx.arc(X(f),ys,5.5,0,TAU);ctx.fill();ctx.stroke();txtB(ctx,s+' terminal',X(f),ys-12,{a:'center',sz:12,b:1});});
+ txtB(ctx,'back to the − terminal',X(1)-4,ys-12,{a:'right',sz:12,c:C.muted});
+ /* potential graph */
+ const pts=[[0,0],[.04,0],[.20,v.E],[.25,v.E],[.35,v.V],[.60,v.V],[.78,0],[1,0]];
+ ctx.strokeStyle=C.line;ctx.lineWidth=1;for(let p=0;p<=12;p+=2){ctx.beginPath();ctx.moveTo(x0,Y(p));ctx.lineTo(x1,Y(p));ctx.stroke();txt(ctx,String(p),x0-6,Y(p)+4,{a:'right',sz:11.5,c:C.muted});}
+ txtB(ctx,'potential / V (measured from the − terminal)',x0,gy1-14,{sz:13,b:1});txt(ctx,'position round the circuit →',x1,gy0+26,{a:'right',sz:12.5,c:C.muted});
+ [.40,.60,.78].forEach(f=>gDash(ctx,[[X(f),ys+44],[X(f),gy0]],C.line,1));
+ gDash(ctx,[[X(.20),Y(v.E)],[X(1),Y(v.E)]],C.ek,1.4);
+ ctx.save();ctx.strokeStyle=C.accent;ctx.lineWidth=3.5;ctx.beginPath();pts.forEach(([f,p],i)=>i?ctx.lineTo(X(f),Y(p)):ctx.moveTo(X(f),Y(p)));ctx.stroke();ctx.restore();
+ const brk=(x,p1,p2,col,lab,side)=>{if(Math.abs(p1-p2)<.05)return;arr(ctx,x,Y(p1),x,Y(p2),col,'',{w:2.5,hs:9});arr(ctx,x,Y(p2),x,Y(p1),col,'',{w:2.5,hs:9});txtB(ctx,lab,x+(side<0?-8:8),(Y(p1)+Y(p2))/2+5,{a:side<0?'right':'left',sz:13,b:1,c:col});};
+ brk(X(.22),0,v.E,C.ek,`ε = ${v.E.toFixed(1)} V`,1);brk(X(.38),v.V,v.E,C.bad,`Ir = ${v.lost.toFixed(2)} V`,1);brk(X(.50),0,v.V,C.ep,`V = ${v.V.toFixed(2)} V`,1);
+ /* one coulomb travelling round, conventional direction */
+ {const f=IX.open?.22:((IX.t*.12)%1);let p=0;for(let i=1;i<pts.length;i++){if(f<=pts[i][0]){const a=pts[i-1],b=pts[i],u=(f-a[0])/Math.max(1e-6,b[0]-a[0]);p=a[1]+(b[1]-a[1])*u;break;}}
+  ctx.fillStyle=C.eth;ctx.beginPath();ctx.arc(X(f),Y(p),8,0,TAU);ctx.fill();txt(ctx,'+',X(f),Y(p)+4.5,{a:'center',sz:13,b:1,c:'#fff'});txtB(ctx,`this coulomb: ${p.toFixed(2)} J`,Math.min(X(f)+12,x1-130),Y(p)-14,{sz:12.5,b:1,c:C.eth});
+  if(!IX.open){ctx.fillStyle=C.eth;ctx.beginPath();ctx.arc(X(f),ys,6,0,TAU);ctx.fill();}}
+ txtB(ctx,IX.open?'open circuit: I = 0, so nothing is lost and V = ε':v.R===0?'short circuit: V = 0 and all of ε is lost inside the cell':`I = ε ÷ (R + r) = ${eng(v.I,'A')}`,12,h-12,{sz:13.5,b:1,c:v.R===0&&!IX.open?C.bad:C.ink});wm(ctx,w,h);
+ $('#ixRd').innerHTML=rdg([['emf ε',engH(v.E,'V'),C.ek],['current I',engH(v.I,'A'),C.eth],['lost volts Ir',engH(v.lost,'V'),C.bad],['terminal pd V',engH(v.V,'V'),C.ep],['energy per C wasted in the cell',nb(v.lost.toFixed(2),'J')],['energy per C delivered to R',nb(v.V.toFixed(2),'J')]]);
+ setEx('#ixEx',IX.open?`With the switch open there is no current, so no energy is transferred in r: the terminal pd equals the emf, <b>V = ε = ${v.E.toFixed(1)} V</b>. This is why a voltmeter across a cell on its own reads (almost) its emf.`:`Follow the coulomb. In the chemicals it <b>gains ε = ${v.E.toFixed(1)} J</b>. Before it even leaves the cell it <b>loses Ir = ${v.lost.toFixed(2)} J</b> pushing through the internal resistance. It reaches the + terminal with ${v.V.toFixed(2)} J, and transfers all of that in the load. So the terminal pd is <b>V = ε − Ir = ${v.V.toFixed(2)} V</b>. ${v.r===0?'With r = 0 nothing is lost: an ideal cell.':v.R<v.r?'The load resistance is smaller than r, so more than half of the energy is wasted inside the cell.':'Make R smaller: the current rises, the lost volts grow and the terminal pd falls.'}`);}
+TICK.push(dt=>{if(!subOn('intr-why')||!IX.run)return;IX.t+=dt;drawIx();});
+onIn('ixE ixr ixR',()=>{sv('ixE',v=>v.toFixed(1)+' V');sv('ixr',v=>v.toFixed(1)+' Ω');sv('ixR',v=>v.toFixed(1)+' Ω');drawIx();});sv('ixE',v=>v.toFixed(1)+' V');sv('ixr',v=>v.toFixed(1)+' Ω');sv('ixR',v=>v.toFixed(1)+' Ω');
+pauseBtn('#ixPause',IX,'Pause');togT('ixOpen',IX,'open','Open the switch');
+PR('#prIx','A cell of emf 6.0 V is connected to a lamp. A voltmeter across the cell’s terminals reads 5.2 V. Where has the missing 0.8 V gone?',['it is transferred inside the cell, heating its internal resistance','it is used up by the voltmeter','the current is used up in the lamp','the emf falls whenever a lamp is connected'],0,'Each coulomb gains 6.0 J but transfers 0.8 J inside the cell (the lost volts, Ir) before reaching the terminals. The emf itself does not change.');
+</script>
+<script>
+/* ---------- Step by step: a live picture that changes with every step ---------- */
+const DSC={t:0,off:0,run:true};
+const dB=(ctx,x,y,w,h)=>{ctx.fillStyle=css('--panel2');ctx.fillRect(x-w/2,y-h/2,w,h);};
+const dH=(ctx,b,col)=>hlR(ctx,b[0],b[1],b[2],b[3],DSC.t,col);
+const dEl=(ctx,P,sp=1)=>flow(ctx,P,-DSC.off*sp,28,{c:C.ep,r:5,sign:'−'});
+function dTube(ctx,x0,y,x1,r,col='#b87333'){ctx.save();ctx.fillStyle='rgba(184,115,51,.16)';ctx.strokeStyle=col;ctx.lineWidth=2.5;ctx.beginPath();ctx.roundRect?ctx.roundRect(x0,y-r,x1-x0,2*r,r):ctx.rect(x0,y-r,x1-x0,2*r);ctx.fill();ctx.stroke();ctx.restore();}
+function dComp(ctx,t,x1,y1,x2,y2,o={}){const v=x1===x2;dB(ctx,(x1+x2)/2,(y1+y2)/2,v?40:Math.abs(x2-x1)-8,v?Math.abs(y2-y1)-8:40);sym(ctx,t,x1,y1,x2,y2,{len:o.len||52,glow:o.glow,pm:false});}
+/* 0: current and charge */
+function sc0(ctx,w,h,k){const y=h*.34,x0=40,x1=w-40,xs=(x0+x1)/2,L=x1-x0,t=DSC.t,ex=k>=3,tc=t%10,N=Math.floor(tc*22*55/L);
+ dTube(ctx,x0,y,x1,34);for(let i=0;i<22;i++){const x=x0+(((i*L/22-t*55)%L)+L)%L;elec(ctx,x,y+((i*7)%3-1)*14,5);}
+ ctx.save();ctx.strokeStyle=C.eth;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(xs,y,9,34,0,0,TAU);ctx.stroke();ctx.restore();if(k===0||k===2)dH(ctx,[xs-22,y-46,xs+22,y+46]);
+ arr(ctx,xs+40,y-52,xs+130,y-52,C.ek,'',{w:2.5});txtB(ctx,'conventional current I',xs+140,y-47,{sz:12.5,b:1,c:C.ek});arr(ctx,xs-40,y-52,xs-130,y-52,C.ep,'',{w:2.5});txtB(ctx,'electrons drift',xs-140,y-47,{a:'right',sz:12.5,b:1,c:C.ep});
+ txtB(ctx,ex?`I = 0.25 A for Δt = 180 s`:`time Δt = ${tc.toFixed(1)} s`,x0,y+60,{sz:14,b:1});txtB(ctx,ex?(k>=4?'Δq = 45 C, so N = 45 ÷ (1.60 × 10⁻¹⁹) = 2.8 × 10²⁰ electrons':'Δq = I Δt = 0.25 × 180 = 45 C'):`electrons through the slice N = ${N}, so Δq = N e`,x0,y+80,{sz:14,b:1,c:k===2||k>=4?C.eth:C.ink});
+ if(k>=1){const gx=x0+20,gy=h-26,gw=Math.min(300,w*.45),gh=h-gy0(h)-30;ctx.strokeStyle=C.ink;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(gx,gy-gh);ctx.lineTo(gx,gy);ctx.lineTo(gx+gw,gy);ctx.stroke();
+  const fr=ex?1:tc/10;ctx.fillStyle='rgba(208,127,18,.28)';ctx.fillRect(gx,gy-gh*.6,gw*.9*fr,gh*.6);ctx.strokeStyle=C.eth;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(gx,gy-gh*.6);ctx.lineTo(gx+gw*.9,gy-gh*.6);ctx.stroke();
+  txt(ctx,'I',gx-12,gy-gh*.6+4,{sz:13,b:1});txt(ctx,'t',gx+gw+6,gy+4,{sz:13,b:1});txtB(ctx,'shaded area = I Δt = Δq',gx+gw+24,gy-gh*.3,{sz:13.5,b:1,c:C.eth});if(k===1)dH(ctx,[gx-6,gy-gh-4,gx+gw+8,gy+6]);}
+ return ['Current is the rate at which charge crosses a slice of the wire: watch the counter. More charge in the same time means a bigger current.','The current is constant, so the charge that has flowed grows steadily: it is the shaded area under the I–t graph.','Charge comes in packets of e. Each electron crossing the slice adds 1.60 × 10⁻¹⁹ C, so the number of electrons is Δq ÷ e.','Worked example: the current is 0.25 A for 3.0 minutes. Convert the time to seconds first.','A modest current moves an enormous number of electrons: 2.8 × 10²⁰ in 3 minutes.'][Math.min(k,4)];}
+const gy0=h=>h*.34+96;
+/* 1: drift velocity */
+function sc1(ctx,w,h,k){const y=h*.40,r=44,x0=40,x1=w-40,xf=x1-120,Lv=Math.min(170,(xf-x0)*.45),xa=xf-Lv,T=4,u=k>=4?(DSC.t%T)/T:0,ex=k>=5;
+ dTube(ctx,x0,y,x1,r);if(k>=1){ctx.fillStyle='rgba(47,98,176,.16)';ctx.fillRect(xa,y-r,Lv,2*r);ctx.save();ctx.setLineDash([5,4]);ctx.strokeStyle=C.ep;ctx.lineWidth=2;ctx.strokeRect(xa,y-r,Lv,2*r);ctx.restore();if(k===1)dH(ctx,[xa-6,y-r-6,xf+6,y+r+6]);}
+ ctx.save();ctx.strokeStyle=C.eth;ctx.lineWidth=3;ctx.beginPath();ctx.ellipse(xf,y,12,r,0,0,TAU);ctx.stroke();ctx.restore();txtB(ctx,'face, area A',xf,y-r-10,{a:'center',sz:12.5,b:1,c:C.eth});
+ let crossed=0;for(let cx=x0+16;cx<x1-8;cx+=30)for(let j=-1;j<=1;j++){const bx=cx+(j===0?14:0),x=bx+u*Lv,inR=bx>=xa&&bx<xf;if(x>x1-8)continue;if(inR&&x>=xf)crossed++;
+  const big=(k>=2&&inR)||(k===0&&j===0&&Math.abs(bx-xa)<16);ctx.fillStyle=big?C.eth:'rgba(208,127,18,.5)';ctx.beginPath();ctx.arc(x,y+j*26,big?7:5,0,TAU);ctx.fill();if(big)txt(ctx,'+',x,y+j*26+4.5,{a:'center',sz:12,b:1,c:'#fff'});}
+ if(k===0){arr(ctx,xa,y+r+18,xf,y+r+18,C.ep,'',{w:2.5});txtB(ctx,'distance moved in Δt = v Δt',(xa+xf)/2,y+r+40,{a:'center',sz:13.5,b:1,c:C.ep});}
+ else{arr(ctx,xa,y+r+18,xf,y+r+18,C.ep,'',{w:2});arr(ctx,xf,y+r+18,xa,y+r+18,C.ep,'',{w:2});txtB(ctx,k>=1?'v Δt':'',(xa+xf)/2,y+r+38,{a:'center',sz:13.5,b:1,c:C.ep});}
+ const line=ex?[`n = 8.5 × 10²⁸ m⁻³, d = 0.80 mm, I = 3.0 A`,k>=7?'v = 4.4 × 10⁻⁴ m s⁻¹: less than half a millimetre per second':'A = π(0.80 × 10⁻³)² ÷ 4 = 5.03 × 10⁻⁷ m²']:[['one carrier moves forward v Δt','volume of the shaded cylinder = A × v Δt','carriers in it: N = n A v Δt (highlighted)','each has charge q: Δq = N q = n A v Δt q','all the highlighted carriers cross the face in Δt: I = Δq ÷ Δt = n A v q'][Math.min(k,4)],k>=4?`carriers through the face so far: ${crossed}`:''];
+ line.forEach((s,i)=>s&&txtB(ctx,s,x0,h-40+i*20,{sz:14,b:1,c:i?C.eth:C.ink}));
+ return ['Every carrier drifts forward the same distance, vΔt, in the time Δt.','So every carrier inside this cylinder, of length vΔt, will reach the face within Δt.','n carriers per cubic metre: the cylinder holds N = n × volume of them.','Each carries charge q, so the total charge that crosses is Nq.','Press play mentally: in one cycle (Δt) exactly the highlighted carriers cross the face. Divide the charge by Δt to get the current.','Worked example: work out the cross-sectional area from the diameter first.','Then rearrange I = nAvq for v.','The drift speed is tiny, yet lamps light at once: the field travels round the circuit almost at the speed of light.'][Math.min(k,7)];}
+/* 2: power */
+function sc2(ctx,w,h,k){const xl=70,xr=w-130,yt=58,yb=h-52,ym=(yt+yb)/2,ex=k>=5,P=[[xl,ym-28],[xl,yt],[xr,yt],[xr,yb],[xl,yb],[xl,ym+28]];
+ wire(ctx,P);wire(ctx,[[xr,ym-42],[xr+70,ym-42],[xr+70,ym-18]],C.ink,2);wire(ctx,[[xr+70,ym+18],[xr+70,ym+42],[xr,ym+42]],C.ink,2);dEl(ctx,P);
+ const hb={A:[(xl+xr)/2-26,yb-24,(xl+xr)/2+26,yb+24],V:[xr+44,ym-26,xr+96,ym+26],R:[xr-26,ym-46,xr+26,ym+46]};[[2,'A','V'],[3,'A','R'],[4,'V','R']].forEach(([s,...b])=>{if(k===s)b.forEach(x=>dH(ctx,hb[x]));});if(k===0)dH(ctx,hb.R);
+ dB(ctx,xl,ym,44,60);sym(ctx,'cell',xl,ym-28,xl,ym+28,{len:40});dComp(ctx,ex?'heater':'res',xr,ym-38,xr,ym+38,{len:60,glow:k>=3?.8:0});
+ dB(ctx,(xl+xr)/2,yb,40,36);sym(ctx,'amm',(xl+xr)/2+18,yb,(xl+xr)/2-18,yb,{len:30});dB(ctx,xr+70,ym,36,40);sym(ctx,'volt',xr+70,ym-18,xr+70,ym+18,{len:30});
+ txtB(ctx,ex?'I = ?':'I',(xl+xr)/2,yb-24,{a:'center',sz:13.5,b:1,c:C.eth});txtB(ctx,ex?'230 V':'V',xr+92,ym+5,{sz:13.5,b:1,c:C.ep});txtB(ctx,ex?'2.0 kW kettle':'R',xr-30,ym+5,{a:'right',sz:13.5,b:1});
+ /* one coulomb, carried round in the conventional direction, losing its energy in R */
+ const L=polyLen(P),d=(DSC.t*70)%L;let a=0;const segs=[];for(let i=1;i<P.length;i++){segs.push(a);a+=Math.hypot(P[i][0]-P[i-1][0],P[i][1]-P[i-1][1]);}
+ const ds=segs[3]+(ym-38-yt),de=segs[3]+(ym+38-yt),en=d<ds?1:d<de?1-(d-ds)/(de-ds):0,[px,py]=polyAt(P,d);
+ if(k<=1){ctx.fillStyle=C.eth;ctx.beginPath();ctx.arc(px,py,10,0,TAU);ctx.fill();txt(ctx,'q',px,py+5,{a:'center',sz:14,b:1,c:'#fff'});ctx.fillStyle=css('--panel');ctx.strokeStyle=C.eth;ctx.lineWidth=1.5;ctx.fillRect(px-18,py-30,36,8);ctx.strokeRect(px-18,py-30,36,8);ctx.fillStyle=C.eth;ctx.fillRect(px-18,py-30,36*en,8);}
+ const s=ex?['I = P ÷ V = 2000 ÷ 230 = 8.7 A','R = V² ÷ P = 230² ÷ 2000 = 26 Ω','E = P t = 2000 × 180 = 3.6 × 10⁵ J'][k-5]:['the coulomb q transfers energy W = qV in R (watch its energy bar empty)',`in time t, the charge that passes is q = I t (t = ${(DSC.t%10).toFixed(1)} s)`,'P = W ÷ t = qV ÷ t = I V: multiply the two meter readings','replace V by IR: P = I²R (the resistor heats up)','replace I by V ÷ R: P = V² ÷ R'][k];
+ txtB(ctx,s,12,h-12,{sz:14,b:1,c:C.eth});
+ return ['The orange packet is one coulomb of charge. It loses energy qV as it passes through the resistor: that is what pd means.','Power is energy per second, so we need the charge that passes per second.','q ÷ t is the current, so P = IV: the power is the product of the ammeter and voltmeter readings.','Use V = IR to write the power using the current and the resistance only. Useful for series circuits, where I is the same.','Use I = V/R to write it with the pd only. Useful for parallel circuits, where V is the same.','Worked example: a 2.0 kW kettle on the 230 V mains.','R = V²/P.','Energy = power × time, with the time in seconds.'][Math.min(k,7)];}
+/* 3: resistivity */
+function sc3(ctx,w,h,k){const x0=50,L=Math.min(220,(w-200)/2),ex=k>=4;
+ const wireBar=(x,y,len,th,col,R,lab,sp,ly=-18)=>{ctx.save();ctx.strokeStyle=col;ctx.lineCap='round';ctx.lineWidth=th;ctx.beginPath();ctx.moveTo(x,y);ctx.lineTo(x+len,y);ctx.stroke();ctx.restore();dEl(ctx,[[x+len,y],[x,y]].reverse(),sp);if(lab)txtB(ctx,lab,x,y+ly,{sz:14,b:1,c:C.ink});};
+ const y1=h*.3,y2=h*.62;
+ if(k===0){wireBar(x0,y1,L,10,'#b87333','R','one wire, length L: R',1);wireBar(x0,y2,2*L,10,'#b87333','2R','two in a row, length 2L: 2R',.5);dH(ctx,[x0-12,y2-22,x0+2*L+12,y2+22]);}
+ else if(k===1){wireBar(x0,y1,L,10,'#b87333','R','one wire, area A: R',1);wireBar(x0,y2-9,L,10,'#b87333','','',2);wireBar(x0,y2+9,L,10,'#b87333','','side by side, area 2A: R/2',2,34);dH(ctx,[x0-12,y2-30,x0+L+12,y2+30]);}
+ else if(k===2){wireBar(x0,y1,L,10,'#b87333','','copper: ρ = 1.7 × 10⁻⁸ Ω m, small R',1.6);wireBar(x0,y2,L,10,'#7b7f86','','nichrome: ρ = 1.1 × 10⁻⁶ Ω m, R about 65 times larger',.25);dH(ctx,[x0-12,y1-22,x0+L+12,y2+22]);}
+ else{const len=Math.min(w-260,420),y=h*.42;wireBar(x0,y,len,16,ex?'#9a9a6a':'#b87333','',ex?'constantan':'',1);arr(ctx,x0,y+40,x0+len,y+40,C.ep,'',{w:2});arr(ctx,x0+len,y+40,x0,y+40,C.ep,'',{w:2});txtB(ctx,ex?'L = 1.50 m':'length L',x0+len/2,y+62,{a:'center',sz:14,b:1,c:C.ep});
+  ctx.save();ctx.strokeStyle=C.eth;ctx.lineWidth=2.5;ctx.beginPath();ctx.ellipse(x0+len,y,6,12,0,0,TAU);ctx.stroke();ctx.restore();txtB(ctx,ex?'d = 0.28 mm':'area A',x0+len,y-26,{a:'center',sz:14,b:1,c:C.eth});
+  txtB(ctx,ex?(k>=5?'ρ = RA ÷ L = 11.9 × 6.16 × 10⁻⁸ ÷ 1.50 = 4.9 × 10⁻⁷ Ω m':'R = 11.9 Ω, A = π d² ÷ 4 = 6.16 × 10⁻⁸ m²'):'ρ = R A ÷ L, unit Ω × m² ÷ m = Ω m',x0,h-24,{sz:14,b:1,c:C.eth});if(k===3)dH(ctx,[x0-12,y-30,x0+len+12,y+74]);}
+ return ['Twice the length: each electron passes twice as many ions, like two resistors in series. R doubles, and the electrons flow more slowly.','Twice the area: like two wires side by side, in parallel. R halves, and twice as many electrons flow.','Same size, different material: R depends on how strongly the material resists the flow. That property is the resistivity ρ.','Put the three together: R = ρL/A, so ρ = RA/L. It depends only on the material (and its temperature), not on its shape.','Worked example: find A from the diameter in metres.','ρ for constantan is about 30 times that of copper.'][Math.min(k,5)];}
+/* 4: series */
+function sc4(ctx,w,h,k){const xl=70,xr=w-60,yt=118,yb=h-46,ym=(yt+yb)/2,xa=xl+(xr-xl)*.33,xb=xl+(xr-xl)*.72,ex=k>=4,P=[[xl,ym-28],[xl,yt],[xr,yt],[xr,yb],[xl,yb],[xl,ym+28]];
+ wire(ctx,P);[[xa,'V₁'],[xb,'V₂']].forEach(([x])=>{wire(ctx,[[x-34,yt],[x-34,yt-46],[x-18,yt-46]],C.ink,2);wire(ctx,[[x+18,yt-46],[x+34,yt-46],[x+34,yt]],C.ink,2);});
+ if(k===3){dashBox(ctx,[xa-48,yt-24,xb+48,yt+24],C.so);}
+ const A1=xl+(xr-xl)*.3,A2=xl+(xr-xl)*.7,hb={A:[[A1-26,yb-24,A1+26,yb+24],[A2-26,yb-24,A2+26,yb+24]],V:[[xa-26,yt-72,xa+26,yt-20],[xb-26,yt-72,xb+26,yt-20],[xl-30,ym-40,xl+30,ym+40]],R:[[xa-44,yt-22,xa+44,yt+22],[xb-44,yt-22,xb+44,yt+22]]};
+ (k===0?hb.A:k===1?hb.V:k===2?hb.R:[]).forEach(b=>dH(ctx,b));dEl(ctx,P);
+ dB(ctx,xl,ym,44,60);sym(ctx,'cell',xl,ym-28,xl,ym+28,{len:40});txtB(ctx,ex?'9.0 V':'V',xl+26,ym+5,{sz:13.5,b:1});
+ const rl=ex?['2.2 kΩ','4.7 kΩ + 1.0 kΩ']:['R₁','R₂'];[[xa,0],[xb,1]].forEach(([x,i])=>{dComp(ctx,'res',x-36,yt,x+36,yt,{len:56});txtB(ctx,rl[i]+(k>=2&&!ex?` (V${i?'₂':'₁'} = IR${i?'₂':'₁'})`:''),x,yt+36,{a:'center',sz:13,b:1});
+  dB(ctx,x,yt-46,36,36);sym(ctx,'volt',x-18,yt-46,x+18,yt-46,{len:30});});
+ [A1,A2].forEach((x,i)=>{dB(ctx,x,yb,40,36);sym(ctx,'amm',x+18,yb,x-18,yb,{len:30});txtB(ctx,k>=0?`A${i?'₂':'₁'} reads I`:'',x,yb-24,{a:'center',sz:12.5,b:1,c:C.eth});});
+ if(k===3)txtB(ctx,'R_s = R₁ + R₂'.replace('_',''),(xa+xb)/2,yt-84+0,{a:'center',sz:14,b:1,c:C.so});
+ const s=ex?(k>=5?'I = 9.0 ÷ 7900 = 1.1 × 10⁻³ A: the same reading on both ammeters':'R_s = 2.2 + 4.7 + 1.0 = 7.9 kΩ'.replace('_','')):['A₁ and A₂ give the same reading: one path, the same current everywhere','V = V₁ + V₂: the supply pd is shared between the resistors','each pd is I times that resistance: IR_s = IR₁ + IR₂'.replace('_',''),'divide by I: one resistor R₁ + R₂ would do the same job'][k];txtB(ctx,s,12,h-12,{sz:14,b:1,c:C.eth});
+ return ['There is only one path. Charge is conserved, so every ammeter in a series circuit reads the same current.','Energy is conserved: the energy each coulomb gains in the supply is shared between the resistors, so the voltmeter readings add up to the supply pd.','Write each pd as current × resistance.','The same current cancels: resistances in series simply add. The dashed box shows the single equivalent resistor.','Worked example: add the three resistances.','Then use I = V/R with the resistance in ohms.'][Math.min(k,5)];}
+/* 5: parallel */
+function sc5(ctx,w,h,k){const xl=70,yt=60,yb=h-50,ym=(yt+yb)/2,xj=xl+(w-xl)*.36,x1=xl+(w-xl)*.56,x2=xl+(w-xl)*.76,ex=k>=5,I1=1,I2=.5;
+ wire(ctx,[[xl,ym-28],[xl,yt],[x2,yt]]);wire(ctx,[[xl,ym+28],[xl,yb],[x2,yb]]);[x1,x2].forEach(x=>wire(ctx,[[x,yt],[x,yb]]));
+ const main1=[[xl,ym-28],[xl,yt],[x1,yt]],main2=[[x1,yb],[xl,yb],[xl,ym+28]];
+ if(k===3||k===4)dashBox(ctx,[x1-34,yt+12,x2+34,yb-12],C.so);
+ const hb={j:[x1-16,yt-16,x1+16,yt+16],A:[xj-26,yt-24,xj+26,yt+24],r1:[x1-26,ym-44,x1+26,ym+44],r2:[x2-26,ym-44,x2+26,ym+44],c:[xl-30,ym-40,xl+30,ym+40]};
+ (k===0?['r1','r2','c']:k===1?['j','A']:k===2?['r1','r2']:[]).forEach(x=>dH(ctx,hb[x]));
+ dEl(ctx,main1,1.5);dEl(ctx,main2,1.5);dEl(ctx,[[x1,yt],[x1,yb]],I1);dEl(ctx,[[x1,yt],[x2,yt],[x2,yb],[x1,yb]],I2);
+ dB(ctx,xl,ym,44,60);sym(ctx,'cell',xl,ym-28,xl,ym+28,{len:40});dB(ctx,xj,yt,40,36);sym(ctx,'amm',xj-18,yt,xj+18,yt,{len:30});txtB(ctx,'I',xj,yt+34,{a:'center',sz:13.5,b:1,c:C.eth});
+ const rl=ex?['6.0 Ω','12 Ω']:['R₁','R₂'];[[x1,0],[x2,1]].forEach(([x,i])=>{dComp(ctx,'res',x,ym-38,x,ym+38,{len:60});const L=[rl[i],k>=0?'pd V':'',k>=1?`I${i?'₂':'₁'}${k>=2&&!ex?` = V/R${i?'₂':'₁'}`:''}`:''];L.forEach((s,j)=>s&&txtB(ctx,s,x+22,ym-14+j*16,{sz:12.5,b:1,c:j===2?C.eth:j?C.ep:C.ink}));});
+ ctx.fillStyle=C.ink;[[x1,yt],[x1,yb]].forEach(([x,y])=>{ctx.beginPath();ctx.arc(x,y,4.5,0,TAU);ctx.fill();});
+ if(k===3||k===4)txtB(ctx,k===3?'one resistor R_p, 1/R_p = 1/R₁ + 1/R₂'.replace(/_/g,''):'R_p = R₁R₂ ÷ (R₁ + R₂)'.replace('_',''),(x1+x2)/2,yb-18,{a:'center',sz:13.5,b:1,c:C.so});
+ const s=ex?(k>=6?'R_p = 2.0 Ω: less than the smallest branch (4.0 Ω)'.replace('_',''):'with 6.0 Ω, 12 Ω and 4.0 Ω: 1/R_p = 1/6 + 1/12 + 1/4 = 6/12'.replace('_','')):['each branch is across the same two points: the same pd V','at the junction the current splits: I = I₁ + I₂','each branch current is V ÷ R: the smaller R takes the larger current','divide by V: 1/R_p = 1/R₁ + 1/R₂'.replace('_',''),'for two resistors only: product over sum'][k];txtB(ctx,s,12,h-12,{sz:14,b:1,c:C.eth});
+ return ['Both resistors are joined across the same two points, so the same pd is across each.','Watch the junction: the stream of electrons divides. The branch with less resistance carries more (faster dots).','Write each current as V/R.','Divide through by V. The dashed box is the single resistor that would take the same total current.','For exactly two resistors the formula simplifies to product ÷ sum.','Worked example: three resistors in parallel.','The answer is always less than the smallest resistor: each branch adds another path.'][Math.min(k,6)];}
+/* 6: internal resistance */
+function sc6(ctx,w,h,k){const xl=60,xr=w-90,yt=84,yb=h-50,cx=(xl+xr)/2,bx0=cx-110,bx1=cx+110,ym=(yt+yb)/2,ex=k>=6,R=ex?(k>=8?8:4):5,P=[[bx1,yt],[xr,yt],[xr,yb],[xl,yb],[xl,yt],[bx0,yt],[bx1,yt]];
+ wire(ctx,P);wire(ctx,[[bx0,yt],[bx0,yt+70],[cx-18,yt+70]],C.ink,2);wire(ctx,[[cx+18,yt+70],[bx1,yt+70],[bx1,yt]],C.ink,2);
+ const hb={r:[cx+2,yt-24,cx+98,yt+24],R:[xr-28,ym-46,xr+28,ym+46],E:[bx0+8,yt-28,bx0+86,yt+28],V:[cx-26,yt+46,cx+26,yt+94]};
+ ((k===0?['r','R']:k===1?['E']:k===2?['r','R']:k===3?['V','R']:k===4?['r']:[]).map(x=>hb[x])).forEach(b=>dH(ctx,b));if(k>=1)dEl(ctx,P,ex?(k>=8?.7:1.2):1);
+ ctx.save();ctx.setLineDash([6,5]);ctx.strokeStyle=C.so;ctx.lineWidth=2;ctx.strokeRect(bx0,yt-34,bx1-bx0,68);ctx.restore();txtB(ctx,'real cell',bx0+4,yt-40,{sz:12.5,b:1,c:C.so});
+ dB(ctx,bx0+49,yt,70,44);sym(ctx,'cell',bx0+70,yt,bx0+20,yt,{len:36,pm:false});txtB(ctx,'ε',bx0+46,yt+30,{a:'center',sz:14,b:1,c:C.ek});dB(ctx,cx+50,yt,90,36);sym(ctx,'res',cx+10,yt,cx+90,yt,{len:56});txtB(ctx,k>=2?'r (pd Ir)':'r',cx+50,yt+30,{a:'center',sz:14,b:1,c:C.ek});
+ dB(ctx,cx,yt+70,40,36);sym(ctx,'volt',cx-18,yt+70,cx+18,yt+70,{len:30});txtB(ctx,'V',cx+24,yt+75,{sz:14,b:1,c:C.ep});
+ dComp(ctx,'res',xr,ym-38,xr,ym+38,{len:60});txtB(ctx,ex?`R = ${R} Ω`:k>=2?'R (pd IR)':'R',xr-30,ym+5,{a:'right',sz:13.5,b:1});
+ if(k===5){const gx=xl+14,gy=yb-14,gw=120,gh=70;ctx.strokeStyle=C.ink;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(gx,gy-gh);ctx.lineTo(gx,gy);ctx.lineTo(gx+gw,gy);ctx.stroke();ctx.strokeStyle=C.ep;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(gx,gy-gh+10);ctx.lineTo(gx+gw-10,gy-14);ctx.stroke();txt(ctx,'V',gx-12,gy-gh+8,{sz:12.5,b:1});txt(ctx,'I',gx+gw+4,gy+4,{sz:12.5,b:1});txtB(ctx,'gradient −r, intercept ε',gx+gw+14,gy-gh/2,{sz:12.5,b:1,c:C.ep});}
+ const s=ex?(k>=8?'with 8.0 Ω: I = 0.90 A, so ε = 0.90 (8.0 + r)':'with 4.0 Ω: I = 1.50 A, so ε = 1.50 (4.0 + r)'):['R and r are in series: R total = R + r','the emf drives the current through both','ε = IR + Ir','the voltmeter reads the terminal pd V = IR','V = ε − Ir: Ir is the lost volts',''][k];if(s)txtB(ctx,s,12,h-12,{sz:14,b:1,c:C.eth});
+ return ['The real cell is an ideal emf ε with a small resistance r inside it. The load R is in series with r.','The emf pushes the current through the total resistance, R + r. The electrons pass through the inside of the cell too.','Each coulomb transfers IR in the load and Ir inside the cell.','The voltmeter across the terminals measures the pd across the load: V = IR.','So the terminal pd is less than the emf by the lost volts, Ir.','Compare with y = mx + c: a graph of V against I is a straight line, gradient −r, intercept ε.','Worked example: the same battery with a 4.0 Ω load…','…gives two equations in ε and r.','Change the load to 8.0 Ω: the current falls (slower flow).','Solve the simultaneous equations: r = 2.0 Ω, ε = 9.0 V.'][Math.min(k,9)];}
+/* 7: potential divider */
+function sc7(ctx,w,h,k){const xl=70,xc=w*.42,yt=56,yb=h-50,ym=(yt+yb)/2,xo=xc+150,ex=k>=4,f=ex?1/6:.4,P1=[[xl,ym-28],[xl,yt],[xc,yt],[xc,yb],[xl,yb],[xl,ym+28]];
+ wire(ctx,P1);wire(ctx,[[xc,ym],[xo,ym],[xo,ym+20]]);wire(ctx,[[xo,yb-20],[xo,yb],[xc,yb]]);
+ const hb={a:[xc-26,yt+14,xc+26,ym-6],b:[xc-26,ym+6,xc+26,yb-14],v:[xo-26,(ym+yb)/2-26,xo+26,(ym+yb)/2+26]};(k===0?['a','b']:k===1?['b','v']:k===2?['b','v']:k===3?['a','b']:[]).forEach(x=>dH(ctx,hb[x]));dEl(ctx,P1);
+ dB(ctx,xl,ym,44,60);sym(ctx,'battery',xl,ym-28,xl,ym+28,{len:40});txtB(ctx,ex?'12 V':'V in',xl+26,ym+5,{sz:13.5,b:1});
+ dComp(ctx,'res',xc,yt+20,xc,ym-12,{len:60});dComp(ctx,ex?'therm':'res',xc,ym+12,xc,yb-20,{len:60});txtB(ctx,ex?'5.0 kΩ':'R₁',xc-30,(yt+ym)/2+5,{a:'right',sz:13.5,b:1,c:C.ek});txtB(ctx,ex?'thermistor 1.0 kΩ':'R₂',xc-30,(ym+yb)/2+5,{a:'right',sz:13.5,b:1,c:C.ep});
+ ctx.fillStyle=C.ink;[[xc,ym],[xc,yb]].forEach(([x,y])=>{ctx.beginPath();ctx.arc(x,y,4.5,0,TAU);ctx.fill();});dB(ctx,xo,(ym+yb)/2,36,40);sym(ctx,'volt',xo,(ym+yb)/2-18,xo,(ym+yb)/2+18,{len:30});txtB(ctx,ex?(k>=5?'2.0 V':'?'):'V out',xo+22,(ym+yb)/2+5,{sz:13.5,b:1,c:C.ok});
+ if(k>=3){const bx=w-46,b0=yt+10,b1=yb-10;ctx.fillStyle=C.ek;ctx.globalAlpha=.75;ctx.fillRect(bx,b0,18,(b1-b0)*(1-f));ctx.fillStyle=C.ep;ctx.fillRect(bx,b0+(b1-b0)*(1-f),18,(b1-b0)*f);ctx.globalAlpha=1;txtB(ctx,'V₁',bx-6,b0+(b1-b0)*(1-f)/2+5,{a:'right',sz:13,b:1,c:C.ek});txtB(ctx,'V₂',bx-6,b0+(b1-b0)*(1-f/2)+5,{a:'right',sz:13,b:1,c:C.ep});}
+ const s=ex?(k>=5?'V = 12 × 1.0 ÷ 6.0 = 2.0 V':'V = 12 × 1.0 ÷ (5.0 + 1.0)'):['the same current flows through R₁ and R₂','the output is taken across R₂: V out = I R₂','substitute: V out = V in R₂ ÷ (R₁ + R₂)','the supply pd is shared in the ratio R₁ : R₂ (the bar)'][k];txtB(ctx,s,12,h-12,{sz:14,b:1,c:C.eth});
+ return ['R₁ and R₂ are in series, so the same current flows through both. The ideal voltmeter takes no current.','The output terminals are connected across R₂, so V out is the pd across R₂.','Combine the two lines: the output is a fraction of the input set by the resistances.','The bar shows how V in is shared: the bigger resistance gets the bigger share.','Worked example: the thermistor is hot, so its resistance is only 1.0 kΩ.','It takes only one sixth of the supply pd. Cool it down and its share would rise.'][Math.min(k,5)];}
+const DSCS=[sc0,sc1,sc2,sc3,sc4,sc5,sc6,sc7];
+function drawDsc(){if(!subOn('der-main'))return;const cv=$('#cDsc');if(!cv)return;const {ctx,w,h}=fit(cv),fn=DSCS[DV.i];if(!fn)return;const k=Math.max(0,DV.n-1);
+ const cap=fn(ctx,w,h,k);txtB(ctx,`picture for step ${k+1}`,12,22,{sz:13,b:1,c:C.accent});if(!DSC.run)txtB(ctx,'❚❚ paused',12,40,{sz:12.5,b:1,c:C.muted});wm(ctx,w,h);setEx('#dscCap','<b>What changed:</b> '+(cap||''));}
+TICK.push(dt=>{if(!subOn('der-main'))return;if(DSC.run){DSC.t+=dt;DSC.off+=dt*34;}drawDsc();});
+pauseBtn('#dscPause',DSC,'Pause the picture');
 </script>
 <script>
 /* ---------- Class activity: resistivity of a wire ---------- */
@@ -3118,32 +3543,75 @@ $('#dqChk').onclick=()=>{const c=DQ.cur;if(!c||c.done)return;const x=cxNum($('#d
 $('#dqIn').addEventListener('keydown',e=>{if(e.key==='Enter')$('#dqChk').click();});$('#dqShow').onclick=()=>{if(DQ.cur)setEx('#dqFb','<b>Working:</b> '+DQ.cur.s);};$('#dqNext').onclick=dqNew;segB('dqT',d=>{DQ.t=d.t;dqNew();});dqNew();
 </script>
 <script>
+/* ---------- exam-style figures: IB circuit symbols drawn in SVG ---------- */
+const SK='var(--ink)',SM='text-anchor="middle"';
+const sW=(...p)=>`<polyline points="${p.map(q=>q.join(',')).join(' ')}" fill="none" stroke="${SK}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>`;
+const sBl=(x,y,w,h)=>`<rect x="${x-w/2}" y="${y-h/2}" width="${w}" height="${h}" fill="var(--panel2)"/>`;
+const sLn=(x1,y1,x2,y2,w=2.2,c=SK,d='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${w}" stroke-linecap="round" ${d?`stroke-dasharray="${d}"`:''}/>`;
+const sR=(x,y,v)=>sBl(x,y,v?22:54,v?54:22)+(v?`<rect x="${x-8}" y="${y-22}" width="16" height="44"`:`<rect x="${x-22}" y="${y-8}" width="44" height="16"`)+` fill="var(--panel)" stroke="${SK}" stroke-width="2"/>`;
+const sCell=(x,y,v,c=SK,flip)=>{const a=flip?4:-4;return v?sBl(x,y,36,20)+sLn(x-14,y+a,x+14,y+a,2.2,c)+sLn(x-7,y-a,x+7,y-a,4.5,c):sBl(x,y,20,36)+sLn(x+a,y-14,x+a,y+14,2.2,c)+sLn(x-a,y-7,x-a,y+7,4.5,c);};
+const sLamp=(x,y)=>sBl(x,y,30,30)+`<circle cx="${x}" cy="${y}" r="11" fill="var(--panel)" stroke="${SK}" stroke-width="2"/>`+sLn(x-7.8,y-7.8,x+7.8,y+7.8,2)+sLn(x+7.8,y-7.8,x-7.8,y+7.8,2);
+const sM=(x,y,l)=>sBl(x,y,30,30)+`<circle cx="${x}" cy="${y}" r="12" fill="var(--panel)" stroke="${SK}" stroke-width="2"/><text x="${x}" y="${y+5}" ${SM} font-family="Times New Roman,Times,serif" font-size="15" font-weight="700" fill="${SK}">${l}</text>`;
+const sTh=(x,y,v)=>sR(x,y,v)+(v?sW([x-14,y+18],[x+14,y-18],[x+22,y-18]):sW([x-18,y+12],[x+18,y-12],[x+26,y-12]));
+const sLdr=(x,y,v)=>sR(x,y,v)+`<circle cx="${x}" cy="${y}" r="27" fill="none" stroke="${SK}" stroke-width="2"/>`+[[-30,-46],[-14,-50]].map(([dx,dy])=>sLn(x+dx,y+dy,x+dx+10,y+dy+16,1.8)+`<path d="M${x+dx+10} ${y+dy+16} l-6 -2 l4 -5 z" fill="${SK}"/>`).join('');
+const sSw=(x,y)=>sBl(x,y,40,26)+`<circle cx="${x-14}" cy="${y}" r="3" fill="${SK}"/><circle cx="${x+14}" cy="${y}" r="3" fill="${SK}"/>`+sLn(x-14,y,x+12,y-13);
+const sDot=(x,y)=>`<circle cx="${x}" cy="${y}" r="3.8" fill="${SK}"/>`,sTm=(x,y)=>`<circle cx="${x}" cy="${y}" r="4.5" fill="var(--panel)" stroke="${SK}" stroke-width="2"/>`;
+const sVar=(x,y,v)=>sR(x,y,v)+(v?sLn(x-16,y+20,x+14,y-20,1.8):sLn(x-26,y+12,x+24,y-14,1.8))+(v?`<path d="M${x+14} ${y-20} l-7 3 l5 5 z" fill="${SK}"/>`:`<path d="M${x+24} ${y-14} l-8 0 l3 6 z" fill="${SK}"/>`);
+const sArr=(x1,y,x2,lab,c='var(--ep)')=>sLn(x1,y,x2,y,1.6,c)+`<path d="M${x1} ${y} l8 -4 l0 8 z M${x2} ${y} l-8 -4 l0 8 z" fill="${c}"/>`+svgT((x1+x2)/2,y-6,lab,SM);
+const sOut=(x,y)=>svgT(x,y,'V')+`<text x="${x+10}" y="${y+4}" font-size="10" fill="var(--ink2)" font-family="Times New Roman,Times,serif">out</text>`;
+const fig=(vb,body)=>`<svg viewBox="0 0 ${vb}" font-family="Times New Roman,Times,serif" font-size="14">${body}</svg>`;
+/* combination: R1 in series with R2 ∥ R3 */
+const fComb=(E,a,b,c)=>fig('520 210',sW([60,40],[430,40])+sW([60,180],[430,180])+sW([60,40],[60,180])+sW([320,40],[320,180])+sW([430,40],[430,180])+sCell(60,110,true)+sR(170,40,false)+sR(320,110,true)+sR(430,110,true)+sDot(320,40)+sDot(320,180)+svgT(14,115,E)+svgT(170,22,a,SM)+svgT(336,114,b)+svgT(446,114,c));
+/* potential divider */
+const fDiv=(E,top,bot,th,vm)=>fig(vm?'520 225':'470 225',sW([70,30],[240,30],[240,200],[70,200],[70,30])+sW([240,115],[380,115])+sW([240,200],[380,200])+(vm?sW([380,115],[450,115],[450,200],[380,200]):'')+sCell(70,106,true)+sCell(70,124,true)+sR(240,70,true)+(th?sTh(240,158,true):sR(240,158,true))+sDot(240,115)+sDot(240,200)+sTm(380,115)+sTm(380,200)+(vm?sM(450,158,'V')+svgT(470,162,'12 kΩ'):'')+svgT(20,120,E)+svgT(262,74,top)+svgT(262,162,bot)+sOut(vm?350:392,162));
+const DFIG2={
+chg:fig('520 200',`<circle cx="110" cy="80" r="44" fill="var(--panel)" stroke="${SK}" stroke-width="2"/>`+[[90,62],[128,62],[84,92],[110,104],[136,92],[110,74]].map(([x,y])=>svgT(x-4,y+5,'−')).join('')+sLn(110,124,110,176,4,'var(--muted)')+sLn(80,178,140,178,3)+svgT(110,198,'metal sphere on an insulating stand',SM)+
+ sW([270,50],[480,50],[480,160],[270,160],[270,50])+sCell(270,105,true)+sM(375,50,'A')+sLamp(480,105)+svgT(375,30,'0.40 A for 2.5 min',SM)+svgT(250,110,'+','text-anchor="end"')),
+rub:fig('520 170',`<rect x="60" y="70" width="300" height="26" rx="6" fill="var(--panel)" stroke="${SK}" stroke-width="2"/>`+[110,170,230,290].map(x=>svgT(x,88,'−',SM)).join('')+svgT(210,60,'polythene rod',SM)+`<path d="M330 104 q20 -14 40 0 t40 0 t40 0 v40 q-20 14 -40 0 t-40 0 t-40 0 z" fill="rgba(208,127,18,.18)" stroke="var(--eth)" stroke-width="2"/>`+[360,400,440].map(x=>svgT(x,130,'+',SM)).join('')+svgT(390,164,'wool cloth',SM)+`<path d="M330 120 C300 140 280 120 270 100" fill="none" stroke="var(--ep)" stroke-width="2"/><path d="M270 100 l2 9 l6 -5 z" fill="var(--ep)"/>`+svgT(250,138,'electrons','text-anchor="end"')),
+car3:fig('540 210',`<rect x="10" y="40" width="160" height="90" rx="10" fill="rgba(184,115,51,.16)" stroke="#b87333" stroke-width="2"/>`+[0,1,2,3].map(i=>[0,1,2].map(j=>`<circle cx="${32+i*38}" cy="${62+j*24}" r="8" fill="#6d6fa8"/><text x="${32+i*38}" y="${66+j*24}" ${SM} font-size="11" fill="#fff">+</text>`).join('')).join('')+[[50,74],[90,98],[130,74],[70,110],[150,98],[110,62]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="4" fill="var(--ep)"/>`).join('')+svgT(90,152,'copper wire',SM)+svgT(90,170,'free electrons',SM)+
+ `<path d="M200 30 V140 H350 V30" fill="rgba(47,98,176,.10)" stroke="${SK}" stroke-width="2"/>`+sLn(225,20,225,120,6,'var(--muted)')+sLn(325,20,325,120,6,'var(--muted)')+svgT(225,16,'+',SM)+svgT(325,16,'−',SM)+[[255,70,'+'],[290,100,'+'],[270,120,'−'],[305,60,'−'],[255,105,'−'],[300,80,'+']].map(([x,y,s])=>`<circle cx="${x}" cy="${y}" r="8" fill="${s==='+'?'var(--ek)':'var(--ep)'}"/><text x="${x}" y="${y+4}" ${SM} font-size="11" fill="#fff">${s}</text>`).join('')+svgT(275,162,'copper sulfate solution',SM)+svgT(275,180,'Cu²⁺ and SO₄²⁻ ions',SM)+
+ `<rect x="380" y="55" width="150" height="56" rx="28" fill="rgba(217,164,0,.14)" stroke="${SK}" stroke-width="2"/>`+sLn(392,83,404,83,6,'var(--muted)')+sLn(506,83,518,83,6,'var(--muted)')+[[430,72,'+'],[470,96,'+'],[445,98,'−'],[490,70,'−'],[460,80,'−']].map(([x,y,s])=>s==='+'?`<circle cx="${x}" cy="${y}" r="7" fill="var(--ek)"/><text x="${x}" y="${y+4}" ${SM} font-size="11" fill="#fff">+</text>`:`<circle cx="${x}" cy="${y}" r="4" fill="var(--ep)"/>`).join('')+svgT(455,152,'neon discharge tube',SM)+svgT(455,170,'electrons and ions',SM)),
+drw:fig('520 170',`<rect x="60" y="60" width="360" height="50" fill="rgba(184,115,51,.16)" stroke="#b87333" stroke-width="2"/><ellipse cx="420" cy="85" rx="12" ry="25" fill="var(--panel)" stroke="#b87333" stroke-width="2"/><ellipse cx="60" cy="85" rx="12" ry="25" fill="none" stroke="#b87333" stroke-width="2" stroke-dasharray="4 3"/>`+sLn(445,60,445,110,1.6,'var(--ep)')+svgT(452,90,'d = 0.90 mm')+sLn(150,40,290,40,2.5,'var(--ek)')+`<path d="M290 40 l-10 -5 v10 z" fill="var(--ek)"/>`+svgT(220,30,'I = 3.0 A',SM)+svgT(240,140,'copper: n = 8.5 × 10²⁸ m⁻³',SM)),
+nich:fig('520 150',`<rect x="60" y="56" width="380" height="12" rx="6" fill="#9a9a9a" stroke="${SK}" stroke-width="1.5"/>`+sArr(60,100,440,'L = 1.20 m')+`<ellipse cx="440" cy="62" rx="5" ry="10" fill="var(--panel)" stroke="${SK}" stroke-width="1.5"/>`+svgT(452,66,'d = 0.32 mm')+svgT(250,40,'nichrome wire, ρ = 1.1 × 10⁻⁶ Ω m',SM)),
+stretch:fig('520 170',`<rect x="60" y="40" width="190" height="16" rx="8" fill="#9a9a9a"/>`+svgT(270,53,'length L, area A')+`<rect x="60" y="110" width="380" height="8" rx="4" fill="#9a9a9a"/>`+svgT(250,145,'stretched: length 2L, same volume',SM)),
+kettle:fig('520 200',sW([90,50],[430,50],[430,160],[90,160],[90,50])+sBl(90,105,40,40)+`<circle cx="90" cy="105" r="16" fill="var(--panel)" stroke="${SK}" stroke-width="2"/><path d="M80 105 q5 -8 10 0 t10 0" fill="none" stroke="${SK}" stroke-width="2"/>`+sR(260,50,false)+sLn(238,50,282,50,2)+sSw(260,160)+svgT(40,110,'230 V','text-anchor="end"')+svgT(260,30,'heating element, 2.4 kW',SM)+svgT(260,186,'switch',SM)+svgT(445,110,'0.80 kg of water')),
+lamps2:fig('520 190',sW([70,50],[450,50],[450,150],[70,150],[70,50])+sCell(70,100,true)+sLamp(190,50)+sLamp(330,50)+svgT(30,105,'12 V')+svgT(190,28,'12 V, 24 W',SM)+svgT(330,28,'12 V, 6 W',SM)),
+torch:fig('520 200',sW([90,40],[420,40],[420,170],[90,170],[90,40])+sCell(90,85,true)+sCell(90,125,true)+sLamp(420,105)+sM(255,170,'A')+svgT(80,90,'1.5 V, 0.40 Ω','text-anchor="end"')+svgT(80,130,'1.5 V, 0.40 Ω','text-anchor="end"')+svgT(440,110,'5.2 Ω')),
+rev:fig('520 200',sW([90,40],[420,40],[420,170],[90,170],[90,40])+sCell(90,85,true)+sCell(90,125,true,'var(--bad)',true)+sLamp(420,105)+svgT(80,90,'1.5 V','text-anchor="end"')+svgT(80,130,'1.5 V (reversed)','text-anchor="end"')),
+vicirc:fig('520 210',`<rect x="150" y="16" width="220" height="48" fill="none" stroke="var(--so)" stroke-width="2" stroke-dasharray="6 5"/>`+sW([90,40],[430,40],[430,180],[90,180],[90,40])+sCell(200,40,false)+sR(300,40,false)+svgT(200,80,'ε',SM)+svgT(300,80,'r',SM)+sW([150,40],[150,110],[245,110])+sW([275,110],[370,110],[370,40])+sM(260,110,'V')+sVar(430,110,true)+sM(260,180,'A')+sDot(150,40)+sDot(370,40)+svgT(260,10,'battery',SM)+svgT(445,114,'variable resistor')),
+mk3:fComb('9.0 V','4.0 Ω','3.0 Ω','6.0 Ω'),
+mk5:fDiv('12 V','2.0 kΩ','10 kΩ',false),
+mk9:fig('520 150',`<rect x="60" y="40" width="300" height="20" rx="10" fill="#9a9a9a"/>`+svgT(380,55,'R = 4.0 Ω: length L, diameter d')+`<rect x="60" y="100" width="150" height="10" rx="5" fill="#9a9a9a"/>`+svgT(230,110,'length L/2, diameter d/2: R = ?')),
+p3:fig('440 160',sW([60,80],[120,80])+sW([320,80],[380,80])+sW([120,30],[120,130])+sW([320,30],[320,130])+[30,80,130].map(y=>sW([120,y],[320,y])+sR(220,y,false)+svgT(270,y-12,'9 Ω')).join('')+sDot(120,80)+sDot(320,80)+sTm(60,80)+sTm(380,80)+svgT(44,85,'A','text-anchor="end"')+svgT(392,85,'B'))};
+</script>
+<script>
 /* ---------- DP exam-style practice ---------- */
 const PA=(p,pp)=>Object.assign(p,{pp});
 const DFIG={
 iv:`<svg viewBox="0 0 520 220" font-family="Times New Roman,Times,serif" font-size="14"><path d="M60 190 H500 M60 190 V15" stroke="var(--ink)" stroke-width="1.5"/>${svgT(10,24,'I / A')}${svgT(450,210,'V / V')}${[1,2,3,4,5,6].map(i=>svgT(60+i*70-6,206,i*2)).join('')}${[1,2,3,4,5].map(i=>svgT(30,194-i*34,(i*.1).toFixed(1))).join('')}<path d="M60 190 C120 120 200 85 270 70 C340 57 420 47 480 42" stroke="var(--ek)" stroke-width="3" fill="none"/><path d="M60 190 L480 50" stroke="var(--ep)" stroke-width="2.5" stroke-dasharray="7 5"/>${svgT(380,40,'lamp')}${svgT(400,96,'resistor')}</svg>`,
 vi:`<svg viewBox="0 0 520 220" font-family="Times New Roman,Times,serif" font-size="14"><path d="M60 190 H500 M60 190 V15" stroke="var(--ink)" stroke-width="1.5"/>${svgT(10,24,'V / V')}${svgT(450,210,'I / A')}${[1,2,3,4].map(i=>svgT(60+i*100-8,206,(i*.5).toFixed(1))).join('')}${[1,2,3,4,5,6].map(i=>svgT(34,194-i*28,i*1.0)).join('')}<path d="M60 54 L460 110" stroke="var(--ep)" stroke-width="3"/><g fill="var(--ep)"><circle cx="110" cy="62" r="4"/><circle cx="190" cy="71" r="4"/><circle cx="280" cy="86" r="4"/><circle cx="370" cy="96" r="4"/></g></svg>`,
-net:`<svg viewBox="0 0 520 200" font-family="Times New Roman,Times,serif" font-size="14"><path d="M60 40 H460 V160 H60 Z" fill="none" stroke="var(--ink)" stroke-width="2.5"/><rect x="40" y="80" width="40" height="40" fill="var(--panel2)"/><path d="M48 92 H72 M54 108 H66" stroke="var(--ink)" stroke-width="3"/>${svgT(10,104,'12 V')}<rect x="140" y="32" width="60" height="16" fill="var(--panel2)" stroke="var(--ink)" stroke-width="2"/>${svgT(150,24,'R₁ = 4.0 Ω')}<path d="M300 40 V160 M420 40 V160" stroke="var(--ink)" stroke-width="2.5"/><rect x="292" y="80" width="16" height="40" fill="var(--panel2)" stroke="var(--ink)" stroke-width="2"/><rect x="412" y="80" width="16" height="40" fill="var(--panel2)" stroke="var(--ink)" stroke-width="2"/>${svgT(232,104,'R₂ = 6.0 Ω')}${svgT(432,104,'R₃')}<path d="M300 40 H420 M300 160 H420" stroke="var(--ink)" stroke-width="2.5"/></svg>`,
-div:`<svg viewBox="0 0 520 220" font-family="Times New Roman,Times,serif" font-size="14"><path d="M80 30 H240 V60 M240 120 V140 M240 190 V200 H80 Z" fill="none" stroke="var(--ink)" stroke-width="2.5"/><rect x="60" y="95" width="40" height="40" fill="var(--panel2)"/><path d="M68 108 H92 M74 122 H86" stroke="var(--ink)" stroke-width="3"/>${svgT(16,120,'9.0 V')}<rect x="232" y="60" width="16" height="60" fill="var(--panel2)" stroke="var(--ink)" stroke-width="2"/>${svgT(256,94,'R = 4.0 kΩ')}<rect x="232" y="140" width="16" height="50" fill="var(--panel2)" stroke="var(--ink)" stroke-width="2"/><path d="M226 186 L254 144 H262" stroke="var(--ink)" stroke-width="2" fill="none"/>${svgT(268,170,'thermistor')}<path d="M240 130 H380 M240 200 H380" stroke="var(--ink)" stroke-width="2"/><circle cx="380" cy="130" r="5" fill="none" stroke="var(--ink)" stroke-width="2"/><circle cx="380" cy="200" r="5" fill="none" stroke="var(--ink)" stroke-width="2"/>${svgT(392,170,'V')}<text x="402" y="174" font-size="10" fill="var(--ink2)" font-family="Times New Roman,Times,serif">out</text></svg>`};
+net:fComb("12 V","R₁ = 4.0 Ω","R₂ = 6.0 Ω","R₃"),
+div:fDiv("9.0 V","R = 4.0 kΩ","thermistor",true),divV:fDiv("9.0 V","4.0 kΩ","thermistor",true,true)};
+Object.assign(DFIG,DFIG2);
 const ESETS=[
-{t:'Charge and current',cr:'Charge',stem:'A metal sphere is given a charge of −6.4 × 10⁻¹⁰ C. Later a wire carries a steady current of 0.40 A for 2.5 minutes. (e = 1.60 × 10⁻¹⁹ C)',parts:[
+{t:'Charge and current',cr:'Charge',fig:'chg',stem:'A metal sphere is given a charge of −6.4 × 10⁻¹⁰ C. Later a wire carries a steady current of 0.40 A for 2.5 minutes. (e = 1.60 × 10⁻¹⁹ C)',parts:[
  PA(TX(`${cm('State')} what is meant by the conservation of charge.`,1,['the total charge of an isolated system remains constant / charge cannot be created or destroyed']),'2'),
  PA(NU(`${cm('Calculate')} the number of extra electrons on the sphere (give the number × 10⁹).`,1,4.0,'× 10⁹','N = 6.4 × 10⁻¹⁰ ÷ 1.60 × 10⁻¹⁹ = 4.0 × 10⁹.','N = q/e.',.05),'2'),
  PA(NU(`${cm('Calculate')} the charge that flows through the wire.`,1,60,'C','q = It = 0.40 × 150 = 60 C.','Convert minutes to seconds.',.5),'2'),
  PA(MC('Which charge is impossible for an isolated object?',1,['8.0 × 10⁻²⁰ C','3.2 × 10⁻¹⁹ C','1.6 × 10⁻¹⁸ C','4.8 × 10⁻¹⁹ C'],0,'8.0 × 10⁻²⁰ C = 0.5e: not a whole number of elementary charges.'),'1A'),
  PA(TX(`${cm('Explain')} why a polythene rod becomes negatively charged when rubbed with a wool cloth.`,2,['electrons are transferred (by friction) from the wool to the polythene','the rod has more electrons than protons; the wool is left with an equal positive charge']),'2')]},
-{t:'Charge carriers in solids, liquids and gases',cr:'Carriers',stem:'Current can pass through a copper wire, a copper sulfate solution and a neon discharge tube.',parts:[
+{t:'Charge carriers in solids, liquids and gases',cr:'Carriers',fig:'car3',stem:'Current can pass through a copper wire, a copper sulfate solution and a neon discharge tube.',parts:[
  PA(TX(`${cm('Outline')} the nature of the charge carriers in each of the three conductors.`,3,['copper: free (delocalised) electrons moving through a lattice of positive ions','solution: positive Cu²⁺ ions and negative SO₄²⁻ ions moving in opposite directions','neon tube: electrons and positive ions produced by ionisation (by collision)']),'2'),
  PA(MC('In the solution, Cu²⁺ ions move to the cathode and SO₄²⁻ ions to the anode. The current due to them',1,['is the sum of both contributions','is zero, because they move in opposite directions','is due only to the Cu²⁺ ions','is due only to the SO₄²⁻ ions'],0,'Both carry charge in the same conventional direction.'),'1A'),
  PA(TX(`${cm('Explain')} why the neon only conducts when the pd across the tube exceeds a certain value.`,2,['the few free electrons must gain enough kinetic energy between collisions to ionise atoms','producing an avalanche of electrons and ions, so the number of charge carriers increases greatly']),'2'),
  PA(TX(`${cm('Explain')}, using a particle model, why the resistance of a semiconductor decreases as its temperature rises.`,2,['more electrons gain enough energy to become free (number density n increases)','this effect outweighs the increased lattice vibration, so R falls']),'2')]},
-{t:'Drift speed',cr:'Current',stem:'A copper wire of diameter 0.90 mm carries a current of 3.0 A. The number density of free electrons in copper is 8.5 × 10²⁸ m⁻³.',parts:[
+{t:'Drift speed',cr:'Current',fig:'drw',stem:'A copper wire of diameter 0.90 mm carries a current of 3.0 A. The number density of free electrons in copper is 8.5 × 10²⁸ m⁻³.',parts:[
  PA(NU(`${cm('Calculate')} the cross-sectional area of the wire (give the number × 10⁻⁷).`,1,6.36,'× 10⁻⁷ m²','A = π(0.45 × 10⁻³)² = 6.36 × 10⁻⁷ m².','Use the radius, or πd²/4.',.05),'2'),
  PA(NU(`${cm('Show that')} the drift speed is about 3 × 10⁻⁴ m s⁻¹ (give the number × 10⁻⁴).`,2,3.47,'× 10⁻⁴ m s⁻¹','v = I/(nAe) = 3.0 ÷ (8.5 × 10²⁸ × 6.36 × 10⁻⁷ × 1.60 × 10⁻¹⁹) = 3.5 × 10⁻⁴ m s⁻¹.','v = I/(nAq).',.08),'2'),
  PA(NU(`${cm('Calculate')} the time for an electron to drift 1.5 m along the wire, in hours.`,1,1.2,'h','t = 1.5 ÷ 3.47 × 10⁻⁴ = 4.3 × 10³ s = 1.2 h.','t = L/v.',.06),'2'),
  PA(TX(`${cm('Explain')} why the lamp connected to the wire lights almost as soon as the switch is closed.`,2,['the wire is already full of free electrons','the electric field is established round the circuit at nearly the speed of light, so all electrons (including those in the lamp) start to drift at once']),'2'),
  PA(MC('The random speed of the free electrons is about',1,['10⁶ m s⁻¹','10⁻⁴ m s⁻¹','3 × 10⁸ m s⁻¹','1 m s⁻¹'],0,'Much larger than the drift speed.'),'1A')]},
-{t:'Resistivity',cr:'Resistance',stem:'A nichrome wire has length 1.20 m and diameter 0.32 mm. The resistivity of nichrome is 1.1 × 10⁻⁶ Ω m.',parts:[
+{t:'Resistivity',cr:'Resistance',fig:'nich',stem:'A nichrome wire has length 1.20 m and diameter 0.32 mm. The resistivity of nichrome is 1.1 × 10⁻⁶ Ω m.',parts:[
  PA(NU(`${cm('Calculate')} the resistance of the wire.`,2,16.4,'Ω','A = π(0.32 × 10⁻³)²/4 = 8.04 × 10⁻⁸ m²; R = 1.1 × 10⁻⁶ × 1.20 ÷ 8.04 × 10⁻⁸ = 16.4 Ω.','R = ρL/A.',.4),'2'),
  PA(MC('The wire is stretched to twice its length, keeping its volume constant. Its new resistance is',1,['4R','2R','R','R/2'],0,'L doubles and A halves: R × 2 × 2.'),'1A'),
  PA(NU(`The wire is connected to a 6.0 V supply of negligible internal resistance. ${cm('Calculate')} the power dissipated.`,1,2.2,'W','P = V²/R = 36 ÷ 16.4 = 2.2 W.','P = V²/R.',.06),'2'),
@@ -3171,19 +3639,19 @@ const ESETS=[
  PA(TX(`${cm('Explain')}, using a particle model, why the resistance of the thermistor falls when it is heated.`,2,['more electrons gain enough energy to be released / number density of charge carriers increases','this outweighs the increased lattice vibrations']),'2'),
  PA(TX(`${cm('Suggest')} how the circuit could be changed so that the output pd rises when the temperature rises (a fire alarm).`,1,['swap the thermistor and the fixed resistor / take the output across the fixed resistor']),'2'),
  PA(NU(`A voltmeter of resistance 12 kΩ is connected across the thermistor at 20 °C. ${cm('Calculate')} its reading.`,2,5.4,'V','12 ∥ 12 = 6.0 kΩ; V = 9.0 × 6.0 ÷ 10 = 5.4 V.','The meter is in parallel with the thermistor.',.06),'2')]},
-{t:'Power and heating',cr:'Power',stem:'An electric kettle is rated 2.4 kW, 230 V. It holds 0.80 kg of water at 18 °C. (specific heat capacity of water 4200 J kg⁻¹ K⁻¹)',parts:[
+{t:'Power and heating',cr:'Power',fig:'kettle',stem:'An electric kettle is rated 2.4 kW, 230 V. It holds 0.80 kg of water at 18 °C. (specific heat capacity of water 4200 J kg⁻¹ K⁻¹)',parts:[
  PA(NU(`${cm('Calculate')} the current in the kettle.`,1,10.4,'A','I = P/V = 2400 ÷ 230 = 10.4 A.','P = IV.',.15),'2'),
  PA(NU(`${cm('Calculate')} the resistance of the heating element.`,1,22,'Ω','R = V²/P = 230² ÷ 2400 = 22 Ω.','R = V²/P.',.4),'2'),
  PA(NU(`${cm('Calculate')} the minimum time to bring the water to 100 °C.`,2,115,'s','E = mcΔT = 0.80 × 4200 × 82 = 2.76 × 10⁵ J; t = E/P = 115 s.','Ignore losses.',3),'2'),
  PA(TX(`${cm('Outline')} why the actual time is longer.`,1,['energy is lost to the surroundings / to heat the kettle itself']),'2'),
  PA(MC('Two lamps rated 12 V 24 W and 12 V 6 W are connected in series to 12 V. The brighter lamp is',1,['the 6 W lamp','the 24 W lamp','neither: they are equally bright','neither lights'],0,'Same current; the 6 W lamp has the larger resistance (24 Ω vs 6 Ω), so I²R is larger.'),'1A')]},
-{t:'Cells and sources of emf',cr:'Emf',stem:'A torch uses two cells in series, each of emf 1.5 V and internal resistance 0.40 Ω. The lamp has a resistance of 5.2 Ω.',parts:[
+{t:'Cells and sources of emf',cr:'Emf',fig:'torch',stem:'A torch uses two cells in series, each of emf 1.5 V and internal resistance 0.40 Ω. The lamp has a resistance of 5.2 Ω.',parts:[
  PA(NU(`${cm('Calculate')} the current in the lamp.`,2,.5,'A','ε = 3.0 V, r = 0.80 Ω; I = 3.0 ÷ (5.2 + 0.8) = 0.50 A.','emfs and internal resistances add.',.01),'2'),
  PA(NU(`${cm('Calculate')} the terminal pd of the battery.`,1,2.6,'V','V = 3.0 − 0.50 × 0.80 = 2.6 V.','V = ε − Ir.',.03),'2'),
  PA(MC('One cell is put in the wrong way round. The total emf is',1,['0 V','3.0 V','1.5 V','−3.0 V'],0,'The emfs cancel.'),'1A'),
  PA(TX(`${cm('Compare')} a primary cell with a secondary cell, giving one advantage of each.`,3,['a primary cell’s reaction cannot be reversed; a secondary cell can be recharged','primary: cheap / long shelf life / convenient for low-power devices','secondary: reusable many times, cheaper over its life, less waste / can supply large currents']),'2'),
  PA(TX(`${cm('Outline')} the energy transfer in a solar cell and one disadvantage.`,2,['light (photon) energy → electrical energy','no output at night / output depends on weather / low emf per cell, low efficiency']),'2')]}];
-ESETS.forEach(s=>s.parts.forEach(p=>{if(p.type==='mcq')mixO(p);}));
+[[0,4,'rub'],[3,1,'stretch'],[6,0,'vicirc'],[7,4,'divV'],[8,4,'lamps2'],[9,2,'rev']].forEach(([i,j,f])=>{ESETS[i].parts[j].fig=f;});ESETS.forEach(s=>s.parts.forEach(p=>{if(p.type==='mcq')mixO(p);}));
 Practice('#pracRoot','b5',ESETS,DFIG);
 
 /* ---------- Timed mini-mock ---------- */
@@ -3207,12 +3675,12 @@ const NX=[
  {q:'A 5.0 Ω resistor dissipates 20 W. Calculate the current (A).',a:2,u:'A',s:'I = √(P/R) = √4 = 2.0 A'},
  {q:'A cell gives 0.50 A through 2.6 Ω and 0.25 A through 5.6 Ω. Calculate its internal resistance (Ω).',a:.4,u:'Ω',s:'0.50(2.6 + r) = 0.25(5.6 + r): 1.3 + 0.5r = 1.4 + 0.25r, r = 0.40 Ω'},
  {q:'A wire of resistance 4.0 Ω is replaced by a wire of the same material, half the length and half the diameter. Calculate the new resistance (Ω).',a:8,u:'Ω',s:'R ∝ L/d²: 4.0 × ½ × 4 = 8.0 Ω'}];
-const MK={state:'intro',qs:[],end:0,tmr:null};
+[[3,'mk3'],[5,'mk5'],[9,'mk9']].forEach(([i,f])=>{NX[i].f=f;});MX.forEach(x=>{if(/Three 9 Ω/.test(x.q))x.f='p3';});const MK={state:'intro',qs:[],end:0,tmr:null};
 const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
 function mkIntro(){$('#mockRoot').innerHTML=`<h3>Timed mini-mock · 30 minutes · 24 marks</h3><p class="lead">12 multiple-choice questions (Paper 1A style, 1 mark each) and 6 calculations (2 marks each), chosen at random from the whole of B.5. Work without notes, then submit to see your score, the answers and the working. Your name and the time are stamped on the result.</p>
  <div class="explain" style="min-height:0">Exam technique: about 1 minute per multiple-choice question; do the calculations on paper and give 2–3 significant figures. Answers within 3% are accepted. You can type numbers like 4.8e-4.</div><div class="row"><button class="btn pri" id="mkStart">▶ Start the 30-minute mock</button></div>`;$('#mkStart').onclick=mkStart;}
 function mkStart(){const mc=shuf([...QZ,...MX]).slice(0,12).map(x=>({...x,t:'mc'})),nu=shuf(NX).slice(0,6).map(x=>({...x,t:'nu'}));MK.qs=[...mc,...nu];MK.end=Date.now()+30*60*1000;MK.state='run';
- $('#mockRoot').innerHTML=`<div class="mockbar"><span class="clock" id="mkClock">30:00</span><span id="mkProg" style="color:var(--muted)"></span><button class="btn pri" id="mkSubmit">Submit</button></div>`+MK.qs.map((x,i)=>`<div class="mq" id="mkq${i}"><b>${i+1}.</b> <span class="pp pp${x.t==='mc'?'1A':'2'}">${x.t==='mc'?'1 mark':'2 marks'}</span> ${x.q}`+(x.t==='mc'?`<div class="mcq" style="margin-top:6px">${x.o.map((o,k)=>`<label><input type="radio" name="mk${i}" value="${k}"> ${o}</label>`).join('')}</div>`:`<div class="ansrow" style="margin-top:6px"><input type="text" id="mkn${i}" style="width:170px" placeholder="answer"><span class="unit">${x.u}</span></div>`)+`<div class="mkfb"></div></div>`).join('')+`<div class="row"><button class="btn pri" id="mkSubmit2">Submit</button></div>`;
+ $('#mockRoot').innerHTML=`<div class="mockbar"><span class="clock" id="mkClock">30:00</span><span id="mkProg" style="color:var(--muted)"></span><button class="btn pri" id="mkSubmit">Submit</button></div>`+MK.qs.map((x,i)=>`<div class="mq" id="mkq${i}"><b>${i+1}.</b> <span class="pp pp${x.t==='mc'?'1A':'2'}">${x.t==='mc'?'1 mark':'2 marks'}</span> ${x.q}`+(x.f?`<div class="qfig">${DFIG[x.f]}</div>`:"")+(x.t==='mc'?`<div class="mcq" style="margin-top:6px">${x.o.map((o,k)=>`<label><input type="radio" name="mk${i}" value="${k}"> ${o}</label>`).join('')}</div>`:`<div class="ansrow" style="margin-top:6px"><input type="text" id="mkn${i}" style="width:170px" placeholder="answer"><span class="unit">${x.u}</span></div>`)+`<div class="mkfb"></div></div>`).join('')+`<div class="row"><button class="btn pri" id="mkSubmit2">Submit</button></div>`;
  $('#mkSubmit').onclick=$('#mkSubmit2').onclick=()=>{if(confirm('Submit your answers now?'))mkMark();};clearInterval(MK.tmr);MK.tmr=setInterval(mkTick,500);mkTick();$('#mockRoot').addEventListener('input',mkProg);mkProg();}
 function mkProg(){if(MK.state!=='run')return;const n=MK.qs.filter((x,i)=>x.t==='mc'?$(`input[name="mk${i}"]:checked`):$('#mkn'+i)&&$('#mkn'+i).value.trim()).length;const p=$('#mkProg');if(p)p.textContent=n+' of '+MK.qs.length+' answered';}
 function mkTick(){if(MK.state!=='run')return;const left=Math.max(0,MK.end-Date.now()),m=Math.floor(left/60000),s=Math.floor(left/1000)%60,el=$('#mkClock');if(el){el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');el.classList.toggle('low',left<5*60000);}if(left<=0)mkMark(true);}
@@ -3294,7 +3762,7 @@ gqNew();
 </script>
 <script>
 /* ---------- boot ---------- */
-const DRAWS='drawAt drawRub drawFor drawSol drawLiq drawGas drawRand drawNav drawSig drawPo drawPd drawEm drawCm drawEl drawSrc drawFa drawRt drawSym drawBld drawMod drawRho drawIV drawHt drawSp drawRd drawIr drawPw drawCl drawTh drawLd drawDv drawLab drawLp drawLo drawDq drawGq'.split(' ');
+const DRAWS='drawAt drawRub drawFor drawSol drawLiq drawGas drawRand drawNav drawSig drawPo drawPd drawEm drawCm drawEl drawSrc drawFa drawRt drawSym drawBld drawMod drawRho drawIV drawHt drawSp drawRd drawIr drawPw drawCl drawTh drawLd drawDv drawSs drawDs drawIs drawIx drawDsc drawLab drawLp drawLo drawDq drawGq'.split(' ');
 function drawAll(){DRAWS.forEach(n=>{if(typeof window[n]==='function')safe(window[n]);});}
 if(window.ResizeObserver){const ro=new ResizeObserver(()=>drawAll());$$('canvas').forEach(c=>ro.observe(c.parentElement));}
 window.addEventListener('resize',drawAll);
