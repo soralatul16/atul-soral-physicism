@@ -4201,6 +4201,318 @@ const EX_CSS='.exr{font-size:15px;line-height:1.5}.exr h3{margin:22px 0 8px;bord
 </script>
 
 <script>boot();</script>
-<script src="fleming-rules.js"></script>
+<!-- FLEMING RULES -->
+<script>
+/* ===== sims/fleming-rules.js (v2) =====
+ Fleming's left- and right-hand rules for MYP: a guided lesson, a try-it lab, a catapult-field picture
+ and an animated dc motor / ac generator. Everything is drawn flat, in the usual exam layout:
+ N pole on one side, S on the other, wire seen end-on (⊙ out of the page, ⊗ into the page). */
+(function(){
+'use strict';
+const $q=(s,r=document)=>r.querySelector(s),$a=(s,r=document)=>[...r.querySelectorAll(s)];
+const C={ink:'var(--ink,#1d1b18)',mut:'var(--muted,#6f675b)',bg:'var(--panel2,#f6f9fc)',F:'#2f62b0',I:'#c8362f',M:'#13805f',
+ N:'#d64b3c',S:'#2f62b0',skin:'#f2c9a1',skinD:'#b9835a',cu:'#b87333'};
+const T=(x,y,t,o={})=>`<text x="${x}" y="${y}" text-anchor="${o.a||'middle'}" style="font:${o.w||700} ${o.s||16}px 'Times New Roman',Times,serif;fill:${o.c||C.ink};${o.halo===false?'':`paint-order:stroke;stroke:${C.bg};stroke-width:4px;stroke-linejoin:round`}">${t}</text>`;
+const L=(x1,y1,x2,y2,c,w,x='')=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" style="stroke:${c};stroke-width:${w};stroke-linecap:round;${x}"/>`;
+const HD=(x,y,t,c,h)=>`<polygon points="${x},${y} ${x-Math.cos(t-.45)*h},${y-Math.sin(t-.45)*h} ${x-Math.cos(t+.45)*h},${y-Math.sin(t+.45)*h}" style="fill:${c}"/>`;
+function AR(x1,y1,x2,y2,c,w=4,h=13,x=''){const t=Math.atan2(y2-y1,x2-x1);return L(x1,y1,x2-Math.cos(t)*h*.7,y2-Math.sin(t)*h*.7,c,w,x)+HD(x2,y2,t,c,h);}
+const SV=(vb,b,st='')=>`<svg viewBox="${vb}" style="width:100%;height:auto;display:block;${st}" xmlns="http://www.w3.org/2000/svg">${b}</svg>`;
+const SYM={out:'⊙',in:'⊗'};
+const WORD={1:'up ↑','-1':'down ↓',out:'out of the page ⊙',in:'into the page ⊗'};
+
+/* which way the hand points, from the physics.
+ Left hand (motor): field fs (+1 = to the right), current c (+1 = ⊙ out): force = c·fs (+1 = up).
+ Right hand (generator): field fs, motion m (+1 = up): induced current c = −m·fs. */
+const motorF=(fs,c)=>c*fs, genI=(fs,m)=>-m*fs;
+function pose(h,fs,v){if(h==='L')return {hand:'L',fx:fs,ty:motorF(fs,v),sec:v>0?'out':'in'};
+ const c=genI(fs,v);return {hand:'R',fx:fs,ty:v,sec:c>0?'out':'in'};}
+
+function wireEnd(x,y,r,dir){let s=`<circle cx="${x}" cy="${y}" r="${r}" style="fill:${C.cu};stroke:#7a4a1e;stroke-width:2"/><circle cx="${x}" cy="${y}" r="${r*.72}" style="fill:#fbf7ef;stroke:#7a4a1e;stroke-width:1.5"/>`;
+ if(dir==='out')s+=`<circle cx="${x}" cy="${y}" r="${r*.22}" style="fill:${C.I}"/>`;
+ if(dir==='in'){const d=r*.42;s+=L(x-d,y-d,x+d,y+d,C.I,3.5)+L(x-d,y+d,x+d,y-d,C.I,3.5);}
+ return s;}
+
+/* ---------- the hand ----------
+ o: hand 'L'|'R', fx ±1 (first finger right/left), ty ±1 (thumb up/down), sec 'out'|'in',
+ ext [thumb, first, second] 1 = straight, 0 = curled, lab (labels), hi (part to glow), title */
+const HL={L:{t:['thuMb','= Force (Motion)'],f:['First finger','= Field'],s:['seCond finger','= Current']},
+ R:{t:['thuMb','= Motion'],f:['First finger','= Field'],s:['seCond finger','= induced Current']}};
+function handSVG(o){const s=58,cx=180,cy=168,fx=o.fx||1,ty=o.ty||1,e=o.ext||[1,1,1],lab=o.lab!==false,hn=o.hand||'L';
+ const P=(x,y)=>[cx+fx*s*x,cy-ty*s*y];
+ const seg=(a,b,w)=>{const A=P(...a),B=P(...b);return L(A[0],A[1],B[0],B[1],C.skinD,w*s+4)+L(A[0],A[1],B[0],B[1],C.skin,w*s);};
+ const band=(a,b,w,col)=>{const A=P(a[0]+(b[0]-a[0])*.55,a[1]+(b[1]-a[1])*.55),B=P(a[0]+(b[0]-a[0])*.75,a[1]+(b[1]-a[1])*.75);return L(A[0],A[1],B[0],B[1],col,w*s*.98,'stroke-linecap:butt;opacity:.9');};
+ const glow=(a,b,w,col)=>{const A=P(...a),B=P(...b);return L(A[0],A[1],B[0],B[1],col,w*s+22,'opacity:.25');};
+ const lab2=(p,l,col)=>{const up=p[1]<cy-4;return T(p[0],up?p[1]-18:p[1]+4,l[0],{c:col,s:15})+T(p[0],up?p[1]:p[1]+22,l[1],{c:col,s:15});};
+ let g='';
+ if(o.title)g+=T(10,24,o.title,{a:'start',s:17});
+ g+=seg([-.35,-.15],[-1.5,-.55],.62);
+ const p0=P(0,0);g+=`<ellipse cx="${p0[0]}" cy="${p0[1]}" rx="${.66*s}" ry="${.54*s}" style="fill:${C.skin};stroke:${C.skinD};stroke-width:3"/>`;
+ /* palm crease lines, so it reads as a hand */
+ const c1=P(-.35,-.05),c2=P(.25,.12),c3=P(-.3,-.25),c4=P(.2,-.2);g+=L(c1[0],c1[1],c2[0],c2[1],C.skinD,1.5,'opacity:.6')+L(c3[0],c3[1],c4[0],c4[1],C.skinD,1.5,'opacity:.6');
+ for(const k of [[.22,-.45],[-.1,-.5]]){const q=P(...k);g+=`<circle cx="${q[0]}" cy="${q[1]}" r="${.17*s}" style="fill:${C.skin};stroke:${C.skinD};stroke-width:2.5"/>`;}
+ /* thumb */
+ const tb=[-.32,.28],tt=e[0]?[-.32,1.28]:[-.02,.46];
+ if(o.hi==='t'&&e[0])g+=glow(tb,tt,.28,C.M);
+ g+=seg(tb,tt,.28);if(e[0]){g+=band(tb,tt,.28,C.M);if(lab){const a=P(-.32,1.42),b=P(-.32,1.82);g+=AR(a[0],a[1],b[0],b[1],C.M,4,13)+lab2(P(-.32,2.0),HL[hn].t,C.M);}}
+ /* first finger */
+ const fb=[.44,.22],ft=e[1]?[1.55,.22]:[.7,-.02];
+ if(o.hi==='f'&&e[1])g+=glow(fb,ft,.25,C.F);
+ g+=seg(fb,ft,.25);if(e[1]){g+=band(fb,ft,.25,C.F);if(lab){const a=P(1.7,.22),b=P(2.1,.22);g+=AR(a[0],a[1],b[0],b[1],C.F,4,13)+lab2(P(1.25,.66),HL[hn].f,C.F);}}
+ /* second finger: points straight at you (⊙) or away from you (⊗) */
+ if(!e[2]){const q=P(.48,-.32);g+=`<circle cx="${q[0]}" cy="${q[1]}" r="${.17*s}" style="fill:${C.skin};stroke:${C.skinD};stroke-width:2.5"/>`;}
+ else if(o.sec==='in'){const q=P(.5,-.28);
+  if(o.hi==='s')g+=`<circle cx="${q[0]}" cy="${q[1]}" r="${.36*s}" style="fill:${C.I};opacity:.22"/>`;
+  g+=`<circle cx="${q[0]}" cy="${q[1]}" r="${.2*s}" style="fill:${C.skin};stroke:${C.skinD};stroke-width:2.5;stroke-dasharray:4 3"/>`;
+  const d=.11*s;g+=L(q[0]-d,q[1]-d,q[0]+d,q[1]+d,C.I,3.5)+L(q[0]-d,q[1]+d,q[0]+d,q[1]-d,C.I,3.5);
+  if(lab)g+=lab2(P(1.0,-.92),[HL[hn].s[0],HL[hn].s[1]+' ⊗ (away from you)'],C.I);}
+ else{const sb=[.38,-.1],st=[.62,-.5];if(o.hi==='s')g+=glow(sb,st,.36,C.I);
+  g+=seg(sb,st,.36);const q=P(...st);
+  g+=`<circle cx="${q[0]}" cy="${q[1]}" r="${.21*s}" style="fill:#f7d9bb;stroke:${C.skinD};stroke-width:2.5"/><circle cx="${q[0]}" cy="${q[1]}" r="${.075*s}" style="fill:${C.I}"/>`;
+  if(lab)g+=lab2(P(1.0,-.92),[HL[hn].s[0],HL[hn].s[1]+' ⊙ (towards you)'],C.I);}
+ return SV('0 0 360 330',g);}
+
+/* ---------- the magnet scene (exam layout) ----------
+ o: nLeft (N pole on the left?), dir 'out'|'in'|null (current shown in the wire), force ±1|0, mot ±1|0 (generator push),
+ catapult (combined field lines), wireF (the wire's own circular field), off (wire shift in px) */
+function stream(cx,cy,fs,c){const k=48*c,g=[];
+ const B=(x,y)=>{const X=x-cx,Y=-(y-cy),r2=X*X+Y*Y||1;return [fs+k*(-Y)/r2,-(k*X/r2)];};
+ for(let y0=58;y0<=288;y0+=18){let x=fs>0?102:498,y=y0;const p=[[x,y]];
+  for(let i=0;i<800;i++){const [bx,by]=B(x,y),m=Math.hypot(bx,by)||1;x+=2.4*bx/m;y+=2.4*by/m;
+   if(x<100||x>500||y<42||y>302||Math.hypot(x-cx,y-cy)<28)break;p.push([x,y]);}
+  if(p.length<8)continue;
+  let s=`<polyline points="${p.map(q=>q[0].toFixed(1)+','+q[1].toFixed(1)).join(' ')}" style="fill:none;stroke:${C.F};stroke-width:2;opacity:.62"/>`;
+  for(const f of [.22,.78]){const i=Math.floor(p.length*f),j=Math.min(p.length-1,i+3);if(j>i)s+=HD(p[j][0],p[j][1],Math.atan2(p[j][1]-p[i][1],p[j][0]-p[i][0]),C.F,10);}
+  g.push(s);}
+ return g.join('');}
+function ring(cx,cy,r,c){/* c = +1 for ⊙ (anticlockwise as you look at it) */
+ return `<circle cx="${cx}" cy="${cy}" r="${r}" style="fill:none;stroke:${C.I};stroke-width:1.8;stroke-dasharray:6 4;opacity:.8"/>`+
+  HD(cx-c*6,cy-r,c>0?Math.PI:0,C.I,11)+HD(cx+c*6,cy+r,c>0?0:Math.PI,C.I,11);}
+function sceneSVG(o){const cx=300,cy=172,nL=o.nLeft!==false,fs=nL?1:-1,c=o.dir==='out'?1:o.dir==='in'?-1:0;let g='';
+ const pole=(x,n)=>`<rect x="${x}" y="40" width="78" height="264" rx="8" style="fill:${n?C.N:C.S}"/>`+T(x+39,188,n?'N':'S',{s:44,c:'#fff',halo:false});
+ g+=pole(18,nL)+pole(504,!nL);
+ g+=T(300,28,`Magnetic field: N → S (${fs>0?'to the right →':'to the left ←'})`,{s:15,c:C.F});
+ if(o.catapult&&c){g+=stream(cx,cy,fs,c);const f=motorF(fs,c);
+  g+=T(cx+150,cy-f*100,'weak field',{s:15,c:C.F})+T(cx+150,cy-f*100+18,'(lines spread out)',{s:13,c:C.mut,w:400});
+  g+=T(cx+150,cy+f*100,'strong field',{s:15,c:C.F})+T(cx+150,cy+f*100+18,'(lines crowded)',{s:13,c:C.mut,w:400});}
+ else for(const y of [72,122,172,222,272]){if(Math.abs(y-cy)<10&&o.dir!==undefined&&!o.noWire){g+=L(100,y,268,y,C.F,2,'opacity:.55')+L(332,y,500,y,C.F,2,'opacity:.55');}else g+=L(100,y,500,y,C.F,2,'opacity:.55');
+  for(const xx of [190,410])g+=HD(xx+fs*6,y,fs>0?0:Math.PI,C.F,11);}
+ let w='';
+ if(o.wireF&&c)w+=ring(cx,cy,44,c)+ring(cx,cy,68,c);
+ if(!o.noWire)w+=wireEnd(cx,cy,24,o.dir);
+ if(o.force)w+=AR(cx,cy-o.force*30,cx,cy-o.force*112,C.M,6,18)+T(cx+16,cy-o.force*82,'Force',{a:'start',c:C.M,s:17});
+ if(o.mot)w+=AR(cx-0,cy-o.mot*30,cx,cy-o.mot*112,C.M,6,18,'stroke-dasharray:9 6')+T(cx+16,cy-o.mot*82,'Motion (you push it)',{a:'start',c:C.M,s:16});
+ if(o.ind&&c)w+=T(cx-34,cy+6,'induced current',{a:'end',c:C.I,s:15});
+ g+=`<g class="flW" style="transition:transform 1s cubic-bezier(.3,1.45,.5,1);transform:translateY(${o.off||0}px)">${w}</g>`;
+ g+=T(300,326,'⊙ = current out of the page (towards you) · ⊗ = into the page (away from you)',{s:13,c:C.mut,w:400});
+ return SV('0 0 600 336',g);}
+/* what ⊙ and ⊗ mean: an arrow seen from the front and from behind */
+function dartSVG(){let g='';
+ const arrowSide=(x,y,dirR)=>{const d=dirR?1:-1;return L(x-60*d,y,x+42*d,y,'#6b5a44',5)+`<polygon points="${x+60*d},${y} ${x+40*d},${y-12} ${x+40*d},${y+12}" style="fill:#6b5a44"/>`+
+  `<polygon points="${x-60*d},${y} ${x-76*d},${y-14} ${x-50*d},${y-14} ${x-44*d},${y}" style="fill:${C.I};opacity:.8"/><polygon points="${x-60*d},${y} ${x-76*d},${y+14} ${x-50*d},${y+14} ${x-44*d},${y}" style="fill:${C.I};opacity:.8"/>`;};
+ g+=T(150,26,'⊙  OUT of the page',{s:19,c:C.I})+wireEnd(150,92,34,'out')+T(150,158,'You see the POINT of an arrow',{s:14,w:400})+T(150,176,'coming towards you.',{s:14,w:400});
+ g+=arrowSide(150,214,false)+T(150,250,'(arrow flying at your face)',{s:13,c:C.mut,w:400});
+ g+=T(450,26,'⊗  INTO the page',{s:19,c:C.I})+wireEnd(450,92,34,'in')+T(450,158,'You see the TAIL FEATHERS of an',{s:14,w:400})+T(450,176,'arrow going away from you.',{s:14,w:400});
+ g+=arrowSide(450,214,true)+T(450,250,'(arrow flying away from you)',{s:13,c:C.mut,w:400});
+ g+=L(300,10,300,256,C.mut,1,'opacity:.4');
+ return SV('0 0 600 262',g);}
+const frame=(a,b)=>`<div style="display:grid;grid-template-columns:minmax(0,1.65fr) minmax(0,1fr);gap:12px;align-items:center;background:${C.bg};border-radius:14px;padding:10px">${a}<div>${b}</div></div>`;
+const box=h=>`<div style="background:${C.bg};border-radius:14px;padding:10px">${h}</div>`;
+
+/* ---------- guided lesson ---------- */
+const H0={hand:'L',fx:1,ty:1,sec:'out'};
+const mini=(sc,hd,cap)=>`<div style="background:${C.bg};border-radius:12px;padding:8px"><p style="margin:0 0 4px;font-weight:700;text-align:center">${cap}</p>${sceneSVG(sc)}<div style="max-width:200px;margin:0 auto">${handSVG(Object.assign({lab:false},hd))}</div></div>`;
+const LESSON=[
+{t:'Why do we need a rule?',v:()=>box(`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${handSVG(Object.assign({title:'LEFT hand → motors'},H0))}${handSVG(Object.assign({title:'RIGHT hand → generators'},pose('R',1,1)))}</div>`),
+ x:`<p>In a motor or a generator, <b>three things point in three different directions</b>, all at right angles to each other: the <b>magnetic field</b>, the <b>current</b> and the <b>movement</b>. A flat drawing can’t show all three clearly, so we use our hand as a 3D model.</p>
+ <p><b>Left hand → motor effect.</b> A current in a magnetic field feels a force (motors, loudspeakers).<br><b>Right hand → generator effect.</b> Moving a wire through a magnetic field makes (induces) a current (generators, dynamos, microphones).</p>
+ <div class="box tip"><span class="t">Memory aid</span><b>L</b>eft = motor. <b>R</b>ight = gene<b>R</b>ator.</div>`},
+{t:'Make the shape with your LEFT hand',v:()=>frame(handSVG(Object.assign({lab:false},H0)),`<ol style="font-size:16px;line-height:1.7;padding-left:20px;margin:0"><li>Hold your <b>left</b> hand up, <b>palm facing you</b>.</li><li>Point your <b>first finger</b> (index) to the <b>right</b>.</li><li>Point your <b>thumb</b> straight <b>up</b>.</li><li>Bend your <b>second finger</b> (middle) so it points <b>straight at your face</b>.</li><li>Curl your ring and little fingers away.</li></ol>`),
+ x:`<p>Copy the picture with your own hand now. Do it, don’t just look!</p><p>Check: your thumb, first finger and second finger must all be at <b>90°</b> to each other, like the three edges meeting at the corner of a box. In the drawing, the second finger is coming out of the screen towards you, so you only see its fingertip (the dot).</p>`},
+{t:'What each finger stands for',v:()=>frame(handSVG(H0),`<table><tbody><tr><td style="color:${C.M}"><b>thuMb</b></td><td><b>M</b>otion: the force, the way the wire is pushed</td></tr><tr><td style="color:${C.F}"><b>First finger</b></td><td><b>F</b>ield: from N to S</td></tr><tr><td style="color:${C.I}"><b>seCond finger</b></td><td><b>C</b>urrent: conventional, + to −</td></tr></tbody></table>`),
+ x:`<p>Remember the capital letters: thu<b>M</b>b = <b>M</b>otion, <b>F</b>irst = <b>F</b>ield, se<b>C</b>ond = <b>C</b>urrent.</p><div class="box tip"><span class="t">Another way: F B I</span>Going thumb → first → second: <b>F</b>orce, <b>B</b> (the symbol for magnetic field), <b>I</b> (the symbol for current).</div><p>The <b>right</b> hand uses the same fingers. The difference is that the thumb is the motion <b>you</b> give the wire, and the second finger is the current that is <b>produced</b>.</p>`},
+{t:'Reading exam diagrams: ⊙, ⊗ and the field',v:()=>box(dartSVG()),
+ x:`<p>Exam diagrams often show the wire <b>end-on</b>, as a small circle. The symbol tells you which way the current flows:</p><p><b>⊙</b> (dot) = current <b>out of the page, towards you</b>. <b>⊗</b> (cross) = current <b>into the page, away from you</b>.</p><p>The magnetic field between two magnets always goes from <b>N to S</b>. If the question gives you <b>electrons</b>, the conventional current goes the <b>opposite</b> way. Use that.</p>`},
+{t:'Step 1: First finger along the Field',v:()=>frame(sceneSVG({dir:'out'}),handSVG(Object.assign({},H0,{ext:[0,1,0],hi:'f'}))),
+ x:`<p>Here is a typical question: <i>“A wire carries a current out of the page (⊙) between a N pole on the left and a S pole on the right. Which way is the force on the wire?”</i></p><p>The field goes from N (left) to S (right). So point your <b>first finger to the right</b>. Keep the other fingers relaxed for now.</p>`},
+{t:'Step 2: Second finger along the Current',v:()=>frame(sceneSVG({dir:'out'}),handSVG(Object.assign({},H0,{ext:[0,1,1],hi:'s'}))),
+ x:`<p>The wire shows <b>⊙</b>: the current comes <b>out of the page, towards you</b>.</p><p>Keep your first finger pointing right and turn your wrist until your <b>second finger points straight at you</b>. Your palm now faces you.</p>`},
+{t:'Step 3: Read the thumb',anim:-70,v:()=>frame(sceneSVG({dir:'out',force:1}),handSVG(Object.assign({},H0,{hi:'t'}))),
+ x:`<p>Stick your thumb out at 90°. It points <b>up</b>. That is the direction of the <b>force</b>, so the wire is pushed <b>upwards</b> (watch it jump).</p><div class="box key"><span class="t">Exam answer</span>“Using Fleming’s left-hand rule, the force on the wire is <b>upwards</b>, at right angles to both the field and the current.”</div>`},
+{t:'Why does it move? The catapult field',v:()=>frame(sceneSVG({dir:'out',catapult:1,wireF:1,force:1}),`<p style="margin:0;font-size:15.5px;line-height:1.6"><span style="color:${C.I}"><b>Red dashed circles:</b></span> the wire’s own magnetic field.<br><span style="color:${C.F}"><b>Blue lines:</b></span> the combined field of the magnet and the wire.</p>`),
+ x:`<p>A current makes its own <b>circular magnetic field</b> around the wire. For ⊙ it goes anticlockwise.</p><p><b>Below</b> the wire, this circular field points the <b>same way</b> as the magnet’s field, so the two add up and the field is <b>strong</b>: the lines are crowded. <b>Above</b> the wire, the two fields point in <b>opposite</b> directions and partly cancel, so the field is <b>weak</b>.</p><p>Field lines act like stretched rubber bands. The crowded lines push the wire towards the weaker field, <b>upwards</b>, like a catapult. This always gives the same answer as Fleming’s left-hand rule.</p>`},
+{t:'Change one thing and the force reverses',v:()=>`<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">${mini({dir:'in',force:-1},pose('L',1,-1),'Reverse the current: force DOWN')}${mini({nLeft:false,dir:'out',force:-1},pose('L',-1,1),'Reverse the magnet: force DOWN')}${mini({nLeft:false,dir:'in',force:1},pose('L',-1,-1),'Reverse both: force UP again')}</div>`,
+ x:`<p>Do each one with your own hand. Reversing <b>either</b> the current <b>or</b> the field reverses the force. Reversing <b>both</b> leaves the force the same as before.</p><p>A dc motor relies on this. The commutator reverses the current every half turn, so the coil keeps turning the same way.</p><p>If the wire is <b>parallel</b> to the field, your first and second fingers would point the same way. They can’t be at 90°, so there is <b>no force</b>.</p>`},
+{t:'The generator: use your RIGHT hand',anim:-60,v:()=>frame(sceneSVG({dir:'in',mot:1,ind:1}),handSVG(Object.assign({hi:'s'},pose('R',1,1)))),
+ x:`<p>Now no current is fed in. <b>You push the wire</b> through the field, and a current is <b>induced</b> in it. Use your <b>right</b> hand:</p><ol style="padding-left:20px"><li><b>First finger</b> along the Field: to the right.</li><li><b>Thumb</b> along the Motion: up.</li><li>Your <b>second finger</b> now points <b>into the page ⊗</b>. That is the induced current.</li></ol><p>Push the wire <b>down</b> instead and the current reverses (⊙). Move it <b>along</b> the field lines and it cuts none, so <b>no current</b> is induced.</p>`},
+{t:'The exam method in four lines',v:()=>box(`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">${handSVG(Object.assign({title:'LEFT: motor'},H0))}${handSVG(Object.assign({title:'RIGHT: generator'},pose('R',1,1)))}</div>`),
+ x:`<ol style="padding-left:20px;font-size:17px;line-height:1.75"><li><b>Motor or generator?</b> Current given, force wanted → <b>left</b> hand. Motion given, current wanted → <b>right</b> hand.</li><li><b>First finger</b> → field, from N to S.</li><li>Motor: <b>second finger</b> → conventional current. Generator: <b>thumb</b> → motion.</li><li>Read the <b>last finger</b>, then answer in words (“upwards”, “into the page”) and name the rule you used.</li></ol><p><b>Now try it yourself in the lab below ↓</b></p>`}
+];
+function buildLesson(root){root.insertAdjacentHTML('beforeend',`<div class="card" id="flLesson" style="margin-bottom:18px">
+ <div class="row" style="margin-top:0;justify-content:space-between;align-items:center"><h3 style="margin:0">✋ Fleming’s rules: a step-by-step lesson</h3><span class="status" id="flLn" style="margin:0"></span></div>
+ <div id="flDots" style="display:flex;gap:6px;flex-wrap:wrap;margin:10px 0"></div>
+ <h4 id="flLt" style="font-size:22px;margin:4px 0 10px"></h4><div id="flLv"></div>
+ <div class="explain" id="flLx" style="font-size:17px;line-height:1.65;margin-top:12px"></div>
+ <div class="row"><button class="btn" id="flPrev">← Back</button><button class="btn pri" id="flNext">Next →</button><button class="btn sm" id="flAgain" style="display:none">↻ Watch again</button></div></div>`);
+ let i=0;const dots=$q('#flDots');
+ dots.innerHTML=LESSON.map((s,k)=>`<button class="chip" data-fl="${k}" title="${s.t}">${k+1}</button>`).join('');
+ function play(){const s=LESSON[i];if(!s.anim)return;const w=$q('#flLv .flW');if(!w)return;w.style.transform='translateY(0px)';setTimeout(()=>{w.style.transform=`translateY(${s.anim}px)`;},450);}
+ function show(){const s=LESSON[i];$q('#flLt').textContent=`${i+1}. ${s.t}`;$q('#flLv').innerHTML=s.v();$q('#flLx').innerHTML=s.x;
+  $q('#flLn').textContent=`Step ${i+1} of ${LESSON.length}`;$a('[data-fl]',dots).forEach((b,k)=>b.classList.toggle('on',k===i));
+  $q('#flPrev').disabled=i===0;$q('#flNext').textContent=i===LESSON.length-1?'Try it yourself ↓':'Next →';$q('#flAgain').style.display=s.anim?'':'none';play();}
+ dots.addEventListener('click',e=>{const b=e.target.closest('[data-fl]');if(b){i=+b.dataset.fl;show();}});
+ $q('#flPrev').onclick=()=>{if(i>0){i--;show();}};
+ $q('#flNext').onclick=()=>{if(i<LESSON.length-1){i++;show();}else{const l=$q('#flLab');if(l)l.scrollIntoView({behavior:'smooth',block:'start'});}};
+ $q('#flAgain').onclick=play;show();}
+
+/* ---------- try-it lab ---------- */
+function buildLab(root){root.insertAdjacentHTML('beforeend',`<div class="card" id="flLab" style="margin-bottom:18px">
+ <div class="row" style="margin-top:0;justify-content:space-between"><h3 style="margin:0">🔬 Try it yourself</h3>
+ <div class="seg" id="flMode" style="min-width:340px"><button data-m="L" class="on">Motor · left hand</button><button data-m="R">Generator · right hand</button></div></div>
+ <div class="row"><b style="min-width:70px">Magnet:</b><button class="chip on" data-n="1">N on the left</button><button class="chip" data-n="0">N on the right</button></div>
+ <div class="row" id="flVrow"></div>
+ <div class="row"><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="flCat"> Show the catapult field (motor)</label><label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="flPr" checked> Predict first</label><button class="btn sm" id="flRnd">🎲 Random question</button></div>
+ <div id="flLv2" style="margin-top:10px"></div>
+ <div id="flQ2"></div><div class="row"><button class="btn pri" id="flGo"></button><button class="btn sm" id="flRs">↺ Reset</button></div>
+ <div class="fb" id="flFb2"></div><div class="explain" id="flE2" style="font-size:16.5px;line-height:1.65"></div><p class="status" id="flS2"></p></div>`);
+ const st={m:'L',nL:true,v:1,on:false,g:null},sc={ok:0,n:0};
+ const fs=()=>st.nL?1:-1,ans=()=>st.m==='L'?motorF(fs(),st.v):genI(fs(),st.v);
+ function vrow(){$q('#flVrow').innerHTML=st.m==='L'?`<b style="min-width:70px">Current:</b><button class="chip${st.v>0?' on':''}" data-v="1">⊙ out of the page</button><button class="chip${st.v<0?' on':''}" data-v="-1">⊗ into the page</button>`
+  :`<b style="min-width:70px">Push the wire:</b><button class="chip${st.v>0?' on':''}" data-v="1">up ↑</button><button class="chip${st.v<0?' on':''}" data-v="-1">down ↓</button>`;}
+ function render(){const L=st.m==='L',a=ans(),f=fs(),on=st.on;
+  const scene=L?sceneSVG({nLeft:st.nL,dir:st.v>0?'out':'in',force:on?a:0,catapult:$q('#flCat').checked,wireF:$q('#flCat').checked})
+   :sceneSVG({nLeft:st.nL,dir:on?(a>0?'out':'in'):null,mot:st.v,ind:on});
+  const hand=on?handSVG(Object.assign({hi:L?'t':'s'},pose(st.m,f,st.v))):`<p style="text-align:center;color:${C.mut};font-size:16px;padding:30px 10px">Make your prediction with your own <b>${L?'left':'right'}</b> hand first.<br>The correct hand shape appears here when you press <b>${L?'Switch on':'Push'}</b>.</p>`;
+  $q('#flLv2').innerHTML=frame(scene,hand);
+  $q('#flGo').textContent=L?'⚡ Switch on the current':'✋ Push the wire';
+  const pr=$q('#flPr').checked&&!on;
+  $q('#flQ2').innerHTML=pr?`<p style="margin:10px 0 4px;font-weight:700">Predict: ${L?'which way will the wire be pushed?':'which way will the induced current flow?'}</p><div class="gopts" style="grid-template-columns:1fr 1fr">${(L?[[1,'up ↑'],[-1,'down ↓']]:[[1,'⊙ out of the page'],[-1,'⊗ into the page']]).map(([k,t])=>`<button data-g="${k}"${st.g===k?' class="sel"':''}>${t}</button>`).join('')}</div>`:'';
+  const E=$q('#flE2');
+  if(!on)E.innerHTML=`<p>Field: <b>${f>0?'to the right →':'to the left ←'}</b> (N → S). ${L?`Current: <b>${WORD[st.v>0?'out':'in']}</b>.`:`Motion: <b>${WORD[st.v]}</b>.`}</p>`;
+  else E.innerHTML=`<ol style="padding-left:20px;margin:6px 0"><li>Use your <b>${L?'left':'right'}</b> hand (${L?'motor effect':'generator effect'}).</li><li><b style="color:${C.F}">First finger</b> → field, ${f>0?'to the right':'to the left'} (N → S).</li>${L?`<li><b style="color:${C.I}">Second finger</b> → current, ${WORD[st.v>0?'out':'in']}.</li><li><b style="color:${C.M}">Thumb</b> points <b>${WORD[a]}</b>, so the force on the wire is <b>${a>0?'upwards':'downwards'}</b>.</li>`
+   :`<li><b style="color:${C.M}">Thumb</b> → motion, ${WORD[st.v]}.</li><li><b style="color:${C.I}">Second finger</b> points <b>${WORD[a>0?'out':'in']}</b>: that is the induced current.</li>`}</ol>${L&&$q('#flCat').checked?`<p>Catapult check: the field is strong on the ${a>0?'lower':'upper'} side and weak on the ${a>0?'upper':'lower'} side, so the wire is pushed ${a>0?'up':'down'}.</p>`:''}`;
+  $q('#flS2').textContent=sc.n?`Predictions: ${sc.ok} / ${sc.n} correct`:'';
+  if(on&&L){const w=$q('#flLv2 .flW');if(w){w.style.transform='translateY(0px)';setTimeout(()=>{w.style.transform=`translateY(${-a*70}px)`;},60);}}}
+ function reset(){st.on=false;st.g=null;$q('#flFb2').className='fb';$q('#flFb2').innerHTML='';vrow();render();}
+ function run(){if($q('#flPr').checked&&st.g==null){const f=$q('#flFb2');f.className='fb no';f.innerHTML='Make a prediction first: hold up your hand and choose an answer.';return;}
+  if(st.g!=null&&!st.on){const ok=st.g===ans();sc.n++;if(ok)sc.ok++;const f=$q('#flFb2');f.className='fb '+(ok?'ok':'no');
+   f.innerHTML=ok?'✔ Correct! Compare your hand with the picture.':'✘ Not this time. Compare your hand with the picture and follow the steps below.';}
+  st.on=true;render();}
+ const r=$q('#flLab');
+ r.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;const d=b.dataset;
+  if(d.m){st.m=d.m;$a('[data-m]',r).forEach(x=>x.classList.toggle('on',x===b));st.v=1;reset();}
+  else if(d.n!=null){st.nL=d.n==='1';$a('[data-n]',r).forEach(x=>x.classList.toggle('on',x===b));reset();}
+  else if(d.v){st.v=+d.v;reset();}
+  else if(d.g){st.g=+d.g;$a('[data-g]',r).forEach(x=>x.classList.toggle('sel',x===b));run();}
+  else if(b.id==='flGo')run();else if(b.id==='flRs')reset();
+  else if(b.id==='flRnd'){st.nL=Math.random()<.5;st.v=Math.random()<.5?1:-1;$a('[data-n]',r).forEach(x=>x.classList.toggle('on',(x.dataset.n==='1')===st.nL));reset();}});
+ $q('#flCat').onchange=render;$q('#flPr').onchange=reset;reset();}
+
+/* ---------- dc motor and ac generator, end-on view ---------- */
+function buildCoil(root){root.insertAdjacentHTML('beforeend',`<div class="card" id="flCoil" style="margin-bottom:18px">
+ <div class="row" style="margin-top:0;justify-content:space-between"><h3 style="margin:0">⚙ See the rules inside real machines</h3>
+ <div class="seg" id="flCm" style="min-width:340px"><button data-c="M" class="on">DC motor · left hand</button><button data-c="G">AC generator · right hand</button></div></div>
+ <p class="status" style="margin-top:6px">The coil is seen end-on, looking along the axle. You see the two long sides of the coil, A and B, as two circles.</p>
+ <div class="grid2" style="align-items:start"><div id="flCv" style="background:${C.bg};border-radius:14px;padding:8px"></div><div class="explain" id="flCx" style="font-size:16.5px;line-height:1.65"></div></div>
+ <div class="row"><button class="btn" id="flPz">⏸ Pause</button><button class="btn sm" id="flSt">Step ⟳ 15°</button><label style="display:flex;gap:8px;align-items:center">Speed <input type="range" id="flSp" min="0.2" max="2" step="0.1" value="0.7"></label></div></div>`);
+ const st={m:'M',th:.35,run:true,last:0};
+ const TX={M:`<p>The <b>commutator</b> makes sure the side on the <b>right</b> always carries current <b>⊙</b> (out) and the side on the <b>left</b> carries <b>⊗</b> (in).</p>
+ <p><b>Left-hand rule, right side:</b> first finger → (field), second finger ⊙, so the thumb points <b>up</b>.<br><b>Left side:</b> current ⊗, so the force is <b>down</b>.</p>
+ <p>One side is pushed up and the other down, so the coil turns <b>anticlockwise</b>. When the coil is vertical, the forces pass through the axle and give no turning effect. The coil’s momentum carries it past, the commutator swaps the current, and the push continues.</p>`,
+ G:`<p>Now <b>you turn</b> the coil, and each side cuts through the field lines.</p><p><b>Right-hand rule, side moving up:</b> first finger → (field), thumb ↑ (motion), so the second finger points <b>⊗</b>, into the page. <b>Side moving down:</b> ⊙.</p>
+ <p>Each side moves up for half a turn and down for the next half, so the current <b>reverses every half turn</b>. That is <b>alternating current</b>. The graph shows the current in side A.</p><p>The current is <b>largest</b> when the sides move straight across the field (coil horizontal) and <b>zero</b> when they move along the field (coil vertical).</p>`};
+ const cx=300,cy=165,R=100;
+ function draw(){const th=st.th,G=st.m==='G';let g='';
+  g+=`<rect x="14" y="40" width="70" height="250" rx="8" style="fill:${C.N}"/>`+T(49,172,'N',{s:40,c:'#fff',halo:false})+`<rect x="516" y="40" width="70" height="250" rx="8" style="fill:${C.S}"/>`+T(551,172,'S',{s:40,c:'#fff',halo:false});
+  for(const y of [65,115,165,215,265]){g+=L(88,y,512,y,C.F,1.6,'opacity:.35');g+=HD(160,y,0,C.F,9)+HD(450,y,0,C.F,9);}
+  g+=`<circle cx="${cx}" cy="${cy}" r="${R}" style="fill:none;stroke:${C.mut};stroke-width:1.2;stroke-dasharray:4 5;opacity:.6"/>`;
+  const side=(ph,nm)=>{const X=Math.cos(ph),Y=Math.sin(ph),x=cx+R*X,y=cy-R*Y;return {X,Y,x,y,nm,vy:Math.cos(ph),vx:-Math.sin(ph)};};
+  const A=side(th,'A'),B=side(th+Math.PI,'B');
+  g+=L(A.x,A.y,B.x,B.y,'#5b5146',7)+`<circle cx="${cx}" cy="${cy}" r="6" style="fill:#5b5146"/>`;
+  const sides=[A,B];let note='';
+  for(const s of sides){let dir=null,amp=1;
+   if(!G){dir=s.X>=0?'out':'in';const f=s.X>=0?1:-1;g+=AR(s.x,s.y-f*26,s.x,s.y-f*86,C.M,5,15)+T(s.x+(s.X>=0?14:-14),s.y-f*60,f>0?'F ↑':'F ↓',{a:s.X>=0?'start':'end',c:C.M,s:16});}
+   else{amp=Math.abs(s.vy);const c=genI(1,s.vy>0?1:-1);dir=amp<.12?null:(c>0?'out':'in');
+    g+=AR(s.x+s.vx*24,s.y-s.vy*24,s.x+s.vx*76,s.y-s.vy*76,C.M,4,13,'stroke-dasharray:7 5');}
+   g+=`<g style="opacity:${G?(0.35+0.65*amp):1}">${wireEnd(s.x,s.y,20,dir)}</g>`+T(s.x+(s.X>=0?-30:30),s.y+(s.Y>=0?-24:30),s.nm,{s:17});}
+  if(!G&&Math.abs(A.X)<.1)note='Coil vertical: the commutator swaps the current now';
+  if(G&&Math.abs(A.vy)<.12)note='Sides moving along the field: no current at this moment';
+  if(note)g+=T(300,312,note,{s:15,c:C.I});
+  let h=330;
+  if(G){const gx=70,gw=470,gy=388,ga=34;h=440;
+   g+=L(gx,gy,gx+gw,gy,C.mut,1.2)+L(gx,gy-ga-10,gx,gy+ga+10,C.mut,1.2)+T(gx-8,gy-ga+4,'⊙',{a:'end',s:15,c:C.I})+T(gx-8,gy+ga+6,'⊗',{a:'end',s:15,c:C.I})+T(gx+gw,gy+ga+22,'one full turn →',{a:'end',s:13,c:C.mut,w:400})+T(gx,gy-ga-16,'current in side A',{a:'start',s:13,c:C.mut,w:400});
+   let p='';for(let k=0;k<=120;k++){const a=k/120*2*Math.PI;p+=`${(gx+gw*k/120).toFixed(1)},${(gy+ga*Math.cos(a)).toFixed(1)} `;}
+   g+=`<polyline points="${p}" style="fill:none;stroke:${C.I};stroke-width:2.5"/>`;
+   const ph=((th%(2*Math.PI))+2*Math.PI)%(2*Math.PI),mx=gx+gw*ph/(2*Math.PI),my=gy+ga*Math.cos(ph);
+   g+=L(mx,gy-ga-6,mx,gy+ga+6,C.mut,1,'opacity:.5')+`<circle cx="${mx}" cy="${my}" r="6" style="fill:${C.I}"/>`;}
+  $q('#flCv').innerHTML=SV(`0 0 600 ${h}`,g);}
+ /* current in A = −cos θ in ⊙-positive units, so the graph above plots y = +cos (downwards on screen is ⊗) */
+ function setM(m){st.m=m;$a('[data-c]',$q('#flCoil')).forEach(x=>x.classList.toggle('on',x.dataset.c===m));$q('#flCx').innerHTML=TX[m];draw();}
+ $q('#flCm').onclick=e=>{const b=e.target.closest('[data-c]');if(b)setM(b.dataset.c);};
+ $q('#flPz').onclick=()=>{st.run=!st.run;$q('#flPz').textContent=st.run?'⏸ Pause':'▶ Play';};
+ $q('#flSt').onclick=()=>{st.run=false;$q('#flPz').textContent='▶ Play';st.th+=Math.PI/12;draw();};
+ function tick(t){const dt=Math.min(.05,(t-st.last)/1000||0);st.last=t;
+  if(st.run&&$q('#flCv').offsetParent!==null){st.th+=dt*+$q('#flSp').value;draw();}requestAnimationFrame(tick);}
+ setM('M');requestAnimationFrame(tick);}
+
+/* ---------- notes, other tabs, start-up ---------- */
+const go=(s,t)=>`<a href="#" data-flgo="${s}">${t}</a>`;
+const fig=(sc,hd,cap)=>`<figure class="fig" style="margin:0">${frame(sceneSVG(sc),handSVG(hd))}<figcaption>${cap}</figcaption></figure>`;
+function buildNotes(){const m4=$q('#s-magnet-notes #m4'),m6=$q('#s-magnet-notes #m6');if(!m4||$q('#flN4'))return;
+ const k4=[...m4.querySelectorAll('.box.key')].find(b=>/left-hand/i.test(b.textContent)),a4=k4&&k4.closest('.gridH')||k4;
+ const n4=`<div id="flN4"><h3 style="font-size:24px;margin:18px 0 6px">How to use Fleming’s left-hand rule</h3>
+ ${fig({dir:'out',force:1},H0,'N on the left, S on the right, current ⊙ out of the page: the thumb points up, so the force is upwards.')}
+ <ol style="font-size:16.5px;line-height:1.7"><li>Use your <b>left</b> hand. Hold the thumb, first finger and second finger at <b>90°</b> to each other.</li>
+ <li>Point the <b>First finger</b> along the <b>Field</b>, from N to S.</li><li>Turn your wrist until the <b>seCond finger</b> points along the <b>Current</b> (conventional, + to −).</li>
+ <li>The <b>thuMb</b> gives the direction of the <b>force</b> (Motion).</li></ol>
+ <div class="box tip"><span class="t">Memory aids</span>thu<b>M</b>b = <b>M</b>otion, <b>F</b>irst = <b>F</b>ield, se<b>C</b>ond = <b>C</b>urrent. Or thumb → first → second = <b>F B I</b>. ${go('rules','▶ Step-by-step lesson in ✋ Hand rules')}</div>
+ <div class="worked"><div class="wh"><b>Example 4.1</b>A wire between a N pole (left) and a S pole (right) carries a current into the page (⊗). <span class="cmd">State</span> the direction of the force on the wire.</div>
+ <p>First finger → <b>right</b> (N to S). Second finger → <b>into the page</b> (palm now faces away from you). Thumb → <b>down</b>. The force is <b>downwards</b>.</p></div>
+ <div class="worked"><div class="wh"><b>Example 4.2</b>A beam of electrons travels to the right through a magnetic field directed into the page. <span class="cmd">Determine</span> which way the beam bends.</div>
+ <p>Electrons are negative, so the <b>conventional current</b> flows to the <b>left</b>. First finger → into the page, second finger → left, thumb → <b>down</b>. The beam curves downwards.</p></div>
+ <table><thead><tr><th>Change</th><th>Effect on the force</th></tr></thead><tbody><tr><td>Reverse the current</td><td>Force reverses</td></tr><tr><td>Reverse the field (swap the poles)</td><td>Force reverses</td></tr><tr><td>Reverse both</td><td>Force in the <b>same</b> direction as before</td></tr><tr><td>Wire parallel to the field</td><td><b>No</b> force</td></tr></tbody></table>
+ <div class="box warn"><span class="t">Common mistakes</span>Using the right hand for a motor · pointing the first finger from S to N · following electron flow instead of conventional current · fingers not at right angles.</div></div>`;
+ if(a4)a4.insertAdjacentHTML('afterend',n4);
+ const k6=m6&&[...m6.querySelectorAll('.box.key')].find(b=>/right-hand/i.test(b.textContent));
+ const n6=`<div id="flN6"><h3 style="font-size:24px;margin:18px 0 6px">How to use Fleming’s right-hand rule</h3>
+ ${fig({dir:'in',mot:1,ind:1},pose('R',1,1),'Field to the right, wire pushed up: the second finger points into the page, so the induced current is ⊗.')}
+ <ol style="font-size:16.5px;line-height:1.7"><li>Use your <b>right</b> hand, with the thumb, first finger and second finger at <b>90°</b>.</li>
+ <li>Point the <b>First finger</b> along the <b>Field</b> (N to S).</li><li>Turn your wrist until the <b>thuMb</b> points along the <b>Motion</b> of the wire.</li>
+ <li>The <b>seCond finger</b> gives the direction of the induced <b>Current</b>.</li></ol>
+ <div class="box tip"><span class="t">Which hand?</span><b>L</b>eft = motor (current in → force out). <b>R</b>ight = gene<b>R</b>ator (motion in → current out). ${go('rules','▶ Try it in ✋ Hand rules')}</div>
+ <div class="worked"><div class="wh"><b>Example 6.1</b>A wire is pushed <b>down</b> between a N pole (left) and a S pole (right). <span class="cmd">Determine</span> the direction of the induced current.</div>
+ <p>First finger → <b>right</b>. Thumb → <b>down</b>. Second finger → <b>out of the page</b> (⊙).</p>
+ <p><b>Check with Lenz’s law:</b> use the <b>left</b>-hand rule on this current (field right, current ⊙). The force is <b>up</b>, which opposes the push. An induced current always opposes the motion that causes it.</p></div>
+ <div class="box warn"><span class="t">Remember</span>A wire moving <b>along</b> the field lines cuts none of them, so no current is induced. Reversing the motion <b>or</b> the field reverses the induced current.</div></div>`;
+ if(k6)k6.insertAdjacentHTML('afterend',n6);}
+function card(id,sc,hd,cap,h,body){const r=$q(id);if(!r||$q(id+' .flTabCard'))return;
+ r.insertAdjacentHTML('beforeend',`<div class="card flTabCard" style="margin-top:18px"><h3>${h}</h3>${fig(sc,hd,cap)}<div style="font-size:16.5px;line-height:1.65">${body}</div></div>`);}
+function buildTabs(){const link=`<p>${go('rules','✋ Open the step-by-step lesson and the animated motor/generator in Hand rules →')}</p>`;
+ card('#s-magnet-motor',{dir:'out',force:1},H0,'Side A of the coil: field →, current ⊙, so the force is ↑','✋ Why does the coil turn? The left-hand rule',
+  `<p>Field: N (left) → S (right). On side <b>A</b> the current comes <b>out of</b> the page: first finger right, second finger at you, thumb <b>up</b>. On side <b>B</b> the current goes <b>into</b> the page, so the thumb points <b>down</b>.</p><p>One side is pushed up and the other down, so the coil turns. Every half turn the commutator reverses the current, so the coil keeps turning the same way.</p>${link}`);
+ card('#s-magnet-induct',{dir:'in',mot:1,ind:1},pose('R',1,1),'Field →, wire pushed ↑, so the induced current is ⊗','✋ Which way is the induced current? The right-hand rule',
+  `<p>First finger along the <b>field</b>, thumb along the <b>motion</b>: the second finger gives the induced <b>current</b>. Push the wire the other way, or swap the poles, and the current reverses. Move it along the field lines and no current is induced.</p>${link}`);
+ card('#s-magnet-gen',{dir:'in',mot:1,ind:1},pose('R',1,1),'A coil side moving up through the field: current ⊗','✋ Why is the output alternating? The right-hand rule',
+  `<p>As the coil rotates, each side moves <b>up</b> through the field for half a turn and <b>down</b> for the next half. The right-hand rule gives ⊗ when it moves up and ⊙ when it moves down, so the current reverses every half turn: <b>alternating current</b>.</p>${link}`);}
+function buildRules(){const root=$q('#s-magnet-rules');if(!root||$q('#flWrap'))return;
+ const old=$q('#flCard');if(old)old.remove();
+ root.insertAdjacentHTML('afterbegin','<div id="flWrap"></div>');const w=$q('#flWrap');
+ buildLesson(w);buildLab(w);buildCoil(w);
+ w.insertAdjacentHTML('beforeend',`<div class="gridH" style="margin-bottom:18px"><div class="card"><h4>Left hand or right hand?</h4><table><thead><tr><th></th><th>Left hand</th><th>Right hand</th></tr></thead><tbody>
+ <tr><td><b>Effect</b></td><td>Motor effect: a current in a field feels a force</td><td>Generator effect: a wire moving through a field has a current induced in it</td></tr>
+ <tr><td><b>You know</b></td><td>field + current</td><td>field + motion</td></tr><tr><td><b>You find</b></td><td>force (thumb)</td><td>induced current (second finger)</td></tr>
+ <tr><td><b>Used in</b></td><td>dc motor, loudspeaker, moving-coil meter</td><td>ac generator, dynamo, moving-coil microphone</td></tr></tbody></table></div>
+ <div class="card"><h4>Common mistakes</h4><ul style="padding-left:20px;font-size:15.5px;line-height:1.7"><li>Using the wrong hand: decide motor or generator first.</li><li>Pointing the first finger from S to N. The field goes <b>N → S</b>.</li><li>Following the electrons. The second finger shows <b>conventional current</b> (+ → −).</li><li>Fingers not at 90° to each other.</li><li>Using the rule when the wire is <b>parallel</b> to the field: there is no force and no induced current.</li></ul></div></div>
+ <h3 style="font-size:24px;margin:4px 0 10px">🎯 More practice: random set-ups</h3>`);}
+document.addEventListener('click',e=>{const a=e.target.closest('[data-flgo]');if(!a)return;e.preventDefault();
+ if(typeof goSub==='function')goSub('magnet',a.dataset.flgo);else{const b=$q(`.subnav[data-p="magnet"] [data-s="${a.dataset.flgo}"]`);if(b)b.click();}
+ const r=$q('#s-magnet-'+a.dataset.flgo);if(r)setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'start'}),60);});
+let tries=0;
+function init(){if(!$q('#s-magnet-notes #m4')&&tries++<40){setTimeout(init,250);return;}
+ for(const [n,f] of [['notes',buildNotes],['rules',buildRules],['tabs',buildTabs]]){try{f();}catch(e){console.error('Fleming '+n,e);}}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+})();
+
+</script>
+<!-- /FLEMING RULES -->
 </body>
 </html>
