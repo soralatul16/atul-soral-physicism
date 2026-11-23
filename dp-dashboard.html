@@ -1,752 +1,212 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js" data-theme="light">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-9JDXQ282H8');
-</script>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DP Dashboard | Atul Soral Physicism</title>
-<style>
-:root {
-  --bg: #f5f0e8;--bg-deep: #f0ebe2;--surface: rgba(255,255,255,0.75);--surface2: rgba(255,255,255,0.55);
-  --white: #ffffff;--text: #1a1a2e;--text2: #555;--text3: #888;--border: rgba(0,0,0,0.06);--accent: #c0392b;
-  --cream: var(--bg);--cream-2: var(--bg-deep);--ink: var(--text);--ink-2: var(--text2);--ink-3: var(--text2);--ink-4: var(--text3);--ink-5: var(--text3);
-  --glass: var(--surface);--glass-border: var(--border);
-  --red:#ef4444;--red-dark:#991b1b;--red-pale:#fde8e6;--red-soft:#f7c5c0;
-  --teal:#4ecdc4;--teal-pale:#e0f7f5;--blue:#5b9bd5;--blue-pale:#deeaf6;
-  --purple:#b39ddb;--purple-pale:#ede7f6;--amber:#ffd54f;--amber-pale:#fff8e1;
-  --green:#81c784;--green-pale:#e8f5e9;--orange:#ff8a65;--orange-pale:#fff3e0;
-  --shadow-sm:0 2px 12px rgba(26,26,46,0.06);--shadow-md:0 8px 28px rgba(26,26,46,0.08);--shadow-lg:0 16px 48px rgba(26,26,46,0.1);
-  --r:16px;--r-lg:24px;
-  --font-display:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
-  --font-body:'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
-  --font-mono:'SF Mono','Cascadia Code','Consolas',monospace;
-}
-[data-theme="dark"]{--bg:#0f1119;--bg-deep:#141620;--surface:rgba(30,32,45,0.85);--surface2:rgba(30,32,45,0.65);--white:#1e2030;--text:#e0ddd5;--text2:#a0a0b0;--text3:#6a6a7a;--border:rgba(255,255,255,0.06);--accent:#e05040;--cream:#1a1c28;}
-[data-theme="dark"] body{background:var(--bg);color:var(--text);}
-[data-theme="dark"] .topic-card{background:var(--white);border-color:var(--border);}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
-body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.6;}
-
-.bg-image{position:fixed;inset:0;z-index:0;pointer-events:none;background:url('./exam-system/assets/myp-background-image.png') center/cover no-repeat fixed;opacity:0.1;}
-.physics-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.02;
-  background:linear-gradient(rgba(239,68,68,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,0.3) 1px,transparent 1px);
-  background-size:80px 80px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black 10%,transparent 80%);}
-
-/* NAVBAR */
-.navbar{position:sticky;top:0;z-index:100;background:var(--glass);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);border-bottom:1px solid var(--glass-border);padding:0 36px;height:64px;display:flex;align-items:center;gap:16px;}
-.nav-brand{font-family:var(--font-display);font-size:18px;font-weight:600;color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;}
-.nav-dot{width:10px;height:10px;background:var(--red);border-radius:50%;box-shadow:0 0 8px var(--red);animation:navPulse 2s infinite;flex-shrink:0;}
-@keyframes navPulse{0%,100%{opacity:1;box-shadow:0 0 8px var(--red)}50%{opacity:.6;box-shadow:0 0 16px var(--red)}}
-.nav-brand span{color:var(--red);}
-.nav-spacer{flex:1;}
-.nav-links{display:flex;align-items:center;gap:6px;}
-.nav-link{padding:8px 18px;border-radius:50px;font-size:13px;font-weight:600;color:var(--ink-3);text-decoration:none;transition:all .25s;cursor:pointer;}
-.nav-link:hover{background:var(--red-pale);color:var(--red);}
-
-/* HERO */
-.hero{max-width:1100px;margin:0 auto;padding:28px 36px 0;position:relative;z-index:1;}
-.hero-banner{background:linear-gradient(135deg,#1a237e 0%,#283593 40%,#3949ab 100%);border-radius:var(--r-lg);padding:36px 40px;position:relative;overflow:hidden;display:flex;align-items:center;gap:32px;color:white;}
-.hero-banner::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.03) 40px,rgba(255,255,255,.03) 80px);}
-.hero-banner::after{content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%);pointer-events:none;}
-.hero-content{flex:1;position:relative;z-index:1;}
-.hero-eyebrow{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;opacity:.7;margin-bottom:8px;}
-.hero-banner h1{font-family:var(--font-display);font-size:32px;font-weight:600;line-height:1.15;letter-spacing:-.01em;margin-bottom:8px;}
-.hero-tagline{font-size:14px;opacity:.7;letter-spacing:.15em;text-transform:uppercase;}
-.hero-visual{position:relative;z-index:1;width:160px;flex-shrink:0;text-align:center;}
-.hero-eq{font-family:var(--font-mono);font-size:13px;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:6px 12px;display:inline-block;animation:eqBob 3.5s ease-in-out infinite;}
-.hero-eq:nth-child(2){animation-delay:.8s;margin-top:8px;}
-.hero-eq:nth-child(3){animation-delay:1.6s;margin-top:8px;}
-@keyframes eqBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-
-/* MAIN */
-.main{max-width:1100px;margin:0 auto;padding:24px 36px 80px;position:relative;z-index:1;}
-
-/* SL/HL TOGGLE */
-.level-toggle{display:flex;gap:0;background:var(--white);border:1.5px solid var(--border);border-radius:50px;padding:3px;margin-bottom:24px;width:fit-content;}
-.level-btn{padding:8px 24px;border-radius:50px;border:none;background:none;font-family:var(--font-body);font-size:13px;font-weight:600;color:var(--ink-4);cursor:pointer;transition:all .2s;}
-.level-btn.active{background:var(--red);color:white;}
-.level-btn:hover:not(.active){color:var(--red);}
-
-/* PRACTICE CARDS */
-.practice-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
-.practice-card{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid var(--glass-border);border-radius:var(--r-lg);padding:28px;cursor:pointer;transition:all .3s;text-decoration:none;color:var(--ink);display:flex;align-items:center;gap:20px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm),inset 0 1px 0 rgba(255,255,255,0.4);}
-.practice-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,0.5);border-color:var(--red-soft);}
-.pc-icon{width:56px;height:56px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;transition:transform .3s;}
-.pc-icon-red{background:var(--red-pale);}.pc-icon-teal{background:var(--teal-pale);}.pc-icon-purple{background:var(--purple-pale);}.pc-icon-green{background:var(--green-pale);}.pc-icon-blue{background:var(--blue-pale);}.pc-icon-amber{background:var(--amber-pale);}.pc-icon-orange{background:var(--orange-pale);}
-.pc-info{flex:1;}.pc-label{font-family:var(--font-display);font-size:18px;font-weight:600;margin-bottom:4px;}.pc-desc{font-size:13px;color:var(--ink-4);}
-.pc-arrow{width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.6);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink-4);transition:all .3s;opacity:.5;}
-.practice-card:hover .pc-arrow{opacity:1;transform:translateX(3px);}
-
-/* SECTION HEADER */
-.section-hdr{display:flex;align-items:center;gap:12px;margin:32px 0 18px;}
-.section-hdr-dot{width:10px;height:10px;border-radius:50%;position:relative;}
-.section-hdr-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1.5px dashed currentColor;opacity:.3;animation:spinSlow 8s linear infinite;}
-@keyframes spinSlow{to{transform:rotate(360deg);}}
-.section-hdr h2{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--ink);}
-.section-hdr-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(26,26,46,0.1),transparent);}
-.section-hdr-eq{font-family:var(--font-mono);font-size:11px;color:rgba(26,26,46,0.08);}
-.section-hdr-badge{font-size:11px;padding:4px 12px;border-radius:50px;font-weight:600;font-family:var(--font-mono);}
-
-/* THEME SECTION */
-.theme-section{margin-bottom:12px;}
-.theme-bar{display:flex;align-items:center;gap:14px;padding:14px 20px;background:var(--white);border:1.5px solid var(--border);border-radius:var(--r);margin-bottom:14px;cursor:pointer;transition:all .2s;}
-.theme-bar:hover{border-color:var(--red-soft);box-shadow:var(--shadow-sm);}
-.theme-letter{font-family:var(--font-display);font-size:28px;font-weight:600;width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;color:white;flex-shrink:0;}
-.theme-letter-a{background:linear-gradient(135deg,#1a237e,#3949ab);}
-.theme-letter-b{background:linear-gradient(135deg,#b71c1c,#e53935);}
-.theme-letter-c{background:linear-gradient(135deg,#00695c,#26a69a);}
-.theme-letter-d{background:linear-gradient(135deg,#e65100,#ff9800);}
-.theme-letter-e{background:linear-gradient(135deg,#4a148c,#7b1fa2);}
-.theme-info{flex:1;}
-.theme-name{font-family:var(--font-display);font-size:16px;font-weight:600;color:var(--ink);}
-.theme-hours{font-size:12px;color:var(--ink-4);font-family:var(--font-mono);}
-.theme-arrow{font-size:14px;color:var(--ink-4);transition:transform .2s;}
-.theme-bar.open .theme-arrow{transform:rotate(90deg);}
-
-/* TOPIC GRID */
-.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:8px;overflow:hidden;max-height:0;transition:max-height .4s ease;padding:0 4px;}
-.topic-grid.open{max-height:600px;}
-.topic-card{background:var(--white);border:1.5px solid rgba(26,26,46,0.06);border-radius:var(--r);padding:20px;cursor:pointer;transition:all .3s;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:8px;text-decoration:none;color:var(--ink);}
-.topic-card:hover:not(.locked){transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--red-soft);}
-.topic-card.locked{opacity:.4;cursor:not-allowed;}
-.topic-card.hl-only{border-left:3px solid var(--purple);}
-.tc-top{display:flex;align-items:center;justify-content:space-between;}
-.tc-code{font-family:var(--font-mono);font-size:11px;font-weight:700;color:var(--red);background:var(--red-pale);padding:2px 8px;border-radius:50px;}
-.tc-level{font-size:10px;padding:2px 8px;border-radius:50px;font-weight:700;font-family:var(--font-mono);}
-.tc-sl{background:var(--green-pale);color:#2e7d32;}
-.tc-hl{background:var(--purple-pale);color:#7b1fa2;}
-.tc-hlonly{background:#7b1fa2;color:white;}
-.tc-name{font-size:14px;font-weight:600;color:var(--ink);}
-.tc-hours{font-size:11px;color:var(--ink-4);font-family:var(--font-mono);}
-.tc-status{font-family:var(--font-mono);font-size:10px;font-weight:600;padding:3px 8px;border-radius:50px;display:inline-flex;align-items:center;gap:4px;width:fit-content;}
-.tc-ready{background:var(--green-pale);color:#2e7d32;}
-.tc-coming{background:rgba(26,26,46,0.04);color:var(--ink-5);}
-
-/* ANIMATIONS */
-.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.4,0,.2,1);}
-.reveal.visible{opacity:1;transform:translateY(0);}
-.stagger-1{transition-delay:.05s;}.stagger-2{transition-delay:.12s;}
-
-/* RESPONSIVE */
-@media(max-width:768px){.navbar{padding:0 16px;}.hero{padding:20px 16px 0;}.hero-banner{padding:28px 24px;flex-direction:column;text-align:center;}.hero-banner h1{font-size:24px;}.hero-visual{display:none;}.main{padding:20px 16px 80px;}.practice-row{grid-template-columns:1fr;}.topic-grid{grid-template-columns:1fr 1fr;}}
-@media(max-width:480px){.topic-grid{grid-template-columns:1fr;}}
-
-/* ═══ PHYSICS PICTIONARY — SPINNING CUBE BUTTON ═══ */
-
-.dash-section-header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  margin: 28px 0 16px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid rgba(0,0,0,0.04);
-}
-.dash-section-icon {
-  font-size: 24px;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
-  background: rgba(96,165,250,0.08);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.dash-section-title {
-  font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text);
-}
-.dash-section-sub {
-  font-size: 12px;
-  color: var(--text3);
-  margin-top: 2px;
-}
-
-.tool-card {
-  background: linear-gradient(135deg, rgba(147,197,253,0.08), rgba(96,165,250,0.04));
-  border: 1.5px solid rgba(96,165,250,0.15);
-  border-radius: 18px;
-  padding: 20px 24px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-bottom: 12px;
-  position: relative;
-  overflow: hidden;
-}
-.tool-card:hover {
-  border-color: rgba(96,165,250,0.3);
-  box-shadow: 0 4px 20px rgba(96,165,250,0.1);
-  transform: translateY(-2px);
-}
-
-.dash-section-header + .tool-card,
-.dash-section-header + .theme-section {
-  margin-top: 8px;
-}
-
-/* Space between Explore section and Course section */
-.tools-section {
-  margin-bottom: 32px;
-}
-
-.tool-card:hover .cube { animation-play-state: paused; }
-.tool-card:hover .cube-az { opacity: 1; }
-.tool-card:hover::after { opacity: 1; transform: translateX(0); }
-.tool-card::after {
-  content: '→';
-  position: absolute;
-  right: 24px;
-  font-size: 20px;
-  color: #c0392b;
-  opacity: 0;
-  transform: translateX(-8px);
-  transition: all 0.35s ease;
-}
-
-.cube-container {
-  width: 60px;
-  height: 60px;
-  perspective: 400px;
-  position: relative;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.cube {
-  width: 44px;
-  height: 44px;
-  position: relative;
-  transform-style: preserve-3d;
-  animation: spinCube 8s infinite linear;
-}
-@keyframes spinCube {
-  0% { transform: rotateX(-15deg) rotateY(0deg); }
-  100% { transform: rotateX(-15deg) rotateY(360deg); }
-}
-.cube-face {
-  position: absolute;
-  width: 44px;
-  height: 44px;
-  background: rgba(192,57,43,0.1);
-  border: 1.5px solid #c0392b;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-weight: 700;
-  font-size: 22px;
-  color: #c0392b;
-  box-shadow: inset 0 0 10px rgba(192,57,43,0.1);
-}
-.cube-face-front  { transform: translateZ(22px); }
-.cube-face-right  { transform: rotateY(90deg) translateZ(22px); }
-.cube-face-back   { transform: rotateY(180deg) translateZ(22px); }
-.cube-face-left   { transform: rotateY(-90deg) translateZ(22px); }
-
-.cube-az {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: #c0392b;
-  font-weight: 700;
-  opacity: 0;
-  transition: opacity 0.3s;
-  background: rgba(192,57,43,0.06);
-  border-radius: 10px;
-  z-index: 10;
-  font-family: -apple-system, system-ui, sans-serif;
-}
-
-.pictionary-label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.pictionary-label-title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text, #1a1a2e);
-}
-.pictionary-label-desc {
-  font-size: 12px;
-  color: var(--text2, #888);
-}
-
-</style>
-<!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
-<script src="exam-system/firebase-config.js?v=2"></script>
-<script src="js/auth.js"></script>
-<script src="js/dp-student-data.js?v=14"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('physicism-theme') || 'light'); } catch (e) {}</script>
+<title>IB DP Physics · Atul Soral Physicism</title>
+<meta name="description" content="IB Diploma Physics: all 24 topics across the five themes, SL and HL, with lessons, simulations, the data booklet and revision tools, by Atul Soral.">
+<link rel="canonical" href="https://soralatul16.github.io/atul-soral-physicism/dp-dashboard.html">
+<meta name="theme-color" content="#f7f3ed">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%234ecdc4'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='white'%3E%E2%9A%9B%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/asp-base.css?v=1">
+<link rel="stylesheet" href="css/asp-course.css?v=1">
+<link rel="stylesheet" href="css/asp-glass.css?v=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-9JDXQ282H8');</script>
 </head>
-<body>
 
-<div class="bg-image"></div>
-<div class="physics-grid"></div>
+<body class="c-dp">
+<a class="skip" href="#main">Skip to content</a>
+<div class="asp-bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <a class="nav-brand" href="index.html"><span class="nav-dot"></span>DP <span>Physics</span></a>
-  <div class="nav-spacer"></div>
-  <div class="nav-links">
-    <a class="nav-link" href="index.html">Home</a>
-    <a class="nav-link" href="dp-data-booklet.html">📘 Data Booklet</a>
-    <a class="nav-link" id="myProgressBtn" href="dp-student-progress.html" style="display:none;">📊 My Progress</a>
-    <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);margin-left:4px;" title="Toggle dark/light mode">🌙</button>
-  
-    <div id="authBtnContainer" style="margin-left:4px;"></div>
-</div>
-</div>
-
-<!-- HERO -->
-<div class="hero reveal">
-  <div class="hero-banner">
-    <div class="hero-content">
-      <div class="hero-eyebrow">// ATUL SORAL PHYSICISM &middot; DIPLOMA PROGRAMME</div>
-      <h1>IB DP Physics Dashboard</h1>
-      <div class="hero-tagline">24 Topics &bull; 5 Themes &bull; Your Physics Journey</div>
-    </div>
-    <div class="hero-visual">
-      <div class="hero-eq">E = mc²</div>
-      <div class="hero-eq">ΔS ≥ 0</div>
-      <div class="hero-eq">γ = 1/√(1-v²/c²)</div>
-    </div>
+<header class="nav">
+  <div class="nav__in">
+    <a class="gb gb--sm nav__back" href="index.html" data-back aria-label="Go back"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Back</a>
+    <a class="gb gb--icon nav__home" href="index.html" aria-label="Home" title="Home"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></a>
+    <a class="brand" href="index.html" aria-label="Atul Soral Physicism, home"><span class="brand__mark" aria-hidden="true">&#9883;</span>Atul Soral <span>Physicism</span></a>
+    <button class="gb gb--icon nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <nav class="nav__links" id="navLinks" aria-label="Main">
+      <a class="nav__link" href="igcse-dashboard.html">IGCSE</a>
+      <a class="nav__link" href="myp-dashboard.html">MYP</a>
+      <a class="nav__link" href="dp-dashboard.html" aria-current="page">DP</a>
+      <a class="nav__link" href="index.html#tools">Simulators</a>
+      <a class="nav__link" href="dp-student-portal.html">Student Portal</a>
+      <span class="nav__sep" aria-hidden="true"></span>
+      <span data-auth><button class="gb gb--sm" type="button" data-action="signin">Sign in</button></span>
+      <a class="gb gb--sm gb--dark" href="https://wa.me/917877199443" target="_blank" rel="noopener">Book tutoring</a>
+    </nav>
+    <button class="gb gb--icon nav__theme" type="button" data-action="theme" aria-label="Switch between light and dark mode" title="Light / dark">&#127763;</button>
   </div>
-</div>
+</header>
 
-<!-- MAIN -->
-<div class="main">
+<main id="main" class="wrap">
 
-  
-  
-<div class="tools-section">
-<div class="dash-section-header">
-  <div class="dash-section-icon">🔧</div>
-  <div>
-    <div class="dash-section-title">Explore & Practice</div>
-    <div class="dash-section-sub">Interactive tools to boost your learning</div>
-  </div>
-</div>
-<!-- PHYSICS PICTIONARY — Spinning Cube Button -->
-  <div class="pictionary-btn" onclick="window.location.href='dp-pictionary.html'">
-    <div class="cube-container">
-      <div class="cube">
-        <div class="cube-face cube-face-front">A</div>
-        <div class="cube-face cube-face-right">B</div>
-        <div class="cube-face cube-face-back">C</div>
-        <div class="cube-face cube-face-left">D</div>
+  <section class="c-hero" aria-labelledby="pageTitle">
+    <div class="reveal">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span>DP Physics</span></nav>
+      <p class="c-badge">IB DIPLOMA PROGRAMME &middot; PHYSICS &middot; FIRST ASSESSMENT 2025</p>
+      <h1 id="pageTitle">DP Physics, <em>all five themes</em></h1>
+      <p class="c-hero__lede">Every topic from Space, Time and Motion to Nuclear and Quantum Physics, at SL and HL, with lessons, simulations and the tools you use in the exam.</p>
+      <div class="c-hero__cta">
+        <a class="gb gb--dark" href="#themes">Browse topics
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
+        <a class="gb gb--tint c-dp" href="dp-data-booklet.html">&#128216; Data booklet</a>
+        <a class="gb" href="#assessment">How you are assessed</a>
       </div>
-      <div class="cube-az">A–Z</div>
     </div>
-    <div class="pictionary-label">
-      <span class="pictionary-label-title">DP Physics Pictionary</span>
-      <span class="pictionary-label-desc">A-Z visual dictionary — explore DP terms with infographics</span>
+
+    <aside class="path reveal" aria-label="How to use this page">
+      <p class="path__title">How to study a topic</p>
+      <ol>
+        <li><div><b>Set your level</b><span>SL hides the HL-only topics so you see only your course.</span></div></li>
+        <li><div><b>Open the topic</b><span>Lesson notes, worked examples and the simulation for it.</span></div></li>
+        <li><div><b>Revise with the tools</b><span>Data booklet, formula bank and flashcards, all in one place.</span></div></li>
+      </ol>
+      <dl class="path__facts"><div><dt>Themes</dt><dd>5</dd></div><div><dt>Topics</dt><dd>24</dd></div><div><dt>Levels</dt><dd>SL + HL</dd></div></dl>
+    </aside>
+  </section>
+
+  <div class="jump reveal" role="navigation" aria-label="On this page">
+    <a href="#themes">Topics</a>
+    <a href="#assessment">Assessment</a>
+    <a href="#tools">Exam tools</a>
+    <div class="jump__tools">
+      <div class="seg" role="group" aria-label="Show topics for" data-filter-level="dp-level">
+        <button type="button" data-level="sl" aria-pressed="false">SL</button>
+        <button type="button" data-level="hl" aria-pressed="true">HL</button>
+      </div>
+      <label class="find"><span class="sr-only">Search topics</span>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" placeholder="Search topics  ( / )" data-find autocomplete="off"></label>
     </div>
   </div>
 
-  <a class="tool-card" href="dp-simulations.html" style="text-decoration:none;color:var(--text);">
-    <div style="width:60px;height:60px;border-radius:14px;background:linear-gradient(135deg,rgba(6,182,212,0.12),rgba(6,182,212,0.04));border:1.5px solid rgba(6,182,212,0.15);display:flex;align-items:center;justify-content:center;font-size:28px;flex-shrink:0;">⚡</div>
-    <div class="pictionary-label">
-      <span class="pictionary-label-title">Physics Simulators</span>
-      <span class="pictionary-label-desc">Interactive experiments — explore, adjust, discover</span>
+  <!-- Themes -->
+  <section class="sec" id="themes" aria-labelledby="themesTitle">
+    <div class="sec-hdr reveal" style="--c:var(--dp)">
+      <span class="sec-hdr__dot" aria-hidden="true"></span>
+      <h2 id="themesTitle">Course content</h2>
+      <span class="sec-hdr__line" aria-hidden="true"></span>
+      <span class="sec-hdr__eq" aria-hidden="true">E = mc&sup2;</span>
     </div>
-  </a>
+    <p class="sec-sub reveal"><span class="lv lv-sl">SL + HL</span> both levels &nbsp; <span class="lv lv-sl">SL + HL EXTRA</span> HL goes further &nbsp; <span class="lv lv-hl">HL ONLY</span> HL students only</p>
 
-  
-</div>
-<div class="dash-section-header">
-  <div class="dash-section-icon">📚</div>
+    <div class="theme t-a reveal" data-find-group>
+      <div class="theme__head"><span class="num" aria-hidden="true">A</span><div><h3>Space, Time and Motion</h3><small>SL 27 h &middot; HL 42 h</small></div></div>
+      <div class="grid g5">
+        <a class="card dpt" href="dp-chapter.html?topic=A1" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">A.1</span><i class="lv lv-sl">SL + HL</i></div><h4>Kinematics</h4><small>9 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=A2" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">A.2</span><i class="lv lv-sl">SL + HL</i></div><h4>Forces and Momentum</h4><small>10 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=A3" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">A.3</span><i class="lv lv-sl">SL + HL</i></div><h4>Work, Energy and Power</h4><small>8 h</small></a>
+        <a class="card dpt is-hl" href="dp-chapter.html?topic=A4" data-find-item data-levels="hl"><div class="dpt__top"><span class="dpt__code">A.4</span><i class="lv lv-hl">HL ONLY</i></div><h4>Rigid Body Mechanics</h4><small>7 h</small></a>
+        <a class="card dpt is-hl" href="dp-chapter.html?topic=A5" data-find-item data-levels="hl"><div class="dpt__top"><span class="dpt__code">A.5</span><i class="lv lv-hl">HL ONLY</i></div><h4>Galilean and Special Relativity</h4><small>8 h</small></a>
+      </div>
+    </div>
+
+    <div class="theme t-b reveal" data-find-group>
+      <div class="theme__head"><span class="num" aria-hidden="true">B</span><div><h3>The Particulate Nature of Matter</h3><small>SL 24 h &middot; HL 32 h</small></div></div>
+      <div class="grid g5">
+        <a class="card dpt" href="dp-chapter.html?topic=B1" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">B.1</span><i class="lv lv-sl">SL + HL</i></div><h4>Thermal Energy Transfers</h4><small>6 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=B2" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">B.2</span><i class="lv lv-sl">SL + HL</i></div><h4>Greenhouse Effect</h4><small>6 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=B3" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">B.3</span><i class="lv lv-sl">SL + HL</i></div><h4>Gas Laws</h4><small>6 h</small></a>
+        <a class="card dpt is-hl" href="dp-chapter.html?topic=B4" data-find-item data-levels="hl"><div class="dpt__top"><span class="dpt__code">B.4</span><i class="lv lv-hl">HL ONLY</i></div><h4>Thermodynamics</h4><small>8 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=B5" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">B.5</span><i class="lv lv-sl">SL + HL</i></div><h4>Current and Circuits</h4><small>6 h</small></a>
+      </div>
+    </div>
+
+    <div class="theme t-c reveal" data-find-group>
+      <div class="theme__head"><span class="num" aria-hidden="true">C</span><div><h3>Wave Behaviour</h3><small>SL 17 h &middot; HL 29 h</small></div></div>
+      <div class="grid g5">
+        <a class="card dpt" href="dp-chapter.html?topic=C1" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">C.1</span><i class="lv lv-sl">SL + HL EXTRA</i></div><h4>Simple Harmonic Motion</h4><small>SL 3 h &middot; HL 7 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=C2" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">C.2</span><i class="lv lv-sl">SL + HL</i></div><h4>Wave Model</h4><small>3 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=C3" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">C.3</span><i class="lv lv-sl">SL + HL EXTRA</i></div><h4>Wave Phenomena</h4><small>SL 5 h &middot; HL 11 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=C4" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">C.4</span><i class="lv lv-sl">SL + HL</i></div><h4>Standing Waves and Resonance</h4><small>4 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=C5" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">C.5</span><i class="lv lv-sl">SL + HL EXTRA</i></div><h4>Doppler Effect</h4><small>SL 2 h &middot; HL 4 h</small></a>
+      </div>
+    </div>
+
+    <div class="theme t-d reveal" data-find-group>
+      <div class="theme__head"><span class="num" aria-hidden="true">D</span><div><h3>Fields</h3><small>SL 19 h &middot; HL 38 h</small></div></div>
+      <div class="grid g5">
+        <a class="card dpt" href="dp-chapter.html?topic=D1" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">D.1</span><i class="lv lv-sl">SL + HL EXTRA</i></div><h4>Gravitational Fields</h4><small>SL 5 h &middot; HL 12 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=D2" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">D.2</span><i class="lv lv-sl">SL + HL EXTRA</i></div><h4>Electric and Magnetic Fields</h4><small>SL 8 h &middot; HL 14 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=D3" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">D.3</span><i class="lv lv-sl">SL + HL</i></div><h4>Motion in EM Fields</h4><small>6 h</small></a>
+        <a class="card dpt is-hl" href="dp-chapter.html?topic=D4" data-find-item data-levels="hl"><div class="dpt__top"><span class="dpt__code">D.4</span><i class="lv lv-hl">HL ONLY</i></div><h4>Induction</h4><small>6 h</small></a>
+      </div>
+    </div>
+
+    <div class="theme t-e reveal" data-find-group>
+      <div class="theme__head"><span class="num" aria-hidden="true">E</span><div><h3>Nuclear and Quantum Physics</h3><small>SL 23 h &middot; HL 39 h</small></div></div>
+      <div class="grid g5">
+        <a class="card dpt" href="dp-chapter.html?topic=E1" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">E.1</span><i class="lv lv-sl">SL + HL EXTRA</i></div><h4>Structure of the Atom</h4><small>SL 6 h &middot; HL 9 h</small></a>
+        <a class="card dpt is-hl" href="dp-chapter.html?topic=E2" data-find-item data-levels="hl"><div class="dpt__top"><span class="dpt__code">E.2</span><i class="lv lv-hl">HL ONLY</i></div><h4>Quantum Physics</h4><small>8 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=E3" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">E.3</span><i class="lv lv-sl">SL + HL EXTRA</i></div><h4>Radioactive Decay</h4><small>SL 7 h &middot; HL 12 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=E4" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">E.4</span><i class="lv lv-sl">SL + HL</i></div><h4>Fission</h4><small>4 h</small></a>
+        <a class="card dpt" href="dp-chapter.html?topic=E5" data-find-item data-levels="sl hl"><div class="dpt__top"><span class="dpt__code">E.5</span><i class="lv lv-sl">SL + HL</i></div><h4>Fusion and Stars</h4><small>6 h</small></a>
+      </div>
+    </div>
+    <p class="empty" id="findEmpty">No topic matches that search. Press Esc to clear it.</p>
+  </section>
+
+  <div class="connector" aria-hidden="true"></div>
+
+  <!-- Assessment -->
+  <section class="sec" id="assessment" aria-labelledby="assessTitle">
+    <div class="sec-hdr reveal" style="--c:var(--coral)">
+      <span class="sec-hdr__dot" aria-hidden="true"></span>
+      <h2 id="assessTitle">How you are assessed</h2>
+      <span class="sec-hdr__line" aria-hidden="true"></span>
+      <span class="sec-hdr__eq" aria-hidden="true">&Delta;y / &Delta;x</span>
+    </div>
+    <p class="sec-sub reveal">Two written papers and one internal assessment. Both levels have the same structure; HL papers are longer.</p>
+    <div class="table-scroll reveal">
+      <table class="paper-table">
+        <thead><tr><th scope="col">Component</th><th scope="col">What it is</th><th scope="col">SL</th><th scope="col">HL</th><th scope="col">Weight</th></tr></thead>
+        <tbody>
+          <tr><td>Paper 1</td><td>1A multiple choice and 1B data-based questions</td><td>1 h 30 min</td><td>2 h</td><td class="w">36%</td></tr>
+          <tr><td>Paper 2</td><td>Short- and extended-response questions</td><td>1 h 30 min</td><td>2 h 30 min</td><td class="w">44%</td></tr>
+          <tr><td>Internal assessment</td><td>Scientific investigation, about 10 hours</td><td colspan="2">Same at SL and HL</td><td class="w">20%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note reveal">The data booklet is provided in both papers. Check the IB subject guide for the full details.</p>
+  </section>
+
+  <div class="connector" aria-hidden="true"></div>
+
+  <!-- Tools -->
+  <section class="sec" id="tools" aria-labelledby="toolsTitle">
+    <div class="sec-hdr reveal" style="--c:var(--purple)">
+      <span class="sec-hdr__dot" aria-hidden="true"></span>
+      <h2 id="toolsTitle">Exam tools</h2>
+      <span class="sec-hdr__line" aria-hidden="true"></span>
+    </div>
+    <p class="sec-sub reveal">What you need open while you revise and practise.</p>
+    <div class="grid g3">
+      <a class="card tile bg-pink reveal" href="dp-data-booklet.html"><span class="card__icon" aria-hidden="true">&#128216;</span><div><h3>Data Booklet</h3><p>Constants and equations, searchable</p></div></a>
+      <a class="card tile bg-blue reveal" href="dp-formula-bank.html"><span class="card__icon" aria-hidden="true">&#128208;</span><div><h3>Formula Bank</h3><p>Every DP equation, explained</p></div></a>
+      <a class="card tile bg-purple reveal" href="dp-flashcards.html"><span class="card__icon" aria-hidden="true">&#127183;</span><div><h3>Flashcards</h3><p>Quick revision of key ideas</p></div></a>
+      <a class="card tile bg-amber reveal" href="dp-pictionary.html"><span class="card__icon" aria-hidden="true">&#128292;</span><div><h3>Physics Pictionary</h3><p>A&ndash;Z visual dictionary of DP terms</p></div></a>
+      <a class="card tile bg-coral reveal" href="dp-simulations.html"><span class="card__icon" aria-hidden="true">&#9889;</span><div><h3>DP simulators</h3><p>Every DP simulation in one place</p></div></a>
+      <a class="card tile bg-green reveal" href="graph-lab.html"><span class="card__icon" aria-hidden="true">&#128200;</span><div><h3>Graph Plotting Lab</h3><p>Best-fit lines and uncertainties for your IA</p></div></a>
+    </div>
+  </section>
+
+  <section class="band reveal" aria-labelledby="bandTitle">
+    <div><h2 id="bandTitle">&#128203; My assignments</h2><p>Sign in to see homework and tests your teacher has set, with your marks and feedback.</p></div>
+    <div class="band__cta"><a class="gb gb--dark" href="dp-student-portal.html">Open Student Portal &rarr;</a></div>
+  </section>
+</main>
+
+<footer class="footer">
   <div>
-    <div class="dash-section-title">Course Content</div>
-    <div class="dash-section-sub">24 topics across 5 themes</div>
+    <p class="footer__eq" aria-hidden="true">&Delta;x &middot; &Delta;p &ge; &#8463;/2</p>
+    <p>&copy; 2026 Atul Soral Physicism &bull; <a href="mailto:atulsoralphysicism@gmail.com">atulsoralphysicism@gmail.com</a></p>
   </div>
-</div>
-<!-- THEME A -->
-  <div class="theme-section reveal" data-theme-id="A">
-    <div class="theme-bar open" onclick="toggleThemeSection('A')">
-      <div class="theme-letter theme-letter-a">A</div>
-      <div class="theme-info"><div class="theme-name">Space, Time and Motion</div><div class="theme-hours">SL: 27h &middot; HL: 42h</div></div>
-      <div class="theme-arrow">›</div>
-    </div>
-    <div class="topic-grid open" id="grid-A">
-      <a class="topic-card locked" data-topic="A1" href="#"><div class="tc-top"><span class="tc-code">A.1</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Kinematics</div><div class="tc-hours">9 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="A2" href="#"><div class="tc-top"><span class="tc-code">A.2</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Forces and Momentum</div><div class="tc-hours">10 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="A3" href="#"><div class="tc-top"><span class="tc-code">A.3</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Work, Energy and Power</div><div class="tc-hours">8 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked hl-only" data-topic="A4" href="#"><div class="tc-top"><span class="tc-code">A.4</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Rigid Body Mechanics</div><div class="tc-hours">7 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked hl-only" data-topic="A5" href="#"><div class="tc-top"><span class="tc-code">A.5</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Galilean & Special Relativity</div><div class="tc-hours">8 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-    </div>
-  </div>
+  <p class="footer__fine">Teaching hours follow the IB subject guide. Not affiliated with or endorsed by the International Baccalaureate.</p>
+</footer>
 
-  <!-- THEME B -->
-  <div class="theme-section reveal" data-theme-id="B">
-    <div class="theme-bar" onclick="toggleThemeSection('B')">
-      <div class="theme-letter theme-letter-b">B</div>
-      <div class="theme-info"><div class="theme-name">The Particulate Nature of Matter</div><div class="theme-hours">SL: 24h &middot; HL: 32h</div></div>
-      <div class="theme-arrow">›</div>
-    </div>
-    <div class="topic-grid" id="grid-B">
-      <a class="topic-card locked" data-topic="B1" href="#"><div class="tc-top"><span class="tc-code">B.1</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Thermal Energy Transfers</div><div class="tc-hours">6 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="B2" href="#"><div class="tc-top"><span class="tc-code">B.2</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Greenhouse Effect</div><div class="tc-hours">6 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="B3" href="#"><div class="tc-top"><span class="tc-code">B.3</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Gas Laws</div><div class="tc-hours">6 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked hl-only" data-topic="B4" href="#"><div class="tc-top"><span class="tc-code">B.4</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Thermodynamics</div><div class="tc-hours">8 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="B5" href="#"><div class="tc-top"><span class="tc-code">B.5</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Current and Circuits</div><div class="tc-hours">6 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-    </div>
-  </div>
-
-  <!-- THEME C -->
-  <div class="theme-section reveal" data-theme-id="C">
-    <div class="theme-bar" onclick="toggleThemeSection('C')">
-      <div class="theme-letter theme-letter-c">C</div>
-      <div class="theme-info"><div class="theme-name">Wave Behaviour</div><div class="theme-hours">SL: 17h &middot; HL: 29h</div></div>
-      <div class="theme-arrow">›</div>
-    </div>
-    <div class="topic-grid" id="grid-C">
-      <a class="topic-card locked" data-topic="C1" href="#"><div class="tc-top"><span class="tc-code">C.1</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Simple Harmonic Motion</div><div class="tc-hours">SL:3h HL:7h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="C2" href="#"><div class="tc-top"><span class="tc-code">C.2</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Wave Model</div><div class="tc-hours">3 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="C3" href="#"><div class="tc-top"><span class="tc-code">C.3</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Wave Phenomena</div><div class="tc-hours">SL:5h HL:11h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="C4" href="#"><div class="tc-top"><span class="tc-code">C.4</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Standing Waves & Resonance</div><div class="tc-hours">4 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="C5" href="#"><div class="tc-top"><span class="tc-code">C.5</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Doppler Effect</div><div class="tc-hours">SL:2h HL:4h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-    </div>
-  </div>
-
-  <!-- THEME D -->
-  <div class="theme-section reveal" data-theme-id="D">
-    <div class="theme-bar" onclick="toggleThemeSection('D')">
-      <div class="theme-letter theme-letter-d">D</div>
-      <div class="theme-info"><div class="theme-name">Fields</div><div class="theme-hours">SL: 19h &middot; HL: 38h</div></div>
-      <div class="theme-arrow">›</div>
-    </div>
-    <div class="topic-grid" id="grid-D">
-      <a class="topic-card locked" data-topic="D1" href="#"><div class="tc-top"><span class="tc-code">D.1</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Gravitational Fields</div><div class="tc-hours">SL:5h HL:12h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="D2" href="#"><div class="tc-top"><span class="tc-code">D.2</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Electric & Magnetic Fields</div><div class="tc-hours">SL:8h HL:14h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="D3" href="#"><div class="tc-top"><span class="tc-code">D.3</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Motion in EM Fields</div><div class="tc-hours">6 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked hl-only" data-topic="D4" href="#"><div class="tc-top"><span class="tc-code">D.4</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Induction</div><div class="tc-hours">6 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-    </div>
-  </div>
-
-  <!-- THEME E -->
-  <div class="theme-section reveal" data-theme-id="E">
-    <div class="theme-bar" onclick="toggleThemeSection('E')">
-      <div class="theme-letter theme-letter-e">E</div>
-      <div class="theme-info"><div class="theme-name">Nuclear and Quantum Physics</div><div class="theme-hours">SL: 23h &middot; HL: 39h</div></div>
-      <div class="theme-arrow">›</div>
-    </div>
-    <div class="topic-grid" id="grid-E">
-      <a class="topic-card locked" data-topic="E1" href="#"><div class="tc-top"><span class="tc-code">E.1</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Structure of the Atom</div><div class="tc-hours">SL:6h HL:9h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked hl-only" data-topic="E2" href="#"><div class="tc-top"><span class="tc-code">E.2</span><span class="tc-level tc-hlonly">HL ONLY</span></div><div class="tc-name">Quantum Physics</div><div class="tc-hours">8 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="E3" href="#"><div class="tc-top"><span class="tc-code">E.3</span><span class="tc-level tc-hl">SL+HL+</span></div><div class="tc-name">Radioactive Decay</div><div class="tc-hours">SL:7h HL:12h</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="E4" href="#"><div class="tc-top"><span class="tc-code">E.4</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Fission</div><div class="tc-hours">4 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-      <a class="topic-card locked" data-topic="E5" href="#"><div class="tc-top"><span class="tc-code">E.5</span><span class="tc-level tc-sl">SL+HL</span></div><div class="tc-name">Fusion and Stars</div><div class="tc-hours">6 hours</div><div class="tc-status tc-coming">◌ Coming Soon</div></a>
-    </div>
-  </div>
-
-  <div style="text-align: center; margin-top: 40px; margin-bottom: 20px; font-size: 13px; color: var(--text3);">
-    More features coming soon
-  </div>
-
-</div>
-
-<script>
-// Auto-detect topic availability based on DP_LESSONS data
-function initTopicAvailability() {
-  document.querySelectorAll('.topic-card').forEach(function(card) {
-    var topicCode = card.getAttribute('data-topic');
-    if (!topicCode) {
-      var codeSpan = card.querySelector('.tc-code');
-      if (codeSpan) {
-        topicCode = codeSpan.textContent.trim().replace('.', '');
-        card.setAttribute('data-topic', topicCode);
-      }
-    }
-    
-    if (topicCode) {
-      var isAvailable = typeof DP_STUDENT_DATA !== 'undefined' && DP_STUDENT_DATA[topicCode] && DP_STUDENT_DATA[topicCode].subtopics && DP_STUDENT_DATA[topicCode].subtopics.length > 0;
-      var statusEl = card.querySelector('.tc-status');
-      
-      if (isAvailable) {
-        card.classList.remove('locked');
-        card.href = 'dp-chapter.html?topic=' + topicCode;
-        if (statusEl) {
-          statusEl.textContent = '● Available';
-          statusEl.className = 'tc-status tc-ready';
-        }
-      } else {
-        card.classList.add('locked');
-        card.href = '#';
-        if (statusEl) {
-          statusEl.textContent = '◌ Coming Soon';
-          statusEl.className = 'tc-status tc-coming';
-        }
-      }
-    }
-  });
-}
-
-// Run topic availability checks immediately
-initTopicAvailability();
-
-// Theme section toggle
-function toggleThemeSection(id) {
-  var grid = document.getElementById('grid-' + id);
-  var bar = grid.previousElementSibling;
-  grid.classList.toggle('open');
-  bar.classList.toggle('open');
-}
-
-// D shortcut redirect to teacher planner
-document.addEventListener('keydown', function(e) {
-  // Don't trigger if typing in an input/textarea
-  if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-  if (e.key === 'D' || e.key === 'd') {
-    window.location.href = 'dp-teacher-planner.html';
-  }
-});
-
-// Dark mode
-function toggleTheme() {
-  var current = document.documentElement.getAttribute('data-theme');
-  var next = current === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', next);
-  localStorage.setItem('physicism-theme', next);
-  var btn = document.getElementById('themeToggle');
-  if (btn) btn.textContent = next === 'dark' ? '☀️' : '🌙';
-}
-(function() {
-  var saved = localStorage.getItem('physicism-theme');
-  if (saved === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    var btn = document.getElementById('themeToggle');
-    if (btn) btn.textContent = '☀️';
-  }
-})();
-
-// Reveal on scroll
-var observer = new IntersectionObserver(function(entries) {
-  entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(function(el) { observer.observe(el); });
-
-// Dynamic Progress Ring Containers Setup
-document.querySelectorAll('.topic-card').forEach(function(card) {
-  var codeSpan = card.querySelector('.tc-code');
-  if (codeSpan) {
-    var code = codeSpan.textContent.trim().replace('.', '');
-    var tcTop = card.querySelector('.tc-top');
-    if (tcTop && !card.classList.contains('locked')) {
-      var ringDiv = document.createElement('div');
-      ringDiv.className = 'progress-ring-container';
-      ringDiv.style.position = 'relative';
-      ringDiv.style.display = 'none';
-      ringDiv.style.alignItems = 'center';
-      ringDiv.style.justifyContent = 'center';
-      ringDiv.style.width = '32px';
-      ringDiv.style.height = '32px';
-      ringDiv.id = 'progress-' + code;
-      tcTop.appendChild(ringDiv);
-    }
-  }
-});
-
-// Progress calculations and render functions
-function createProgressRing(percent) {
-  var size = 32;
-  var stroke = 3;
-  var radius = (size - stroke) / 2;
-  var circumference = 2 * Math.PI * radius;
-  var offset = circumference - (percent / 100) * circumference;
-  var color = percent === 0 ? 'rgba(0,0,0,0.06)' : (percent === 100 ? '#2e7d32' : '#c0392b');
-  
-  return '<svg width="' + size + '" height="' + size + '" style="transform:rotate(-90deg);flex-shrink:0;">'
-    + '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + radius + '" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="' + stroke + '"/>'
-    + '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + radius + '" fill="none" stroke="' + color + '" stroke-width="' + stroke + '" stroke-dasharray="' + circumference + '" stroke-dashoffset="' + offset + '" stroke-linecap="round" style="transition:stroke-dashoffset 0.6s ease;"/>'
-    + '</svg>'
-    + '<span style="position:absolute;font-size:8px;font-weight:700;color:var(--text2,#555);">' + percent + '%</span>';
-}
-
-function getTopicProgress(topicCode) {
-  if (typeof DP_STUDENT_DATA === 'undefined' || !DP_STUDENT_DATA[topicCode] || !DP_STUDENT_DATA[topicCode].subtopics) {
-    return 0;
-  }
-  
-  let totalItems = 0;
-  let checkedItems = 0;
-  
-  const subtopics = DP_STUDENT_DATA[topicCode].subtopics;
-  subtopics.forEach(sub => {
-    let allChecklistItems = [];
-    if (sub.checklist && Array.isArray(sub.checklist)) {
-      allChecklistItems = allChecklistItems.concat(sub.checklist);
-    }
-    if (sub.foundation && sub.foundation.checklist && Array.isArray(sub.foundation.checklist)) {
-      allChecklistItems = allChecklistItems.concat(sub.foundation.checklist);
-    }
-    if (sub.extension && sub.extension.checklist && Array.isArray(sub.extension.checklist)) {
-      allChecklistItems = allChecklistItems.concat(sub.extension.checklist);
-    }
-    
-    totalItems += allChecklistItems.length;
-    
-    allChecklistItems.forEach((_, i) => {
-      const key = 'physicism_checklist_' + topicCode + '_' + sub.id + '_' + i;
-      if (localStorage.getItem(key) === 'true') {
-        checkedItems++;
-      }
-    });
-  });
-  
-  return totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
-}
-
-function loadStudentProgress(user) {
-  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
-    el.style.display = 'flex';
-    var code = el.id.replace('progress-', '');
-    var pct = getTopicProgress(code);
-    el.innerHTML = createProgressRing(pct);
-  });
-}
-
-function hideStudentProgress() {
-  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
-    el.style.display = 'none';
-    el.innerHTML = '';
-  });
-}
-
-// Listen to auth status on dashboard
-if (typeof firebase !== 'undefined' && firebase.auth) {
-  firebase.auth().onAuthStateChanged(function(user) {
-    var progressBtn = document.getElementById('myProgressBtn');
-    if (user) {
-      if (progressBtn) progressBtn.style.display = 'inline-flex';
-      loadStudentProgress(user);
-    } else {
-      if (progressBtn) progressBtn.style.display = 'none';
-      hideStudentProgress();
-    }
-  });
-}
-</script>
-
-<!-- FEEDBACK WIDGET -->
-<button id="fb-trigger" onclick="toggleFeedback()" style="position:fixed;bottom:28px;right:28px;z-index:9000;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;cursor:pointer;box-shadow:0 4px 20px rgba(239,68,68,.4);display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform .2s;color:white;">💬</button>
-<div id="fb-panel" style="position:fixed;bottom:92px;right:28px;z-index:9000;width:320px;background:var(--cream,#f5f0e8);border:1.5px solid rgba(26,26,46,0.1);border-radius:20px;overflow:hidden;box-shadow:0 16px 48px rgba(26,26,46,0.1);transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;">
-  <div style="background:linear-gradient(135deg,#ef4444,#b91c1c);padding:14px 18px;font-size:14px;font-weight:600;color:white;">💬 Send Feedback</div>
-  <div style="padding:16px;display:flex;flex-direction:column;gap:11px;">
-    <div style="font-size:11px;color:var(--text3,#888);background:rgba(26,26,46,0.03);padding:6px 10px;border-radius:8px;">Page: dp-dashboard.html</div>
-    <input type="text" id="fbName" placeholder="Your name" style="width:100%;background:var(--white,white);border:1.5px solid rgba(26,26,46,0.08);border-radius:10px;color:var(--text,#1a1a2e);font-size:14px;padding:10px 14px;outline:none;">
-    <textarea id="fbMsg" placeholder="Your feedback or suggestion..." style="width:100%;background:var(--white,white);border:1.5px solid rgba(26,26,46,0.08);border-radius:10px;color:var(--text,#1a1a2e);font-size:14px;padding:10px 14px;height:88px;resize:none;outline:none;"></textarea>
-    <button onclick="sendFeedback()" style="background:linear-gradient(135deg,#ef4444,#b91c1c);border:none;color:white;font-size:14px;font-weight:600;padding:11px;border-radius:10px;cursor:pointer;">Send</button>
-    <div id="fbStatus" style="font-size:12px;text-align:center;min-height:16px;color:var(--text3,#888);"></div>
-  </div>
-</div>
-
-<!-- AI TUTOR BOT -->
-<button id="ai-trigger" onclick="toggleAI()" style="position:fixed;bottom:92px;right:28px;z-index:8999;width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#1a237e,#3949ab);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(26,35,126,.3);display:flex;align-items:center;justify-content:center;font-size:20px;transition:transform .2s;color:white;">🧠</button>
-<div id="ai-panel" style="position:fixed;bottom:152px;right:28px;z-index:8999;width:360px;max-height:500px;background:var(--cream,#f5f0e8);border:1.5px solid rgba(26,26,46,0.1);border-radius:20px;overflow:hidden;box-shadow:0 16px 48px rgba(26,26,46,0.1);transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;display:flex;flex-direction:column;">
-  <div style="background:linear-gradient(135deg,#1a237e,#3949ab);padding:14px 18px;font-size:14px;font-weight:600;color:white;display:flex;justify-content:space-between;align-items:center;">
-    <span>🧠 Physicism AI Tutor</span>
-    <button onclick="toggleAI()" style="background:rgba(255,255,255,.15);border:none;color:white;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:14px;">✕</button>
-  </div>
-  <div id="aiMessages" style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;max-height:320px;">
-    <div style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-start;">Hi! I'm your DP Physics tutor. Ask me anything about the IB DP Physics syllabus — topics A through E, formulas, concepts, or exam tips. 🔬</div>
-  </div>
-  <div style="padding:10px 14px;border-top:1px solid rgba(26,26,46,0.06);display:flex;gap:8px;">
-    <input type="text" id="aiInput" placeholder="Ask a physics question..." onkeydown="if(event.key==='Enter')sendAIMsg()" style="flex:1;background:var(--white,white);border:1.5px solid rgba(26,26,46,0.08);border-radius:10px;padding:10px 12px;font-size:13px;outline:none;color:var(--text,#1a1a2e);">
-    <button onclick="sendAIMsg()" style="background:linear-gradient(135deg,#1a237e,#3949ab);border:none;color:white;padding:10px 16px;border-radius:10px;cursor:pointer;font-size:13px;font-weight:600;">Send</button>
-  </div>
-</div>
-
-<script>
-// Feedback toggle
-function toggleFeedback(){
-  var p=document.getElementById('fb-panel');
-  var isOpen=p.style.opacity==='1';
-  p.style.opacity=isOpen?'0':'1';
-  p.style.pointerEvents=isOpen?'none':'all';
-  p.style.transform=isOpen?'translateY(20px) scale(.96)':'translateY(0) scale(1)';
-}
-function sendFeedback(){
-  var name=document.getElementById('fbName').value.trim();
-  var msg=document.getElementById('fbMsg').value.trim();
-  if(!msg){document.getElementById('fbStatus').textContent='Please enter feedback.';return;}
-  document.getElementById('fbStatus').textContent='Sending...';
-  // EmailJS or simple log
-  console.log('Feedback from',name,':',msg);
-  document.getElementById('fbStatus').textContent='✅ Thank you for your feedback!';
-  document.getElementById('fbStatus').style.color='#2e7d32';
-  document.getElementById('fbMsg').value='';
-  setTimeout(function(){toggleFeedback();document.getElementById('fbStatus').textContent='';},2000);
-}
-
-// AI Tutor toggle
-function toggleAI(){
-  var p=document.getElementById('ai-panel');
-  var isOpen=p.style.opacity==='1';
-  p.style.opacity=isOpen?'0':'1';
-  p.style.pointerEvents=isOpen?'none':'all';
-  p.style.transform=isOpen?'translateY(20px) scale(.96)':'translateY(0) scale(1)';
-}
-async function sendAIMsg(){
-  var input=document.getElementById('aiInput');
-  var msg=input.value.trim();
-  if(!msg)return;
-  var container=document.getElementById('aiMessages');
-  container.innerHTML+='<div style="background:rgba(239,68,68,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-end;">'+msg+'</div>';
-  input.value='';
-  container.scrollTop=container.scrollHeight;
-  // Call AI via Cloud Function (API key stays server-side)
-  if(!firebase.auth().currentUser){container.innerHTML+='<div class="tutor-msg bot" style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-start;">' +
-      '🔒 Please sign in to use the AI tutor.<br><br>' +
-      '<button onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
-      'style="background:#0284c7;color:#fff;border:none;padding:8px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px">' +
-      'Sign in with Google</button></div>';return;}
-  container.innerHTML+='<div id="ai-typing" style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text3,#888);max-width:85%;align-self:flex-start;">Thinking...</div>';
-  container.scrollTop=container.scrollHeight;
-  try{
-    var aiChat=firebase.functions().httpsCallable('aiChat');
-    var result=await aiChat({messages:[{role:'system',content:'You are a friendly IB DP Physics tutor. Answer ONLY physics questions related to the IB DP Physics syllabus (2025 onwards, themes A-E). Keep answers concise (2-4 sentences). Use formulas where relevant. If asked non-physics questions, politely redirect to physics. Use emojis sparingly.'},{role:'user',content:msg}],temperature:0.7,maxTokens:300});
-    var reply=result.data.reply||'Sorry, I could not process that.';
-    var typing=document.getElementById('ai-typing');
-    if(typing)typing.outerHTML='<div style="background:rgba(26,35,126,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;align-self:flex-start;line-height:1.6;">'+reply+'</div>';
-  }catch(e){
-    var typing=document.getElementById('ai-typing');
-    if(typing)typing.outerHTML='<div style="background:rgba(239,68,68,0.06);border-radius:12px;padding:10px 14px;font-size:13px;color:#c0392b;max-width:85%;align-self:flex-start;">Error: '+(e.message||'AI service unavailable')+'</div>';
-  }
-  container.scrollTop=container.scrollHeight;
-}
-</script>
-
-<!-- GDC Calculator Script -->
-<script src="js/gdc.js"></script>
-
-
-<script>
-PhysicismAuth.renderAuthButton('authBtnContainer');
-</script>
-
+<script src="js/asp-ui.js?v=1" defer></script>
+<script src="js/asp-course.js?v=1" defer></script>
 </body>
 </html>

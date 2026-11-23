@@ -1,230 +1,237 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js" data-theme="light">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IGCSE Physics Dashboard | Atul Soral Physicism</title>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#f5f6fb;--surface:#ffffff;--card:#ffffff;--card2:#f0f1f8;
-  --text:#1c1f33;--text2:#535873;--text3:#8b90ab;--border:rgba(28,31,51,.10);
-  --ig:#6c4cff;--ig-soft:rgba(124,92,255,.12);--ig-glow:rgba(124,92,255,.22);
-  --core:#16a34a;--core-soft:rgba(22,163,74,.12);
-  --ext:#d97706;--ext-soft:rgba(217,119,6,.12);
-}
-[data-theme="dark"]{
-  --bg:#141227;--surface:#211d3d;--card:#211d3d;--card2:#2a2450;
-  --text:#e8e5f7;--text2:#a8a2c8;--text3:#7a739e;--border:rgba(139,109,255,.15);
-  --ig:#8b6dff;--ig-soft:rgba(139,109,255,.16);--ig-glow:rgba(139,109,255,.28);
-  --core:#22c55e;--core-soft:rgba(34,197,94,.16);
-  --ext:#fb923c;--ext-soft:rgba(234,88,12,.18);
-}
-html,body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;line-height:1.55;min-height:100%}
-a{color:inherit;text-decoration:none}
-.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
-/* top bar */
-.topbar{position:sticky;top:0;z-index:50;background:rgba(245,246,251,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
-.topbar-inner{display:flex;align-items:center;justify-content:space-between;height:60px}
-.brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.02rem}
-.brand .dot{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--ig),#b39dff);display:flex;align-items:center;justify-content:center;font-size:.8rem;color:#fff}
-.nav{display:flex;align-items:center;gap:6px}
-.nav a{padding:7px 13px;border-radius:9px;font-size:.82rem;color:var(--text2);font-weight:600;transition:.15s}
-.nav a:hover{background:var(--card);color:var(--text)}
-.nav a.active{background:var(--ig-soft);color:var(--ig)}
-#authBtnContainer{margin-left:6px}
-@media(max-width:760px){.nav a.hide-sm{display:none}}
-/* hero */
-.hero{padding:44px 0 26px;position:relative;overflow:hidden}
-.hero::before{content:"";position:absolute;top:-120px;right:-80px;width:340px;height:340px;background:radial-gradient(circle,var(--ig-glow),transparent 68%);pointer-events:none}
-.eyebrow{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--ig);background:var(--ig-soft);padding:5px 12px;border-radius:20px;margin-bottom:14px}
-.hero h1{font-size:2.5rem;font-weight:800;letter-spacing:-.5px;line-height:1.08}
-.hero h1 .accent{background:linear-gradient(120deg,var(--ig),#9b7dff);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-.hero p{color:var(--text2);font-size:1rem;max-width:600px;margin-top:10px}
-.hero-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
-.chip{font-size:.74rem;font-weight:600;color:var(--text2);background:var(--card);border:1px solid var(--border);padding:6px 12px;border-radius:20px}
-.chip b{color:var(--text)}
-/* progress strip */
-.pstrip{display:flex;gap:14px;flex-wrap:wrap;margin:22px 0 6px}
-.pstat{flex:1;min-width:150px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px 16px}
-.pstat .n{font-size:1.5rem;font-weight:800;color:var(--ig)}
-.pstat .l{font-size:.72rem;text-transform:uppercase;letter-spacing:1px;color:var(--text3);font-weight:700;margin-top:2px}
-/* section */
-.section-title{display:flex;align-items:center;gap:10px;margin:34px 0 6px;font-size:.78rem;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
-.section-title::after{content:"";flex:1;height:1px;background:var(--border)}
-/* topic accordion */
-.topic{margin-top:14px;background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:border-color .2s}
-.topic:hover{border-color:rgba(124,92,255,.35)}
-.topic-head{display:flex;align-items:center;gap:14px;padding:16px 18px;cursor:pointer;user-select:none}
-.topic-num{flex-shrink:0;width:42px;height:42px;border-radius:12px;background:var(--ig-soft);color:var(--ig);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.05rem;border:1px solid rgba(124,92,255,.3)}
-.topic-info{flex:1;min-width:0}
-.topic-info h3{font-size:1.06rem;font-weight:700}
-.topic-info .sub{font-size:.78rem;color:var(--text3);margin-top:1px}
-.topic-count{font-size:.72rem;font-weight:700;color:var(--text2);background:var(--card2);padding:4px 10px;border-radius:20px;flex-shrink:0}
-.caret{flex-shrink:0;color:var(--text3);transition:transform .25s;font-size:1.1rem}
-.topic.open .caret{transform:rotate(90deg)}
-.topic-body{display:none;padding:2px 18px 16px;border-top:1px solid var(--border)}
-.topic.open .topic-body{display:block}
-.sub-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(258px,1fr));gap:10px;margin-top:14px}
-.sub-card{display:flex;align-items:flex-start;gap:10px;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px 14px;transition:.15s;cursor:pointer}
-.sub-card:hover{transform:translateY(-2px);border-color:var(--ig);box-shadow:0 8px 20px rgba(108,76,255,.14)}
-.sub-code{flex-shrink:0;font-size:.72rem;font-weight:800;color:var(--ig);background:var(--ig-soft);border-radius:7px;padding:3px 7px;margin-top:1px}
-.sub-name{font-size:.86rem;font-weight:600;line-height:1.35}
-.badge{display:inline-block;font-size:.6rem;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:2px 7px;border-radius:20px;margin-top:6px}
-.b-core{background:var(--core-soft);color:var(--core)}
-.b-ext{background:var(--ext-soft);color:var(--ext)}
-.b-both{background:var(--ig-soft);color:var(--ig)}
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:12px;font-size:.74rem;color:var(--text2)}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{width:10px;height:10px;border-radius:3px;display:inline-block}
-footer{margin:50px 0 30px;text-align:center;color:var(--text3);font-size:.78rem}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('physicism-theme') || 'light'); } catch (e) {}</script>
+<title>Cambridge IGCSE Physics 0625 · Atul Soral Physicism</title>
+<meta name="description" content="Cambridge IGCSE Physics 0625: all six topics and 24 subtopics with Core and Extended content marked, simulations and exam paper guide, by Atul Soral.">
+<link rel="canonical" href="https://soralatul16.github.io/atul-soral-physicism/igcse-dashboard.html">
+<meta name="theme-color" content="#f7f3ed">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%234ecdc4'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='white'%3E%E2%9A%9B%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/asp-base.css?v=1">
+<link rel="stylesheet" href="css/asp-course.css?v=1">
+<link rel="stylesheet" href="css/asp-glass.css?v=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-9JDXQ282H8');</script>
 </head>
-<body>
 
-<div class="topbar">
-  <div class="wrap topbar-inner">
-    <a class="brand" href="index.html"><span class="dot">AS</span> Atul Soral Physicism</a>
-    <nav class="nav">
-      <a href="index.html" class="hide-sm">Home</a>
-      <a href="igcse-dashboard.html" class="active">IGCSE</a>
-      <a href="myp-dashboard.html" class="hide-sm">MYP</a>
-      <a href="dp-dashboard.html" class="hide-sm">DP</a><a href="igcse-simulations.html">Simulators</a>
-      <button onclick="igToggleTheme()" id="igThemeBtn" style="padding:7px 13px;border-radius:9px;font-size:.82rem;font-weight:600;border:1px solid var(--border);background:var(--card);color:var(--text2);cursor:pointer">🌙</button>
-      <span id="authBtnContainer"></span>
+<body class="c-igcse">
+<a class="skip" href="#main">Skip to content</a>
+<div class="asp-bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+
+<header class="nav">
+  <div class="nav__in">
+    <a class="gb gb--sm nav__back" href="index.html" data-back aria-label="Go back"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Back</a>
+    <a class="gb gb--icon nav__home" href="index.html" aria-label="Home" title="Home"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></a>
+    <a class="brand" href="index.html" aria-label="Atul Soral Physicism, home"><span class="brand__mark" aria-hidden="true">&#9883;</span>Atul Soral <span>Physicism</span></a>
+    <button class="gb gb--icon nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <nav class="nav__links" id="navLinks" aria-label="Main">
+      <a class="nav__link" href="igcse-dashboard.html" aria-current="page">IGCSE</a>
+      <a class="nav__link" href="myp-dashboard.html">MYP</a>
+      <a class="nav__link" href="dp-dashboard.html">DP</a>
+      <a class="nav__link" href="index.html#tools">Simulators</a>
+      <a class="nav__link" href="dp-student-portal.html">Student Portal</a>
+      <span class="nav__sep" aria-hidden="true"></span>
+      <span data-auth><button class="gb gb--sm" type="button" data-action="signin">Sign in</button></span>
+      <a class="gb gb--sm gb--dark" href="https://wa.me/917877199443" target="_blank" rel="noopener">Book tutoring</a>
     </nav>
+    <button class="gb gb--icon nav__theme" type="button" data-action="theme" aria-label="Switch between light and dark mode" title="Light / dark">&#127763;</button>
   </div>
-</div>
+</header>
 
-<div class="hero">
-  <div class="wrap">
-    <span class="eyebrow">Cambridge IGCSE · 0625</span>
-    <h1>IGCSE <span class="accent">Physics</span> Dashboard</h1>
-    <p>Your hub for Cambridge IGCSE Physics (0625) — 6 topics, 25 subtopics, with Core and Extended content clearly marked. Built for exams 2026–2028.</p>
-    <div class="hero-meta">
-      <span class="chip"><b>6</b> Topics</span>
-      <span class="chip"><b>25</b> Subtopics</span>
-      <span class="chip"><b>Core</b> + <b>Extended</b></span>
-      <span class="chip">Papers <b>1–6</b></span>
+<main id="main" class="wrap">
+
+  <section class="c-hero" aria-labelledby="pageTitle">
+    <div class="reveal">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><span>IGCSE Physics</span></nav>
+      <p class="c-badge">CAMBRIDGE IGCSE &middot; 0625 &middot; EXAMS 2026&ndash;2028</p>
+      <h1 id="pageTitle">IGCSE Physics, <em>topic by topic</em></h1>
+      <p class="c-hero__lede">All six syllabus topics with Core and Extended content clearly marked. Choose your tier, open a subtopic to study it, then test the idea in a simulation.</p>
+      <div class="c-hero__cta">
+        <a class="gb gb--dark" href="#topics">Browse topics
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg></a>
+        <a class="gb gb--tint c-igcse" href="igcse-simulations.html">&#9889; IGCSE simulators</a>
+        <a class="gb" href="#papers">Exam papers</a>
+      </div>
     </div>
-    <div class="pstrip">
-      <div class="pstat"><div class="n">6</div><div class="l">Topics</div></div>
-      <div class="pstat"><div class="n">25</div><div class="l">Subtopics</div></div>
-      <div class="pstat"><div class="n">0625</div><div class="l">Syllabus code</div></div>
-      <div class="pstat"><div class="n">A*–G</div><div class="l">Grade range</div></div>
+
+    <aside class="path reveal" aria-label="How to use this page">
+      <p class="path__title">How to study with this page</p>
+      <ol>
+        <li><div><b>Choose Core or Extended</b><span>The list shows only what your papers test.</span></div></li>
+        <li><div><b>Open a subtopic</b><span>Read the notes, worked examples and key terms.</span></div></li>
+        <li><div><b>Try the simulation</b><span>Change one variable and watch what happens.</span></div></li>
+      </ol>
+      <dl class="path__facts"><div><dt>Topics</dt><dd>6</dd></div><div><dt>Subtopics</dt><dd>24</dd></div><div><dt>Simulations</dt><dd>10</dd></div></dl>
+    </aside>
+  </section>
+
+  <div class="jump reveal" role="navigation" aria-label="On this page">
+    <a href="#topics">Topics</a>
+    <a href="#papers">Exam papers</a>
+    <a href="#tools">Tools</a>
+    <div class="jump__tools">
+      <div class="seg" role="group" aria-label="Show content for" data-filter-level="igcse-tier">
+        <button type="button" data-level="core" aria-pressed="false">Core</button>
+        <button type="button" data-level="ext" aria-pressed="true">Extended</button>
+      </div>
+      <label class="find"><span class="sr-only">Search subtopics</span>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" placeholder="Search subtopics  ( / )" data-find autocomplete="off"></label>
     </div>
   </div>
-</div>
 
-<div class="wrap">
-  <div class="section-title">Syllabus Topics</div>
-  <div class="legend">
-    <span><i style="background:var(--core)"></i> Core (all candidates)</span>
-    <span><i style="background:var(--ext)"></i> Extended / Supplement</span>
-    <span><i style="background:var(--ig)"></i> Core + Extended</span>
+  <!-- Topics -->
+  <section class="sec" id="topics" aria-labelledby="topicsTitle">
+    <div class="sec-hdr reveal" style="--c:var(--igcse)">
+      <span class="sec-hdr__dot" aria-hidden="true"></span>
+      <h2 id="topicsTitle">Syllabus topics</h2>
+      <span class="sec-hdr__line" aria-hidden="true"></span>
+      <span class="sec-hdr__eq" aria-hidden="true">v = f&lambda;</span>
+    </div>
+    <p class="sec-sub reveal"><span class="lv lv-both">CORE + EXT</span> both tiers &nbsp; <span class="lv lv-core">CORE</span> Core paper focus &nbsp; <span class="lv lv-ext">EXT</span> Extended only</p>
+
+    <div class="grid g3">
+      <article class="card topic bg-violet reveal" data-find-group>
+        <div class="topic__head"><span class="num" aria-hidden="true">1</span><div><h3>Motion, Forces and Energy</h3><small>8 subtopics &middot; 9 simulations</small></div></div>
+        <ul class="subs">
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG1.1"><code>1.1</code><span>Physical quantities &amp; measurement</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG1.2"><code>1.2</code><span>Motion</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG1.3"><code>1.3</code><span>Mass and weight</span><i class="lv lv-core">CORE</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG1.4"><code>1.4</code><span>Density</span><i class="lv lv-core">CORE</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG1.5"><code>1.5</code><span>Forces</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="ext"><a href="igcse-sub.html?code=IG1.6"><code>1.6</code><span>Momentum</span><i class="lv lv-ext">EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG1.7"><code>1.7</code><span>Energy, work and power</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG1.8"><code>1.8</code><span>Pressure</span><i class="lv lv-both">CORE + EXT</i></a></li>
+        </ul>
+        <div class="chips"><span class="chips__label">Simulations</span>
+          <a class="gb gb--sm" href="sims/igcse-measurement.html">Measurement</a>
+          <a class="gb gb--sm" href="sims/igcse-motion.html">Motion</a>
+          <a class="gb gb--sm" href="sims/igcse-mass-weight.html">Mass &amp; weight</a>
+          <a class="gb gb--sm" href="sims/igcse-centre-of-gravity.html">Centre of gravity</a>
+          <a class="gb gb--sm" href="sims/igcse-momentum.html">Momentum</a>
+          <a class="gb gb--sm" href="sims/igcse-momentum-lab.html">Momentum lab</a>
+          <a class="gb gb--sm" href="sims/igcse-energy.html">Energy</a>
+          <a class="gb gb--sm" href="sims/igcse-work.html">Work</a>
+          <a class="gb gb--sm" href="sims/igcse-energy-resources.html">Energy resources</a>
+        </div>
+      </article>
+
+      <article class="card topic bg-coral reveal" data-find-group>
+        <div class="topic__head"><span class="num" aria-hidden="true">2</span><div><h3>Thermal Physics</h3><small>3 subtopics</small></div></div>
+        <ul class="subs">
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG2.1"><code>2.1</code><span>Kinetic particle model of matter</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG2.2"><code>2.2</code><span>Thermal properties &amp; temperature</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG2.3"><code>2.3</code><span>Transfer of thermal energy</span><i class="lv lv-both">CORE + EXT</i></a></li>
+        </ul>
+        <div class="chips"><span class="chips__label">Simulations</span><span class="soon">Coming soon</span></div>
+      </article>
+
+      <article class="card topic bg-blue reveal" data-find-group>
+        <div class="topic__head"><span class="num" aria-hidden="true">3</span><div><h3>Waves</h3><small>4 subtopics</small></div></div>
+        <ul class="subs">
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG3.1"><code>3.1</code><span>General properties of waves</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG3.2"><code>3.2</code><span>Light</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG3.3"><code>3.3</code><span>Electromagnetic spectrum</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG3.4"><code>3.4</code><span>Sound</span><i class="lv lv-both">CORE + EXT</i></a></li>
+        </ul>
+        <div class="chips"><span class="chips__label">Simulations</span><span class="soon">Coming soon</span></div>
+      </article>
+
+      <article class="card topic bg-amber reveal" data-find-group>
+        <div class="topic__head"><span class="num" aria-hidden="true">4</span><div><h3>Electricity and Magnetism</h3><small>5 subtopics &middot; 1 simulation</small></div></div>
+        <ul class="subs">
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG4.1"><code>4.1</code><span>Simple phenomena of magnetism</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG4.2"><code>4.2</code><span>Electrical quantities</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG4.3"><code>4.3</code><span>Electric circuits</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG4.4"><code>4.4</code><span>Electrical safety</span><i class="lv lv-core">CORE</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG4.5"><code>4.5</code><span>Electromagnetic effects</span><i class="lv lv-both">CORE + EXT</i></a></li>
+        </ul>
+        <div class="chips"><span class="chips__label">Simulations</span><a class="gb gb--sm" href="sims/igcse-electricity.html">Electricity</a></div>
+      </article>
+
+      <article class="card topic bg-green reveal" data-find-group>
+        <div class="topic__head"><span class="num" aria-hidden="true">5</span><div><h3>Nuclear Physics</h3><small>2 subtopics</small></div></div>
+        <ul class="subs">
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG5.1"><code>5.1</code><span>The nuclear model of the atom</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG5.2"><code>5.2</code><span>Radioactivity</span><i class="lv lv-both">CORE + EXT</i></a></li>
+        </ul>
+        <div class="chips"><span class="chips__label">Simulations</span><span class="soon">Coming soon</span></div>
+      </article>
+
+      <article class="card topic bg-purple reveal" data-find-group>
+        <div class="topic__head"><span class="num" aria-hidden="true">6</span><div><h3>Space Physics</h3><small>2 subtopics</small></div></div>
+        <ul class="subs">
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG6.1"><code>6.1</code><span>Earth and the Solar System</span><i class="lv lv-both">CORE + EXT</i></a></li>
+          <li data-find-item data-levels="core ext"><a href="igcse-sub.html?code=IG6.2"><code>6.2</code><span>Stars and the Universe</span><i class="lv lv-both">CORE + EXT</i></a></li>
+        </ul>
+        <div class="chips"><span class="chips__label">Simulations</span><span class="soon">Coming soon</span></div>
+      </article>
+    </div>
+    <p class="empty" id="findEmpty">No subtopic matches that search. Press Esc to clear it.</p>
+  </section>
+
+  <div class="connector" aria-hidden="true"></div>
+
+  <!-- Papers -->
+  <section class="sec" id="papers" aria-labelledby="papersTitle">
+    <div class="sec-hdr reveal" style="--c:var(--coral)">
+      <span class="sec-hdr__dot" aria-hidden="true"></span>
+      <h2 id="papersTitle">Your exam papers</h2>
+      <span class="sec-hdr__line" aria-hidden="true"></span>
+      <span class="sec-hdr__eq" aria-hidden="true">P = F/A</span>
+    </div>
+    <p class="sec-sub reveal">You sit three papers: one multiple choice, one theory, one practical. Core candidates take 1, 3 and 5 or 6; Extended take 2, 4 and 5 or 6.</p>
+    <div class="table-scroll reveal">
+      <table class="paper-table">
+        <thead><tr><th scope="col">Paper</th><th scope="col">Type</th><th scope="col">Tier</th><th scope="col">Time</th><th scope="col">Marks</th><th scope="col">Weight</th></tr></thead>
+        <tbody>
+          <tr><td>Paper 1</td><td>Multiple choice</td><td><span class="lv lv-core">CORE</span></td><td>45 min</td><td>40</td><td class="w">30%</td></tr>
+          <tr><td>Paper 2</td><td>Multiple choice</td><td><span class="lv lv-ext">EXT</span></td><td>45 min</td><td>40</td><td class="w">30%</td></tr>
+          <tr><td>Paper 3</td><td>Theory</td><td><span class="lv lv-core">CORE</span></td><td>1 h 15 min</td><td>80</td><td class="w">50%</td></tr>
+          <tr><td>Paper 4</td><td>Theory</td><td><span class="lv lv-ext">EXT</span></td><td>1 h 15 min</td><td>80</td><td class="w">50%</td></tr>
+          <tr><td>Paper 5</td><td>Practical test</td><td><span class="lv lv-both">BOTH</span></td><td>1 h 15 min</td><td>40</td><td class="w">20%</td></tr>
+          <tr><td>Paper 6</td><td>Alternative to practical</td><td><span class="lv lv-both">BOTH</span></td><td>1 h</td><td>40</td><td class="w">20%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note reveal">Your school chooses Paper 5 or Paper 6. Always check the Cambridge syllabus for your exam year.</p>
+  </section>
+
+  <div class="connector" aria-hidden="true"></div>
+
+  <!-- Tools -->
+  <section class="sec" id="tools" aria-labelledby="toolsTitle">
+    <div class="sec-hdr reveal" style="--c:var(--purple)">
+      <span class="sec-hdr__dot" aria-hidden="true"></span>
+      <h2 id="toolsTitle">Tools for revision</h2>
+      <span class="sec-hdr__line" aria-hidden="true"></span>
+    </div>
+    <p class="sec-sub reveal">Useful for homework, practicals and the week before a paper.</p>
+    <div class="grid g4">
+      <a class="card tile bg-violet reveal" href="igcse-simulations.html"><span class="card__icon" aria-hidden="true">&#9889;</span><div><h3>IGCSE simulators</h3><p>Every IGCSE simulation in one place</p></div></a>
+      <a class="card tile bg-purple reveal" href="graph-lab.html"><span class="card__icon" aria-hidden="true">&#128200;</span><div><h3>Graph Plotting Lab</h3><p>Best-fit lines for Paper 5 and 6</p></div></a>
+      <a class="card tile bg-green reveal" href="concept-map-bank.html"><span class="card__icon" aria-hidden="true">&#128506;</span><div><h3>Concept Maps</h3><p>How the topics connect</p></div></a>
+      <a class="card tile bg-amber reveal" href="gdc-calculator.html"><span class="card__icon" aria-hidden="true">&#129518;</span><div><h3>Scientific Calculator</h3><p>For practice papers</p></div></a>
+    </div>
+  </section>
+
+  <section class="band reveal" aria-labelledby="bandTitle">
+    <div><h2 id="bandTitle">&#128203; My assignments</h2><p>Sign in to see homework and tests your teacher has set, with your marks and feedback.</p></div>
+    <div class="band__cta"><a class="gb gb--dark" href="dp-student-portal.html">Open Student Portal &rarr;</a></div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div>
+    <p class="footer__eq" aria-hidden="true">&Delta;x &middot; &Delta;p &ge; &#8463;/2</p>
+    <p>&copy; 2026 Atul Soral Physicism &bull; <a href="mailto:atulsoralphysicism@gmail.com">atulsoralphysicism@gmail.com</a></p>
   </div>
-  <div id="topics"></div>
-</div>
+  <p class="footer__fine">Independent study resources. Not affiliated with or endorsed by Cambridge International.</p>
+</footer>
 
-<footer>Atul Soral Physicism · Cambridge IGCSE Physics 0625 (2026–2028)</footer>
-
-<script>
-var IGCSE_TOPICS = [
-  { code:"IG1", name:"Motion, Forces and Energy", subs:[
-    {c:"IG1.1", n:"Physical quantities & measurement techniques", t:"both"},
-    {c:"IG1.2", n:"Motion", t:"both"},
-    {c:"IG1.3", n:"Mass and weight", t:"core"},
-    {c:"IG1.4", n:"Density", t:"core"},
-    {c:"IG1.5", n:"Forces", t:"both"},
-    {c:"IG1.6", n:"Momentum", t:"ext"},
-    {c:"IG1.7", n:"Energy, work and power", t:"both"},
-    {c:"IG1.8", n:"Pressure", t:"both"}
-  ]},
-  { code:"IG2", name:"Thermal Physics", subs:[
-    {c:"IG2.1", n:"Kinetic particle model of matter", t:"both"},
-    {c:"IG2.2", n:"Thermal properties & temperature", t:"both"},
-    {c:"IG2.3", n:"Transfer of thermal energy", t:"both"}
-  ]},
-  { code:"IG3", name:"Waves", subs:[
-    {c:"IG3.1", n:"General properties of waves", t:"both"},
-    {c:"IG3.2", n:"Light", t:"both"},
-    {c:"IG3.3", n:"Electromagnetic spectrum", t:"both"},
-    {c:"IG3.4", n:"Sound", t:"both"}
-  ]},
-  { code:"IG4", name:"Electricity and Magnetism", subs:[
-    {c:"IG4.1", n:"Simple phenomena of magnetism", t:"both"},
-    {c:"IG4.2", n:"Electrical quantities", t:"both"},
-    {c:"IG4.3", n:"Electric circuits", t:"both"},
-    {c:"IG4.4", n:"Electrical safety", t:"core"},
-    {c:"IG4.5", n:"Electromagnetic effects", t:"both"}
-  ]},
-  { code:"IG5", name:"Nuclear Physics", subs:[
-    {c:"IG5.1", n:"The nuclear model of the atom", t:"both"},
-    {c:"IG5.2", n:"Radioactivity", t:"both"}
-  ]},
-  { code:"IG6", name:"Space Physics", subs:[
-    {c:"IG6.1", n:"Earth & the Solar System", t:"both"},
-    {c:"IG6.2", n:"Stars & the Universe", t:"both"}
-  ]}
-];
-
-function badge(t){
-  if(t==="core") return '<span class="badge b-core">Core</span>';
-  if(t==="ext")  return '<span class="badge b-ext">Extended</span>';
-  return '<span class="badge b-both">Core + Ext</span>';
-}
-
-function renderTopics(){
-  var box=document.getElementById('topics');
-  box.innerHTML = IGCSE_TOPICS.map(function(tp,idx){
-    var subs = tp.subs.map(function(s){
-      return '<div class="sub-card" onclick="openSub(\''+s.c+'\')">'+
-        '<span class="sub-code">'+s.c.replace('IG','')+'</span>'+
-        '<div><div class="sub-name">'+s.n+'</div>'+badge(s.t)+'</div>'+
-      '</div>';
-    }).join('');
-    return '<div class="topic'+(idx===0?' open':'')+'" id="t-'+tp.code+'">'+
-      '<div class="topic-head" onclick="toggleTopic(\''+tp.code+'\')">'+
-        '<div class="topic-num">'+tp.code.replace('IG','')+'</div>'+
-        '<div class="topic-info"><h3>'+tp.name+'</h3><div class="sub">'+tp.subs.length+' subtopics</div></div>'+
-        '<span class="topic-count">'+tp.subs.length+'</span>'+
-        '<span class="caret">›</span>'+
-      '</div>'+
-      '<div class="topic-body"><div class="sub-grid">'+subs+'</div></div>'+
-    '</div>';
-  }).join('');
-}
-
-function toggleTopic(code){
-  document.getElementById('t-'+code).classList.toggle('open');
-}
-
-function openSub(code){
-  window.location.href = 'igcse-sub.html?code=' + encodeURIComponent(code);
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  renderTopics();
-});
-</script>
-
-<script src="exam-system/firebase-config.js?v=2"></script>
-<script src="js/auth.js"></script>
-<script>
-try{ if(window.PhysicismAuth && PhysicismAuth.renderAuthButton){ PhysicismAuth.renderAuthButton('authBtnContainer'); } }catch(e){ console.warn('auth button', e); }
-</script>
-<script>
-(function(){ if(localStorage.getItem('ig_theme')==='dark') document.documentElement.setAttribute('data-theme','dark'); })();
-function igToggleTheme(){
-  var d=document.documentElement.getAttribute('data-theme')==='dark';
-  if(d){document.documentElement.removeAttribute('data-theme');localStorage.setItem('ig_theme','light');}
-  else{document.documentElement.setAttribute('data-theme','dark');localStorage.setItem('ig_theme','dark');}
-  var b=document.getElementById('igThemeBtn'); if(b) b.textContent=d?'🌙':'☀️';
-}
-document.addEventListener('DOMContentLoaded',function(){ var b=document.getElementById('igThemeBtn'); if(b&&document.documentElement.getAttribute('data-theme')==='dark') b.textContent='☀️'; });
-</script>
+<script src="js/asp-ui.js?v=1" defer></script>
+<script src="js/asp-course.js?v=1" defer></script>
 </body>
 </html>

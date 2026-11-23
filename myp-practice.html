@@ -1,0 +1,1461 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-9JDXQ282H8');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MYP Dashboard | Atul Soral Physicism</title>
+<style>
+:root {
+  /* Light theme (default) */
+  --bg: #f5f0e8;
+  --bg-deep: #f0ebe2;
+  --surface: rgba(255,255,255,0.75);
+  --surface2: rgba(255,255,255,0.55);
+  --white: #ffffff;
+  --text: #1a1a2e;
+  --text2: #555;
+  --text3: #888;
+  --border: rgba(0,0,0,0.06);
+  --accent: #c0392b;
+  /* Theme mappings for MYP Dashboard */
+  --cream: var(--bg);
+  --cream-2: var(--bg-deep);
+  --ink: var(--text);
+  --ink-2: var(--text2);
+  --ink-3: var(--text2);
+  --ink-4: var(--text3);
+  --ink-5: var(--text3);
+  --glass: var(--surface);
+  --glass-border: var(--border);
+
+  --red:#ef4444;--red-dark:#991b1b;--red-pale:#fde8e6;--red-soft:#f7c5c0;
+  --teal:#4ecdc4;--teal-pale:#e0f7f5;--teal-soft:#b2ece6;
+  --blue:#5b9bd5;--blue-pale:#deeaf6;
+  --purple:#b39ddb;--purple-pale:#ede7f6;
+  --amber:#ffd54f;--amber-pale:#fff8e1;
+  --green:#81c784;--green-pale:#e8f5e9;
+  --shadow-sm:0 2px 12px rgba(26,26,46,0.06);
+  --shadow-md:0 8px 28px rgba(26,26,46,0.08);
+  --shadow-lg:0 16px 48px rgba(26,26,46,0.1);
+  --r:16px;--r-lg:24px;
+  --font-display:'Palatino Linotype','Book Antiqua',Palatino,Georgia,serif;
+  --font-body:'Avenir Next','Segoe UI',system-ui,-apple-system,sans-serif;
+  --font-mono:'SF Mono','Cascadia Code','Consolas',monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #0f1119;
+  --bg-deep: #141620;
+  --surface: rgba(30,32,45,0.85);
+  --surface2: rgba(30,32,45,0.65);
+  --white: #1e2030;
+  --text: #e0ddd5;
+  --text2: #a0a0b0;
+  --text3: #6a6a7a;
+  --border: rgba(255,255,255,0.06);
+  --accent: #e05040;
+  --cream: #1a1c28;
+}
+
+[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--text);
+}
+[data-theme="dark"] img {
+  opacity: 0.92;
+}
+[data-theme="dark"] .topbar,
+[data-theme="dark"] .navbar {
+  background: var(--surface);
+  border-bottom-color: var(--border);
+}
+[data-theme="dark"] input,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea {
+  background: var(--white);
+  color: var(--text);
+  border-color: var(--border);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--cream);color:var(--ink);min-height:100vh;overflow-x:hidden;font-size:15px;line-height:1.6;}
+
+/* ── BG ── */
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+.bg-image{position:fixed;inset:0;z-index:0;pointer-events:none;background:url('./exam-system/assets/myp-background-image.png') center/cover no-repeat fixed;opacity:0.1;}
+.physics-grid{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.02;
+  background:linear-gradient(rgba(239,68,68,0.3) 1px,transparent 1px),linear-gradient(90deg,rgba(239,68,68,0.3) 1px,transparent 1px);
+  background-size:80px 80px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,black 10%,transparent 80%);}
+
+/* ── NAVBAR ── */
+.navbar{
+  position:sticky;top:0;z-index:100;
+  background:var(--glass);backdrop-filter:blur(24px) saturate(1.5);-webkit-backdrop-filter:blur(24px) saturate(1.5);
+  border-bottom:1px solid var(--glass-border);
+  padding:0 36px;height:64px;display:flex;align-items:center;gap:16px;
+}
+.nav-brand{
+  font-family:var(--font-display);font-size:18px;font-weight:600;
+  color:var(--ink);text-decoration:none;display:flex;align-items:center;gap:10px;
+}
+.nav-dot{
+  width:10px;height:10px;background:var(--red);border-radius:50%;
+  box-shadow:0 0 8px var(--red);animation:navPulse 2s infinite;flex-shrink:0;
+}
+@keyframes navPulse{0%,100%{opacity:1;box-shadow:0 0 8px var(--red)}50%{opacity:.6;box-shadow:0 0 16px var(--red)}}
+.nav-brand span{color:var(--red);}
+.nav-spacer{flex:1;}
+.nav-links{display:flex;align-items:center;gap:6px;}
+.nav-link{
+  padding:8px 18px;border-radius:50px;font-size:13px;font-weight:600;
+  color:var(--ink-3);text-decoration:none;transition:all .25s;cursor:pointer;
+}
+.nav-link:hover{background:var(--red-pale);color:var(--red);}
+
+/* ── HERO BANNER ── */
+.hero{
+  max-width:1100px;margin:0 auto;padding:28px 36px 0;position:relative;z-index:1;
+}
+.hero-banner{
+  background:linear-gradient(135deg,#ef4444 0%,#b91c1c 60%,#7f1d1d 100%);
+  border-radius:var(--r-lg);padding:36px 40px;position:relative;overflow:hidden;
+  display:flex;align-items:center;gap:32px;color:white;
+}
+.hero-banner::before{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(45deg,transparent,transparent 40px,rgba(255,255,255,.03) 40px,rgba(255,255,255,.03) 80px);
+}
+.hero-banner::after{
+  content:'';position:absolute;top:-60px;right:-60px;width:260px;height:260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,255,255,0.12) 0%,transparent 70%);pointer-events:none;
+}
+.hero-content{flex:1;position:relative;z-index:1;}
+.hero-eyebrow{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.7;margin-bottom:8px;
+}
+.hero-banner h1{
+  font-family:var(--font-display);font-size:32px;font-weight:600;
+  line-height:1.15;letter-spacing:-.01em;margin-bottom:8px;
+}
+.hero-tagline{font-size:14px;opacity:.7;letter-spacing:.15em;text-transform:uppercase;}
+.hero-visual{
+  position:relative;z-index:1;width:160px;flex-shrink:0;text-align:center;
+}
+.hero-eq{
+  font-family:var(--font-mono);font-size:13px;color:rgba(255,255,255,0.5);
+  background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);
+  border-radius:10px;padding:6px 12px;display:inline-block;
+  animation:eqBob 3.5s ease-in-out infinite;
+}
+.hero-eq:nth-child(2){animation-delay:.8s;margin-top:8px;}
+.hero-eq:nth-child(3){animation-delay:1.6s;margin-top:8px;}
+@keyframes eqBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* ── MAIN LAYOUT ── */
+.main{max-width:1100px;margin:0 auto;padding:24px 36px 80px;position:relative;z-index:1;}
+
+/* ── PRACTICE CARDS ── */
+.practice-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:28px;}
+.practice-card{
+  background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border:1.5px solid var(--glass-border);border-radius:var(--r-lg);
+  padding:28px;cursor:pointer;transition:all .3s;text-decoration:none;color:var(--ink);
+  display:flex;align-items:center;gap:20px;position:relative;overflow:hidden;
+  box-shadow:var(--shadow-sm),inset 0 1px 0 rgba(255,255,255,0.4);
+}
+.practice-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg),inset 0 1px 0 rgba(255,255,255,0.5);border-color:var(--red-soft);}
+.practice-card:hover .pc-icon{transform:scale(1.1) rotate(-5deg);}
+.pc-icon{
+  width:56px;height:56px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;font-size:28px;
+  flex-shrink:0;transition:transform .3s;
+}
+.pc-icon-red{background:var(--red-pale);}
+.pc-icon-teal{background:var(--teal-pale);}
+.pc-icon-purple{background:var(--purple-pale);}
+.pc-icon-green{background:var(--green-pale);}
+.pc-icon-blue{background:var(--blue-pale);}
+.pc-info{flex:1;}
+.pc-label{font-family:var(--font-display);font-size:18px;font-weight:600;margin-bottom:4px;}
+.pc-desc{font-size:13px;color:var(--ink-4);}
+.pc-arrow{
+  width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,0.6);
+  display:flex;align-items:center;justify-content:center;font-size:14px;
+  color:var(--ink-4);transition:all .3s;opacity:.5;
+}
+.practice-card:hover .pc-arrow{opacity:1;transform:translateX(3px);}
+
+/* ── SECTION HEADER ── */
+.section-hdr{display:flex;align-items:center;gap:12px;margin:32px 0 18px;}
+.section-hdr-dot{width:10px;height:10px;border-radius:50%;position:relative;}
+.section-hdr-dot::after{content:'';position:absolute;inset:-3px;border-radius:50%;border:1.5px dashed currentColor;opacity:.3;animation:spinSlow 8s linear infinite;}
+@keyframes spinSlow{to{transform:rotate(360deg);}}
+.section-hdr h2{font-family:var(--font-display);font-size:20px;font-weight:600;color:var(--ink);}
+.section-hdr-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(26,26,46,0.1),transparent);}
+.section-hdr-eq{font-family:var(--font-mono);font-size:11px;color:rgba(26,26,46,0.08);}
+
+/* ── TOPIC GRID ── */
+.topic-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;}
+.topic-card{
+  background:var(--white);border:1.5px solid rgba(26,26,46,0.06);
+  border-radius:var(--r);padding:20px;cursor:pointer;
+  transition:all .3s;position:relative;overflow:hidden;
+  display:flex;flex-direction:column;gap:10px;
+}
+.topic-card:hover:not(.locked){transform:translateY(-4px);box-shadow:var(--shadow-md);border-color:var(--red-soft);}
+.topic-card:hover:not(.locked) .tc-arrow{opacity:1;transform:translateX(3px);}
+.topic-card.locked{opacity:.45;cursor:not-allowed;}
+.topic-card.locked::after{
+  content:'Coming Soon';position:absolute;top:10px;right:10px;
+  font-family:var(--font-mono);font-size:9px;font-weight:600;
+  color:var(--ink-5);background:rgba(26,26,46,0.04);
+  padding:2px 8px;border-radius:50px;letter-spacing:.06em;
+}
+.tc-top{display:flex;align-items:center;justify-content:space-between;}
+.tc-emoji{font-size:24px;}
+.tc-arrow{
+  font-size:12px;color:var(--ink-5);opacity:.3;transition:all .3s;
+}
+.tc-name{font-size:14px;font-weight:600;color:var(--ink);}
+.tc-status{
+  font-family:var(--font-mono);font-size:10px;font-weight:600;
+  padding:3px 8px;border-radius:50px;display:inline-flex;align-items:center;gap:4px;
+  width:fit-content;
+}
+.tc-ready{background:var(--green-pale);color:#2e7d32;}
+.tc-locked-pill{background:rgba(26,26,46,0.04);color:var(--ink-5);}
+
+/* ── FORMULA MODAL — restyled ── */
+.modal-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(26,26,46,0.4);z-index:200;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  overflow-y:auto;padding:32px 16px;
+}
+.modal-overlay.open{display:flex;justify-content:center;align-items:flex-start;}
+.modal{
+  background:var(--cream);border-radius:var(--r-lg);width:100%;max-width:880px;
+  border:1.5px solid rgba(26,26,46,0.08);overflow:hidden;
+  animation:modalUp .3s ease;box-shadow:var(--shadow-lg);
+}
+@keyframes modalUp{from{transform:translateY(30px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-header{
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  padding:22px 28px;display:flex;justify-content:space-between;align-items:center;color:white;
+}
+.modal-header h2{font-family:var(--font-display);margin:0;font-size:18px;font-weight:600;}
+.modal-close{
+  background:rgba(255,255,255,.15);border:none;color:white;
+  width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;transition:background .2s;
+}
+.modal-close:hover{background:rgba(255,255,255,.28);}
+.modal-body{padding:28px;}
+
+.tab-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:24px;}
+.tab-btn{
+  padding:8px 16px;border-radius:50px;
+  border:1.5px solid rgba(26,26,46,0.1);background:var(--white);
+  color:var(--ink-3);font-family:var(--font-body);
+  font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;
+}
+.tab-btn:hover{border-color:var(--red-soft);color:var(--red);}
+.tab-btn.active{background:var(--red);border-color:var(--red);color:white;}
+.formula-section{display:none;}
+.formula-section.active{display:block;}
+
+.formula-table{width:100%;border-collapse:collapse;}
+.formula-table tr{border-bottom:1px solid rgba(26,26,46,0.06);transition:background .2s;}
+.formula-table tr:hover{background:rgba(239,68,68,0.03);}
+.formula-table td{padding:14px 12px;font-size:14px;vertical-align:middle;color:var(--ink-2);}
+.formula-table td:first-child{color:var(--ink-4);font-size:12px;width:140px;font-weight:600;}
+.formula-table td:last-child{text-align:right;white-space:nowrap;}
+
+.flink{
+  color:var(--red);font-family:var(--font-mono);font-size:13px;
+  text-decoration:none;padding:5px 12px;border-radius:50px;
+  border:1.5px solid var(--red-soft);display:inline-block;
+  transition:all .2s;background:var(--red-pale);
+}
+.flink:hover{background:var(--red);color:white;border-color:var(--red);transform:scale(1.05);}
+
+.metric-table{width:100%;border-collapse:collapse;}
+.metric-table th{
+  text-align:left;padding:10px 14px;font-size:11px;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-4);border-bottom:1px solid rgba(26,26,46,0.08);
+}
+.metric-table td{padding:12px 14px;font-size:14px;border-bottom:1px solid rgba(26,26,46,0.04);color:var(--ink-2);}
+.metric-table tr:hover td{background:rgba(239,68,68,0.02);}
+.metric-table td:last-child{font-family:var(--font-mono);color:var(--red);font-size:13px;}
+
+.formula-legend{
+  display:flex;gap:18px;flex-wrap:wrap;margin-top:20px;padding-top:16px;
+  border-top:1px solid rgba(26,26,46,0.06);font-size:12px;color:var(--ink-4);
+}
+
+/* ── FEEDBACK WIDGET ── */
+#fb-trigger{
+  position:fixed;bottom:28px;right:28px;z-index:9000;
+  width:52px;height:52px;border-radius:50%;
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  border:none;cursor:pointer;
+  box-shadow:0 4px 20px rgba(239,68,68,.4);
+  display:flex;align-items:center;justify-content:center;font-size:22px;
+  transition:transform .2s,box-shadow .2s;color:white;
+}
+#fb-trigger:hover{transform:scale(1.1);box-shadow:0 6px 28px rgba(239,68,68,.5);}
+#fb-trigger.spinning{transform:rotate(90deg) scale(1.05);}
+
+#fb-panel{
+  position:fixed;bottom:92px;right:28px;z-index:9000;width:320px;
+  background:var(--cream);border:1.5px solid rgba(26,26,46,0.1);
+  border-radius:var(--r-lg);overflow:hidden;
+  box-shadow:var(--shadow-lg);
+  transform:translateY(20px) scale(.96);opacity:0;pointer-events:none;
+  transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;
+}
+#fb-panel.open{transform:translateY(0) scale(1);opacity:1;pointer-events:all;}
+#fb-panel .fb-head{
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  padding:14px 18px;font-family:var(--font-display);
+  font-size:14px;font-weight:600;color:white;display:flex;align-items:center;gap:8px;
+}
+#fb-panel .fb-body{padding:16px;display:flex;flex-direction:column;gap:11px;}
+#fb-panel .fb-page{
+  font-size:11px;color:var(--ink-4);font-family:var(--font-mono);
+  background:rgba(26,26,46,0.03);padding:6px 10px;border-radius:8px;
+  word-break:break-all;line-height:1.4;
+}
+#fb-panel input,#fb-panel textarea{
+  width:100%;background:var(--white);
+  border:1.5px solid rgba(26,26,46,0.08);border-radius:10px;
+  color:var(--ink);font-family:var(--font-body);font-size:14px;
+  padding:10px 14px;resize:none;outline:none;transition:border-color .2s;
+}
+#fb-panel input::placeholder,#fb-panel textarea::placeholder{color:var(--ink-5);}
+#fb-panel input:focus,#fb-panel textarea:focus{border-color:var(--red-soft);}
+#fb-panel textarea{height:88px;}
+#fb-panel .fb-send{
+  background:linear-gradient(135deg,#ef4444,#b91c1c);
+  border:none;color:white;font-family:var(--font-body);
+  font-size:14px;font-weight:600;padding:11px;border-radius:10px;
+  cursor:pointer;transition:opacity .2s,transform .15s;
+}
+#fb-panel .fb-send:hover{opacity:.9;transform:translateY(-1px);}
+#fb-panel .fb-send:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+#fb-panel .fb-status{font-size:12px;text-align:center;min-height:16px;color:var(--ink-4);}
+#fb-panel .fb-status.ok{color:#2e7d32;}
+#fb-panel .fb-status.err{color:var(--red);}
+
+/* ── ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.4,0,.2,1);}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.stagger-1{transition-delay:.05s;}.stagger-2{transition-delay:.12s;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .navbar{padding:0 16px;}
+  .hero{padding:20px 16px 0;}
+  .hero-banner{padding:28px 24px;flex-direction:column;text-align:center;}
+  .hero-banner h1{font-size:24px;}
+  .hero-visual{display:none;}
+  .main{padding:20px 16px 80px;}
+  .practice-row{grid-template-columns:1fr;}
+  .topic-grid{grid-template-columns:1fr 1fr;}
+  .modal-body{padding:16px;}
+  .tab-btn{font-size:12px;padding:6px 12px;}
+}
+@media(max-width:480px){
+  .topic-grid{grid-template-columns:1fr;}
+  .formula-table td:first-child{width:auto;}
+}
+
+/* ═══ PHYSICS PICTIONARY — SPINNING CUBE BUTTON ═══ */
+.pictionary-btn {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  padding: 20px 28px;
+  background: var(--white, white);
+  border: 1.5px solid var(--border, rgba(0,0,0,0.06));
+  border-radius: 18px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.pictionary-btn:hover {
+  border-color: rgba(192,57,43,0.2);
+  box-shadow: 0 10px 36px rgba(192,57,43,0.1);
+  transform: translateY(-3px);
+}
+.pictionary-btn:hover .cube { animation-play-state: paused; }
+.pictionary-btn:hover .cube-az { opacity: 1; }
+.pictionary-btn:hover::after { opacity: 1; transform: translateX(0); }
+.pictionary-btn::after {
+  content: '→';
+  position: absolute;
+  right: 24px;
+  font-size: 20px;
+  color: #c0392b;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.35s ease;
+}
+
+.cube-container {
+  width: 64px;
+  height: 64px;
+  perspective: 300px;
+  flex-shrink: 0;
+  position: relative;
+}
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: spinCube 8s linear infinite;
+}
+@keyframes spinCube {
+  0% { transform: rotateY(0deg); }
+  25% { transform: rotateY(90deg); }
+  50% { transform: rotateY(180deg); }
+  75% { transform: rotateY(270deg); }
+  100% { transform: rotateY(360deg); }
+}
+.cube-face {
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: white;
+  border-radius: 10px;
+  backface-visibility: hidden;
+}
+.cube-face-front { background: linear-gradient(135deg, #c0392b, #922b21); transform: translateZ(32px); }
+.cube-face-right { background: linear-gradient(135deg, #922b21, #7f1d1d); transform: rotateY(90deg) translateZ(32px); }
+.cube-face-back  { background: linear-gradient(135deg, #e74c3c, #c0392b); transform: rotateY(180deg) translateZ(32px); }
+.cube-face-left  { background: linear-gradient(135deg, #d44637, #c0392b); transform: rotateY(-90deg) translateZ(32px); }
+
+.cube-az {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #c0392b;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background: rgba(192,57,43,0.06);
+  border-radius: 10px;
+  z-index: 10;
+  font-family: -apple-system, system-ui, sans-serif;
+}
+
+.pictionary-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.pictionary-label-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text, #1a1a2e);
+}
+.pictionary-label-desc {
+  font-size: 12px;
+  color: var(--text2, #888);
+}
+
+/* ═══ MY ASSIGNMENTS SECTION ═══ */
+.asgn-section{display:none;}
+.asgn-section.visible{display:block;}
+.asgn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.asgn-card{
+  background:var(--white,#fff);border:1.5px solid var(--glass-border,rgba(0,0,0,0.06));
+  border-radius:var(--r,16px);padding:20px;transition:all .3s;
+  box-shadow:var(--shadow-sm,0 2px 12px rgba(0,0,0,.06));
+}
+.asgn-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md,0 8px 28px rgba(0,0,0,.08));}
+.asgn-card.urgent{border-left:4px solid #EF4444;}
+.asgn-title{font-family:var(--font-display);font-size:16px;font-weight:600;color:var(--ink,#1a1a2e);margin-bottom:8px;}
+.asgn-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;}
+.asgn-badge{
+  font-size:10px;font-weight:700;padding:3px 10px;border-radius:50px;
+  text-transform:uppercase;letter-spacing:.05em;
+}
+.asgn-badge-hw{background:#DBEAFE;color:#1E40AF;}
+.asgn-badge-test{background:#FEE2E2;color:#991B1B;}
+.asgn-badge-quiz{background:#FEF3C7;color:#92400E;}
+.asgn-badge-marks{background:rgba(0,0,0,.04);color:var(--ink-3,#888);}
+.asgn-badge-timer{background:#F3E8FF;color:#6B21A8;}
+.asgn-due{font-size:12px;color:var(--ink-4,#888);margin-bottom:10px;}
+.asgn-due.overdue{color:#DC2626;font-weight:600;}
+.asgn-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.asgn-btn{
+  padding:7px 16px;border-radius:50px;font-size:12px;font-weight:600;
+  border:none;cursor:pointer;transition:all .2s;
+}
+.asgn-btn-primary{background:linear-gradient(135deg,#ef4444,#b91c1c);color:#fff;}
+.asgn-btn-primary:hover{opacity:.9;transform:translateY(-1px);}
+.asgn-btn-outline{background:var(--white,#fff);border:1.5px solid var(--glass-border,rgba(0,0,0,.1));color:var(--ink-2,#555);}
+.asgn-btn-outline:hover{border-color:var(--red,#ef4444);color:var(--red,#ef4444);}
+.asgn-grade{
+  display:flex;align-items:center;gap:10px;margin:10px 0;
+  padding:10px 14px;background:rgba(239,68,68,0.04);border-radius:10px;
+}
+.asgn-grade-score{font-family:var(--font-mono);font-weight:700;font-size:15px;color:var(--red,#ef4444);}
+.asgn-grade-bar{flex:1;height:6px;background:rgba(0,0,0,.06);border-radius:3px;overflow:hidden;}
+.asgn-grade-fill{height:100%;background:linear-gradient(90deg,#ef4444,#b91c1c);border-radius:3px;transition:width .5s;}
+.asgn-grade-pct{font-size:13px;font-weight:700;color:var(--ink,#1a1a2e);}
+.asgn-empty{text-align:center;padding:32px 20px;color:var(--ink-4,#888);font-size:14px;}
+.asgn-empty .icon{font-size:2rem;margin-bottom:8px;}
+
+/* Criterion feedback card */
+.crit-feedback{display:flex;gap:10px;flex-wrap:wrap;margin:8px 0;}
+.crit-fb-box{
+  flex:1;min-width:60px;text-align:center;padding:8px 6px;border-radius:10px;
+  border:1.5px solid var(--glass-border);background:var(--white,#fff);
+}
+.crit-fb-label{font-size:10px;font-weight:700;letter-spacing:.05em;margin-bottom:4px;}
+.crit-fb-level{font-size:20px;font-weight:800;font-family:var(--font-mono);}
+</style>
+<!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-functions-compat.js"></script>
+<script src="exam-system/firebase-config.js?v=2"></script>
+</head>
+<body>
+
+<!-- BG -->
+<canvas id="bgCanvas"></canvas>
+<div class="bg-image"></div>
+<div class="physics-grid"></div>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a class="nav-brand" href="index.html">
+    <span class="nav-dot"></span>
+    MYP <span>Physics</span>
+  </a>
+  <div class="nav-spacer"></div>
+  <div class="nav-links">
+    <a class="nav-link" href="index.html">Home</a>
+    <a class="nav-link" href="#" onclick="openFormulas();return false;">Formula Bank</a>
+    <a class="nav-link" href="myp-flashcards.html">Flashcards</a>
+    <a class="nav-link" id="myProgressBtn" href="student-dashboard.html" style="display:none;">📊 My Progress</a>
+    <button id="themeToggle" onclick="toggleTheme()" style="background:var(--surface);border:1.5px solid var(--border);padding:6px 12px;border-radius:50px;cursor:pointer;font-size:14px;transition:all .2s;color:var(--text2);" title="Toggle dark/light mode">🌙</button>
+  
+    <button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" 
+      style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px">
+      👤 Sign In
+    </button>
+</div>
+</div>
+
+<!-- HERO -->
+<div class="hero reveal">
+  <div class="hero-banner">
+    <div class="hero-content">
+      <div class="hero-eyebrow">// ATUL SORAL PHYSICISM &middot; MYP PLATFORM</div>
+      <h1>IB MYP Physics Dashboard</h1>
+      <div class="hero-tagline">Practice &bull; Progress &bull; Physics</div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-eq">F = ma</div>
+      <div class="hero-eq">E = mc&sup2;</div>
+      <div class="hero-eq">v = f&lambda;</div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- PRACTICE -->
+  <div class="section-hdr reveal">
+    <div class="section-hdr-dot" style="background:var(--red);color:var(--red)"></div>
+    <h2>&#129504; Practice</h2>
+    <div class="section-hdr-line"></div>
+  </div>
+  <div class="practice-row">
+    <div class="practice-card reveal stagger-1" onclick="openStudent()">
+      <div class="pc-icon pc-icon-red">&#128221;</div>
+      <div class="pc-info">
+        <div class="pc-label">Student Practice</div>
+        <div class="pc-desc">Criterion-based question sets with instant feedback</div>
+      </div>
+      <div class="pc-arrow">&#8594;</div>
+    </div>
+    <div class="practice-card reveal stagger-2" onclick="openFormulas()">
+      <div class="pc-icon pc-icon-teal">&#128208;</div>
+      <div class="pc-info">
+        <div class="pc-label">Formula Bank</div>
+        <div class="pc-desc">All MYP Physics formulas with infographic links</div>
+      </div>
+      <div class="pc-arrow">&#8594;</div>
+    </div>
+    <div class="practice-card reveal stagger-1" onclick="window.location.href='myp-simulations.html'">
+      <div class="pc-icon pc-icon-blue">⚡</div>
+      <div class="pc-info">
+        <div class="pc-label">Physics Simulators</div>
+        <div class="pc-desc">Interactive experiments — explore, adjust, discover</div>
+      </div>
+      <div class="pc-arrow">→</div>
+    </div>
+    <div class="practice-card reveal stagger-2" onclick="window.open('crash-course.html', '_blank')">
+      <div class="pc-icon pc-icon-purple">🚀</div>
+      <div class="pc-info">
+        <div class="pc-label">Exam Crash Course</div>
+        <div class="pc-desc">How the exam works, what each task expects, time management</div>
+      </div>
+      <div class="pc-arrow">&#8594;</div>
+    </div>
+    <div class="practice-card reveal stagger-1" onclick="window.open('dos-donts.html', '_blank')">
+      <div class="pc-icon pc-icon-green">✅</div>
+      <div class="pc-info">
+        <div class="pc-label">Do's & Don'ts</div>
+        <div class="pc-desc">Criterion-wise rules to protect every mark you deserve</div>
+      </div>
+      <div class="pc-arrow">&#8594;</div>
+    </div>
+  </div>
+
+  <!-- PHYSICS PICTIONARY — Spinning Cube Button -->
+  <div class="pictionary-btn" onclick="window.location.href='pictionary.html'">
+    <div class="cube-container">
+      <div class="cube">
+        <div class="cube-face cube-face-front">A</div>
+        <div class="cube-face cube-face-right">B</div>
+        <div class="cube-face cube-face-back">C</div>
+        <div class="cube-face cube-face-left">D</div>
+      </div>
+      <div class="cube-az">A–Z</div>
+    </div>
+    <div class="pictionary-label">
+      <span class="pictionary-label-title">Physics Pictionary</span>
+      <span class="pictionary-label-desc">A-Z visual dictionary — explore terms with infographics</span>
+    </div>
+  </div>
+
+  <!-- MY ASSIGNMENTS (visible only when logged in) -->
+  <div class="asgn-section" id="asgnSection">
+    <div class="section-hdr reveal">
+      <div class="section-hdr-dot" style="background:var(--red);color:var(--red)"></div>
+      <h2>📋 My Assignments</h2>
+      <div class="section-hdr-line"></div>
+      <span class="section-hdr-eq" id="asgnCount">0 tasks</span>
+    </div>
+    
+    <div style="margin-bottom:18px;">
+      <h4 style="font-size:14px;font-weight:600;color:var(--ink-2,#555);margin-bottom:8px;">📝 Pending</h4>
+      <div class="asgn-grid" id="asgnPending">
+        <div class="asgn-empty"><div class="icon">✨</div><p>No pending tasks. You're all caught up!</p></div>
+      </div>
+    </div>
+    
+    <div style="margin-bottom:18px;">
+      <h4 style="font-size:14px;font-weight:600;color:var(--ink-2,#555);margin-bottom:8px;">✅ Completed & Graded</h4>
+      <div class="asgn-grid" id="asgnCompleted">
+        <div class="asgn-empty"><div class="icon">📭</div><p>No completed assignments yet.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOPICS -->
+  <div class="section-hdr reveal">
+    <div class="section-hdr-dot" style="background:var(--purple);color:var(--purple)"></div>
+    <h2>&#128218; MYP Topics</h2>
+    <div class="section-hdr-line"></div>
+    <span class="section-hdr-eq">9 chapters</span>
+  </div>
+  <div class="topic-grid" id="topics"></div>
+
+</div>
+
+<!-- FORMULA MODAL -->
+<div class="modal-overlay" id="formulaModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>&#128208; IB MYP Formula Bank</h2>
+      <button class="modal-close" onclick="closeFormulas()">&#10005;</button>
+    </div>
+    <div class="modal-body">
+      <div class="tab-nav">
+        <button class="tab-btn active" onclick="switchTab('mechanics',this)">Mechanics</button>
+        <button class="tab-btn" onclick="switchTab('energy',this)">Energy &amp; Power</button>
+        <button class="tab-btn" onclick="switchTab('electricity',this)">Electricity</button>
+        <button class="tab-btn" onclick="switchTab('waves',this)">Waves</button>
+        <button class="tab-btn" onclick="switchTab('metric',this)">Metric Prefixes</button>
+        <button class="tab-btn" onclick="switchTab('skills',this)">&#129504; Skills</button>
+      </div>
+      <div class="formula-section active" id="tab-mechanics">
+        <table class="formula-table">
+          <tr><td>Speed</td><td>speed = distance &divide; time</td><td><a class="flink" href="./Images/1-speed.png" target="_blank">v = s / t</a></td></tr>
+          <tr><td>Acceleration</td><td>acceleration = change in velocity &divide; time</td><td><a class="flink" href="./Images/2-acceleration.png" target="_blank">a = &Delta;v / t</a></td></tr>
+          <tr><td>Force</td><td>force = mass &times; acceleration</td><td><a class="flink" href="./Images/3-force=ma.png" target="_blank">F = ma</a></td></tr>
+          <tr><td>Momentum</td><td>momentum = mass &times; velocity</td><td><a class="flink" href="./Images/4-momentum.png" target="_blank">p = mv</a></td></tr>
+          <tr><td>Pressure</td><td>pressure = force &divide; area</td><td><a class="flink" href="./Images/9-pressure.png" target="_blank">p = F / A</a></td></tr>
+          <tr><td>Density</td><td>density = mass &divide; volume</td><td><a class="flink" href="./Images/10-density.png" target="_blank">&rho; = m / V</a></td></tr>
+        </table>
+      </div>
+      <div class="formula-section" id="tab-energy">
+        <table class="formula-table">
+          <tr><td>Work Done</td><td>work = force &times; distance</td><td><a class="flink" href="./Images/5-work-done.png" target="_blank">W = Fs</a></td></tr>
+          <tr><td>Power</td><td>power = work &divide; time</td><td><a class="flink" href="./Images/6-power.png" target="_blank">P = W / t</a></td></tr>
+          <tr><td>Kinetic Energy</td><td>KE = &frac12; &times; mass &times; velocity&sup2;</td><td><a class="flink" href="./Images/7-kinetic-energy.png" target="_blank">E&#8342; = &frac12;mv&sup2;</a></td></tr>
+          <tr><td>GPE</td><td>&Delta;GPE = mass &times; g &times; &Delta;height</td><td><a class="flink" href="./Images/8-gravitational-potential-energy.png" target="_blank">&Delta;E&#8346; = mg&Delta;h</a></td></tr>
+          <tr><td>Efficiency</td><td>efficiency = (useful output &divide; total input) &times; 100</td><td><a class="flink" href="./Images/17-efficiency.png" target="_blank">&eta; = (Eout/Ein)&times;100</a></td></tr>
+        </table>
+      </div>
+      <div class="formula-section" id="tab-electricity">
+        <table class="formula-table">
+          <tr><td>Current</td><td>current = charge &divide; time</td><td><a class="flink" href="./Images/11-electric-current.png" target="_blank">I = &Delta;Q / t</a></td></tr>
+          <tr><td>Voltage &amp; Resistance</td><td>voltage = current &times; resistance</td><td><a class="flink" href="./Images/12-voltage-and-resistance.png" target="_blank">V = IR</a></td></tr>
+          <tr><td>Electrical Power</td><td>power = voltage &times; current</td><td><a class="flink" href="./Images/13-electrical-power.png" target="_blank">P = IV</a></td></tr>
+          <tr><td>Transformer</td><td>Vp / Vs = primary turns / secondary turns</td><td><a class="flink" href="./Images/16-transformers.png" target="_blank">V&#8346;/V&#8347; = N&#8346;/N&#8347;</a></td></tr>
+        </table>
+      </div>
+      <div class="formula-section" id="tab-waves">
+        <table class="formula-table">
+          <tr><td>Wave Speed</td><td>wave speed = frequency &times; wavelength</td><td><a class="flink" href="./Images/14-wave-speed.png" target="_blank">v = f&lambda;</a></td></tr>
+          <tr><td>Time Period</td><td>time period = 1 &divide; frequency</td><td><a class="flink" href="./Images/15-time-period.png" target="_blank">T = 1 / f</a></td></tr>
+        </table>
+      </div>
+      <div class="formula-section" id="tab-metric">
+        <table class="metric-table">
+          <tr><th>Prefix</th><th>Abbreviation</th><th>Value</th></tr>
+          <tr><td>tera</td><td>T</td><td>10&sup1;&sup2;</td></tr>
+          <tr><td>giga</td><td>G</td><td>10&sup9;</td></tr>
+          <tr><td>mega</td><td>M</td><td>10&sup6;</td></tr>
+          <tr><td>kilo</td><td>k</td><td>10&sup3;</td></tr>
+          <tr><td>deci</td><td>d</td><td>10&supmin;&sup1;</td></tr>
+          <tr><td>centi</td><td>c</td><td>10&supmin;&sup2;</td></tr>
+          <tr><td>milli</td><td>m</td><td>10&supmin;&sup3;</td></tr>
+          <tr><td>micro</td><td>&mu;</td><td>10&supmin;&sup6;</td></tr>
+          <tr><td>nano</td><td>n</td><td>10&supmin;&sup9;</td></tr>
+          <tr><td>pico</td><td>p</td><td>10&supmin;&sup1;&sup2;</td></tr>
+        </table>
+      </div>
+      <div class="formula-section" id="tab-skills">
+        <table class="formula-table">
+          <tr><td>Multi-Step Problems</td><td>Combining formulas to solve complex questions step by step</td><td><a class="flink" href="./Images/18-multi-step-problem-solving.png" target="_blank">&#128221; Guide</a></td></tr>
+          <tr><td>Unit Conversions</td><td>Converting between metric units using prefixes and powers of 10</td><td><a class="flink" href="./Images/19-unit-conversion-mastery.png" target="_blank">&#128208; Guide</a></td></tr>
+          <tr><td>Formula Rearrangement</td><td>Rearranging equations to isolate the unknown variable</td><td><a class="flink" href="./Images/20-formula-rearrangement.png" target="_blank">&#128260; Guide</a></td></tr>
+        </table>
+      </div>
+      <div class="formula-legend">
+        <span>&#128279; Click any formula pill &rarr; opens its infographic image</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- AI TUTOR CHAT -->
+<button id="ai-tutor-trigger" onclick="toggleAITutor()" style="position:fixed;bottom:92px;right:28px;z-index:8999;width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#1a6fb5,#0d4f8b);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(26,111,181,0.3);display:flex;align-items:center;justify-content:center;font-size:18px;transition:all .2s;color:white;" title="Ask Physicism AI">🧠</button>
+
+<div id="ai-tutor-panel" style="position:fixed;bottom:148px;right:28px;z-index:8999;width:340px;max-height:450px;background:var(--white,white);border:1.5px solid var(--border,rgba(0,0,0,0.06));border-radius:20px;overflow:hidden;box-shadow:0 16px 48px rgba(0,0,0,0.1);transform:translateY(20px) scale(0.96);opacity:0;pointer-events:none;transition:transform .28s cubic-bezier(.22,.68,0,1.2),opacity .2s;display:flex;flex-direction:column;">
+  
+  <!-- Header -->
+  <div style="background:linear-gradient(135deg,#1a6fb5,#0d4f8b);padding:14px 18px;color:white;font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;">
+    🧠 Ask Physicism
+    <span style="font-size:10px;opacity:0.7;margin-left:auto;">AI Tutor</span>
+  </div>
+  
+  <!-- Messages -->
+  <div id="ai-tutor-messages" style="flex:1;overflow-y:auto;padding:14px;max-height:280px;font-size:13px;line-height:1.6;">
+    <div style="background:rgba(26,111,181,0.06);border-radius:12px;padding:10px 14px;margin-bottom:8px;color:var(--text2,#555);font-size:12px;">
+      Hi! I'm your Physics AI tutor. Ask me anything about MYP Physics — formulas, concepts, practice problems. 🔬
+    </div>
+  </div>
+  
+  <!-- Input -->
+  <div style="padding:10px;border-top:1px solid var(--border,rgba(0,0,0,0.06));display:flex;gap:8px;">
+    <input type="text" id="ai-tutor-input" placeholder="Ask a physics question..." style="flex:1;padding:9px 14px;border:1.5px solid var(--border,rgba(0,0,0,0.06));border-radius:50px;font-size:13px;outline:none;background:var(--cream,#f9f6f1);color:var(--text,#1a1a2e);" onkeydown="if(event.key==='Enter')sendAITutor()">
+    <button onclick="sendAITutor()" style="width:36px;height:36px;border-radius:50%;background:#1a6fb5;border:none;color:white;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;">→</button>
+  </div>
+</div>
+
+<!-- FEEDBACK WIDGET -->
+<button id="fb-trigger" title="Send feedback or report an error">&#128172;</button>
+<div id="fb-panel">
+  <div class="fb-head">&#128236; Feedback / Correction</div>
+  <div class="fb-body">
+    <div class="fb-page" id="fb-page-url"></div>
+    <input id="fb-email" type="email" placeholder="Your email (optional)" autocomplete="email">
+    <textarea id="fb-message" placeholder="Found a mistake? Suggestion? Tell me here..."></textarea>
+    <button class="fb-send" id="fb-send-btn">Send Feedback</button>
+    <div class="fb-status" id="fb-status"></div>
+  </div>
+</div>
+
+<script>
+/* ── BG CANVAS ── */
+(function(){
+  var canvas=document.getElementById('bgCanvas');
+  var ctx=canvas.getContext('2d');
+  var orbs=[],w,h;
+  function resize(){w=canvas.width=window.innerWidth;h=canvas.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  var colors=[{r:239,g:68,b:68},{r:78,g:205,b:196},{r:179,g:157,b:219},{r:91,g:155,b:213},{r:129,g:199,b:132},{r:255,g:213,b:79}];
+  for(var i=0;i<12;i++){var c=colors[i%colors.length];
+    orbs.push({x:Math.random()*w,y:Math.random()*h,r:Math.random()*100+50,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.18,color:c,alpha:Math.random()*.03+.015,phase:Math.random()*Math.PI*2});}
+  function draw(){ctx.clearRect(0,0,w,h);ctx.fillStyle='#f7f3ed';ctx.fillRect(0,0,w,h);
+    var t=Date.now()*.0003;
+    for(var i=0;i<orbs.length;i++){var o=orbs[i];
+      o.x+=o.vx+Math.sin(t+o.phase)*.12;o.y+=o.vy+Math.cos(t+o.phase*.7)*.08;
+      if(o.x<-o.r)o.x=w+o.r;if(o.x>w+o.r)o.x=-o.r;if(o.y<-o.r)o.y=h+o.r;if(o.y>h+o.r)o.y=-o.r;
+      var a=o.alpha+Math.sin(t*1.5+o.phase)*.008;
+      var g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+      g.addColorStop(0,'rgba('+o.color.r+','+o.color.g+','+o.color.b+','+(a*2)+')');
+      g.addColorStop(.5,'rgba('+o.color.r+','+o.color.g+','+o.color.b+','+a+')');
+      g.addColorStop(1,'rgba('+o.color.r+','+o.color.g+','+o.color.b+',0)');
+      ctx.fillStyle=g;ctx.fillRect(o.x-o.r,o.y-o.r,o.r*2,o.r*2);}
+    requestAnimationFrame(draw);}
+  draw();
+})();
+
+/* ── SCROLL REVEAL ── */
+(function(){var els=document.querySelectorAll('.reveal');
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08,rootMargin:'0px 0px -30px 0px'});
+  els.forEach(function(el){obs.observe(el);});
+})();
+
+/* ── BASE PATH ── */
+var BASE="./exam-system";
+
+/* ── NAVIGATION ── */
+function openStudent(){window.location.href=BASE+"/student-login.html";}
+
+
+
+/* ── FORMULA MODAL ── */
+function openFormulas(){document.getElementById("formulaModal").classList.add("open");document.body.style.overflow="hidden";}
+function closeFormulas(){document.getElementById("formulaModal").classList.remove("open");document.body.style.overflow="";}
+document.getElementById("formulaModal").addEventListener("click",function(e){if(e.target===this)closeFormulas();});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeFormulas();});
+
+function switchTab(tab,btn){
+  document.querySelectorAll(".formula-section").forEach(function(s){s.classList.remove("active");});
+  document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active");});
+  document.getElementById("tab-"+tab).classList.add("active");
+  btn.classList.add("active");
+}
+
+/* ── TOPICS ── */
+var chapters=[
+  {name:"Exploring Matter",emoji:"&#9883;",key:"matter",ready:false},
+  {name:"Forces and Motion",emoji:"&#9889;",key:"forces",ready:true},
+  {name:"Work, Power & Gravity",emoji:"&#128170;",key:"workpower",ready:false},
+  {name:"Energy & Environment",emoji:"&#128267;",key:"energy",ready:false},
+  {name:"The Nature of Waves",emoji:"&#127754;",key:"waves",ready:true},
+  {name:"Atomic Physics",emoji:"&#9883;&#65039;",key:"atomic",ready:true},
+  {name:"Electromagnetism",emoji:"&#129522;",key:"electromagnetism",ready:true},
+  {name:"Thermal Physics",emoji:"&#127777;&#65039;",key:"thermal",ready:false},
+  {name:"Astrophysics",emoji:"&#127756;",key:"astro",ready:false}
+];
+var container=document.getElementById("topics");
+chapters.forEach(function(ch,i){
+  var div=document.createElement("div");
+  div.className="topic-card reveal"+(ch.ready?"":" locked");
+  div.style.transitionDelay=(i*0.04)+'s';
+  var safeName = ch.name.replace(/[^a-zA-Z]/g, '');
+  var progressRingHtml = ch.ready ? '<div class="progress-ring-container" style="position:relative;display:none;align-items:center;justify-content:center;width:36px;height:36px;" id="progress-' + safeName + '"></div>' : '';
+  div.innerHTML='<div class="tc-top"><span class="tc-emoji">'+ch.emoji+'</span>'
+    + progressRingHtml
+    + '<span class="tc-arrow">&#8594;</span></div>'
+    +'<div class="tc-name">'+ch.name+'</div>'
+    +'<div class="tc-status '+(ch.ready?'tc-ready':'tc-locked-pill')+'">'+(ch.ready?'&#9679; Available':'&#128274; Locked')+'</div>';
+  div.onclick=ch.ready
+    ?function(){
+      if(ch.key==='forces') {
+        window.location.href='chapter.html?topic=forces';
+      } else {
+        window.location.href='./chapter.html?topic='+ch.key;
+      }
+    }
+    :function(){alert("Coming soon!");};
+  container.appendChild(div);
+});
+
+// re-observe new topic cards
+setTimeout(function(){
+  var els=document.querySelectorAll('.topic-card.reveal:not(.visible)');
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});},{threshold:.08});
+  els.forEach(function(el){obs.observe(el);});
+},50);
+
+/* ── FEEDBACK WIDGET ── */
+var FB={publicKey:"jhfWQKIKtye-3eVpn",serviceID:"service_ni72akl",templateID:"template_xr522or"};
+document.getElementById("fb-page-url").textContent="\u{1F4C4} "+window.location.pathname+(window.location.search||"");
+var fbTrigger=document.getElementById("fb-trigger");
+var fbPanel=document.getElementById("fb-panel");
+fbTrigger.addEventListener("click",function(e){
+  e.stopPropagation();
+  var isOpen=fbPanel.classList.toggle("open");
+  fbTrigger.classList.toggle("spinning",isOpen);
+  fbTrigger.innerHTML=isOpen?'&#10005;':'&#128172;';
+  if(isOpen)setTimeout(function(){document.getElementById("fb-message").focus();},250);
+});
+document.addEventListener("click",function(e){
+  if(!fbPanel.contains(e.target)&&e.target!==fbTrigger){
+    fbPanel.classList.remove("open");fbTrigger.classList.remove("spinning");fbTrigger.innerHTML='&#128172;';
+  }
+});
+document.getElementById("fb-send-btn").addEventListener("click",async function(){
+  var msg=document.getElementById("fb-message").value.trim();
+  var email=document.getElementById("fb-email").value.trim();
+  var status=document.getElementById("fb-status");
+  var btn=document.getElementById("fb-send-btn");
+  if(!msg){status.textContent="Please write something first.";status.className="fb-status err";return;}
+  btn.disabled=true;btn.textContent="Sending\u2026";status.className="fb-status";status.textContent="";
+  var params={page:window.location.href,message:msg,email:email||"(not provided)",sent_at:new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata"})};
+  try{
+    await emailjs.send(FB.serviceID,FB.templateID,params);
+    status.textContent="\u2713 Sent! Thank you.";status.className="fb-status ok";
+    document.getElementById("fb-message").value="";document.getElementById("fb-email").value="";
+    setTimeout(function(){fbPanel.classList.remove("open");fbTrigger.classList.remove("spinning");fbTrigger.innerHTML='&#128172;';btn.disabled=false;btn.textContent="Send Feedback";status.textContent="";status.className="fb-status";},2200);
+  }catch(err){
+    console.error(err);status.textContent="\u274C Could not send \u2014 check your EmailJS config.";status.className="fb-status err";btn.disabled=false;btn.textContent="Send Feedback";
+  }
+});
+</script>
+
+<script>
+function toggleAITutor() {
+  var panel = document.getElementById('ai-tutor-panel');
+  var isOpen = panel.style.opacity === '1';
+  panel.style.opacity = isOpen ? '0' : '1';
+  panel.style.pointerEvents = isOpen ? 'none' : 'all';
+  panel.style.transform = isOpen ? 'translateY(20px) scale(0.96)' : 'translateY(0) scale(1)';
+  if (!isOpen) {
+    setTimeout(function() { document.getElementById('ai-tutor-input').focus(); }, 300);
+  }
+}
+
+function sendAITutor() {
+  var input = document.getElementById('ai-tutor-input');
+  var msg = input.value.trim();
+  if (!msg) return;
+  
+  var messages = document.getElementById('ai-tutor-messages');
+  
+  // Add user message
+  messages.innerHTML += '<div style="text-align:right;margin-bottom:8px;"><span style="background:#1a6fb5;color:white;padding:8px 14px;border-radius:12px 12px 2px 12px;display:inline-block;font-size:13px;max-width:80%;text-align:left;">' + escapeHtml(msg) + '</span></div>';
+  
+  input.value = '';
+  messages.scrollTop = messages.scrollHeight;
+  
+  // Add loading indicator
+  var loadingId = 'loading-' + Date.now();
+  messages.innerHTML += '<div id="' + loadingId + '" style="margin-bottom:8px;"><span style="background:var(--cream,#f9f6f1);padding:8px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:12px;color:var(--text3,#888);">Thinking...</span></div>';
+  messages.scrollTop = messages.scrollHeight;
+  
+  // Call AI via Cloud Function (API key stays server-side)
+  if(!firebase.auth().currentUser){
+    document.getElementById(loadingId).innerHTML = '<div class="tutor-msg bot" style="background:rgba(192,57,43,0.06);padding:12px 16px;border-radius:12px;display:inline-block;font-size:13px;color:#c0392b;">' +
+      '🔒 Please sign in to use the AI tutor.<br><br>' +
+      '<button onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
+      'style="background:#0284c7;color:#fff;border:none;padding:8px 20px;border-radius:8px;font-weight:600;cursor:pointer;font-size:13px;margin-top:8px;">' +
+      'Sign in with Google</button></div>';
+    return;
+  }
+  var aiChat=firebase.functions().httpsCallable('aiChat');
+  aiChat({messages:[
+    {role:'system',content:'You are a friendly IB MYP Physics tutor for Grade 6-10 students. Give clear, concise answers. Use simple language. Include formulas when relevant. Keep answers under 150 words. If asked about non-physics topics, politely redirect to physics. Always encourage the student.'},
+    {role:'user',content:msg}
+  ],temperature:0.7,maxTokens:300}).then(function(result){
+    var reply = result.data.reply;
+    if (reply) {
+      document.getElementById(loadingId).innerHTML = '<span style="background:var(--cream,#f9f6f1);padding:10px 14px;border-radius:12px 12px 12px 2px;display:inline-block;font-size:13px;color:var(--text,#1a1a2e);max-width:85%;line-height:1.6;text-align:left;">' + reply.replace(/\n/g, '<br>') + '</span>';
+    }
+    messages.scrollTop = messages.scrollHeight;
+  }).catch(function(err){
+    document.getElementById(loadingId).innerHTML = '<span style="background:rgba(192,57,43,0.06);padding:8px 14px;border-radius:12px;display:inline-block;font-size:12px;color:#c0392b;">Error: ' + (err.message||'AI service unavailable') + '</span>';
+  }}
+
+function escapeHtml(text) {
+  var div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+// Close on outside click
+document.addEventListener('click', function(e) {
+  var panel = document.getElementById('ai-tutor-panel');
+  var trigger = document.getElementById('ai-tutor-trigger');
+  if (panel && trigger && !panel.contains(e.target) && e.target !== trigger) {
+    panel.style.opacity = '0';
+    panel.style.pointerEvents = 'none';
+    panel.style.transform = 'translateY(20px) scale(0.96)';
+  }
+});
+</script>
+
+
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"
+        onload="emailjs.init({publicKey: FB.publicKey})"></script>
+
+<script>
+
+</script>
+
+<script>
+function toggleTheme() {
+  var current = document.documentElement.getAttribute('data-theme');
+  var next = current === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', next);
+  localStorage.setItem('physicism-theme', next);
+  var btn = document.getElementById('themeToggle');
+  if (btn) btn.textContent = next === 'dark' ? '☀️' : '🌙';
+}
+// Load saved theme
+(function() {
+  var saved = localStorage.getItem('physicism-theme');
+  if (saved === 'dark') {
+    document.documentElement.setAttribute('data-theme', 'dark');
+    var btn = document.getElementById('themeToggle');
+    if (btn) btn.textContent = '☀️';
+  }
+})();
+</script>
+
+<script src="quiz/question-bank.js"></script>
+<script>
+// Chapter to topic keys mapping
+var chapterTopics = {
+  'Exploring Matter': ['matter'],
+  'Forces and Motion': ['forces'],
+  'Work, Power & Gravity': ['workpower'],
+  'Energy & Environment': ['energy'],
+  'The Nature of Waves': ['waves'],
+  'Atomic Physics': ['atomic'],
+  'Electromagnetism': ['electromagnetism'],
+  'Thermal Physics': ['thermal'],
+  'Astrophysics': ['astro']
+};
+
+var dbAttempts = [];
+
+function getChapterProgressFromDb(chapterName) {
+  var topics = chapterTopics[chapterName] || [];
+  if (topics.length === 0) return 0;
+  
+  var completedQuizzes = {};
+  var total = 0;
+  
+  topics.forEach(function(topic) {
+    // Unique quizzes attempted by user in this topic
+    dbAttempts.forEach(function(att) {
+      if (att.topic === topic && att.imageName) {
+        completedQuizzes[att.imageName] = true;
+      }
+    });
+
+    // Count total possible quizzes from question bank
+    var uniqueImages = {};
+    if (typeof questionBank !== 'undefined') {
+      questionBank.forEach(function(q) {
+        if (q.topic === topic && q.image) {
+          uniqueImages[q.image] = true;
+        }
+      });
+    }
+    total += Object.keys(uniqueImages).length;
+  });
+  
+  var completedCount = Object.keys(completedQuizzes).length;
+  return total > 0 ? Math.round((completedCount / total) * 100) : 0;
+}
+
+function getChapterProgressFromLocalStorage(chapterName) {
+  var topics = chapterTopics[chapterName] || [];
+  if (topics.length === 0) return 0;
+  
+  var completed = 0;
+  var total = 0;
+  
+  topics.forEach(function(topic) {
+    var key = 'quiz_completed_' + topic;
+    var data = JSON.parse(localStorage.getItem(key) || '{"completed":0,"quizzes":{}}');
+    
+    // Count total possible quizzes for this topic from question bank
+    var uniqueImages = {};
+    if (typeof questionBank !== 'undefined') {
+      questionBank.forEach(function(q) {
+        if (q.topic === topic && q.image) {
+          uniqueImages[q.image] = true;
+        }
+      });
+    }
+    var totalQuizzes = Object.keys(uniqueImages).length;
+    
+    total += totalQuizzes;
+    var completedQuizzes = Object.keys(data.quizzes || {}).length;
+    completed += Math.min(completedQuizzes, totalQuizzes);
+  });
+  
+  return total > 0 ? Math.round((completed / total) * 100) : 0;
+}
+
+function createProgressRing(percent) {
+  var size = 36;
+  var stroke = 3;
+  var radius = (size - stroke) / 2;
+  var circumference = 2 * Math.PI * radius;
+  var offset = circumference - (percent / 100) * circumference;
+  var color = percent === 0 ? 'rgba(0,0,0,0.06)' : (percent === 100 ? '#2e7d32' : '#c0392b');
+  
+  return '<svg width="' + size + '" height="' + size + '" style="transform:rotate(-90deg);flex-shrink:0;">'
+    + '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + radius + '" fill="none" stroke="rgba(0,0,0,0.06)" stroke-width="' + stroke + '"/>'
+    + '<circle cx="' + (size/2) + '" cy="' + (size/2) + '" r="' + radius + '" fill="none" stroke="' + color + '" stroke-width="' + stroke + '" stroke-dasharray="' + circumference + '" stroke-dashoffset="' + offset + '" stroke-linecap="round" style="transition:stroke-dashoffset 0.6s ease;"/>'
+    + '</svg>'
+    + '<span style="position:absolute;font-size:9px;font-weight:600;color:var(--text2,#555);">' + percent + '%</span>';
+}
+
+function populateProgressRings(useDb) {
+  var chaptersList = ['Exploring Matter', 'Forces and Motion', 'Work, Power & Gravity', 'Energy & Environment', 'The Nature of Waves', 'Atomic Physics', 'Electromagnetism', 'Thermal Physics', 'Astrophysics'];
+  chaptersList.forEach(function(ch) {
+    var el = document.getElementById('progress-' + ch.replace(/[^a-zA-Z]/g, ''));
+    if (el) {
+      var pct = useDb ? getChapterProgressFromDb(ch) : getChapterProgressFromLocalStorage(ch);
+      el.innerHTML = createProgressRing(pct);
+    }
+  });
+}
+
+function showProgressFeatures(user) {
+  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
+    el.style.display = 'flex';
+  });
+
+  if (typeof firebase !== 'undefined' && firebase.firestore) {
+    firebase.firestore().collection('students').doc(user.uid).collection('quizAttempts').get()
+      .then(function(snapshot) {
+        dbAttempts = [];
+        snapshot.forEach(function(doc) {
+          dbAttempts.push(doc.data());
+        });
+        populateProgressRings(true);
+      })
+      .catch(function(err) {
+        console.error("Error loading progress: ", err);
+        populateProgressRings(false);
+      });
+  } else {
+    populateProgressRings(false);
+  }
+}
+
+function hideProgressFeatures() {
+  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
+    el.style.display = 'none';
+    el.innerHTML = '';
+  });
+}
+
+function showProgressFromLocalStorage() {
+  document.querySelectorAll('.progress-ring-container').forEach(function(el) {
+    el.style.display = 'flex';
+  });
+  populateProgressRings(false);
+}
+
+// Check if student is logged in
+var currentUser = null;
+var mypAssignments = [];
+var mypSubmissions = [];
+
+function loadMYPAssignments(user) {
+  var db = firebase.firestore();
+  var studentId = user.uid;
+  
+  // Load MYP assignments
+  var p1 = db.collection('mypAssignments').get();
+  var p2 = db.collection('mypSubmissions').where('studentId', '==', studentId).get();
+  
+  Promise.all([p1, p2]).then(function(results) {
+    mypAssignments = [];
+    results[0].forEach(function(doc) {
+      var d = doc.data();
+      d.id = doc.id;
+      // Only include if this student is in the list
+      if (d.studentIds && d.studentIds.indexOf(studentId) > -1) {
+        mypAssignments.push(d);
+      }
+    });
+    
+    mypSubmissions = [];
+    results[1].forEach(function(doc) {
+      var d = doc.data();
+      d.id = doc.id;
+      mypSubmissions.push(d);
+    });
+    
+    renderMYPAssignments();
+    document.getElementById('asgnSection').classList.add('visible');
+  }).catch(function(err) {
+    console.error('Error loading MYP assignments:', err);
+  });
+}
+
+function escapeHtml(text) {
+  if (!text) return '';
+  var div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
+}
+
+function renderMYPAssignments() {
+  var subsByAsgn = {};
+  mypSubmissions.forEach(function(s) {
+    if (!subsByAsgn[s.assignmentId]) subsByAsgn[s.assignmentId] = [];
+    subsByAsgn[s.assignmentId].push(s);
+  });
+  
+  var pending = [];
+  var completed = [];
+  
+  mypAssignments.forEach(function(a) {
+    var subList = subsByAsgn[a.id] || [];
+    
+    if (subList.length === 0) {
+      pending.push({assignment: a, submission: null});
+    } else {
+      var draftSub = subList.find(function(s) { return s.status === 'draft'; });
+      var completedSubs = subList.filter(function(s) { return s.status !== 'draft'; });
+      
+      if (draftSub) {
+        pending.push({assignment: a, submission: draftSub});
+      } else if (completedSubs.length > 0) {
+        // Find best attempt based on total score
+        var bestSub = completedSubs[0];
+        for (var i = 1; i < completedSubs.length; i++) {
+          if ((completedSubs[i].totalScore || 0) > (bestSub.totalScore || 0)) {
+            bestSub = completedSubs[i];
+          }
+        }
+        completed.push({assignment: a, submission: bestSub});
+      }
+    }
+  });
+  
+  // Sort pending by due date
+  pending.sort(function(a, b) {
+    if (!a.assignment.dueDate) return 1;
+    if (!b.assignment.dueDate) return -1;
+    return new Date(a.assignment.dueDate) - new Date(b.assignment.dueDate);
+  });
+  
+  // Sort completed by submission date
+  completed.sort(function(a, b) {
+    var ta = a.submission.submittedAt ? (a.submission.submittedAt.toDate ? a.submission.submittedAt.toDate() : new Date(a.submission.submittedAt)) : new Date(0);
+    var tb = b.submission.submittedAt ? (b.submission.submittedAt.toDate ? b.submission.submittedAt.toDate() : new Date(b.submission.submittedAt)) : new Date(0);
+    return tb - ta;
+  });
+  
+  document.getElementById('asgnCount').textContent = (pending.length + completed.length) + ' tasks';
+  
+  // Render Pending
+  var pendingGrid = document.getElementById('asgnPending');
+  if (pending.length === 0) {
+    pendingGrid.innerHTML = '<div class="asgn-empty"><div class="icon">✨</div><p>No pending tasks. You\'re all caught up!</p></div>';
+  } else {
+    pendingGrid.innerHTML = pending.map(function(item) {
+      var a = item.assignment;
+      var s = item.submission;
+      
+      var isUrgent = false;
+      var dueHtml = '';
+      if (a.dueDate) {
+        var d = new Date(a.dueDate);
+        var diff = d - new Date();
+        var dueStr = d.toLocaleDateString('en-IN', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
+        if (diff < 0) {
+          isUrgent = true;
+          dueHtml = '<div class="asgn-due overdue">⚠️ Overdue — was due ' + dueStr + '</div>';
+        } else if (diff < 86400000) {
+          isUrgent = true;
+          dueHtml = '<div class="asgn-due overdue">🔥 Due soon — ' + dueStr + '</div>';
+        } else {
+          dueHtml = '<div class="asgn-due">📅 Due: ' + dueStr + '</div>';
+        }
+      }
+      
+      var typeBadge = '<span class="asgn-badge asgn-badge-' + (a.type || 'hw') + '">' + (a.type || 'hw').toUpperCase() + '</span>';
+      var timerBadge = a.timeLimit ? '<span class="asgn-badge asgn-badge-timer">⏱ ' + a.timeLimit + ' min</span>' : '';
+      
+      var actionBtn = '';
+      if (a.status === 'closed') {
+        actionBtn = '<button class="asgn-btn asgn-btn-outline" disabled style="opacity:0.5;cursor:not-allowed">🔒 Closed</button>';
+      } else if (s && s.status === 'draft') {
+        actionBtn = '<button class="asgn-btn asgn-btn-primary" onclick="startMYPAssign(\'' + a.id + '\', \'' + s.id + '\')">Continue</button>';
+      } else {
+        actionBtn = '<button class="asgn-btn asgn-btn-primary" onclick="startMYPAssign(\'' + a.id + '\')">📝 Start</button>';
+      }
+      
+      return '<div class="asgn-card ' + (isUrgent ? 'urgent' : '') + '">' +
+        '<div class="asgn-title">' + escapeHtml(a.title || 'Untitled') + '</div>' +
+        '<div class="asgn-meta">' + typeBadge + timerBadge + '</div>' +
+        dueHtml +
+        '<div class="asgn-actions">' + actionBtn + '</div>' +
+      '</div>';
+    }).join('');
+  }
+  
+  // Render Completed
+  var completedGrid = document.getElementById('asgnCompleted');
+  if (completed.length === 0) {
+    completedGrid.innerHTML = '<div class="asgn-empty"><div class="icon">📭</div><p>No completed assignments yet.</p></div>';
+  } else {
+    completedGrid.innerHTML = completed.map(function(item) {
+      var a = item.assignment;
+      var s = item.submission;
+      
+      var statusBadge = '';
+      if (s.status === 'submitted') {
+        statusBadge = '<span class="asgn-badge asgn-badge-quiz">AWAITING GRADE</span>';
+      } else if (s.status === 'graded') {
+        statusBadge = '<span class="asgn-badge asgn-badge-hw">GRADED</span>';
+      } else if (s.status === 'released') {
+        statusBadge = '<span class="asgn-badge" style="background:#DCFCE7;color:#166534">RELEASED</span>';
+      }
+      
+      var typeBadge = '<span class="asgn-badge asgn-badge-' + (a.type || 'hw') + '">' + (a.type || 'hw').toUpperCase() + '</span>';
+      
+      var gradeHtml = '';
+      if ((s.status === 'graded' || s.status === 'released') && s.criterionLevels) {
+        var crits = '';
+        var totalLevels = 0;
+        var numCrits = 0;
+        
+        ['A', 'B', 'C', 'D'].forEach(function(crit) {
+          if (s.criterionLevels[crit] !== undefined) {
+            crits += '<div class="crit-fb-box"><div class="crit-fb-label">CRIT ' + crit + '</div><div class="crit-fb-level" style="color:#' + (crit=='A'?'1E40AF':(crit=='B'?'92400E':(crit=='C'?'166534':'6B21A8'))) + '">' + s.criterionLevels[crit] + '</div></div>';
+            totalLevels += parseInt(s.criterionLevels[crit] || 0);
+            numCrits++;
+          }
+        });
+        
+        var maxPossible = numCrits * 8;
+        var pct = maxPossible > 0 ? Math.round((totalLevels / maxPossible) * 100) : 0;
+        
+        gradeHtml = '<div class="crit-feedback">' + crits + '</div>' +
+          '<div class="asgn-grade">' +
+            '<div class="asgn-grade-score">' + totalLevels + '/' + maxPossible + '</div>' +
+            '<div class="asgn-grade-bar"><div class="asgn-grade-fill" style="width:' + pct + '%"></div></div>' +
+            '<div class="asgn-grade-pct">' + pct + '%</div>' +
+          '</div>';
+      }
+      
+      return '<div class="asgn-card">' +
+        '<div class="asgn-title">' + escapeHtml(a.title || 'Untitled') + '</div>' +
+        '<div class="asgn-meta">' + statusBadge + typeBadge + '</div>' +
+        gradeHtml +
+        '<div class="asgn-actions">' +
+          '<button class="asgn-btn asgn-btn-outline" onclick="viewMYPFeedback(\'' + a.id + '\')">Review Submission</button>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+}
+
+function startMYPAssign(assignmentId, existingSubmissionId) {
+  // Store state for the assignment portal
+  sessionStorage.setItem('mypCurrentAssignment', assignmentId);
+  if (existingSubmissionId) {
+    sessionStorage.setItem('mypCurrentSubmission', existingSubmissionId);
+  } else {
+    sessionStorage.removeItem('mypCurrentSubmission');
+  }
+  
+  // Navigate to MYP student portal (we'll adapt the DP one or create a new one)
+  window.location.href = 'dp-student-dashboard.html?prog=myp';
+}
+
+function viewMYPFeedback(assignmentId) {
+  sessionStorage.setItem('mypCurrentAssignment', assignmentId);
+  window.location.href = 'dp-student-dashboard.html?prog=myp&review=true';
+}
+
+if (typeof firebase !== 'undefined' && firebase.auth) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    currentUser = user;
+    if (user) {
+      // Student is logged in — show progress features
+      showProgressFeatures(user);
+      var progressBtn = document.getElementById('myProgressBtn');
+      if (progressBtn) progressBtn.style.display = 'inline-flex';
+      
+      // Load assignments
+      loadMYPAssignments(user);
+    } else {
+      // Guest — hide progress features
+      var progressBtn = document.getElementById('myProgressBtn');
+      if (progressBtn) progressBtn.style.display = 'none';
+      hideProgressFeatures();
+      document.getElementById('asgnSection').classList.remove('visible');
+    }
+  });
+} else {
+  // Firebase not loaded on this page — use localStorage only
+  showProgressFromLocalStorage();
+  document.getElementById('asgnSection').classList.remove('visible');
+}
+</script>
+
+
+<script>
+if (typeof firebase !== 'undefined' && firebase.auth) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    var btn = document.getElementById('authBtn');
+    if (!btn) return;
+    if (user) {
+      var name = user.displayName || user.email.split('@')[0];
+      btn.outerHTML = '<div id="authBtn" style="display:flex;align-items:center;gap:8px;margin-left:8px;">' +
+        '<span style="font-size:.73rem;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:5px">' +
+          '<span style="width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block"></span>' +
+          name +
+        '</span>' +
+        '<button onclick="firebase.auth().signOut().then(function(){location.reload()})" ' +
+        'style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:3px 10px;font-size:.7rem;cursor:pointer">Sign Out</button>' +
+      '</div>';
+    } else {
+      btn.outerHTML = '<button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
+        'style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;margin-left:8px;">' +
+        '👤 Sign In</button>';
+    }
+  });
+}
+</script>
+
+<script src="js/asp-toolbar.js" defer></script>
+</body>
+</html>
