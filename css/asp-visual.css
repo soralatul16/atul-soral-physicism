@@ -1,0 +1,75 @@
+/* ==========================================================================
+   asp-visual.css · Pictionary cube card + formula infographics
+   Used by myp-dashboard.html and dp-dashboard.html. Load before asp-glass.css.
+   ========================================================================== */
+
+/* ---------- Layout ---------- */
+.visual{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:18px;align-items:stretch}
+.visual--duo{grid-template-columns:repeat(2,minmax(0,1fr))}
+
+/* ---------- Pictionary card ---------- */
+.pict{flex-direction:row;align-items:center;gap:24px;padding:28px;color:inherit;text-decoration:none;transition:transform .3s,box-shadow .3s}
+.pict:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.pict__txt{display:flex;flex-direction:column;gap:8px;min-width:0}
+.pict__txt h3{font:600 22px/1.2 var(--font-display)}
+.pict__txt p{color:var(--ink-3);font-size:14px}
+.pict__txt .gb{align-self:flex-start;margin-top:6px}
+.pict--tall{flex-direction:column;align-items:flex-start;justify-content:center}
+
+/* the spinning A-B-C-D cube (same design as the original dashboards) */
+.cube-wrap{width:84px;height:84px;perspective:320px;flex-shrink:0;position:relative}
+.cube{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:aspCube 8s linear infinite}
+@keyframes aspCube{from{transform:rotateX(-12deg) rotateY(0)}to{transform:rotateX(-12deg) rotateY(360deg)}}
+.cube b{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:14px;
+  font:700 36px/1 var(--font-display);color:#fff;backface-visibility:hidden;box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.cube b:nth-child(1){background:linear-gradient(135deg,#c0392b,#922b21);transform:translateZ(42px)}
+.cube b:nth-child(2){background:linear-gradient(135deg,#922b21,#7f1d1d);transform:rotateY(90deg) translateZ(42px)}
+.cube b:nth-child(3){background:linear-gradient(135deg,#e74c3c,#c0392b);transform:rotateY(180deg) translateZ(42px)}
+.cube b:nth-child(4){background:linear-gradient(135deg,#d44637,#c0392b);transform:rotateY(-90deg) translateZ(42px)}
+/* DP version: outlined glass faces */
+.cube--line b{background:rgba(192,57,43,.1)!important;border:1.5px solid #c0392b;color:#c0392b;box-shadow:inset 0 0 12px rgba(192,57,43,.12)}
+.cube-az{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:14px;z-index:2;
+  font:700 13px/1 var(--font-body);letter-spacing:3px;color:#c0392b;background:rgba(255,255,255,.75);opacity:0;transition:opacity .3s}
+.pict:hover .cube{animation-play-state:paused}
+.pict:hover .cube-az{opacity:1}
+[data-theme="dark"] .cube-az{background:rgba(20,22,32,.8);color:#ff8a7a}
+[data-theme="dark"] .cube--line b{color:#ff8a7a;border-color:#ff8a7a}
+
+/* ---------- Formula infographics ---------- */
+.ig{gap:16px}
+.ig__head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.ig__head h3{font:600 20px/1.2 var(--font-display)}
+.ig__head p{color:var(--ink-3);font-size:13.5px;margin-top:4px}
+.ig .seg{flex-wrap:wrap;border-radius:var(--r)}
+.ig__panel{display:none}
+.ig__panel.is-on{display:block;animation:igIn .3s ease}
+@keyframes igIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.ig__list{list-style:none;margin:0;padding:0}
+.ig__list li{display:grid;grid-template-columns:150px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 4px;border-bottom:1px solid var(--line)}
+.ig__list li:last-child{border-bottom:0}
+.ig__list b{font-size:13px;color:var(--ink-2)}
+.ig__list span{font-size:13.5px;color:var(--ink-3)}
+.ig__list .gb{font-family:var(--font-mono);white-space:nowrap}
+.ig__pre{width:100%;border-collapse:collapse;font-size:13.5px}
+.ig__pre th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-4);padding:8px 10px;border-bottom:1px solid var(--line)}
+.ig__pre td{padding:8px 10px;border-bottom:1px solid var(--line);color:var(--ink-3)}
+.ig__pre td:last-child{font-family:var(--font-mono);color:var(--cd)}
+.ig__note{font-size:12.5px;color:var(--ink-4)}
+
+/* ---------- Infographic viewer ---------- */
+.igv{position:fixed;inset:0;z-index:300;display:none;align-items:center;justify-content:center;padding:70px 16px 24px;
+  background:rgba(26,26,46,.55);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.igv.is-open{display:flex}
+.igv figure{margin:0;max-width:min(1000px,100%);max-height:100%;display:flex;flex-direction:column;align-items:center;gap:12px}
+.igv img{max-width:100%;max-height:calc(100vh - 150px);border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.35);background:#fff}
+.igv figcaption{color:#fff;font:600 15px/1.3 var(--font-body);text-align:center}
+.igv__bar{position:fixed;top:16px;left:16px;right:16px;display:flex;justify-content:space-between;gap:8px}
+.igv__bar div{display:flex;gap:8px}
+
+@media (max-width:900px){.visual,.visual--duo{grid-template-columns:1fr}}
+@media (max-width:560px){
+  .pict{flex-direction:column;align-items:flex-start}
+  .ig__list li{grid-template-columns:1fr auto}
+  .ig__list li span{grid-column:1/-1;order:3}
+}
+@media (prefers-reduced-motion:reduce){.cube{animation:none}}
