@@ -1078,7 +1078,7 @@ function shuffleArray(array) {
 function loadAttemptData(assignmentId, submissionId, callback){
   var p1 = db.collection(col('dpAssignments')).doc(assignmentId).get();
   var p2 = db.collection(col('dpSubmissions')).doc(submissionId).get();
-  var p3 = db.collection(col('dpQuestions')).get();
+  var p3 = aspLoadPaper(assignmentId);
 
   Promise.all([p1, p2, p3]).then(function(results){
     var asgnDoc = results[0].data();
@@ -1819,7 +1819,7 @@ async function viewFeedback(assignmentId, submissionId = null){
   document.getElementById('feedbackOverlay').classList.add('open');
 
   try {
-    var qSnap = await db.collection(col('dpQuestions')).get();
+    var qSnap = await aspLoadPaper(assignmentId, sub);
     var qs = [];
     qSnap.forEach(function(doc){ 
       var d = doc.data();
@@ -2206,5 +2206,6 @@ function markOfflineAttempt(a) {
 }
 
 </script>
+<script src="js/asp-papers.js"></script>
 </body>
 </html>
