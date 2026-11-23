@@ -695,7 +695,7 @@ PhysicismAuth.onAuthReady(function(user) {
     studentDocId = user.uid;
     studentName = user.displayName || user.email.split('@')[0];
     
-    PhysicismAuth.getStudentProfile(user.uid).then(function(profile) {
+    PhysicismAuth.getStudentProfile(user.uid).catch(function(e){ console.warn("Profile not readable, continuing:", e); return null; }).then(function(profile) {
       if (profile) {
         studentLevel = profile.level || '';
         studentTags = profile.tags || [];
@@ -738,7 +738,7 @@ function loadAssignmentsAndSubmissions(){
 
     renderDashboard();
   }).catch(function(err){
-    console.error('Error loading dashboard:', err);
+    console.error('Error loading dashboard:', err); var m=document.createElement("div"); m.style.cssText="margin:24px auto;max-width:640px;padding:16px 20px;border-radius:14px;background:#FEE2E2;color:#991B1B;font:600 14px/1.5 system-ui"; m.textContent="Could not load your work: "+(err && err.message ? err.message : err)+". Please send this message to your teacher."; document.body.prepend(m);
   });
 }
 
