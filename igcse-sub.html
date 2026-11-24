@@ -190,7 +190,16 @@ var di=0, slides=[];
 function tierBadge(t){ return t==='core'?'<span style="background:rgba(34,197,94,.3)">Core</span>':t==='ext'?'<span style="background:rgba(14,165,233,.35)">Extended</span>':'<span>Core + Extended</span>'; }
 function empty(w){ return '<div class="empty"><div class="big">📝</div>'+w+' coming soon.</div>'; }
 
-if(!C){
+function showLoadError(){   // the lesson file failed to download
+  var msg='<div class="empty"><div class="big">&#128246;</div>This lesson could not be downloaded. Check your internet connection, then <button type="button" class="gl-btn" onclick="location.reload()">try again</button></div>';
+  document.getElementById('subTitle').textContent='This lesson did not load';
+  document.getElementById('heroBadges').innerHTML='<span>'+code+'</span>';
+  ['learn','sim','form','prac','mist','exam','chk'].forEach(function(id){ document.getElementById(id).innerHTML='<div class="card">'+msg+'</div>'; });
+  document.getElementById('deck').innerHTML=msg;
+  document.querySelector('#pres .card > div:last-child').style.display='none';
+  document.querySelector('.hero-prog').style.display='none';
+}
+if(!window.IGCSE_CONTENT){ showLoadError(); }else if(!C){
   document.getElementById('subTitle').textContent=code.replace('IG','')+' — coming soon';
   document.getElementById('heroBadges').innerHTML='<span>'+code+'</span>';
   ['learn','sim','form','prac','mist','exam','chk'].forEach(function(id){ document.getElementById(id).innerHTML='<div class="card"><div class="empty"><div class="big">🚧</div>Content for '+code+' is being prepared.</div></div>'; });
@@ -246,7 +255,7 @@ function renderSim(){
   if(!s){ document.getElementById('sim').innerHTML='<div class="card">'+empty('Simulation')+'</div>'; return; }
   document.getElementById('sim').innerHTML='<div class="sim"><div class="sim-h"><div class="sim-t">🔬 '+s.title+'</div><div class="sim-s">'+(s.source||'Interactive Simulation')+'</div></div>'+
     '<div class="sim-b"><iframe class="sim-frame" src="'+s.file+'" loading="lazy"></iframe>'+
-    '<a class="sim-link" href="'+s.file+'" target="_blank">Open full screen →</a>'+
+    '<a class="sim-link" href="'+s.file+'">Open full screen →</a>'+
     (s.instructions&&s.instructions.length?'<div class="sim-ins"><h4 class="sans" style="color:var(--ig-d);margin-bottom:8px">Try this:</h4>'+s.instructions.map(function(t,i){return '<p>'+(i+1)+'. '+t+'</p>';}).join('')+'</div>':'')+
     '</div></div>';
 }
