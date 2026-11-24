@@ -1,147 +1,160 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js" data-theme="light">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-9JDXQ282H8');
-</script>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Puzzle Hub | Atul Soral Physicism</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('physicism-theme') || 'light'); } catch (e) {}</script>
+<title>MYP Physics puzzles · Atul Soral Physicism</title>
+<meta name="description" content="Quick physics puzzles for every IB MYP Physics unit: match formulas, put steps in order, true or false and odd one out. Earn up to three stars on each.">
+<link rel="canonical" href="https://soralatul16.github.io/atul-soral-physicism/myp-puzzles.html">
+<meta name="theme-color" content="#f7f3ed">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%234ecdc4'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='white'%3E%E2%9A%9B%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/asp-base.css?v=1">
+<link rel="stylesheet" href="css/asp-course.css?v=1">
+<link rel="stylesheet" href="css/asp-visual.css?v=4">
+<link rel="stylesheet" href="css/asp-tools.css?v=1">
+<link rel="stylesheet" href="css/asp-glass.css?v=1">
 <style>
-body{
-  font-family: Arial;
-  background:#0f172a;
-  color:white;
-  margin:0;
-}
-
-header{
-  background:linear-gradient(135deg,#06b6d4,#2563eb);
-  padding:40px;
-  text-align:center;
-}
-
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:20px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  background:#1e293b;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-th,td{
-  padding:12px;
-  text-align:center;
-  border:1px solid #334155;
-}
-
-th{
-  background:#2563eb;
-}
-
-button{
-  padding:8px 12px;
-  border:none;
-  border-radius:6px;
-  cursor:pointer;
-  background:#22c55e;
-  color:white;
-  font-weight:bold;
-}
-
-button:hover{
-  background:#16a34a;
-}
-
-.nav{
-  text-align:center;
-  margin-top:20px;
-}
-
-.nav button{
-  background:#334155;
-  margin:5px;
-}
+/* puzzles page */
+.pz-units{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px;margin-top:8px}
+.pz-unit{cursor:pointer;text-align:left;font:inherit;color:inherit;border:1px solid var(--bdc,var(--line));background:var(--bgc,var(--surface));padding:18px 20px;gap:8px}
+.pz-unit:hover,.pz-unit:focus-visible{transform:translateY(-2px);box-shadow:var(--shadow-md)}
+.pz-unit[aria-pressed="true"]{outline:2.5px solid var(--c);outline-offset:2px}
+.pz-unit h3{font:600 16px/1.3 var(--font-body)}
+.pz-unit .pz-stars{font-size:13px;color:var(--ink-3)}
+.pz-stars b{color:#e0a100;letter-spacing:1px}
+.pz-play{margin-top:36px;padding:26px;border-radius:var(--r-lg);background:var(--glass-strong);border:1px solid var(--glass-border);box-shadow:var(--shadow-md);scroll-margin-top:calc(var(--nav-h) + 16px)}
+.pz-play[hidden]{display:none}
+.pz-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.pz-head h2{font-size:clamp(20px,2.2vw,24px)}
+.pz-types{margin-top:14px;flex-wrap:wrap}
+.pz-q{margin:22px 0 14px;font-size:17px;font-weight:600;color:var(--ink)}
+.pz-prog{font:600 12px/1 var(--font-mono);color:var(--ink-4);letter-spacing:.05em}
+.pz-btn{display:block;width:100%;text-align:left;font:500 15px/1.4 var(--font-body);color:var(--ink);padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);cursor:pointer;transition:border-color .2s,background .2s,transform .15s}
+.pz-btn:hover:not(:disabled){border-color:var(--c)}
+.pz-btn:disabled{cursor:default}
+.pz-btn.is-sel{border-color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--surface))}
+.pz-btn.is-ok{border-color:#2e9e5b;background:color-mix(in srgb,#2e9e5b 14%,var(--surface))}
+.pz-btn.is-bad{border-color:#d0493c;background:color-mix(in srgb,#d0493c 12%,var(--surface))}
+.pz-btn.is-shake{animation:pzShake .35s}
+@keyframes pzShake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.pz-match{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px}
+.pz-match .pz-col{display:grid;gap:10px;align-content:start}
+.pz-match .pz-col--l .pz-btn{font-family:'Cambria Math',Cambria,Georgia,serif;font-size:17px}
+.pz-order{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:700px){.pz-order{grid-template-columns:1fr}.pz-match{gap:8px 10px}.pz-btn{font-size:14px;padding:10px 12px}}
+.pz-slots{display:grid;gap:8px;counter-reset:s;align-content:start}
+.pz-slot{display:flex;gap:10px;align-items:center;min-height:46px;padding:6px 8px;border-radius:14px;border:1.5px dashed var(--ink-5)}
+.pz-slot::before{counter-increment:s;content:counter(s);flex-shrink:0;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 12px/1 var(--font-body);color:var(--cd);background:color-mix(in srgb,var(--c) 18%,transparent)}
+.pz-slot .pz-btn{padding:8px 12px}
+.pz-pool{display:grid;gap:8px;align-content:start}
+.pz-lbl{font:600 11px/1 var(--font-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-4);margin-bottom:8px}
+.pz-tf{display:flex;gap:12px;flex-wrap:wrap}
+.pz-tf .pz-btn{width:auto;min-width:130px;text-align:center;font-weight:600}
+.pz-odd{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.pz-odd .pz-btn{text-align:center;min-height:64px}
+.pz-why{margin-top:14px;padding:12px 16px;border-radius:14px;font-size:14.5px;background:color-mix(in srgb,var(--c) 10%,transparent);color:var(--ink-2)}
+.pz-why[hidden]{display:none}
+.pz-why b{color:var(--ink)}
+.pz-acts{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:18px}
+.pz-acts .pz-msg{font-size:14px;color:var(--ink-3)}
+.pz-done{text-align:center;padding:26px 10px 8px}
+.pz-done__stars{font-size:46px;letter-spacing:6px;color:#e0a100}
+.pz-done__stars i{font-style:normal;color:var(--ink-5)}
+.pz-done h3{font-size:22px;margin:8px 0 4px}
+.pz-done p{color:var(--ink-3)}
+.pz-done .pz-acts{justify-content:center}
+[data-theme="dark"] .pz-btn{background:rgba(255,255,255,.04)}
+@media (prefers-reduced-motion:reduce){.pz-btn.is-shake{animation:none}}
 </style>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-9JDXQ282H8');</script>
 </head>
 
-<body>
+<body class="c-myp">
+<a class="skip" href="#main">Skip to content</a>
+<div class="asp-bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
-<header>
-<h1>🧩 MYP Puzzle Hub</h1>
-<p>Select Topic & Puzzle Type</p>
+<header class="nav">
+  <div class="nav__in">
+    <a class="gb gb--sm nav__back" href="myp-dashboard.html#practise" data-back aria-label="Go back"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Back</a>
+    <a class="gb gb--icon nav__home" href="index.html" aria-label="Home" title="Home"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></a>
+    <a class="brand" href="index.html" aria-label="Atul Soral Physicism, home"><span class="brand__mark" aria-hidden="true">&#9883;</span>Atul Soral <span>Physicism</span></a>
+    <button class="gb gb--icon nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <nav class="nav__links" id="navLinks" aria-label="Main">
+      <a class="nav__link" href="igcse-dashboard.html">IGCSE</a>
+      <a class="nav__link" href="myp-dashboard.html" aria-current="page">MYP</a>
+      <a class="nav__link" href="dp-dashboard.html">DP</a>
+      <a class="nav__link" href="index.html#tools">Simulators</a>
+      <a class="nav__link" href="dp-student-portal.html">Student Portal</a>
+      <span class="nav__sep" aria-hidden="true"></span>
+      <span data-auth><button class="gb gb--sm" type="button" data-action="signin">Sign in</button></span>
+      <a class="gb gb--sm gb--dark" href="https://wa.me/917877199443" target="_blank" rel="noopener">Book tutoring</a>
+    </nav>
+    <button class="gb gb--icon nav__theme" type="button" data-action="theme" aria-label="Switch between light and dark mode" title="Light / dark">&#127763;</button>
+  </div>
 </header>
 
-<div class="container">
+<main id="main" class="wrap">
+  <section class="c-hero" aria-labelledby="pageTitle">
+    <div class="reveal">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="myp-dashboard.html">MYP Physics</a><span aria-hidden="true">/</span><span>Puzzles</span></nav>
+      <p class="c-badge">IB MYP PHYSICS &middot; PLAY AND LEARN</p>
+      <h1 id="pageTitle">Physics puzzles, <em>three stars each</em></h1>
+      <p class="c-hero__lede">Four quick puzzles for every MYP unit: match the pairs, put the steps in order, true or false, and odd one out. Each one takes two or three minutes, and every answer tells you why.</p>
+      <div class="c-hero__cta">
+        <button class="gb gb--dark" type="button" data-pz="random">&#127922; Random puzzle</button>
+        <a class="gb gb--tint c-myp" href="myp-formula-bank.html">&#128208; Formula bank</a>
+      </div>
+    </div>
+    <aside class="path reveal" aria-label="How it works">
+      <p class="path__title">How it works</p>
+      <ol>
+        <li><div><b>Pick a unit</b><span>Start with the one you are studying now.</span></div></li>
+        <li><div><b>Play the four puzzles</b><span>Read the explanation after every answer.</span></div></li>
+        <li><div><b>Collect the stars</b><span>Replay any puzzle to beat your best. Questions are shuffled each time.</span></div></li>
+      </ol>
+      <dl class="path__facts"><div><dt>Units</dt><dd id="nUnits">0</dd></div><div><dt>Puzzles</dt><dd id="nPuzzles">0</dd></div><div><dt>Your stars</dt><dd id="nStars">0</dd></div></dl>
+    </aside>
+  </section>
 
-<table>
-<tr>
-<th>Topic</th>
-<th>Formula</th>
-<th>Sequence</th>
-<th>True/False</th>
-<th>Label</th>
-<th>Graph</th>
-<th>Maze</th>
-</tr>
+  <section class="sec" aria-labelledby="unitsTitle">
+    <div class="sec-hdr"><span class="sec-hdr__dot"></span><h2 id="unitsTitle">Choose a unit</h2><span class="sec-hdr__line"></span></div>
+    <div class="pz-units" id="units"></div>
+  </section>
 
-<tr>
-<td>Static Electricity</td>
-<td><button onclick="start('Static electricity','formula',10)">Start</button></td>
-<td><button onclick="start('Static electricity','sequence',10)">Start</button></td>
-<td><button onclick="start('Static electricity','truefalse',10)">Start</button></td>
-<td><button onclick="start('Static electricity','label',10)">Start</button></td>
-<td><button onclick="start('Static electricity','graph',5)">Start</button></td>
-<td><button onclick="start('Static electricity','maze',10)">Start</button></td>
-</tr>
+  <section class="pz-play" id="play" aria-labelledby="playTitle" hidden>
+    <div class="pz-head">
+      <h2 id="playTitle"></h2>
+      <span class="pz-prog" id="prog"></span>
+    </div>
+    <div class="seg pz-types" role="group" aria-label="Puzzle type" id="types">
+      <button type="button" data-type="match" aria-pressed="false">&#129513; Match</button>
+      <button type="button" data-type="order" aria-pressed="false">&#128290; Order</button>
+      <button type="button" data-type="tf" aria-pressed="false">&#9989; True or false</button>
+      <button type="button" data-type="odd" aria-pressed="false">&#128269; Odd one out</button>
+    </div>
+    <div id="stage" aria-live="polite"></div>
+  </section>
 
-<tr>
-<td>Current, Voltage, Charge</td>
-<td><button onclick="start('Current Voltage Charge','formula',12)">Start</button></td>
-<td><button onclick="start('Current Voltage Charge','sequence',10)">Start</button></td>
-<td><button onclick="start('Current Voltage Charge','truefalse',12)">Start</button></td>
-<td><button onclick="start('Current Voltage Charge','label',10)">Start</button></td>
-<td><button onclick="start('Current Voltage Charge','graph',10)">Start</button></td>
-<td><button onclick="start('Current Voltage Charge','maze',10)">Start</button></td>
-</tr>
+  <section class="band reveal" aria-labelledby="bandTitle">
+    <div><h2 id="bandTitle">&#128218; Want more practice?</h2><p>Use the formula bank to learn every formula, then try the criterion-based questions.</p></div>
+    <div class="band__cta"><a class="gb gb--dark" href="myp-formula-bank.html">Open the formula bank &rarr;</a><a class="gb" href="myp-dashboard.html#practise">MYP practice</a></div>
+  </section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-</table>
+<footer class="footer">
+  <div>
+    <p class="footer__eq" aria-hidden="true">&Delta;x &middot; &Delta;p &ge; &#8463;/2</p>
+    <p>&copy; 2026 Atul Soral Physicism &bull; <a href="mailto:atulsoralphysicism@gmail.com">atulsoralphysicism@gmail.com</a></p>
+  </div>
+  <p class="footer__fine">Independent study resources for IB MYP Physics. Not affiliated with or endorsed by the International Baccalaureate.</p>
+</footer>
 
-<div class="nav">
-<button onclick="location.href='myp-dashboard.html'">🏠 Home</button>
-</div>
-
-</div>
-
-<script>
-
-function start(topic,type,count){
-
-// 🔍 Debug (very useful)
-console.log(topic,type,count);
-
-// Encode properly
-const url = `run-puzzle.html?topic=${encodeURIComponent(topic)}&type=${type}&count=${count}`;
-
-// Redirect
-window.location.href = url;
-}
-
-</script>
-
+<script src="js/myp-puzzles-data.js?v=1"></script>
+<script src="js/myp-puzzles.js?v=1"></script>
+<script src="js/asp-ui.js?v=1" defer></script>
+<script src="js/asp-helpers.js?v=1" data-course="MYP" defer></script>
 </body>
 </html>
