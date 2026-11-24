@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATUL SORAL PHYSICISM · Diffraction Grating</title>
+<meta name="description" content="Interactive Cambridge A Level Physics (9702) 8.4 Diffraction grating: d sin θ = nλ, orders, white light spectra and a virtual lab to measure the wavelength of a laser.">
+<style>
+:root{
+  --c1:#0ea5e9; --c2:#38bdf8; --c3:#fb923c; --c4:#f472b6; --c5:#2dd4bf; --c6:#f59e0b; --c7:#4ade80; --c8:#7dd3fc;
+  --accent:var(--c1); --accent-soft:rgba(14,165,233,.14); --onacc:#2b2f36;
+  --ink:#2b2f36; --muted:#6b7280; --line:rgba(43,47,54,.12); --card:#ffffff;
+  --tan:#f0e7d6; --tanink:#9a6b2f;
+  --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--fs);color:var(--ink);line-height:1.6;min-height:100vh;padding-bottom:64px;
+  transition:background .6s ease,filter .3s ease;background:linear-gradient(135deg,#f0f9ff 0%,#fff7ed 50%,#ecfeff 100%)}
+body[data-page="1"]{background:linear-gradient(135deg,#eff9ff 0%,#e8f6fe 55%,#f5fbff 100%)}
+body[data-page="2"]{background:linear-gradient(135deg,#fff6ec 0%,#fff9f2 55%,#fff4e6 100%)}
+body[data-page="3"]{background:linear-gradient(135deg,#ecfdf9 0%,#f0fdfa 55%,#eefaf6 100%)}
+body[data-page="4"]{background:linear-gradient(135deg,#fff7ed 0%,#fffbeb 55%,#fef7ec 100%)}
+body[data-page="5"]{background:linear-gradient(135deg,#ecfdf5 0%,#f0fdf6 55%,#eefaf2 100%)}
+body.dark{--ink:#ececec;--muted:#a1a1aa;--line:rgba(236,236,236,.14);--card:#1f2228;--tan:#2b3450;--tanink:#f0d9a8;
+  background:linear-gradient(135deg,#15171c 0%,#1a1c22 55%,#17191e 100%)!important}
+body.dark .topnav,body.dark .chapterbar{background:rgba(24,26,31,.88)}
+body.dark .brand{color:#f2f4fb}
+body.dark .tab{background:rgba(255,255,255,.06)}
+body.dark .partlink{background:rgba(255,255,255,.05)}
+body.dark .btn.ghost,body.dark .seg button{background:rgba(255,255,255,.06)}
+body.dark .we,body.dark .q,body.dark .mcard,body.dark .gatebox{background:#1f2228}
+body.dark .opt,body.dark .pans,body.dark .eqbox,body.dark .otable td,body.dark .num-in{background:#191b20;color:var(--ink)}
+body.dark .qexp{background:rgba(5,150,105,.16)}
+body.dark .chapterbar,body.dark .topnav{border-color:var(--line)}
+body.dark .partlink,body.dark .seg button{color:#c7cfe6}
+body.dark .lead,body.dark .prose p,body.dark .prose li,body.dark .mcard p,body.dark .answer,body.dark .pans,body.dark .ms,body.dark .qexp,body.dark .pq .stem,body.dark .out{color:#c7cfe6}
+body.dark .gatebox .mark{color:#f2f4fb}
+body.dark .opt.correct{background:rgba(5,150,105,.2)}
+body.dark .opt.wrong{background:rgba(220,38,38,.2)}
+
+.topnav{display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 22px;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:50}
+.brand{font-weight:800;letter-spacing:.4px;font-size:15px;color:#1b1b1b;white-space:nowrap}
+.brand .sp{color:#d98a1f}
+.navlinks{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.navlink{font-size:13px;font-weight:600;color:var(--muted);text-decoration:none;transition:.2s;white-space:nowrap}
+.navlink:hover{color:var(--accent)}
+.navlink.active{color:var(--accent);font-weight:800}
+.allsims{display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-weight:600}
+.navright{margin-left:auto;display:flex;align-items:center;gap:11px;flex-wrap:wrap}
+.profile{display:inline-flex;align-items:center;gap:6px;background:var(--tan);color:var(--tanink);font-weight:800;
+  font-size:12px;padding:4px 11px 4px 7px;border-radius:999px}
+.profile .av{width:17px;height:17px;border-radius:50%;background:#0ea5e9;display:inline-block;position:relative}
+.profile .av::after{content:"";position:absolute;left:50%;top:3px;transform:translateX(-50%);width:6px;height:6px;border-radius:50%;background:#fff}
+.profile .av::before{content:"";position:absolute;left:50%;bottom:1px;transform:translateX(-50%);width:11px;height:6px;border-radius:6px 6px 0 0;background:#fff}
+#clock{font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sunbtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--tan);cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;font-size:15px;transition:.2s}
+.sunbtn:hover{filter:brightness(1.04)}
+
+.chapterbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:9px 22px;
+  background:rgba(255,255,255,.55);border-bottom:1px solid var(--line)}
+.chaptag{font-size:11px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--accent)}
+.parts{display:flex;gap:7px;flex-wrap:wrap}
+.partlink{font-size:11px;font-weight:600;text-decoration:none;color:var(--muted);
+  border:1px solid var(--line);border-radius:999px;padding:4px 11px;background:#fff;transition:.2s;white-space:nowrap}
+.partlink:hover{color:var(--accent);border-color:var(--accent)}
+.partlink.here{background:var(--accent);color:var(--onacc);border-color:var(--accent)}
+.partlink .pl{font-size:9px;font-weight:800;opacity:.85;margin-left:4px;border:1px solid currentColor;border-radius:4px;padding:0 3px}
+.legend{margin-left:auto;display:flex;gap:10px;font-size:11px;color:var(--muted);font-weight:600}
+.legend .sl{display:inline-flex;align-items:center;gap:4px}
+.dotSL{width:9px;height:9px;border-radius:3px;background:#0ea5e9}
+
+header.hero{padding:26px 22px 8px;max-width:1120px;margin:0 auto}
+.kicker{font-size:12px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+header.hero h1{font-size:29px;font-weight:800;margin:6px 0 4px;letter-spacing:-.5px}
+header.hero p{color:var(--muted);max-width:730px;font-size:15px}
+
+nav#nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 22px 4px;max-width:1120px;margin:0 auto}
+.tab{--tabc:var(--c1);display:inline-flex;align-items:center;gap:7px;font-family:var(--fs);font-size:13px;font-weight:600;
+  color:var(--muted);background:rgba(255,255,255,.82);border:1px solid var(--line);border-radius:11px;padding:8px 12px;cursor:pointer;transition:.2s}
+.tab .num{font-weight:800;color:var(--tabc)}
+.tab .lvl{font-size:9px;font-weight:800;border-radius:4px;padding:1px 4px;background:var(--accent-soft);color:var(--tabc)}
+.tab:hover{color:var(--ink);border-color:var(--tabc)}
+.tab.active{color:var(--onacc);background:var(--tabc);border-color:var(--tabc);box-shadow:0 6px 16px -8px var(--tabc)}
+.tab.active .num,.tab.active .lvl{color:var(--onacc)}
+.tab.active .lvl{background:rgba(255,255,255,.45)}
+
+main{max-width:1120px;margin:0 auto;padding:14px 22px 40px}
+.page{display:none;animation:fade .4s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.levelchip{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;letter-spacing:.5px;
+  border-radius:999px;padding:3px 10px;margin-bottom:10px;text-transform:uppercase}
+.levelchip.sl{background:rgba(14,165,233,.16);color:#0284c7}
+.lead{font-size:16px;color:#374151;max-width:770px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:18px}
+@media(max-width:860px){.grid{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 10px 30px -22px rgba(27,36,64,.5)}
+.card h3{font-size:15px;font-weight:800;margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.card h3 .pin{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.canvas-wrap{position:relative;width:100%;height:clamp(300px,46vh,440px);overflow:hidden;border-radius:12px;background:#f3faff;border:1px solid var(--line)}
+.canvas-wrap.strip{height:clamp(190px,26vh,240px)}
+canvas{display:block;width:100%;height:100%}
+
+.ctl{margin:12px 0}
+.ctl label{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:var(--muted);margin-bottom:5px}
+.ctl label b{color:var(--accent);font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--accent);height:4px}
+.btn{font-family:var(--fs);font-size:13px;font-weight:700;border-radius:10px;padding:9px 14px;cursor:pointer;border:1px solid var(--accent);transition:.18s}
+.btn.primary{background:var(--accent);color:var(--onacc)}
+.btn.ghost{background:#fff;color:var(--accent)}
+.btn:hover{filter:brightness(1.05)}
+.btn:disabled{opacity:.5;cursor:default;filter:none}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px;align-items:center}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.seg button{font-family:var(--fs);font-size:12px;font-weight:700;border:1px solid var(--line);background:#fff;color:var(--muted);
+  border-radius:9px;padding:7px 11px;cursor:pointer;transition:.18s}
+.seg button.on{background:var(--accent);color:var(--onacc);border-color:var(--accent)}
+
+.ro{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-bottom:1px dashed var(--line)}
+.ro:last-child{border-bottom:0}
+.ro .k{font-size:12px;color:var(--muted);font-weight:600}
+.ro .v{font-size:17px;font-weight:800;font-variant-numeric:tabular-nums}
+.ro.hi{background:var(--accent-soft);margin:0 -8px;padding:8px;border-radius:8px;border-bottom:0}
+.out{margin-top:12px;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-size:13.5px;color:#374151}
+.out b{color:var(--ink)}
+.note{font-size:12.5px;color:var(--muted);margin-top:10px}
+
+.prose p{margin-bottom:11px;font-size:14.5px;color:#374151}
+.prose h4{font-size:14px;font-weight:800;margin:14px 0 6px;color:var(--ink)}
+.prose ul,.prose ol{margin:4px 0 11px 20px;font-size:14.5px;color:#374151}
+.prose li{margin-bottom:5px}
+.eqbox{font-family:var(--fm);font-size:15px;background:#fbfbff;border:1px solid var(--line);border-left:3px solid var(--accent);
+  border-radius:8px;padding:11px 14px;margin:10px 0;color:var(--ink);overflow-x:auto}
+.otable{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;font-variant-numeric:tabular-nums}
+.otable th{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:var(--muted);text-align:left;padding:5px 8px;border-bottom:1px solid var(--line)}
+.otable td{padding:6px 8px;border-bottom:1px dashed var(--line);background:#fff}
+.otable tr.off td{color:var(--muted)}
+.num-in{font-family:var(--fs);font-size:15px;width:130px;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.num-in:focus{outline:none;border-color:var(--accent)}
+
+.we{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px;border-top:3px solid var(--c5)}
+.we .q{font-weight:700;font-size:14.5px;margin-bottom:4px;background:none;border:0;padding:0;border-radius:0}
+.we .meta{font-size:11px;font-weight:700;color:var(--c5);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.reveal{margin-top:10px;font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.answer{margin-top:10px;font-size:14px;color:#374151;border-top:1px dashed var(--line);padding-top:10px}
+.answer p{margin-bottom:8px}
+.answer .eqbox{font-size:13.5px}
+
+.pq{margin-top:18px;border-top:3px solid var(--c6)}
+.pq .tagq{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--c6);margin-bottom:6px}
+.pq .stem{font-size:14.5px;color:#374151;margin-bottom:12px}
+.qpart{border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.qpart:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.qpart .ptext{font-weight:700;font-size:14px;margin-bottom:8px}
+.qpart .ptext .mks{color:var(--muted);font-weight:700;margin-left:4px}
+.preveal{font-family:var(--fs);font-size:12.5px;font-weight:700;color:var(--accent);background:var(--accent-soft);border:0;border-radius:8px;padding:7px 13px;cursor:pointer}
+.pans{margin-top:9px;font-size:13.5px;color:#374151;background:#f8fafc;border:1px solid var(--line);border-radius:9px;padding:10px 12px}
+.pans[hidden]{display:none}
+.pdone{font-size:12px;color:#059669;font-weight:700;margin-top:12px}
+
+.mis{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:720px){.mis{grid-template-columns:1fr}}
+.mcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px;border-left:4px solid var(--c4)}
+.mcard .wrong{font-size:13px;color:#b91c1c;font-weight:700;margin-bottom:4px}
+.mcard .wrong::before{content:"\2717 ";}
+.mcard .right{font-size:13.5px;color:#065f46;font-weight:600;margin-top:7px}
+.mcard .right::before{content:"\2713 ";}
+.mcard p{font-size:13px;color:#374151;margin-top:5px}
+body.dark .mcard .right{color:#6ee7b7}
+body.dark .mcard .wrong{color:#fca5a5}
+
+.q{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:13px;border-top:3px solid var(--c7)}
+.q .qq{font-weight:700;font-size:14.5px;margin-bottom:9px}
+.opts{display:grid;gap:7px}
+.opt{text-align:left;font-family:var(--fs);font-size:13.5px;color:var(--ink);background:#fcfdff;border:1px solid var(--line);border-radius:9px;padding:9px 13px;cursor:pointer;transition:.15s}
+.opt:hover{border-color:var(--c7)}
+.opt.correct{background:#ecfdf5;border-color:#059669;color:#065f46;font-weight:600}
+.opt.wrong{background:#fef2f2;border-color:#dc2626;color:#991b1b}
+.qexp{margin-top:9px;font-size:13px;color:#374151;background:#f0fdf4;border-radius:8px;padding:9px 12px;display:none}
+.qexp.show{display:block}
+
+footer{text-align:center;padding:26px 20px 8px;color:var(--muted);font-size:12px}
+footer b{color:var(--accent)}
+
+#gate{position:fixed;inset:0;z-index:100;background:linear-gradient(135deg,#f0f9ff,#fff7ed,#ecfeff);display:flex;align-items:center;justify-content:center;padding:20px}
+.gatebox{background:#fff;border-radius:20px;padding:34px 30px;max-width:430px;width:100%;box-shadow:0 30px 70px -30px rgba(27,36,64,.5);text-align:center}
+.gatebox .mark{font-size:13px;font-weight:800;letter-spacing:1px;color:#1b1b1b}
+.gatebox .mark .sp{color:#d98a1f}
+.gatebox h2{font-size:22px;margin:12px 0 6px}
+.gatebox p{color:var(--muted);font-size:14px;margin-bottom:18px}
+.gatebox input{width:100%;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:11px;font-family:var(--fs);margin-bottom:12px}
+.gatebox input:focus{outline:none;border-color:var(--c1)}
+.gatebox .btn{width:100%;background:var(--c1);color:var(--onacc);border-color:var(--c1);padding:12px}
+.gatebox .err{color:#dc2626;font-size:12px;margin-top:8px}
+.tag{font-size:11px;color:var(--muted);margin-top:14px}
+@media print{#gate,.topnav,.sunbtn,nav#nav{display:none!important}.page{display:block!important;page-break-after:always}}
+</style>
+</head>
+<body data-page="1">
+
+<div id="gate">
+  <div class="gatebox">
+    <div class="mark">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+    <h2>Diffraction Grating</h2>
+    <p>Topic 8.4 Superposition &middot; Cambridge AS &amp; A Level Physics (9702)</p>
+    <input id="gateName" type="text" placeholder="Type your name to begin" autocomplete="off">
+    <button class="btn" id="gateBtn">Enter the simulation</button>
+    <div class="err" id="gateErr" hidden>Please enter at least 2 characters.</div>
+    <div class="tag">An interactive A level physics lesson</div>
+  </div>
+</div>
+
+<div class="topnav">
+  <div class="brand">ATUL SORAL <span class="sp">PHYSICISM</span></div>
+  <div class="navlinks">
+    <a class="navlink allsims" href="../dp-simulations.html">&larr; All Simulations</a>
+    <a class="navlink" href="../index.html">Home</a>
+    <a class="navlink" href="../index.html#igcse">IGCSE</a>
+    <a class="navlink" href="../index.html#myp">MYP</a>
+    <a class="navlink active" href="../dp-simulations.html">A Level</a>
+  </div>
+  <div class="navright">
+    <span class="profile"><span class="av"></span><span id="profileName">atul</span></span>
+    <span id="clock"></span>
+    <button class="sunbtn" id="sunbtn" title="Switch to dark mode">&#9728;</button>
+  </div>
+</div>
+
+<div class="chapterbar">
+  <span class="chaptag">8 Superposition</span>
+  <div class="parts">
+    <a class="partlink" href="stationary-waves.html">8.1 Stationary Waves<span class="pl">AS</span></a>
+    <a class="partlink" href="diffraction.html">8.2 Diffraction<span class="pl">AS</span></a>
+    <a class="partlink" href="interference.html">8.3 Interference<span class="pl">AS</span></a>
+    <a class="partlink here" href="diffraction-grating.html">8.4 Diffraction Grating<span class="pl">AS</span></a>
+  </div>
+  <div class="legend">
+    <span class="sl"><span class="dotSL"></span>AS Level core</span>
+  </div>
+</div>
+
+<header class="hero">
+  <div class="kicker" id="kicker">8.4 &middot; Many slits, sharp bright lines</div>
+  <h1>Diffraction Grating</h1>
+  <p>A diffraction grating is a plate ruled with hundreds of equally spaced slits per millimetre. Light from every slit interferes, giving very sharp, bright maxima at the angles where d sin&theta; = n&lambda;. That makes it the most accurate way to measure the wavelength of light.</p>
+</header>
+
+<nav id="nav"></nav>
+
+<main>
+<!-- ========== PAGE 1 : THE GRATING EQUATION ========== -->
+<section class="page active" data-p="1">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">A laser shines <b>normally</b> (at 90&deg;) onto the grating. Bright maxima appear only at the angles where light from neighbouring slits arrives <b>in phase</b>. Change the wavelength, the number of lines per millimetre and the screen distance, and watch every order move.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>Top view &mdash; laser, grating and screen</h3>
+      <div class="canvas-wrap"><canvas id="gCanvas"></canvas></div>
+      <div class="seg" id="lightSeg">
+        <button data-m="mono" class="on">Laser (one wavelength)</button>
+        <button data-m="white">White light</button>
+      </div>
+      <div class="ctl" id="lamCtl">
+        <label>Wavelength <b>&lambda; = <span id="lamV">532</span> nm</b></label>
+        <input type="range" id="lamR" min="400" max="700" step="1" value="532">
+      </div>
+      <div class="ctl">
+        <label>Lines per millimetre <b>N = <span id="nV">300</span> mm&#8315;&#185;</b></label>
+        <input type="range" id="nR" min="80" max="1200" step="10" value="300">
+      </div>
+      <div class="ctl">
+        <label>Grating to screen <b>D = <span id="dV">1.00</span> m</b></label>
+        <input type="range" id="dR" min="0.4" max="2" step="0.05" value="1">
+      </div>
+      <p class="note">Each bright spot is one <b>order</b>, n. The straight-through spot is n = 0. Orders whose rays miss the screen still exist; the screen is just not wide enough to catch them.</p>
+    </div>
+    <div class="card">
+      <h3><span class="pin"></span>The numbers</h3>
+      <div class="ro"><span class="k">Line spacing d = 1 / N</span><span class="v" id="roD">3.33 &micro;m</span></div>
+      <div class="ro"><span class="k">&lambda; / d</span><span class="v" id="roRatio">0.160</span></div>
+      <div class="ro hi"><span class="k">Highest order n<sub>max</sub> (d / &lambda;, rounded down)</span><span class="v" id="roMax">6</span></div>
+      <div class="eqbox" id="eqWork"></div>
+      <table class="otable" aria-label="Angle and position of each order">
+        <thead><tr><th>Order n</th><th>sin &theta; = n&lambda; / d</th><th>&theta;</th><th>x on screen</th></tr></thead>
+        <tbody id="oBody"></tbody>
+      </table>
+      <div class="out" id="gOut"></div>
+      <div class="prose" style="margin-top:12px">
+        <h4>Why only these angles?</h4>
+        <p>Light leaving two neighbouring slits at angle &theta; has a <b>path difference of d sin&theta;</b>. When that path difference is a whole number of wavelengths, the waves from <i>every</i> slit arrive in phase and reinforce: a bright maximum.</p>
+        <p>With hundreds of slits, even a tiny change of angle puts the waves out of step, so they cancel. That is why grating maxima are <b>much sharper and brighter</b> than double-slit fringes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 2 : MEASURE THE WAVELENGTH ========== -->
+<section class="page" data-p="2">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">A virtual lab. A laser of <b>unknown wavelength</b> shines on a grating with <b>300 lines per mm</b>, and the screen is <b>1.00 m</b> away. Slide the cursor onto the centre of each spot, read the distances, then work out &lambda;. The zoom lens helps you line it up.</p>
+  <div class="grid">
+    <div class="card">
+      <h3><span class="pin"></span>What you see on the screen</h3>
+      <div class="canvas-wrap strip"><canvas id="sCanvas"></canvas></div>
+      <div class="ctl">
+        <label>Ruler cursor <b>x = <span id="curV">0.0</span> cm</b></label>
+        <input type="range" id="curR" min="-80" max="80" step="0.1" value="0">
+      </div>
+      <div class="btnrow">
+        <button class="btn ghost" id="stepL" aria-label="Move cursor left 0.1 cm">&larr; 0.1 cm</button>
+        <button class="btn ghost" id="stepR" aria-label="Move cursor right 0.1 cm">0.1 cm &rarr;</button>
+        <button class="btn ghost" id="newLaser">&#8635; New mystery laser</button>
+      </div>
+      <div class="out" style="background:rgba(217,119,6,.12)">
+        <b>Your task:</b> find the wavelength of this laser in nm. Tip: measure from the left first-order spot to the right one and halve it. This is more accurate than measuring from the centre.
+        <div class="btnrow">
+          <input class="num-in" id="lamGuess" type="number" inputmode="decimal" placeholder="e.g. 600" aria-label="Your wavelength in nanometres"> <span style="font-size:13px;font-weight:700">nm</span>
+          <button class="btn primary" id="checkLam">Check my wavelength</button>
+        </div>
+        <div id="lamFb" class="note" style="margin-top:8px"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="prose">
+        <h4>Method: measuring &lambda; with a grating</h4>
+        <ol>
+          <li>Shine the laser <b>normally</b> onto the grating, with a screen a measured distance <b>D</b> away (metre rule).</li>
+          <li>Mark the central maximum and the first-order maxima on both sides.</li>
+          <li>Measure the distance between the two first-order maxima and halve it to get <b>x</b>.</li>
+          <li>Find the angle: <b>tan&theta; = x / D</b>.</li>
+          <li>Find the line spacing: <b>d = 1 / N</b>, with N in lines per <b>metre</b>.</li>
+          <li>Calculate <b>&lambda; = d sin&theta; / n</b>. Repeat with the second order and take a mean.</li>
+        </ol>
+        <p>Grating angles are large, so do <b>not</b> use the small-angle shortcut &lambda; = ax/D from Young&rsquo;s slits. Always find &theta; first.</p>
+        <button class="reveal" id="showWork">Show the working for this laser</button>
+        <div class="answer" id="workBox" hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card pq" style="margin-top:18px">
+    <div class="tagq">Practice &middot; Exam-style</div>
+    <div class="stem">A laser beam is directed normally at a diffraction grating that has 400 lines per mm. The second-order maxima are observed at an angle of 30.0&deg; to the straight-through direction.</div>
+    <div class="qpart">
+      <div class="ptext">(a) Calculate the separation d of the lines of the grating. <span class="mks">[1]</span></div>
+      <button class="preveal">Show answer</button>
+      <div class="pans" hidden>N = 400 mm&#8315;&#185; = 4.00 &times; 10&#8309; m&#8315;&#185;, so d = 1 / N = <b>2.50 &times; 10&#8315;&#8310; m</b>.</div>
+    </div>
+    <div class="qpart">
+      <div class="ptext">(b) Calculate the wavelength of the light. <span class="mks">[2]</span></div>
+      <button class="preveal">Show answer</button>
+      <div class="pans" hidden>d sin&theta; = n&lambda; &rArr; &lambda; = (2.50 &times; 10&#8315;&#8310; &times; sin 30.0&deg;) / 2 = <b>6.25 &times; 10&#8315;&#8311; m (625 nm)</b>.</div>
+    </div>
+    <div class="qpart">
+      <div class="ptext">(c) Determine the total number of maxima that can be observed. <span class="mks">[2]</span></div>
+      <button class="preveal">Show answer</button>
+      <div class="pans" hidden>d / &lambda; = 2.50 &times; 10&#8315;&#8310; / 6.25 &times; 10&#8315;&#8311; = 4.0. The order n = 4 would need sin&theta; = 1 (&theta; = 90&deg;), along the grating, so it cannot be seen. Highest order = 3, so the number of maxima = 3 + 3 + 1 (central) = <b>7</b>.</div>
+    </div>
+    <div class="pdone" hidden>&#10003; Nice &mdash; d from N, &lambda; from d sin&theta; = n&lambda;, and n<sub>max</sub> rounded down: the three classic grating marks.</div>
+  </div>
+</section>
+
+<!-- ========== PAGE 3 : WORKED EXAMPLES ========== -->
+<section class="page" data-p="3">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">Almost every grating question uses one equation, <b>d sin&theta; = n&lambda;</b>. Marks are lost on units (lines per mm to lines per m), on using the small-angle approximation, and on forgetting that sin&theta; cannot exceed 1.</p>
+
+  <div class="we">
+    <div class="meta">Worked Example 1</div>
+    <div class="q">Light of wavelength 600 nm is incident normally on a grating with 500 lines per mm. Calculate (a) the line spacing, (b) the angle of the second-order maximum and (c) the total number of maxima seen.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>(a) N = 500 mm&#8315;&#185; = 5.00 &times; 10&#8309; m&#8315;&#185;</p>
+      <div class="eqbox">d = 1 / N = 1 / 5.00 &times; 10&#8309; = <b>2.00 &times; 10&#8315;&#8310; m</b></div>
+      <p>(b) For n = 2:</p>
+      <div class="eqbox">sin&theta; = n&lambda; / d = (2 &times; 600 &times; 10&#8315;&#8313;) / 2.00 &times; 10&#8315;&#8310; = 0.600 &rArr; &theta; = <b>36.9&deg;</b></div>
+      <p>(c) The largest possible value of sin&theta; is 1:</p>
+      <div class="eqbox">n &le; d / &lambda; = 2.00 &times; 10&#8315;&#8310; / 600 &times; 10&#8315;&#8313; = 3.33 &rArr; n<sub>max</sub> = <b>3</b></div>
+      <div class="out"><b>Total maxima:</b> three on each side plus the central maximum = <b>7</b>. Always round n<sub>max</sub> <i>down</i>.</div>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 2</div>
+    <div class="q">A grating with 300 lines per mm is placed 1.50 m from a screen. The distance between the two first-order maxima on the screen is 0.570 m. Calculate the wavelength of the light.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <p>Distance from the centre to one first-order maximum:</p>
+      <div class="eqbox">x = 0.570 / 2 = 0.285 m</div>
+      <p>Find the angle first (it is too large for a small-angle approximation to be safe):</p>
+      <div class="eqbox">tan&theta; = x / D = 0.285 / 1.50 = 0.190 &rArr; &theta; = 10.76&deg;</div>
+      <div class="eqbox">d = 1 / 3.00 &times; 10&#8309; = 3.33 &times; 10&#8315;&#8310; m</div>
+      <div class="eqbox">&lambda; = d sin&theta; / n = 3.33 &times; 10&#8315;&#8310; &times; sin 10.76&deg; / 1 = <b>6.22 &times; 10&#8315;&#8311; m (622 nm)</b></div>
+      <div class="out"><b>Mark points:</b> halve the separation; tan&theta; = x / D; d from N in m&#8315;&#185;; &lambda; = d sin&theta; / n with the correct order.</div>
+    </div>
+  </div>
+
+  <div class="we">
+    <div class="meta">Worked Example 3</div>
+    <div class="q">White light (400 nm to 700 nm) falls normally on a grating with 400 lines per mm. Show that the second-order and third-order spectra overlap, but the first and second do not.</div>
+    <button class="reveal">Show solution</button>
+    <div class="answer" hidden>
+      <div class="eqbox">d = 1 / 4.00 &times; 10&#8309; = 2.50 &times; 10&#8315;&#8310; m</div>
+      <p>Each spectrum runs from violet (smallest angle) to red (largest angle).</p>
+      <div class="eqbox">1st order red: sin&theta; = 700 &times; 10&#8315;&#8313; / 2.50 &times; 10&#8315;&#8310; = 0.280 &rArr; &theta; = 16.3&deg;<br>2nd order violet: sin&theta; = 2 &times; 400 &times; 10&#8315;&#8313; / 2.50 &times; 10&#8315;&#8310; = 0.320 &rArr; &theta; = 18.7&deg;</div>
+      <p>18.7&deg; &gt; 16.3&deg;, so the second-order spectrum starts <b>after</b> the first ends: no overlap.</p>
+      <div class="eqbox">2nd order red: sin&theta; = 2 &times; 700 &times; 10&#8315;&#8313; / 2.50 &times; 10&#8315;&#8310; = 0.560 &rArr; &theta; = 34.1&deg;<br>3rd order violet: sin&theta; = 3 &times; 400 &times; 10&#8315;&#8313; / 2.50 &times; 10&#8315;&#8310; = 0.480 &rArr; &theta; = 28.7&deg;</div>
+      <div class="out"><b>Conclusion:</b> the third-order spectrum begins at 28.7&deg;, before the second order ends at 34.1&deg;, so they <b>overlap</b>. Try it on page 1: choose White light and 400 lines per mm.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 4 : MISCONCEPTIONS ========== -->
+<section class="page" data-p="4">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">The commonest ways candidates lose diffraction grating marks. Fix these now.</p>
+  <div class="mis">
+    <div class="mcard">
+      <div class="wrong">"d is the number of lines per mm."</div>
+      <div class="right">d is the spacing between lines: d = 1 / N.</div>
+      <p>Convert N to lines per <b>metre</b> first: 300 lines per mm = 3.00 &times; 10&#8309; m&#8315;&#185;, so d = 3.33 &times; 10&#8315;&#8310; m. Using N directly gives a nonsense answer.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Use &lambda; = ax / D, like Young&rsquo;s double slit."</div>
+      <div class="right">Use d sin&theta; = n&lambda;, finding &theta; from tan&theta; = x / D.</div>
+      <p>&lambda; = ax / D relies on small angles. Grating angles are often 10&deg; to 60&deg;, where sin&theta; and tan&theta; are very different.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"You can see as many orders as you like."</div>
+      <div class="right">sin&theta; can never be bigger than 1, so n &le; d / &lambda;.</div>
+      <p>Round d / &lambda; <b>down</b>. If d / &lambda; is a whole number exactly, that order is at 90&deg; and is not seen either.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"With white light, the central maximum is a spectrum."</div>
+      <div class="right">The central maximum (n = 0) is white.</div>
+      <p>At &theta; = 0 the path difference is zero for every wavelength, so all colours arrive together. Spectra appear only in the orders n = 1, 2, 3&hellip;</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"Violet is diffracted most, like in a prism."</div>
+      <div class="right">Red is diffracted most by a grating.</div>
+      <p>sin&theta; = n&lambda; / d, so the longest wavelength (red) has the biggest angle. In each order violet is nearest the centre, the opposite of a prism.</p>
+    </div>
+    <div class="mcard">
+      <div class="wrong">"More lines per mm squeezes the maxima closer together."</div>
+      <div class="right">More lines per mm spreads them further apart.</div>
+      <p>More lines means smaller d, so sin&theta; = n&lambda; / d is larger. The maxima spread out, become sharper, and fewer orders fit before 90&deg;.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PAGE 5 : QUIZ ========== -->
+<section class="page" data-p="5">
+  <span class="levelchip sl">AS Level &middot; Core</span>
+  <p class="lead">Six questions in Cambridge 9702 style. Pick an answer to see the explanation.</p>
+  <div id="quizWrap"></div>
+  <div class="out" id="quizScore" style="margin-top:14px;display:none"></div>
+</section>
+</main>
+
+<footer>
+  <b>ATUL SORAL PHYSICISM</b> &middot; Topic 8 Superposition &middot; 8.4 Diffraction Grating &middot; Cambridge AS &amp; A Level Physics (9702)<br>
+  Previous: <a href="interference.html" style="color:var(--c1);font-weight:700">8.3 Interference</a> &middot; End of Topic 8: <a href="../dp-simulations.html" style="color:var(--c1);font-weight:700">all simulations</a>
+</footer>
+
+<script>
+'use strict';
+/* ---------- PAGES / NAV ---------- */
+const PAGES=[
+  {n:'1',t:'The Grating Equation',c:'var(--c1)',lvl:'AS'},
+  {n:'2',t:'Measure the Wavelength',c:'var(--c3)',lvl:'AS'},
+  {n:'3',t:'Worked Examples',c:'var(--c5)',lvl:'AS'},
+  {n:'4',t:'Misconceptions',c:'var(--c6)',lvl:'AS'},
+  {n:'5',t:'Quiz',c:'var(--c7)',lvl:'AS'}
+];
+let active=0;
+const nav=document.getElementById('nav');
+PAGES.forEach((p,i)=>{
+  const b=document.createElement('button');
+  b.className='tab'+(i===0?' active':'');
+  b.style.setProperty('--tabc',p.c);
+  b.innerHTML=`<span class="num">${p.n}</span> <span>${p.t}</span> <span class="lvl">${p.lvl}</span>`;
+  b.onclick=()=>go(i);
+  nav.appendChild(b);
+});
+const pages=[...document.querySelectorAll('.page')];
+const tabs=[...document.querySelectorAll('.tab')];
+function go(i){
+  active=i;
+  pages.forEach((p,k)=>p.classList.toggle('active',k===i));
+  tabs.forEach((t,k)=>t.classList.toggle('active',k===i));
+  document.body.setAttribute('data-page',PAGES[i].n);
+  document.documentElement.style.setProperty('--accent',PAGES[i].c);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ---------- GATE ---------- */
+const gate=document.getElementById('gate'),gIn=document.getElementById('gateName'),
+      gBtn=document.getElementById('gateBtn'),gErr=document.getElementById('gateErr');
+function enter(){
+  const v=gIn.value.trim();
+  if(v.length<2){gErr.hidden=false;return;}
+  document.getElementById('profileName').textContent=v.split(' ')[0].toLowerCase();
+  gate.style.opacity='0';gate.style.transition='opacity .4s';
+  setTimeout(()=>gate.style.display='none',400);
+}
+gBtn.onclick=enter;
+gIn.addEventListener('keydown',e=>{if(e.key==='Enter')enter();});
+
+/* ---------- CLOCK ---------- */
+function tick(){
+  const d=new Date();
+  document.getElementById('clock').textContent=d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})+
+    ' · '+d.toLocaleDateString('en-GB',{day:'2-digit',month:'short'});
+}
+tick();setInterval(tick,10000);
+
+/* ---------- DARK MODE ---------- */
+const sun=document.getElementById('sunbtn');
+sun.onclick=()=>{
+  const dk=document.body.classList.toggle('dark');
+  sun.innerHTML=dk?'☽':'☀';
+  sun.title=dk?'Switch to light mode':'Switch to dark mode';
+};
+
+/* ---------- CANVAS HELPERS ---------- */
+// each canvas redraws itself whenever its box changes size (including when its tab is opened)
+function reg(id,draw){
+  const cv=document.getElementById(id);if(!cv)return null;
+  const o={cv,ctx:cv.getContext('2d'),w:0,h:0,dpr:1,draw};
+  new ResizeObserver(()=>{fit(o);o.draw(o);}).observe(cv.parentElement);
+  fit(o);return o;
+}
+function fit(o){
+  const r=o.cv.parentElement.getBoundingClientRect();
+  o.dpr=Math.min(window.devicePixelRatio||1,2);
+  o.w=r.width;o.h=r.height;
+  o.cv.width=Math.round(o.w*o.dpr);o.cv.height=Math.round(o.h*o.dpr);
+  o.ctx.setTransform(o.dpr,0,0,o.dpr,0,0);
+}
+// approximate colour of a wavelength in nm (380 to 780)
+function nmToRGB(wl){
+  let r=0,g=0,b=0;
+  if(wl<440){r=-(wl-440)/60;b=1;}
+  else if(wl<490){g=(wl-440)/50;b=1;}
+  else if(wl<510){g=1;b=-(wl-510)/20;}
+  else if(wl<580){r=(wl-510)/70;g=1;}
+  else if(wl<645){r=1;g=-(wl-645)/65;}
+  else{r=1;}
+  let f=1;if(wl<420)f=0.3+0.7*(wl-380)/40;else if(wl>700)f=0.3+0.7*(780-wl)/80;
+  const c=v=>Math.round(255*Math.pow(Math.max(0,Math.min(1,v*f)),0.8));
+  return `rgb(${c(r)},${c(g)},${c(b)})`;
+}
+function rgba(rgb,a){return rgb.replace('rgb(','rgba(').replace(')',','+a+')');}
+const sci=(v,dp)=>{const e=Math.floor(Math.log10(Math.abs(v)));const m=v/Math.pow(10,e);
+  const sup=String(e).replace(/-/g,'⁻').replace(/\d/g,d=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[d]);return m.toFixed(dp)+' × 10'+sup;};
+const deg=r=>r*180/Math.PI;
+
+/* ---------- PAGE 1 : GRATING SIM ---------- */
+let lam=532, N=300, D=1.0, mode='mono';
+const lamR=document.getElementById('lamR'),nR=document.getElementById('nR'),dR=document.getElementById('dR');
+function orders(l,d){ // all orders with sinθ < 1, as [{n,th}]
+  const out=[];const nmax=Math.floor(d/l-1e-9);
+  for(let n=-nmax;n<=nmax;n++)out.push({n,th:Math.asin(n*l/d)});
+  return out;
+}
+function drawGrating(o){
+  const {ctx,w,h}=o;if(!w||!h)return;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#f3faff';ctx.fillRect(0,0,w,h);
+  const gx=w/2, gy=h-44, pxPerM=(h-96)/2.0, sy=gy-D*pxPerM, half=w/2-16;
+  const d=1e-3/N;
+  // straight-through normal
+  ctx.setLineDash([4,5]);ctx.strokeStyle='rgba(107,114,128,.45)';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx,8);ctx.stroke();ctx.setLineDash([]);
+  // screen
+  ctx.fillStyle='#9ca3af';ctx.fillRect(16,sy-2,w-32,4);
+  ctx.fillStyle='#4b5563';ctx.font='600 11px -apple-system,system-ui,sans-serif';
+  ctx.textAlign='left';ctx.fillText('SCREEN',18,sy-8);
+  // distance marker D
+  ctx.strokeStyle='rgba(107,114,128,.5)';ctx.beginPath();ctx.moveTo(26,sy+4);ctx.lineTo(26,gy);ctx.stroke();
+  ctx.fillText('D = '+D.toFixed(2)+' m',32,(sy+gy)/2+4);
+  // rays to a point: hit the screen (if inside it) or run to the canvas edge
+  function ray(th,col,width,spot,label){
+    const dx=Math.sin(th),dy=-Math.cos(th);
+    const tScreen=(gy-sy)/Math.cos(th), xs=gx+dx*tScreen;
+    const onScreen=Math.abs(xs-gx)<=half;
+    let tEnd=onScreen?tScreen:Math.min(dx!==0?Math.abs((dx>0?w-2-gx:gx-2)/dx):1e9,(gy-4)/Math.cos(th));
+    ctx.strokeStyle=col;ctx.lineWidth=width;
+    ctx.beginPath();ctx.moveTo(gx,gy);ctx.lineTo(gx+dx*tEnd,gy+dy*tEnd);ctx.stroke();
+    if(onScreen&&spot){
+      const gr=ctx.createRadialGradient(xs,sy,0,xs,sy,spot);gr.addColorStop(0,col);gr.addColorStop(0.45,col);gr.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle=gr;ctx.beginPath();ctx.arc(xs,sy,spot,0,7);ctx.fill();
+    }
+    if(label){
+      ctx.fillStyle=onScreen?'#374151':'#9ca3af';ctx.textAlign='center';
+      if(onScreen)ctx.fillText(label,xs,sy-14);
+      else{const lx=gx+dx*tEnd*0.86,ly=gy+dy*tEnd*0.86;ctx.fillText(label+' (misses screen)',Math.max(70,Math.min(w-70,lx)),ly-6);}
+    }
+  }
+  if(mode==='mono'){
+    const col=nmToRGB(lam);
+    // incoming beam
+    ctx.strokeStyle=col;ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(gx,h-8);ctx.lineTo(gx,gy);ctx.stroke();
+    orders(lam*1e-9,d).forEach(({n,th})=>ray(th,n===0?col:rgba(col,0.8),n===0?2.4:1.8,n===0?13:10,'n = '+n));
+    // angle arc for n = 1
+    const o1=orders(lam*1e-9,d).find(x=>x.n===1);
+    if(o1){ctx.strokeStyle='#f59e0b';ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(gx,gy,46,-Math.PI/2,-Math.PI/2+o1.th);ctx.stroke();
+      ctx.fillStyle='#d97706';ctx.textAlign='left';ctx.fillText('θ₁ = '+deg(o1.th).toFixed(1)+'°',gx+10+46*Math.sin(o1.th/2),gy-50);}
+  }else{
+    // white light: central white spot, then a spectrum in each order
+    ctx.strokeStyle='#cbd5e1';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(gx,h-8);ctx.lineTo(gx,gy);ctx.stroke();
+    ray(0,'rgba(156,163,175,.9)',2.4,13,'n = 0 (white)');
+    const nmax=Math.floor(d/400e-9-1e-9);
+    for(let n=1;n<=nmax;n++){
+      for(let l=400;l<=700;l+=12){
+        const s=n*l*1e-9/d;if(s>=1)break;
+        const th=Math.asin(s),col=rgba(nmToRGB(l),0.55);
+        ray(th,col,1.3,6,null);ray(-th,col,1.3,6,null);
+      }
+      const s=n*550e-9/d;if(s<1){
+        const th=Math.asin(s),xs=gx+(gy-sy)*Math.tan(th);
+        ctx.fillStyle='#4b5563';ctx.textAlign='center';
+        if(xs-gx<=half){ctx.fillText('n = '+n,xs,sy-14);ctx.fillText('n = −'+n,2*gx-xs,sy-14);}
+      }
+    }
+  }
+  // grating
+  ctx.fillStyle='#9ca3af';ctx.fillRect(gx-70,gy-2,140,4);
+  ctx.fillStyle='#6b7280';for(let x=gx-68;x<=gx+68;x+=5)ctx.fillRect(x,gy-6,1,12);
+  ctx.fillStyle='#4b5563';ctx.textAlign='left';ctx.fillText('GRATING',gx+78,gy+4);
+  // laser
+  ctx.fillStyle='#fdba74';ctx.fillRect(gx-16,h-30,32,26);
+  ctx.fillStyle='#4b5563';ctx.textAlign='right';ctx.fillText(mode==='mono'?'LASER':'WHITE LIGHT',gx-22,h-12);
+  ctx.textAlign='left';
+}
+const o1=reg('gCanvas',drawGrating);
+function refresh1(){
+  lam=+lamR.value;N=+nR.value;D=+dR.value;
+  const d=1e-3/N,l=lam*1e-9;
+  document.getElementById('lamV').textContent=lam;
+  document.getElementById('nV').textContent=N;
+  document.getElementById('dV').textContent=D.toFixed(2);
+  document.getElementById('roD').textContent=(d*1e6).toFixed(2)+' µm';
+  const L=mode==='mono'?l:400e-9;
+  document.getElementById('roRatio').textContent=mode==='mono'?(l/d).toFixed(3):'400 to 700 nm';
+  const nmax=Math.floor(d/L-1e-9);
+  document.getElementById('roMax').textContent=mode==='mono'?nmax:nmax+' (for violet)';
+  const s1=l/d;
+  document.getElementById('eqWork').innerHTML=mode==='mono'?
+    `d sin θ = nλ &nbsp;&rArr;&nbsp; sin θ₁ = λ / d = ${sci(l,2)} / ${sci(d,2)} = ${s1.toFixed(3)} &nbsp;&rArr;&nbsp; θ₁ = <b>${deg(Math.asin(Math.min(1,s1))).toFixed(1)}°</b>`:
+    `In each order, violet (400 nm) has the smallest angle and red (700 nm) the largest. Spectra overlap when one order&rsquo;s red reaches past the next order&rsquo;s violet.`;
+  const body=document.getElementById('oBody');body.innerHTML='';
+  const half=(o1&&o1.w?(o1.w/2-16)/((o1.h-96)/2):1.9);
+  for(let n=0;n<=Math.min(Math.max(nmax,0)+1,8);n++){
+    const s=n*(mode==='mono'?l:550e-9)/d,tr=document.createElement('tr');
+    if(s>=1){tr.className='off';tr.innerHTML=`<td>${n}</td><td>${s.toFixed(3)}</td><td colspan="2">sin θ &gt; 1: not possible</td>`;body.appendChild(tr);break;}
+    const th=Math.asin(s),x=D*Math.tan(th);
+    if(x>half)tr.className='off';
+    tr.innerHTML=`<td>${n===0?'0 (central)':(mode==='mono'?n:n+' (green)')}</td><td>${s.toFixed(3)}</td><td>${deg(th).toFixed(1)}°</td><td>${x>half?'off the screen':(x*100).toFixed(1)+' cm'}</td>`;
+    body.appendChild(tr);
+  }
+  let msg;
+  if(mode==='white'){
+    const r2=2*700e-9/d,v3=3*400e-9/d;
+    msg=(v3<1&&r2<1&&v3<r2)?'The <b>second and third order spectra overlap</b> at this grating spacing: third-order violet starts before second-order red ends.':'The centre is white because every colour has zero path difference there. In each order, violet is nearest the centre and red is furthest out.';
+  }else if(nmax<=1)msg='The lines are so close together (small d) that only the first order fits before 90°. Reduce N or the wavelength to see more orders.';
+  else if(s1<0.08)msg='The lines are far apart (large d), so the orders are packed close together near the centre. Increase N to spread them out.';
+  else msg='Increase N (smaller d) and the orders spread out; increase λ and they spread out too. Moving the screen changes where the spots land, not the angles.';
+  document.getElementById('gOut').innerHTML=msg;
+  if(o1)drawGrating(o1);
+}
+[lamR,nR,dR].forEach(r=>r.oninput=refresh1);
+document.querySelectorAll('#lightSeg button').forEach(b=>b.onclick=()=>{
+  mode=b.dataset.m;document.querySelectorAll('#lightSeg button').forEach(x=>x.classList.toggle('on',x===b));
+  document.getElementById('lamCtl').style.display=mode==='mono'?'':'none';refresh1();
+});
+refresh1();
+
+/* ---------- PAGE 2 : MEASURE λ ---------- */
+const LAB_N=300, LAB_D=1.00, LASERS=[405,445,473,488,515,532,561,589,594,633,650,670];
+let mystery=LASERS[Math.floor(Math.random()*LASERS.length)], cursor=0, worked=false;
+const curR=document.getElementById('curR');
+function labSpots(){ // positions in cm of every order that lands within ±80 cm
+  const d=1e-3/LAB_N,out=[];
+  orders(mystery*1e-9,d).forEach(({n,th})=>{const x=LAB_D*Math.tan(th)*100;if(Math.abs(x)<=80)out.push({n,x});});
+  return out;
+}
+function drawStrip(o){
+  const {ctx,w,h}=o;if(!w||!h)return;
+  ctx.clearRect(0,0,w,h);ctx.fillStyle='#f3faff';ctx.fillRect(0,0,w,h);
+  const col=nmToRGB(mystery),spots=labSpots();
+  // draws the screen between x0 and x1 cm into the box (bx,by,bw,bh)
+  function scene(x0,x1,bx,by,bw,bh,zoom){
+    const X=c=>bx+(c-x0)/(x1-x0)*bw, sy=by+bh*0.42, pxCm=bw/(x1-x0);
+    ctx.save();ctx.beginPath();ctx.rect(bx,by,bw,bh);ctx.clip();
+    ctx.fillStyle='#ffffff';ctx.fillRect(bx,by,bw,bh);
+    spots.forEach(s=>{const px=X(s.x),r=(s.n===0?1.2:1)*Math.max(5,0.22*pxCm);
+      const g=ctx.createRadialGradient(px,sy,0,px,sy,r*2.2);g.addColorStop(0,col);g.addColorStop(0.4,col);g.addColorStop(1,'rgba(255,255,255,0)');
+      ctx.fillStyle=g;ctx.beginPath();ctx.arc(px,sy,r*2.2,0,7);ctx.fill();});
+    // metre rule
+    const ry=by+bh*0.7;ctx.fillStyle='#f5e6c8';ctx.fillRect(bx,ry,bw,bh*0.3);
+    ctx.strokeStyle='#3b2f1e';ctx.fillStyle='#3b2f1e';ctx.lineWidth=1;ctx.textAlign='center';
+    const step=(x1-x0)>40?1:0.1;
+    for(let c=Math.ceil(x0/step)*step;c<=x1+1e-9;c+=step){
+      const ci=Math.round(c*10),px=X(c);let len;
+      if(step===1){len=ci%100===0?bh*0.16:ci%50===0?bh*0.11:bh*0.06;}
+      else{len=ci%10===0?bh*0.16:ci%5===0?bh*0.11:bh*0.06;}
+      ctx.beginPath();ctx.moveTo(px,ry);ctx.lineTo(px,ry+len);ctx.stroke();
+      if((step===1&&ci%100===0)||(step!==1&&ci%10===0)){ctx.font='600 10px -apple-system,sans-serif';ctx.fillText(Math.round(c),px,ry+bh*0.27);}
+    }
+    // cursor
+    const cx=X(cursor);ctx.strokeStyle='#f97316';ctx.lineWidth=zoom?1.5:1.5;
+    ctx.beginPath();ctx.moveTo(cx,by);ctx.lineTo(cx,ry+bh*0.3);ctx.stroke();
+    ctx.restore();
+    ctx.strokeStyle='rgba(107,114,128,.4)';ctx.strokeRect(bx+.5,by+.5,bw-1,bh-1);
+  }
+  scene(-80,80,0,0,w,h,false);
+  // zoom lens: ±3 cm around the cursor, drawn in the top corner
+  const zw=Math.min(230,w*0.42),zh=h*0.52,zx=w-zw-8,zy=6;
+  scene(cursor-3,cursor+3,zx,zy,zw,zh,true);
+  ctx.fillStyle='#4b5563';ctx.font='600 10px -apple-system,sans-serif';ctx.textAlign='left';
+  ctx.fillText('ZOOM ×'+Math.round((zw/6)/(w/160)),zx+6,zy+13);
+  ctx.fillText('SCREEN · '+LAB_N+' lines/mm · D = '+LAB_D.toFixed(2)+' m',8,14);
+}
+const o2=reg('sCanvas',drawStrip);
+function setCursor(v){cursor=Math.max(-80,Math.min(80,Math.round(v*10)/10));curR.value=cursor;document.getElementById('curV').textContent=cursor.toFixed(1);if(o2)drawStrip(o2);}
+curR.oninput=()=>setCursor(+curR.value);
+document.getElementById('stepL').onclick=()=>setCursor(cursor-0.1);
+document.getElementById('stepR').onclick=()=>setCursor(cursor+0.1);
+function workText(){
+  const d=1e-3/LAB_N,s1=labSpots().find(s=>s.n===1),x=s1.x/100,th=Math.atan(x/LAB_D),l=d*Math.sin(th);
+  return `<p>Measured: first-order spots at about &plusmn;${s1.x.toFixed(1)} cm, so x = ${x.toFixed(3)} m.</p>
+    <div class="eqbox">tan θ = x / D = ${x.toFixed(3)} / ${LAB_D.toFixed(2)} &rArr; θ = ${deg(th).toFixed(2)}°</div>
+    <div class="eqbox">d = 1 / (${LAB_N} &times; 10³) = ${sci(d,2)} m</div>
+    <div class="eqbox">λ = d sin θ / n = ${sci(d,2)} &times; sin ${deg(th).toFixed(2)}° / 1 = <b>${(l*1e9).toFixed(0)} nm</b></div>`;
+}
+document.getElementById('showWork').onclick=function(){
+  const b=document.getElementById('workBox');b.hidden=!b.hidden;
+  if(!b.hidden)b.innerHTML=workText();
+  this.textContent=b.hidden?'Show the working for this laser':'Hide the working';
+};
+document.getElementById('checkLam').onclick=()=>{
+  const g=parseFloat(document.getElementById('lamGuess').value),fb=document.getElementById('lamFb');
+  if(!(g>0)){fb.innerHTML='Type your wavelength in nanometres first, for example 600.';return;}
+  if(g<1){fb.innerHTML='That looks like metres. Give the answer in <b>nm</b>: for example 6.0 × 10⁻⁷ m is 600 nm.';return;}
+  const err=Math.abs(g-mystery)/mystery*100;
+  if(err<=2)fb.innerHTML=`<b style="color:#059669">Excellent!</b> The true wavelength is <b>${mystery} nm</b>. You were within ${err.toFixed(1)}%. Try a new mystery laser.`;
+  else if(err<=5)fb.innerHTML=`<b style="color:#d97706">Very close</b> (${err.toFixed(1)}% out). Line the cursor up on the centre of each spot using the zoom, or measure across both first-order spots and halve it.`;
+  else if(Math.abs(g/2-mystery)/mystery<0.05)fb.innerHTML='About double the answer. Did you use the second-order spot with n = 1? Divide by n.';
+  else fb.innerHTML='Not yet. Check: x in metres, tan θ = x / D, d = 1 / (300 × 10³) m, then λ = d sin θ / n.';
+};
+document.getElementById('newLaser').onclick=()=>{
+  let m;do{m=LASERS[Math.floor(Math.random()*LASERS.length)];}while(m===mystery);
+  mystery=m;document.getElementById('lamGuess').value='';document.getElementById('lamFb').textContent='New laser. Measure again.';
+  const b=document.getElementById('workBox');if(!b.hidden)b.innerHTML=workText();
+  setCursor(0);
+};
+
+/* ---------- REVEALS ---------- */
+document.querySelectorAll('.preveal').forEach(b=>{
+  b.onclick=()=>{
+    const a=b.nextElementSibling;a.hidden=!a.hidden;
+    b.textContent=a.hidden?'Show answer':'Hide answer';
+    const card=b.closest('.pq');
+    if(card){const done=card.querySelector('.pdone');
+      const allShown=[...card.querySelectorAll('.pans')].every(p=>!p.hidden);if(done)done.hidden=!allShown;}
+  };
+});
+document.querySelectorAll('.we .reveal').forEach(b=>{
+  b.onclick=()=>{const a=b.nextElementSibling;a.hidden=!a.hidden;b.textContent=a.hidden?'Show solution':'Hide solution';};
+});
+
+/* ---------- QUIZ ---------- */
+const QUIZ=[
+  {q:'A diffraction grating has 600 lines per mm. What is the separation d of the lines?',
+   o:['6.0 × 10⁻⁴ m','1.7 × 10⁻⁶ m','6.0 × 10⁵ m','1.7 × 10⁻³ m'],
+   a:1,e:'N = 600 mm⁻¹ = 6.0 × 10⁵ m⁻¹, so d = 1 / N = 1.7 × 10⁻⁶ m.'},
+  {q:'Light of wavelength 500 nm falls normally on a grating with d = 2.0 µm. What is the angle of the first-order maximum?',
+   o:['14.5°','30.0°','7.2°','75.5°'],
+   a:0,e:'sin θ = λ / d = 500 × 10⁻⁹ / 2.0 × 10⁻⁶ = 0.25, so θ = 14.5°.'},
+  {q:'For the same grating and light (d = 2.0 µm, λ = 500 nm), what is the highest order that can be observed?',
+   o:['2','3','4','5'],
+   a:1,e:'d / λ = 4.0. The order n = 4 would need sin θ = 1 (θ = 90°), along the grating, so it cannot be seen. The highest order is 3.'},
+  {q:'Why are the maxima from a diffraction grating much sharper than the fringes from a double slit?',
+   o:['Light from many slits only reinforces exactly at d sin θ = nλ and cancels just away from it','The slits in a grating are narrower','A grating is always closer to the screen','A grating uses brighter light'],
+   a:0,e:'With hundreds of slits, a tiny change of angle puts the many waves out of step so they cancel. Only at d sin θ = nλ do they all arrive in phase.'},
+  {q:'White light passes through a grating. In each order, which colour is closest to the central maximum?',
+   o:['Red','Green','Violet','White'],
+   a:2,e:'sin θ = nλ / d, so the shortest wavelength (violet) has the smallest angle. Red is furthest out. Only the central maximum (n = 0) is white.'},
+  {q:'A grating is replaced by one with more lines per mm. With the same light, the maxima:',
+   o:['spread further apart and fewer orders are seen','move closer together','do not change position','change colour'],
+   a:0,e:'More lines per mm means a smaller d, so sin θ = nλ / d is larger for every order. The maxima spread out and fewer fit before 90°.'}
+];
+const qWrap=document.getElementById('quizWrap');
+let answered=0,correct=0;
+QUIZ.forEach((item,qi)=>{
+  const d=document.createElement('div');d.className='q';
+  d.innerHTML=`<div class="qq">${qi+1}. ${item.q}</div>`;
+  const opts=document.createElement('div');opts.className='opts';
+  const exp=document.createElement('div');exp.className='qexp';exp.textContent=item.e;
+  item.o.forEach((txt,oi)=>{
+    const b=document.createElement('button');b.className='opt';b.textContent=txt;
+    b.onclick=()=>{
+      if(d.dataset.done)return;
+      d.dataset.done='1';answered++;
+      if(oi===item.a){b.classList.add('correct');correct++;}
+      else{b.classList.add('wrong');opts.children[item.a].classList.add('correct');}
+      exp.classList.add('show');
+      if(answered===QUIZ.length){
+        const sc=document.getElementById('quizScore');sc.style.display='block';
+        sc.innerHTML=`You scored <b>${correct} / ${QUIZ.length}</b>. ${correct===QUIZ.length?'Perfect — diffraction gratings mastered.':'Review the explanations above and try the ones you missed.'}`;
+      }
+    };
+    opts.appendChild(b);
+  });
+  d.appendChild(opts);d.appendChild(exp);qWrap.appendChild(d);
+});
+</script>
+<script src="../js/asp-toolbar.js" defer></script>
+</body>
+</html>
