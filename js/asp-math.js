@@ -11,7 +11,7 @@
   'use strict';
   var WORDS = { sin: 1, cos: 1, tan: 1, ln: 1, log: 1, const: 1, useful: 1, out: 1, total: 1, 'in': 1, work: 1, input: 1, energy: 1,
     power: 1, radiated: 1, per: 1, unit: 1, area: 1, path: 1, diff: 1, Series: 1, Parallel: 1, same: 1, adds: 1, emissivity: 1,
-    albedo: 1, scattered: 1, incident: 1, parsec: 1, arc: 1, second: 1, eV: 1, rad: 1 };
+    albedo: 1, scattered: 1, incident: 1, parsec: 1, arc: 1, second: 1, eV: 1, rad: 1, output: 1, efficiency: 1 };
   var FN = { sin: 1, cos: 1, tan: 1 };
   var SUP = { '⁰': '0', '¹': '1', '²': '2', '³': '3', '⁴': '4', '⁵': '5', '⁶': '6', '⁷': '7', '⁸': '8', '⁹': '9', '⁻': '-', 'ⁿ': 'n' };
   var SUB = { '₀': '0', '₁': '1', '₂': '2', '₃': '3', '₄': '4', '₅': '5', '₆': '6', '₇': '7', '₈': '8', '₉': '9' };
