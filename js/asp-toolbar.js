@@ -105,3 +105,83 @@
   }
   if (document.body) build(); else document.addEventListener('DOMContentLoaded', build);
 })();
+
+/* --------------------------------------------------------------------------
+   Site-wide polish for older pages (runs on every page that loads this file)
+   1. One dark-mode setting for the whole site (localStorage 'physicism-theme').
+      Only applied on pages that have their own dark styles.
+   2. If the page has its own top bar, the quick-navigation bar docks at the
+      bottom-left instead of covering that bar.
+   3. "Loading…" placeholders get a soft shimmer instead of plain text.
+   -------------------------------------------------------------------------- */
+(function () {
+  'use strict';
+  if (window.top !== window.self) return;
+  var KEY = 'physicism-theme', root = document.documentElement;
+
+  function ready(fn) { if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', fn); else fn(); }
+
+  ready(function () {
+    var body = document.body;
+    var css = Array.prototype.map.call(document.querySelectorAll('style'), function (s) { return s.textContent; }).join(' ');
+    var viaAttr = /\[data-theme=["']?dark/.test(css);
+    var viaClass = /body\.(dark|dark-mode)\b|\.dark-mode\b/.test(css);
+
+    /* 1. Dark mode */
+    function isDark() { return root.getAttribute('data-theme') === 'dark' || body.classList.contains('dark') || body.classList.contains('dark-mode'); }
+    var saved = null; try { saved = localStorage.getItem(KEY); } catch (e) {}
+    if ((viaAttr || viaClass) && saved && (saved === 'dark') !== isDark()) {
+      // Prefer the page's own switch so its icon and stored state stay right
+      var btn = document.querySelector('#themeToggle,#themeBtn,#theme-toggle,#darkToggle,[onclick*="toggleTheme"],[onclick*="toggleDark"],button.toggle[title*="dark" i]');
+      if (btn) btn.click();
+      if ((saved === 'dark') !== isDark()) {
+        if (viaAttr) { if (saved === 'dark') root.setAttribute('data-theme', 'dark'); else root.setAttribute('data-theme', 'light'); }
+        else body.classList.toggle('dark', saved === 'dark');
+      }
+    }
+    if (viaAttr || viaClass) {
+      var store = function () { try { localStorage.setItem(KEY, isDark() ? 'dark' : 'light'); } catch (e) {} };
+      var mo = new MutationObserver(store);
+      mo.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
+      mo.observe(body, { attributes: true, attributeFilter: ['class'] });
+    }
+
+    /* 2. Dock the quick bar if the page has its own top bar */
+    var tb = document.querySelector('.asp-tb');
+    if (tb) {
+      var own = Array.prototype.some.call(document.querySelectorAll('header,nav,.navbar,.topbar,.top-bar,.toolbar,.tb,.header'), function (el) {
+        if (el === tb || tb.contains(el)) return false;
+        var r = el.getBoundingClientRect();
+        return r.top < 30 && r.height >= 28 && r.height <= 170 && r.width > window.innerWidth * 0.5;
+      });
+      if (own) {
+        var st = document.createElement('style');
+        st.textContent =
+          '.asp-tb.asp-dock{top:auto;bottom:16px;left:16px}' +
+          '.asp-tb.asp-dock.asp-hide{transform:translateY(80px)}' +
+          '.asp-tb.asp-dock .asp-lbl{display:none}.asp-tb.asp-dock a.asp-back .asp-lbl{display:inline}' +
+          '@media(min-width:1100px){.asp-tb.asp-dock .asp-lbl{display:inline}}';
+        document.head.appendChild(st);
+        tb.classList.add('asp-dock');
+      }
+    }
+
+    /* 3. Loading shimmer */
+    var sh = document.createElement('style');
+    sh.textContent =
+      '.asp-loading{color:transparent!important;background:linear-gradient(90deg,rgba(128,128,150,.18) 25%,rgba(128,128,150,.38) 50%,rgba(128,128,150,.18) 75%);' +
+      'background-size:200% 100%;-webkit-background-clip:text;background-clip:text;animation:aspShimmer 1.3s linear infinite}' +
+      '@keyframes aspShimmer{from{background-position:200% 0}to{background-position:-200% 0}}' +
+      '@media(prefers-reduced-motion:reduce){.asp-loading{animation:none}}';
+    document.head.appendChild(sh);
+    var RX = /^\s*(topic\s+)?loading(\s+\w+)?\s*(\.\.\.|…)?\s*$/i;
+    var mark = function () {
+      document.querySelectorAll('h1,h2,h3,p,span,div,td,li').forEach(function (el) {
+        if (el.children.length) { el.classList.remove('asp-loading'); return; }
+        el.classList.toggle('asp-loading', RX.test(el.textContent));
+      });
+    };
+    mark();
+    var n = 0, iv = setInterval(function () { mark(); if (++n > 20) clearInterval(iv); }, 500);
+  });
+})();
