@@ -286,4 +286,15 @@
   document.addEventListener('change', function (e) {
     var c = e.target.closest('[data-learn]'); if (c) learn(+c.getAttribute('data-learn'), c.checked);
   });
+
+  // #f=Formula%20name in the address (from the data booklet's Solve links) opens that formula
+  var want = /^#f=/.test(location.hash) ? decodeURIComponent(location.hash.slice(3)) : '';
+  if (want) {
+    var hit = ALL.filter(function (f) { return f.name === want; })[0];
+    if (hit) setTimeout(function () {
+      var card = document.querySelector('.fb[data-i="' + hit.i + '"]');
+      if (card) card.scrollIntoView({ block: 'center' });
+      open(hit.i);
+    }, 60);
+  }
 })();

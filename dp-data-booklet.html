@@ -1,1194 +1,98 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="no-js" data-theme="light">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-9JDXQ282H8');
-</script>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IB Physics Interactive Data Booklet (2025) | Physicism</title>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-<style>
-:root {
-  --bg: #f0f4f8;
-  --white: #ffffff;
-  --glass: rgba(255, 255, 255, 0.6);
-  --glass-border: rgba(255, 255, 255, 0.8);
-  --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.08);
-  --tint: rgba(96, 165, 250, 0.06);
-  --tint-border: rgba(96, 165, 250, 0.12);
-  --accent: #1e40af;
-  --accent2: #3b82f6;
-  --accent-pale: rgba(59, 130, 246, 0.06);
-  --text: #1e293b;
-  --text2: #475569;
-  --text3: #94a3b8;
-  --red: #dc2626;
-  --green: #16a34a;
-  --border: rgba(0, 0, 0, 0.04);
-  --cream: #f8fafc;
-  --font-display: 'Outfit', sans-serif;
-  --font-body: 'Outfit', sans-serif;
-  --font-mono: 'Space Mono', 'SF Mono', monospace;
-  --purple: #7c3aed;
-  --purple-pale: rgba(124, 58, 237, 0.06);
-  --purple-border: rgba(124, 58, 237, 0.15);
-}
-
-[data-theme="dark"] {
-  --bg: #0f172a;
-  --white: #1e293b;
-  --glass: rgba(30, 41, 59, 0.7);
-  --glass-border: rgba(51, 65, 85, 0.5);
-  --tint: rgba(59, 130, 246, 0.08);
-  --tint-border: rgba(59, 130, 246, 0.15);
-  --text: #e2e8f0;
-  --text2: #94a3b8;
-  --text3: #64748b;
-  --cream: #1e293b;
-  --border: rgba(255, 255, 255, 0.04);
-  --purple-pale: rgba(124, 58, 237, 0.1);
-  --purple-border: rgba(124, 58, 237, 0.3);
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--text);
-  min-height: 100vh;
-  font-size: 15px;
-  line-height: 1.6;
-  transition: background 0.3s, color 0.3s;
-}
-
-/* NAVBAR */
-.navbar {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: var(--glass);
-  backdrop-filter: blur(24px) saturate(1.5);
-  -webkit-backdrop-filter: blur(24px) saturate(1.5);
-  border-bottom: 1px solid var(--glass-border);
-  padding: 0 36px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.nav-brand {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text);
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.nav-dot {
-  width: 8px;
-  height: 8px;
-  background: var(--accent2);
-  border-radius: 50%;
-}
-.nav-brand span {
-  font-weight: 400;
-  color: var(--text2);
-}
-.nav-spacer {
-  flex: 1;
-}
-.nav-links {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.nav-link {
-  color: var(--text2);
-  text-decoration: none;
-  font-size: 13.5px;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 50px;
-  transition: all 0.2s;
-}
-.nav-link:hover {
-  background: var(--tint);
-  color: var(--accent2);
-}
-.nav-link.active {
-  background: var(--accent-pale);
-  color: var(--accent);
-  font-weight: 600;
-}
-
-/* MAIN LAYOUT */
-.container {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 32px 24px 80px;
-}
-
-.header {
-  margin-bottom: 24px;
-  text-align: center;
-}
-.header h1 {
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 6px;
-  letter-spacing: -0.5px;
-}
-.header p {
-  color: var(--text2);
-  font-size: 15px;
-}
-
-/* SEARCH BAR */
-.search-container {
-  margin-bottom: 24px;
-  position: relative;
-  display: flex;
-  gap: 12px;
-}
-.search-wrapper {
-  position: relative;
-  flex: 1;
-}
-.search-input {
-  width: 100%;
-  padding: 14px 20px 14px 46px;
-  border-radius: 50px;
-  border: 1.5px solid var(--tint-border);
-  background: var(--glass);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  color: var(--text);
-  font-size: 14.5px;
-  outline: none;
-  transition: all 0.3s;
-  box-shadow: var(--glass-shadow);
-}
-.search-input:focus {
-  border-color: var(--accent2);
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-  background: var(--white);
-}
-.search-icon {
-  position: absolute;
-  left: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--text3);
-  pointer-events: none;
-  font-size: 18px;
-}
-
-/* STICKY TAB NAVIGATION */
-.tabs-outer {
-  position: sticky;
-  top: 64px;
-  z-index: 90;
-  background: var(--bg);
-  padding: 8px 0;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--tint-border);
-}
-.tabs-container {
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  scrollbar-width: none;
-}
-.tabs-container::-webkit-scrollbar {
-  display: none;
-}
-.tab-btn {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  color: var(--text2);
-  padding: 8px 18px;
-  border-radius: 50px;
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-}
-.tab-btn:hover {
-  border-color: var(--accent2);
-  color: var(--accent2);
-}
-.tab-btn.active {
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
-  color: white;
-  border: none;
-  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
-}
-.tab-btn.active-starred {
-  background: linear-gradient(135deg, #d97706, #f59e0b);
-  color: white;
-  border: none;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2);
-}
-
-/* SUB TABS (FOR GENERAL) */
-.sub-tabs-container {
-  display: flex;
-  gap: 6px;
-  margin-bottom: 20px;
-  overflow-x: auto;
-  padding-bottom: 4px;
-  scrollbar-width: none;
-}
-.sub-tabs-container::-webkit-scrollbar {
-  display: none;
-}
-.sub-tab-btn {
-  background: rgba(0, 0, 0, 0.02);
-  border: 1px dashed var(--tint-border);
-  color: var(--text2);
-  padding: 6px 14px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all 0.2s;
-}
-[data-theme="dark"] .sub-tab-btn {
-  background: rgba(255, 255, 255, 0.02);
-}
-.sub-tab-btn:hover {
-  border-style: solid;
-  border-color: var(--accent2);
-  color: var(--accent2);
-}
-.sub-tab-btn.active {
-  background: var(--accent-pale);
-  border: 1.5px solid var(--accent2);
-  color: var(--accent);
-  font-weight: 600;
-}
-
-/* CONTENT CONTAINER */
-.content-panel {
-  display: none;
-}
-.content-panel.active {
-  display: block;
-}
-
-/* TOPIC GROUPING */
-.topic-group {
-  margin-bottom: 24px;
-}
-.topic-title {
-  font-size: 14.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: var(--text3);
-  margin-bottom: 12px;
-  padding-left: 4px;
-  border-left: 3px solid var(--accent2);
-}
-
-/* FORMULA ROW CARDS */
-.formula-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 20px;
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  margin-bottom: 10px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transition: all 0.2s;
-}
-.formula-row:hover {
-  border-color: var(--accent2);
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.1);
-  transform: translateY(-1px);
-}
-.formula-row.hl-only {
-  border-left: 4px solid var(--purple) !important;
-}
-.formula-row.hl-only:hover {
-  border-color: var(--purple);
-}
-
-.formula-info {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-}
-
-/* STAR BOOKMARK TRIGGER */
-.bookmark-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-  color: var(--text3);
-}
-.bookmark-btn:hover {
-  transform: scale(1.2);
-  color: #eab308;
-}
-.bookmark-btn.starred {
-  color: #eab308;
-}
-.star-icon {
-  width: 18px;
-  height: 18px;
-  fill: currentColor;
-}
-
-.formula-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-.formula-name {
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--text);
-}
-.formula-note {
-  font-size: 11px;
-  color: var(--text3);
-}
-
-.formula-eq-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.formula-eq {
-  font-family: var(--font-mono);
-  font-size: 18px;
-  color: var(--accent);
-  font-weight: 700;
-  white-space: nowrap;
-}
-[data-theme="dark"] .formula-eq {
-  color: var(--accent2);
-}
-.glass-badge-hl {
-  background: var(--purple-pale);
-  color: var(--purple);
-  border: 1px solid var(--purple-border);
-  border-radius: 6px;
-  padding: 2px 6px;
-  font-size: 9px;
-  font-weight: 700;
-}
-
-/* CIRCUIT SYMBOLS GRID */
-.circuit-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: 16px;
-}
-.circuit-card {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: 12px;
-  padding: 14px;
-  text-align: center;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-  height: 110px;
-}
-.circuit-card:hover {
-  border-color: var(--accent2);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.08);
-}
-.circuit-svg {
-  width: 70px;
-  height: 44px;
-  color: var(--text);
-  margin-bottom: 6px;
-}
-.circuit-label {
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--text2);
-}
-
-/* EM SPECTRUM VISUALIZER */
-.spectrum-container {
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  border-radius: 16px;
-  padding: 24px;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  margin-bottom: 24px;
-}
-.spectrum-title {
-  font-size: 15px;
-  font-weight: 700;
-  color: var(--text);
-  margin-bottom: 16px;
-}
-.spectrum-bar {
-  height: 44px;
-  border-radius: 8px;
-  background: linear-gradient(to right, 
-    #2c003e 0%,    /* Gamma */
-    #3d0076 15%,   /* X-ray */
-    #5900b3 30%,   /* UV */
-    #8f00ff 43%,   /* Violet */
-    #0000ff 47%,   /* Blue */
-    #00ff00 51%,   /* Green */
-    #ffff00 55%,   /* Yellow */
-    #ff7f00 59%,   /* Orange */
-    #ff0000 63%,   /* Red */
-    #a80000 75%,   /* IR */
-    #660000 85%,   /* Microwave */
-    #330000 100%   /* Radio */
-  );
-  position: relative;
-  margin-bottom: 10px;
-  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
-}
-.spectrum-bar-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10.5px;
-  font-weight: 600;
-  color: var(--text2);
-  margin-bottom: 20px;
-}
-.spectrum-bar-labels span {
-  width: 14%;
-  text-align: center;
-}
-.spectrum-scale {
-  display: flex;
-  justify-content: space-between;
-  font-size: 10px;
-  font-family: var(--font-mono);
-  color: var(--text3);
-  margin-bottom: 24px;
-  border-top: 1px dashed var(--tint-border);
-  padding-top: 6px;
-}
-
-.visible-spectrum-section {
-  border-top: 1.5px dashed var(--tint-border);
-  padding-top: 20px;
-}
-.visible-spectrum-bar {
-  height: 32px;
-  border-radius: 6px;
-  background: linear-gradient(to right, 
-    #8f00ff, #4b0082, #0000ff, #00ff00, #ffff00, #ff7f00, #ff0000
-  );
-  position: relative;
-  margin-bottom: 8px;
-  box-shadow: inset 0 1px 2px rgba(0,0,0,0.15);
-}
-.visible-spectrum-labels {
-  display: flex;
-  justify-content: space-between;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--text2);
-}
-
-/* NO BOOKMARKS PLACEHOLDER */
-.bookmarks-empty {
-  text-align: center;
-  padding: 48px 24px;
-  background: var(--glass);
-  border: 1.5px dashed var(--tint-border);
-  border-radius: 16px;
-  color: var(--text3);
-}
-.bookmarks-empty svg {
-  width: 48px;
-  height: 48px;
-  margin-bottom: 12px;
-  opacity: 0.6;
-}
-.bookmarks-empty h3 {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text2);
-  margin-bottom: 6px;
-}
-.bookmarks-empty p {
-  font-size: 13.5px;
-}
-
-/* FLOATING WIDGETS TRIGGER BUTTONS */
-.floating-triggers {
-  position: fixed;
-  bottom: 28px;
-  right: 28px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 8000;
-}
-.float-btn {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  color: white;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.float-btn:hover {
-  transform: translateY(-2px);
-}
-.float-gdc {
-  background: linear-gradient(135deg, #1a237e, #3949ab);
-  box-shadow: 0 4px 20px rgba(26,35,126,0.3);
-}
-.float-feedback {
-  background: linear-gradient(135deg, #ef4444, #b91c1c);
-  box-shadow: 0 4px 20px rgba(239,68,68,0.3);
-}
-
-/* FEEDBACK OVERLAY PANEL */
-#fb-panel {
-  position: fixed;
-  bottom: 92px;
-  right: 28px;
-  z-index: 9000;
-  width: 320px;
-  background: var(--white);
-  border: 1.5px solid var(--tint-border);
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 16px 48px rgba(26,26,46,0.15);
-  transform: translateY(20px) scale(.96);
-  opacity: 0;
-  pointer-events: none;
-  transition: transform .28s cubic-bezier(.22,.68,0,1.2), opacity .2s;
-}
-#fb-panel.open {
-  transform: translateY(0) scale(1);
-  opacity: 1;
-  pointer-events: all;
-}
-
-/* RESPONSIVENESS */
-@media (max-width: 768px) {
-  .navbar {
-    padding: 0 16px;
-  }
-  .container {
-    padding: 24px 16px 80px;
-  }
-  .header h1 {
-    font-size: 26px;
-  }
-  .tabs-outer {
-    top: 64px;
-  }
-  .formula-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-  .formula-eq-container {
-    align-self: flex-end;
-  }
-  .formula-eq {
-    font-size: 16px;
-  }
-}
-
-/* PRINT STYLESHEET */
-@media print {
-  .navbar, .tabs-outer, .sub-tabs-container, .search-container, .floating-triggers, #fb-panel, .bookmark-btn, .glass-badge-hl {
-    display: none !important;
-  }
-  body {
-    background: white !important;
-    color: black !important;
-  }
-  .container {
-    max-width: 100% !important;
-    padding: 0 !important;
-  }
-  .content-panel {
-    display: block !important;
-    page-break-after: always;
-  }
-  .formula-row {
-    background: none !important;
-    border: 1px solid #ccc !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    page-break-inside: avoid;
-  }
-  .formula-eq {
-    color: black !important;
-  }
-}
-</style>
-<script src="js/dp-formulas.js?v=1"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try { document.documentElement.setAttribute('data-theme', localStorage.getItem('physicism-theme') || 'light'); } catch (e) {}</script>
+<script>if (/[?&]embed=true/.test(location.search)) document.documentElement.classList.add('is-embed');</script>
+<title>IB DP Physics data booklet (2025) · Atul Soral Physicism</title>
+<meta name="description" content="Interactive IB DP Physics data booklet, first assessment 2025: every equation typeset properly, constants, SI prefixes, unit conversions, circuit symbols and the EM spectrum. Search, filter SL/HL and star the ones you use most.">
+<link rel="canonical" href="https://soralatul16.github.io/atul-soral-physicism/dp-data-booklet.html">
+<meta name="theme-color" content="#f7f3ed">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%234ecdc4'/%3E%3Ctext x='32' y='45' font-size='38' text-anchor='middle' fill='white'%3E%E2%9A%9B%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="css/asp-base.css?v=1">
+<link rel="stylesheet" href="css/asp-course.css?v=1">
+<link rel="stylesheet" href="css/asp-visual.css?v=4">
+<link rel="stylesheet" href="css/asp-tools.css?v=2">
+<link rel="stylesheet" href="css/asp-glass.css?v=1">
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-9JDXQ282H8"></script>
+<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-9JDXQ282H8');</script>
 </head>
-<body>
 
-<!-- NAVBAR -->
-<div class="navbar">
-  <a class="nav-brand" href="index.html"><span class="nav-dot"></span>DP <span>Physics</span></a>
-  <div class="nav-spacer"></div>
-  <div class="nav-links">
-    <a class="nav-link" href="index.html">Home</a>
-    <a class="nav-link" href="dp-dashboard.html">Dashboard</a>
-    <a class="nav-link active" href="dp-data-booklet.html">📘 Data Booklet</a>
-    <button id="themeToggle" onclick="toggleTheme()" style="background:var(--white); border:1.5px solid var(--tint-border); padding:6px 12px; border-radius:50px; cursor:pointer; font-size:14px; color:var(--text2); transition:all 0.2s;" title="Toggle dark/light mode">🌙</button>
-  
-    <button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" 
-      style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px">
-      👤 Sign In
-    </button>
-</div>
-</div>
+<body class="c-dp">
+<a class="skip" href="#main">Skip to content</a>
+<div class="asp-bg" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
 
-<div class="container">
-  <!-- HEADER -->
-  <div class="header">
-    <h1>IB Physics Data Booklet</h1>
-    <p>Interactive Physics Reference Guide &bull; First Assessment 2025</p>
+<header class="nav">
+  <div class="nav__in">
+    <a class="gb gb--sm nav__back" href="dp-dashboard.html#tools" data-back aria-label="Go back"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>Back</a>
+    <a class="gb gb--icon nav__home" href="index.html" aria-label="Home" title="Home"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/></svg></a>
+    <a class="brand" href="index.html" aria-label="Atul Soral Physicism, home"><span class="brand__mark" aria-hidden="true">&#9883;</span>Atul Soral <span>Physicism</span></a>
+    <button class="gb gb--icon nav__burger" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="navLinks"><span></span><span></span><span></span></button>
+    <nav class="nav__links" id="navLinks" aria-label="Main">
+      <a class="nav__link" href="igcse-dashboard.html">IGCSE</a>
+      <a class="nav__link" href="myp-dashboard.html">MYP</a>
+      <a class="nav__link" href="dp-dashboard.html" aria-current="page">DP</a>
+      <a class="nav__link" href="index.html#tools">Simulators</a>
+      <a class="nav__link" href="dp-student-portal.html">Student Portal</a>
+      <span class="nav__sep" aria-hidden="true"></span>
+      <span data-auth><button class="gb gb--sm" type="button" data-action="signin">Sign in</button></span>
+      <a class="gb gb--sm gb--dark" href="https://wa.me/917877199443" target="_blank" rel="noopener">Book tutoring</a>
+    </nav>
+    <button class="gb gb--icon nav__theme" type="button" data-action="theme" aria-label="Switch between light and dark mode" title="Light / dark">&#127763;</button>
   </div>
+</header>
 
-  <!-- SEARCH BAR -->
-  <div class="search-container">
-    <div class="search-wrapper">
-      <span class="search-icon">🔍</span>
-      <input type="text" id="searchInput" class="search-input" placeholder="Search formulas by name, equation symbol, or note terms..." oninput="handleSearch()">
+<main id="main" class="wrap">
+  <section class="c-hero db-hero" aria-labelledby="pageTitle">
+    <div class="reveal">
+      <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span aria-hidden="true">/</span><a href="dp-dashboard.html">DP Physics</a><span aria-hidden="true">/</span><span>Data booklet</span></nav>
+      <p class="c-badge">IB DP PHYSICS &middot; FIRST ASSESSMENT 2025</p>
+      <h1 id="pageTitle">Data booklet, <em>interactive</em></h1>
+      <p class="c-hero__lede">Every equation, constant and symbol you are given in the exam, typeset the way the booklet prints them. Search, show SL or HL, and star the ones you use most.</p>
+      <div class="c-hero__cta">
+        <a class="gb gb--dark" href="dp-formula-bank.html">&#129518; Explore and solve formulas</a>
+        <button class="gb" type="button" data-act="print">&#128424; Print</button>
+      </div>
+    </div>
+    <aside class="path reveal" aria-label="What is here">
+      <p class="path__title">In this booklet</p>
+      <dl class="path__facts"><div><dt>Equations</dt><dd id="nEq">0</dd></div><div><dt>Constants</dt><dd id="nConst">0</dd></div><div><dt>Starred</dt><dd id="nStar">0</dd></div></dl>
+      <ol>
+        <li><div><b>Find</b><span>Search any word or symbol, such as &ldquo;Planck&rdquo; or &ldquo;λ&rdquo;.</span></div></li>
+        <li><div><b>Star</b><span>Tap &#9734; to keep a formula in your Starred list.</span></div></li>
+        <li><div><b>Explore</b><span>Tap &ldquo;Solve&rdquo; to rearrange a formula and work it out.</span></div></li>
+      </ol>
+    </aside>
+  </section>
+
+  <div class="jump reveal db-bar" role="navigation" aria-label="Booklet sections">
+    <div class="seg db-tabs" role="tablist" aria-label="Section" id="tabs">
+      <button type="button" role="tab" data-tab="general" aria-selected="true">General</button>
+      <button type="button" role="tab" data-tab="A" aria-selected="false" title="Space, time and motion">A</button>
+      <button type="button" role="tab" data-tab="B" aria-selected="false" title="The particulate nature of matter">B</button>
+      <button type="button" role="tab" data-tab="C" aria-selected="false" title="Wave behaviour">C</button>
+      <button type="button" role="tab" data-tab="D" aria-selected="false" title="Fields">D</button>
+      <button type="button" role="tab" data-tab="E" aria-selected="false" title="Nuclear and quantum physics">E</button>
+      <button type="button" role="tab" data-tab="starred" aria-selected="false">&#9733; Starred</button>
+    </div>
+    <div class="jump__tools">
+      <div class="seg" role="group" aria-label="Level" data-filter-level="dp-level">
+        <button type="button" data-level="sl" aria-pressed="false">SL</button>
+        <button type="button" data-level="hl" aria-pressed="true">HL</button>
+      </div>
+      <label class="find"><span class="sr-only">Search the booklet</span>
+        <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input type="search" placeholder="Search  ( / )" data-find autocomplete="off"></label>
     </div>
   </div>
 
-  <!-- STICKY PRIMARY TAB NAVIGATION -->
-  <div class="tabs-outer">
-    <div class="tabs-container" id="tabsContainer">
-      <button class="tab-btn active" onclick="switchPrimaryTab('general')">General Reference</button>
-      <button class="tab-btn" onclick="switchPrimaryTab('theme_A')">Theme A: Motion</button>
-      <button class="tab-btn" onclick="switchPrimaryTab('theme_B')">Theme B: Matter</button>
-      <button class="tab-btn" onclick="switchPrimaryTab('theme_C')">Theme C: Waves</button>
-      <button class="tab-btn" onclick="switchPrimaryTab('theme_D')">Theme D: Fields</button>
-      <button class="tab-btn" onclick="switchPrimaryTab('theme_E')">Theme E: Nuclear/Quantum</button>
-      <button class="tab-btn" id="starredTabBtn" onclick="switchPrimaryTab('starred')">⭐ Bookmarks</button>
-    </div>
-  </div>
-
-  <!-- SUB TABS CONTAINER (Only visible for General Tab) -->
-  <div class="sub-tabs-container" id="subTabsContainer">
-    <button class="sub-tab-btn active" onclick="switchSubTab('math')">Math Tools</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('uncertainties')">Uncertainties</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('constants')">Physical Constants</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('prefixes')">SI Prefixes</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('conversions')">Unit Conversions</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('circuits')">Circuit Symbols</button>
-    <button class="sub-tab-btn" onclick="switchSubTab('spectrum')">EM Spectrum</button>
-  </div>
-
-  <!-- MAIN DYNAMIC CONTENT PANEL -->
-  <div id="bookletContentArea">
-    <!-- Generated dynamically by script -->
-  </div>
-</div>
-
-<!-- FLOATING TRIGGER BUTTONS -->
-<div class="floating-triggers">
-  <button class="float-btn float-gdc" onclick="openGDC()" title="TI-84 Graphing Calculator">🧮</button>
-  <button class="float-btn float-feedback" onclick="toggleFeedback()" title="Submit Feedback">💬</button>
-</div>
-
-<!-- INLINE FEEDBACK PANEL -->
-<div id="fb-panel">
-  <div style="background:linear-gradient(135deg,#ef4444,#b91c1c); padding:14px 18px; font-size:14px; font-weight:600; color:white; display:flex; justify-content:space-between; align-items:center;">
-    <span>💬 Send Feedback</span>
-    <button onclick="toggleFeedback()" style="background:rgba(255,255,255,0.15); border:none; color:white; width:22px; height:22px; border-radius:50%; cursor:pointer; font-size:11px;">✕</button>
-  </div>
-  <div style="padding:16px; display:flex; flex-direction:column; gap:11px;">
-    <div style="font-size:11px; color:var(--text3); background:rgba(0,0,0,0.03); padding:6px 10px; border-radius:8px;">Page: dp-data-booklet.html</div>
-    <input type="text" id="fbName" placeholder="Your name" style="width:100%; background:var(--white); border:1.5px solid var(--tint-border); border-radius:10px; color:var(--text); font-size:14px; padding:10px 14px; outline:none;">
-    <textarea id="fbMsg" placeholder="Your feedback or suggestion..." style="width:100%; background:var(--white); border:1.5px solid var(--tint-border); border-radius:10px; color:var(--text); font-size:14px; padding:10px 14px; height:88px; resize:none; outline:none;"></textarea>
-    <button onclick="sendFeedback()" style="background:linear-gradient(135deg,#ef4444,#b91c1c); border:none; color:white; font-size:14px; font-weight:600; padding:11px; border-radius:10px; cursor:pointer;">Send</button>
-    <div id="fbStatus" style="font-size:12px; text-align:center; min-height:16px; color:var(--text3);"></div>
-  </div>
-</div>
-
-<script>
-if (window.location.search.includes('embed=true')) {
-  document.querySelector('.navbar').style.display = 'none';
-  document.querySelector('.floating-triggers').style.display = 'none';
-  // Add some padding to compensate for no navbar
-  document.querySelector('.container').style.paddingTop = '16px';
-}
-
-// ── BOOKLET DATABASE ──
-const FORMULAS_DATA = window.DP_FORMULAS;   // the list now lives in js/dp-formulas.js
-
-// ── STATE VARIABLES ──
-let activePrimaryTab = 'general';
-let activeSubTab = 'math';
-let starredFormulas = [];
-
-// ── INIT ──
-window.addEventListener('load', () => {
-  // Load starred formulas
-  const savedStars = localStorage.getItem('dp-starred-formulas');
-  if (savedStars) {
-    try {
-      starredFormulas = JSON.parse(savedStars);
-    } catch(e) {
-      starredFormulas = [];
-    }
-  }
-  
-  // Theme initialization
-  const savedTheme = localStorage.getItem('physicism-theme');
-  if (savedTheme === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    document.getElementById('themeToggle').textContent = '☀️';
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-    document.getElementById('themeToggle').textContent = '🌙';
-  }
-  
-  renderContent();
-});
-
-// ── THEME TOGGLE ──
-function toggleTheme() {
-  const current = document.documentElement.getAttribute('data-theme');
-  const next = current === 'dark' ? 'light' : 'dark';
-  const btn = document.getElementById('themeToggle');
-  
-  if (next === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
-    localStorage.setItem('physicism-theme', 'dark');
-    if (btn) btn.textContent = '☀️';
-  } else {
-    document.documentElement.removeAttribute('data-theme');
-    localStorage.setItem('physicism-theme', 'light');
-    if (btn) btn.textContent = '🌙';
-  }
-}
-
-// ── TAB SWITCHING ──
-function switchPrimaryTab(tabId) {
-  // Reset search
-  document.getElementById('searchInput').value = '';
-  
-  activePrimaryTab = tabId;
-  
-  // Sync buttons UI
-  document.querySelectorAll('#tabsContainer button').forEach(btn => {
-    btn.classList.remove('active', 'active-starred');
-  });
-  
-  const activeBtn = Array.from(document.querySelectorAll('#tabsContainer button')).find(btn => 
-    btn.getAttribute('onclick').includes(`'${tabId}'`)
-  );
-  
-  if (activeBtn) {
-    if (tabId === 'starred') {
-      activeBtn.classList.add('active-starred');
-    } else {
-      activeBtn.classList.add('active');
-    }
-  }
-  
-  // Toggle sub tabs visibility
-  const subTabs = document.getElementById('subTabsContainer');
-  if (tabId === 'general') {
-    subTabs.style.display = 'flex';
-  } else {
-    subTabs.style.display = 'none';
-  }
-  
-  renderContent();
-}
-
-function switchSubTab(subTabId) {
-  activeSubTab = subTabId;
-  
-  // Sync sub-tabs UI
-  document.querySelectorAll('#subTabsContainer button').forEach(btn => {
-    btn.classList.remove('active');
-  });
-  
-  const activeBtn = Array.from(document.querySelectorAll('#subTabsContainer button')).find(btn => 
-    btn.getAttribute('onclick').includes(`'${subTabId}'`)
-  );
-  if (activeBtn) activeBtn.classList.add('active');
-  
-  renderContent();
-}
-
-// ── BOOKMARK SYNC ──
-function toggleBookmark(formulaId, event) {
-  if (event) event.stopPropagation();
-  
-  const idx = starredFormulas.indexOf(formulaId);
-  if (idx === -1) {
-    starredFormulas.push(formulaId);
-  } else {
-    starredFormulas.splice(idx, 1);
-  }
-  
-  localStorage.setItem('dp-starred-formulas', JSON.stringify(starredFormulas));
-  
-  // Update star icon styling in place
-  const btn = document.getElementById(`star-btn-${formulaId}`);
-  if (btn) {
-    if (starredFormulas.includes(formulaId)) {
-      btn.classList.add('starred');
-    } else {
-      btn.classList.remove('starred');
-    }
-  }
-  
-  // If we are in the Bookmarks tab, re-render the whole list
-  if (activePrimaryTab === 'starred') {
-    renderContent();
-  }
-}
-
-// ── DYNAMIC RENDERING ──
-function renderContent() {
-  const contentArea = document.getElementById('bookletContentArea');
-  contentArea.innerHTML = '';
-  
-  const searchVal = document.getElementById('searchInput').value.trim().toLowerCase();
-  
-  // 1. Render Search Results if query exists
-  if (searchVal) {
-    renderSearchResults(searchVal);
-    return;
-  }
-  
-  // 2. Render Bookmarks Tab
-  if (activePrimaryTab === 'starred') {
-    renderBookmarksTab();
-    return;
-  }
-  
-  // 3. Render Themes A to E Tabs
-  if (activePrimaryTab.startsWith('theme_')) {
-    renderThemeTab(activePrimaryTab);
-    return;
-  }
-  
-  // 4. Render General Sub-tabs
-  renderGeneralSubTab();
-}
-
-// ── GENERAL SUB-TAB RENDERERS ──
-function renderGeneralSubTab() {
-  const contentArea = document.getElementById('bookletContentArea');
-  
-  if (activeSubTab === 'circuits') {
-    renderCircuitsGrid();
-    return;
-  }
-  if (activeSubTab === 'spectrum') {
-    renderSpectrumVisualizer();
-    return;
-  }
-  
-  // Default list-based sub-tabs (math, uncertainties, constants, prefixes, conversions)
-  const formulas = FORMULAS_DATA[activeSubTab];
-  if (!formulas) return;
-  
-  const sectionDiv = document.createElement('div');
-  sectionDiv.className = 'topic-group';
-  
-  const titleMap = {
-    'math': 'Mathematical Equations',
-    'uncertainties': 'Uncertainties & Errors',
-    'constants': 'Physical Constants',
-    'prefixes': 'SI Prefixes',
-    'conversions': 'Unit Conversions'
-  };
-  
-  sectionDiv.innerHTML = `<h2 class="topic-title">${titleMap[activeSubTab] || activeSubTab}</h2>`;
-  
-  formulas.forEach((f, idx) => {
-    const fId = `${activeSubTab}_eq${idx}`;
-    const isStarred = starredFormulas.includes(fId);
-    
-    sectionDiv.innerHTML += `
-      <div class="formula-row">
-        <div class="formula-info">
-          <button class="bookmark-btn ${isStarred ? 'starred' : ''}" id="star-btn-${fId}" onclick="toggleBookmark('${fId}', event)">
-            <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          </button>
-          <div class="formula-meta">
-            <span class="formula-name">${f.name}</span>
-            <span class="formula-note">${f.note}</span>
-          </div>
-        </div>
-        <div class="formula-eq-container">
-          <span class="formula-eq">${f.eq}</span>
-        </div>
-      </div>
-    `;
-  });
-  
-  contentArea.appendChild(sectionDiv);
-}
-
-// ── THEME TABS RENDERER ──
-function renderThemeTab(themeKey) {
-  const contentArea = document.getElementById('bookletContentArea');
-  const formulas = FORMULAS_DATA[themeKey];
-  if (!formulas) return;
-  
-  // Group by topic
-  const grouped = {};
-  formulas.forEach((f, idx) => {
-    if (!grouped[f.topic]) grouped[f.topic] = [];
-    grouped[f.topic].push({ f, idx });
-  });
-  
-  Object.keys(grouped).forEach(topicName => {
-    const topicGroup = document.createElement('div');
-    topicGroup.className = 'topic-group';
-    topicGroup.innerHTML = `<h2 class="topic-title">${topicName}</h2>`;
-    
-    grouped[topicName].forEach(item => {
-      const fId = `${themeKey}_eq${item.idx}`;
-      const isStarred = starredFormulas.includes(fId);
-      const isHl = item.f.scope === 'hl';
-      
-      topicGroup.innerHTML += `
-        <div class="formula-row ${isHl ? 'hl-only' : ''}">
-          <div class="formula-info">
-            <button class="bookmark-btn ${isStarred ? 'starred' : ''}" id="star-btn-${fId}" onclick="toggleBookmark('${fId}', event)">
-              <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            </button>
-            <div class="formula-meta">
-              <span class="formula-name">${item.f.name}</span>
-              <span class="formula-note">${item.f.note}</span>
-            </div>
-          </div>
-          <div class="formula-eq-container">
-            ${isHl ? '<span class="glass-badge-hl">HL Only</span>' : ''}
-            <span class="formula-eq">${item.f.eq}</span>
-          </div>
-        </div>
-      `;
-    });
-    
-    contentArea.appendChild(topicGroup);
-  });
-}
-
-// ── BOOKMARKS TAB RENDERER ──
-function renderBookmarksTab() {
-  const contentArea = document.getElementById('bookletContentArea');
-  
-  if (starredFormulas.length === 0) {
-    contentArea.innerHTML = `
-      <div class="bookmarks-empty">
-        <svg viewBox="0 0 24 24" style="width:48px;height:48px;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-        <h3>No Starred Formulas</h3>
-        <p>Click the star icon next to any formula to bookmark it for quick access here.</p>
-      </div>
-    `;
-    return;
-  }
-  
-  const bookmarksGroup = document.createElement('div');
-  bookmarksGroup.className = 'topic-group';
-  bookmarksGroup.innerHTML = '<h2 class="topic-title">⭐ Bookmarked Formulas</h2>';
-  
-  starredFormulas.forEach(fId => {
-    // Resolve which formula this is
-    const parts = fId.split('_eq');
-    if (parts.length !== 2) return;
-    const tabKey = parts[0];
-    const idx = parseInt(parts[1], 10);
-    
-    const fList = FORMULAS_DATA[tabKey];
-    if (!fList || !fList[idx]) return;
-    const f = fList[idx];
-    const isHl = f.scope === 'hl';
-    
-    bookmarksGroup.innerHTML += `
-      <div class="formula-row ${isHl ? 'hl-only' : ''}">
-        <div class="formula-info">
-          <button class="bookmark-btn starred" id="star-btn-${fId}" onclick="toggleBookmark('${fId}', event)">
-            <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-          </button>
-          <div class="formula-meta">
-            <span class="formula-name">${f.name}</span>
-            <span class="formula-note">${f.note} ${f.topic ? `&bull; <em>${f.topic}</em>` : ''}</span>
-          </div>
-        </div>
-        <div class="formula-eq-container">
-          ${isHl ? '<span class="glass-badge-hl">HL Only</span>' : ''}
-          <span class="formula-eq">${f.eq}</span>
-        </div>
-      </div>
-    `;
-  });
-  
-  contentArea.appendChild(bookmarksGroup);
-}
-
-// ── SEARCH LOGIC ──
-function handleSearch() {
-  const query = document.getElementById('searchInput').value.trim().toLowerCase();
-  
-  // Hide or show General sub-tabs depending on whether we're searching
-  const subTabs = document.getElementById('subTabsContainer');
-  const tabsOuter = document.getElementById('tabsContainer');
-  
-  if (query) {
-    subTabs.style.display = 'none';
-    renderContent();
-  } else {
-    // Restore default tab views
-    if (activePrimaryTab === 'general') {
-      subTabs.style.display = 'flex';
-    }
-    renderContent();
-  }
-}
-
-function renderSearchResults(query) {
-  const contentArea = document.getElementById('bookletContentArea');
-  
-  const results = [];
-  const searchKeys = Object.keys(FORMULAS_DATA);
-  
-  searchKeys.forEach(tabKey => {
-    FORMULAS_DATA[tabKey].forEach((f, idx) => {
-      const matchName = f.name.toLowerCase().includes(query);
-      const matchEq = f.eq.toLowerCase().includes(query);
-      const matchNote = f.note.toLowerCase().includes(query);
-      const matchTopic = f.topic && f.topic.toLowerCase().includes(query);
-      
-      if (matchName || matchEq || matchNote || matchTopic) {
-        results.push({
-          f,
-          fId: `${tabKey}_eq${idx}`,
-          sourceTab: tabKey
-        });
-      }
-    });
-  });
-  
-  if (results.length === 0) {
-    contentArea.innerHTML = `
-      <div style="text-align: center; padding: 48px; color: var(--text3);">
-        <p style="font-size: 16px; font-weight: 500; margin-bottom: 4px;">No formulas found</p>
-        <p style="font-size: 13px;">No equations matched your search term "${query}". Try another keyword.</p>
-      </div>
-    `;
-    return;
-  }
-  
-  // Group results by section
-  const grouped = {};
-  results.forEach(item => {
-    let sectionName = '';
-    if (item.f.topic) {
-      sectionName = item.f.topic;
-    } else {
-      const generalNames = {
-        'math': 'General > Mathematics',
-        'uncertainties': 'General > Uncertainties & Errors',
-        'constants': 'General > Constants',
-        'prefixes': 'General > SI Prefixes',
-        'conversions': 'General > Conversions'
-      };
-      sectionName = generalNames[item.sourceTab] || 'General Reference';
-    }
-    
-    if (!grouped[sectionName]) grouped[sectionName] = [];
-    grouped[sectionName].push(item);
-  });
-  
-  Object.keys(grouped).forEach(sectionName => {
-    const resultsGroup = document.createElement('div');
-    resultsGroup.className = 'topic-group';
-    resultsGroup.innerHTML = `<h2 class="topic-title">${sectionName}</h2>`;
-    
-    grouped[sectionName].forEach(item => {
-      const isStarred = starredFormulas.includes(item.fId);
-      const isHl = item.f.scope === 'hl';
-      
-      resultsGroup.innerHTML += `
-        <div class="formula-row ${isHl ? 'hl-only' : ''}">
-          <div class="formula-info">
-            <button class="bookmark-btn ${isStarred ? 'starred' : ''}" id="star-btn-${item.fId}" onclick="toggleBookmark('${item.fId}', event)">
-              <svg class="star-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
-            </button>
-            <div class="formula-meta">
-              <span class="formula-name">${item.f.name}</span>
-              <span class="formula-note">${item.f.note}</span>
-            </div>
-          </div>
-          <div class="formula-eq-container">
-            ${isHl ? '<span class="glass-badge-hl">HL Only</span>' : ''}
-            <span class="formula-eq">${item.f.eq}</span>
-          </div>
-        </div>
-      `;
-    });
-    
-    contentArea.appendChild(resultsGroup);
-  });
-}
-
-// ── CIRCUITS SVG GRID RENDERER ──
-function renderCircuitsGrid() {
-  const contentArea = document.getElementById('bookletContentArea');
-  
-  const circuitsHtml = `
-    <div class="topic-group">
-      <h2 class="topic-title">IB Circuit Diagram Symbols</h2>
+  <div id="panels"></div>
+  <p class="empty" id="findEmpty">Nothing in the booklet matches that search. Press Esc to clear it.</p>
+  <div class="db-panel" data-panel="extra-general" hidden>
+    <section class="db-group" id="g-circuits" data-find-group>
+      <h3 class="db-group__t">Circuit symbols</h3>
+      <div data-find-item="circuit symbols cell battery switch voltmeter ammeter resistor variable resistor ldr thermistor lamp diode led heating element potentiometer earth">
       <div class="circuit-grid">
         <!-- Cell -->
         <div class="circuit-card">
@@ -1358,21 +262,13 @@ function renderCircuitsGrid() {
           <span class="circuit-label">Earth Connection</span>
         </div>
       </div>
-    </div>
-  `;
-  
-  contentArea.innerHTML = circuitsHtml;
-}
-
-// ── EM SPECTRUM VISUALIZER RENDERER ──
-function renderSpectrumVisualizer() {
-  const contentArea = document.getElementById('bookletContentArea');
-  
-  const spectrumHtml = `
-    <div class="topic-group">
-      <h2 class="topic-title">Electromagnetic (EM) Spectrum</h2>
+      </div>
+    </section>
+    <section class="db-group" id="g-spectrum" data-find-group>
+      <h3 class="db-group__t">Electromagnetic spectrum</h3>
+      <div data-find-item="electromagnetic em spectrum gamma x-ray uv ultraviolet visible infrared microwave radio wavelength light colour">
       <div class="spectrum-container">
-        <h4 class="spectrum-title">The Complete EM Spectrum (Wavelength Scale)</h4>
+        <h3 class="spectrum-title">The Complete EM Spectrum (Wavelength Scale)</h3>
         
         <!-- Rainbow/Scientific Gradient Bar -->
         <div class="spectrum-bar"></div>
@@ -1401,7 +297,7 @@ function renderSpectrumVisualizer() {
         
         <!-- ZOOMED VISIBLE SPECTRUM SECTION -->
         <div class="visible-spectrum-section">
-          <h4 class="spectrum-title">Visible Spectrum Expansion (400 – 700 nm)</h4>
+          <h3 class="spectrum-title">Visible Spectrum Expansion (400 – 700 nm)</h3>
           <div class="visible-spectrum-bar"></div>
           <div class="visible-spectrum-labels">
             <span>Violet (400 nm)</span>
@@ -1413,82 +309,122 @@ function renderSpectrumVisualizer() {
           </div>
         </div>
       </div>
-    </div>
-  `;
-  
-  contentArea.innerHTML = spectrumHtml;
-}
+      </div>
+    </section>
+  </div>
 
-// ── FEEDBACK FUNCTIONS ──
-function toggleFeedback() {
-  const panel = document.getElementById('fb-panel');
-  if (!panel) return;
-  panel.classList.toggle('open');
-}
+  <section class="band reveal db-band" aria-labelledby="bandTitle">
+    <div><h2 id="bandTitle">&#129518; See a formula in action</h2><p>The formula bank lets you tap any letter to see what it means, rearrange the equation for it and solve it with your own numbers.</p></div>
+    <div class="band__cta"><a class="gb gb--dark" href="dp-formula-bank.html">Open the formula bank &rarr;</a><a class="gb" href="dp-flashcards.html">Flashcards</a></div>
+  </section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-function sendFeedback() {
-  const name = document.getElementById('fbName').value.trim();
-  const msg = document.getElementById('fbMsg').value.trim();
-  const status = document.getElementById('fbStatus');
-  
-  if (!msg) {
-    status.textContent = 'Please enter feedback.';
-    status.style.color = 'var(--red)';
-    return;
-  }
-  
-  status.textContent = 'Sending...';
-  status.style.color = 'var(--text2)';
-  
-  console.log('💡 Booklet Feedback from', name, ':', msg);
-  
-  status.textContent = '✅ Thank you for your feedback!';
-  status.style.color = 'var(--green)';
-  document.getElementById('fbMsg').value = '';
-  
-  setTimeout(() => {
-    toggleFeedback();
-    status.textContent = '';
-  }, 2000);
-}
+<footer class="footer">
+  <div>
+    <p class="footer__eq" aria-hidden="true">&Delta;x &middot; &Delta;p &ge; &#8463;/2</p>
+    <p>&copy; 2026 Atul Soral Physicism &bull; <a href="mailto:atulsoralphysicism@gmail.com">atulsoralphysicism@gmail.com</a></p>
+  </div>
+  <p class="footer__fine">Independent study resource based on the IB DP Physics data booklet (first assessment 2025). Not affiliated with or endorsed by the International Baccalaureate.</p>
+</footer>
 
-// ── GDC HELPER LAUNCHER ──
-function openGDC() {
-  if (typeof window.openGDC === 'function') {
-    window.openGDC();
-  } else {
-    alert('TI-84 Graphing Calculator script loading... please try again in a moment.');
-  }
-}
-</script>
-
-<!-- GDC Calculator Scripts -->
-<script src="js/gdc.js"></script>
-
-
+<script src="js/dp-formulas.js?v=1"></script>
+<script src="js/asp-math.js?v=2"></script>
 <script>
-if (typeof firebase !== 'undefined' && firebase.auth) {
-  firebase.auth().onAuthStateChanged(function(user) {
-    var btn = document.getElementById('authBtn');
-    if (!btn) return;
-    if (user) {
-      var name = user.displayName || user.email.split('@')[0];
-      btn.outerHTML = '<div id="authBtn" style="display:flex;align-items:center;gap:8px;margin-left:8px;">' +
-        '<span style="font-size:.73rem;color:rgba(255,255,255,.9);display:flex;align-items:center;gap:5px">' +
-          '<span style="width:6px;height:6px;border-radius:50%;background:#22c55e;display:inline-block"></span>' +
-          name +
-        '</span>' +
-        '<button onclick="firebase.auth().signOut().then(function(){location.reload()})" ' +
-        'style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:7px;padding:3px 10px;font-size:.7rem;cursor:pointer">Sign Out</button>' +
+/* The equations come from js/dp-formulas.js, the same list the formula bank uses. */
+(function () {
+  var D = window.DP_FORMULAS || {}, M = window.aspMath, STAR = 'dp-starred-formulas';
+  var THEMES = { A: 'Space, time and motion', B: 'The particulate nature of matter', C: 'Wave behaviour', D: 'Fields', E: 'Nuclear and quantum physics' };
+  var GENERAL = [['math', 'Mathematics'], ['uncertainties', 'Uncertainties'], ['constants', 'Physical constants'], ['prefixes', 'SI prefixes'], ['conversions', 'Unit conversions']];
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  var stars = []; try { stars = JSON.parse(localStorage.getItem(STAR) || '[]'); } catch (e) {}
+  function saveStars() { try { localStorage.setItem(STAR, JSON.stringify(stars)); } catch (e) {} $('nStar').textContent = stars.length; }
+
+  // how each kind of line is typeset: equations fully; constants symbol only; prefixes and conversions as printed
+  function eqHTML(tab, eq) {
+    if (tab === 'prefixes' || tab === 'conversions') return '<span class="m m--plain">' + esc(eq) + '</span>';
+    if (tab === 'constants') { var p = eq.split(' = '); return '<span class="m">' + M.html(p[0]) + ' <span class="rel">=</span> <span class="m--plain">' + esc(p.slice(1).join(' = ')) + '</span></span>'; }
+    return '<span class="m">' + M.html(eq) + '</span>';
+  }
+  function row(tab, f, i) {
+    var id = tab + '_eq' + i, on = stars.indexOf(id) > -1, hl = f.scope === 'hl', theme = tab.indexOf('theme_') === 0;
+    return '<div class="db-row' + (hl ? ' is-hl' : '') + '" data-id="' + id + '"' + (theme ? ' data-levels="' + (hl ? 'hl' : 'sl hl') + '"' : '') +
+      ' data-find-item="' + esc(f.name + ' ' + f.eq + ' ' + f.note + ' ' + (f.topic || '')) + '">' +
+      '<button class="gb gb--icon gb--sm db-star" type="button" data-star="' + id + '" aria-pressed="' + on + '" aria-label="Star ' + esc(f.name) + '">' + (on ? '&#9733;' : '&#9734;') + '</button>' +
+      '<div class="db-row__txt"><span class="db-row__n">' + esc(f.name) + (hl ? ' <span class="fb__tag fb__tag--hl">HL</span>' : '') + '</span><span class="db-row__note">' + esc(f.note) + '</span></div>' +
+      '<div class="db-row__eq">' + eqHTML(tab, f.eq) + '</div>' +
+      (theme ? '<a class="gb gb--sm db-solve" href="dp-formula-bank.html#f=' + encodeURIComponent(f.name) + '" title="Explore and solve in the formula bank">Solve &rarr;</a>' : '<span></span>') +
       '</div>';
-    } else {
-      btn.outerHTML = '<button id="authBtn" onclick="firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())" ' +
-        'style="background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;border:none;padding:5px 14px;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:5px;margin-left:8px;">' +
-        '👤 Sign In</button>';
-    }
+  }
+  function group(id, title, inner) { return '<section class="db-group" id="g-' + id + '" data-find-group><h3 class="db-group__t">' + esc(title) + '</h3>' + inner + '</section>'; }
+
+  var html = '', nEq = 0;
+  html += '<div class="db-panel" data-panel="general"><nav class="db-sub" aria-label="General sections">' +
+    GENERAL.map(function (g) { return '<a href="#g-' + g[0] + '">' + g[1] + '</a>'; }).join('') + '<a href="#g-circuits">Circuit symbols</a><a href="#g-spectrum">EM spectrum</a></nav>' +
+    GENERAL.map(function (g) { return group(g[0], g[1], (D[g[0]] || []).map(function (f, i) { return row(g[0], f, i); }).join('')); }).join('') + '</div>';
+  Object.keys(THEMES).forEach(function (L) {
+    var tab = 'theme_' + L, list = D[tab] || [], topics = [];
+    nEq += list.length;
+    list.forEach(function (f) { if (topics.indexOf(f.topic) < 0) topics.push(f.topic); });
+    html += '<div class="db-panel" data-panel="' + L + '" hidden><div class="fb-theme__h t-' + L + '"><span class="fb-theme__l" aria-hidden="true">' + L + '</span><h2>Theme ' + L + ' &middot; ' + THEMES[L] + '</h2><small>' + list.length + ' equations</small></div>' +
+      topics.map(function (t) { return group(L + t.split(' ')[0].replace('.', ''), t, list.map(function (f, i) { return f.topic === t ? row(tab, f, i) : ''; }).join('')); }).join('') + '</div>';
   });
-}
+  html += '<div class="db-panel" data-panel="starred" hidden><div id="starList"></div></div>';
+  $('panels').innerHTML = html;
+  // circuit symbols and the EM spectrum live in the page; move them to the end of the General panel
+  var extra = document.querySelector('[data-panel="extra-general"]'), gen = document.querySelector('[data-panel="general"]');
+  while (extra.firstElementChild) gen.appendChild(extra.firstElementChild);
+  extra.remove();
+  $('nEq').textContent = nEq;
+  $('nConst').textContent = (D.constants || []).length;
+  $('nStar').textContent = stars.length;
+
+  function renderStars() {
+    var out = stars.map(function (id) {
+      var p = id.split('_eq'), list = D[p[0]], f = list && list[+p[1]];
+      return f ? row(p[0], f, +p[1]) : '';
+    }).join('');
+    $('starList').innerHTML = out ? group('starred', 'Your starred formulas', out) :
+      '<div class="card db-none"><p class="db-none__big" aria-hidden="true">&#9734;</p><h3>Nothing starred yet</h3><p>Tap the &#9734; next to any formula and it will be kept here, on this device.</p></div>';
+  }
+  renderStars();
+
+  /* tabs: #A to #E, #starred or #general in the address opens that section */
+  var tabs = document.querySelectorAll('[data-tab]');
+  function show(t) {
+    tabs.forEach(function (b) { b.setAttribute('aria-selected', b.getAttribute('data-tab') === t ? 'true' : 'false'); });
+    document.querySelectorAll('.db-panel').forEach(function (p) { p.hidden = p.getAttribute('data-panel') !== t; });
+    if (t === 'starred') renderStars();
+  }
+  var start = (location.hash || '').slice(1);
+  show(/^(general|starred|[A-E])$/.test(start) ? start : 'general');
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-tab]');
+    if (b) { var t = b.getAttribute('data-tab'); show(t); history.replaceState(null, '', '#' + t); return; }
+    var s = e.target.closest('[data-star]');
+    if (s) {
+      var id = s.getAttribute('data-star'), k = stars.indexOf(id);
+      if (k > -1) stars.splice(k, 1); else stars.push(id);
+      saveStars();
+      document.querySelectorAll('[data-star="' + id + '"]').forEach(function (x) { var on = k < 0; x.setAttribute('aria-pressed', on); x.innerHTML = on ? '&#9733;' : '&#9734;'; });
+      if (!document.querySelector('[data-panel="starred"]').hidden) renderStars();
+      say(k < 0 ? 'Starred' : 'Removed from Starred');
+      return;
+    }
+    if (e.target.closest('[data-act="print"]')) window.print();
+  });
+  // while searching, look through every section at once
+  var find = document.querySelector('[data-find]');
+  find.addEventListener('input', function () { document.body.classList.toggle('is-searching', !!find.value.trim()); });
+  find.addEventListener('keydown', function (e) { if (e.key === 'Escape') document.body.classList.remove('is-searching'); });
+
+  var toast = $('toast'), tt;
+  function say(t) { toast.textContent = t; toast.classList.add('is-on'); clearTimeout(tt); tt = setTimeout(function () { toast.classList.remove('is-on'); }, 1500); }
+})();
 </script>
-<script src="js/asp-toolbar.js" defer></script>
+<script src="js/asp-ui.js?v=1" defer></script>
+<script src="js/asp-course.js?v=1" defer></script>
+<script src="js/asp-helpers.js?v=1" data-course="DP" data-gdc defer></script>
 </body>
 </html>
