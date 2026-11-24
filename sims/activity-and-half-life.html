@@ -6,8 +6,8 @@
 <title>ATUL SORAL PHYSICISM · Activity and Half Life</title>
 <style>
 :root{
-  --c1:#4f46e5; --c2:#0d9488; --c3:#d97706; --c4:#e11d48; --c5:#7c3aed; --c6:#0891b2; --c7:#059669;
-  --accent:var(--c1); --accent-soft:rgba(79,70,229,.12);
+  --c1:#0ea5e9; --c2:#0d9488; --c3:#d97706; --c4:#e11d48; --c5:#fb923c; --c6:#0891b2; --c7:#059669;
+  --accent:var(--c1); --accent-soft:rgba(14,165,233,.12);
   --ink:#1d2440; --muted:#7c86a8; --line:rgba(29,36,64,.12); --card:#ffffff;
   --fs:-apple-system,system-ui,"Segoe UI",sans-serif; --fm:ui-monospace,Menlo,monospace;
 }
@@ -454,11 +454,11 @@ function sci(v,dp){if(v===0)return '0';const e=Math.floor(Math.log10(Math.abs(v)
 
 /* ---------- pages ---------- */
 const PAGES=[
-  {name:"Random & Spontaneous",color:"var(--c1)",soft:"rgba(79,70,229,.12)"},
+  {name:"Random & Spontaneous",color:"var(--c1)",soft:"rgba(14,165,233,.12)"},
   {name:"Detecting Radiation",color:"var(--c2)",soft:"rgba(13,148,136,.12)"},
   {name:"Activity & Becquerel",color:"var(--c3)",soft:"rgba(217,119,6,.14)"},
   {name:"Half-Life & Curves",color:"var(--c4)",soft:"rgba(225,29,72,.12)"},
-  {name:"Worked Examples",color:"var(--c5)",soft:"rgba(124,58,237,.12)"},
+  {name:"Worked Examples",color:"var(--c5)",soft:"rgba(251,146,60,.12)"},
   {name:"Misconceptions",color:"var(--c6)",soft:"rgba(8,145,178,.12)"},
   {name:"Quiz",color:"var(--c7)",soft:"rgba(5,150,105,.12)"}
 ];
@@ -506,7 +506,7 @@ function rdOutUpdate(){const rem=rd.alive.filter(Boolean).length,dec=N0-rem;
 function drawRd(){const s=sizes.get(rdCanvas);if(!s)return;const{w,h}=s,x=rdCanvas.getContext('2d');
   x.clearRect(0,0,w,h);const pad=10,cell=Math.min((w-2*pad)/GRID,(h-2*pad)/GRID),ox=(w-cell*GRID)/2,oy=(h-cell*GRID)/2;
   for(let i=0;i<N0;i++){const r=Math.floor(i/GRID),c=i%GRID,px=ox+c*cell,py=oy+r*cell,m=cell*0.16;
-    if(rd.alive[i]){x.fillStyle='#6366f1';x.globalAlpha=.92;x.beginPath();
+    if(rd.alive[i]){x.fillStyle='#0ea5e9';x.globalAlpha=.92;x.beginPath();
       x.roundRect(px+m,py+m,cell-2*m,cell-2*m,3);x.fill();x.globalAlpha=1;}
     else{x.fillStyle='rgba(29,36,64,0.07)';x.beginPath();x.roundRect(px+m,py+m,cell-2*m,cell-2*m,3);x.fill();}}}
 function drawRdGraph(){const s=sizes.get(rdGraph);if(!s)return;const{w,h}=s,x=rdGraph.getContext('2d');
@@ -516,19 +516,19 @@ function drawRdGraph(){const s=sizes.get(rdGraph);if(!s)return;const{w,h}=s,x=rd
   x.textAlign='center';x.fillText('time (ticks) →',(L+R)/2,h-3);
   const n=rd.hist.length,span=Math.max(n-1,1);
   /* ideal exponential reference — same half-life shape as Tab 4 */
-  x.strokeStyle='rgba(79,70,229,.4)';x.setLineDash([4,3]);x.lineWidth=1.5;x.beginPath();
+  x.strokeStyle='rgba(14,165,233,.4)';x.setLineDash([4,3]);x.lineWidth=1.5;x.beginPath();
   for(let i=0;i<=span;i++){const px=L+(i/span)*(R-L),vy=B-Math.pow(1-rd.p,i)*(B-T);i===0?x.moveTo(px,vy):x.lineTo(px,vy);}
   x.stroke();x.setLineDash([]);
   /* live stochastic curve — always begins at N0 on the left */
-  if(n>=2){x.strokeStyle='#6366f1';x.lineWidth=2;x.beginPath();
+  if(n>=2){x.strokeStyle='#0ea5e9';x.lineWidth=2;x.beginPath();
     rd.hist.forEach((v,i)=>{const px=L+(i/span)*(R-L),py=B-(v/N0)*(B-T);i===0?x.moveTo(px,py):x.lineTo(px,py);});
     x.stroke();
     const lastX=L+((n-1)/span)*(R-L),lastY=B-(rd.hist[n-1]/N0)*(B-T);
-    x.fillStyle='#4f46e5';x.beginPath();x.arc(lastX,lastY,3.5,0,7);x.fill();}
+    x.fillStyle='#0ea5e9';x.beginPath();x.arc(lastX,lastY,3.5,0,7);x.fill();}
   /* legend */
   x.font='700 9px '+FS;x.textAlign='left';
-  x.fillStyle='#6366f1';x.fillText('live population',L+6,T+9);
-  x.fillStyle='rgba(79,70,229,.65)';x.fillText('ideal (½) curve',L+86,T+9);}
+  x.fillStyle='#0ea5e9';x.fillText('live population',L+6,T+9);
+  x.fillStyle='rgba(14,165,233,.65)';x.fillText('ideal (½) curve',L+86,T+9);}
 
 /* ============ PAGE 2: GM TUBE ============ */
 const gmCanvas=document.getElementById('gmCanvas');observe(gmCanvas);
@@ -561,7 +561,7 @@ function drawGm(){const s=sizes.get(gmCanvas);if(!s)return;const{w,h}=s,x=gmCanv
   x.fillStyle='#334155';x.beginPath();x.arc(srcX,midY,12,0,7);x.fill();
   x.fillStyle=CLR.muted;x.font='10px '+FS;x.textAlign='center';x.fillText('source',srcX,midY+28);
   /* GM tube */
-  x.fillStyle='#1e293b';x.beginPath();x.roundRect(tubeX,midY-26,70,52,8);x.fill();
+  x.fillStyle='#2b2f36';x.beginPath();x.roundRect(tubeX,midY-26,70,52,8);x.fill();
   x.fillStyle='#f59e0b';x.fillRect(tubeX-5,midY-18,6,36);
   x.fillStyle='#fff';x.font='700 11px '+FM;x.fillText('GM',tubeX+35,midY+4);
   x.fillStyle=CLR.muted;x.font='10px '+FS;x.fillText('detector',tubeX+35,midY+40);
@@ -606,7 +606,7 @@ function drawGeo(){const s=sizes.get(geoCanvas);if(!s)return;const{w,h}=s,x=geoC
   x.fillStyle=CLR.muted;x.font='10px '+FS;x.textAlign='center';x.fillText('source',cx,cy+R+16);
   /* detector arc on right of sphere */
   const detAng=0,detSize=0.08+geo.X*0.012;
-  x.strokeStyle='#1e293b';x.lineWidth=5;x.beginPath();x.arc(cx,cy,R,detAng-detSize,detAng+detSize);x.stroke();
+  x.strokeStyle='#2b2f36';x.lineWidth=5;x.beginPath();x.arc(cx,cy,R,detAng-detSize,detAng+detSize);x.stroke();
   const dx=cx+Math.cos(detAng)*R,dy=cy+Math.sin(detAng)*R;
   x.fillStyle=CLR.ink;x.font='700 10px '+FS;x.textAlign='left';x.fillText('detector (X)',dx+8,dy+4);
   /* radius label */
@@ -662,10 +662,10 @@ function drawHl(){const s=sizes.get(hlCanvas);if(!s)return;const{w,h}=s,x=hlCanv
   for(let k=0;k*hl.T<=HL_TMAX;k++){const t=k*hl.T;x.fillStyle='#e11d48';x.beginPath();x.arc(TX(t),AY(hlAct(t)),3,0,7);x.fill();}
   /* read cursor */
   const rt=hl.readT,ry=AY(hlAct(rt)),rx=TX(rt);
-  x.strokeStyle='#4f46e5';x.setLineDash([2,2]);x.lineWidth=1.5;
+  x.strokeStyle='#0ea5e9';x.setLineDash([2,2]);x.lineWidth=1.5;
   x.beginPath();x.moveTo(rx,B);x.lineTo(rx,ry);x.lineTo(L,ry);x.stroke();x.setLineDash([]);
-  x.fillStyle='#4f46e5';x.beginPath();x.arc(rx,ry,5,0,7);x.fill();
-  x.fillStyle='#4f46e5';x.font='700 11px '+FS;x.textAlign='left';
+  x.fillStyle='#0ea5e9';x.beginPath();x.arc(rx,ry,5,0,7);x.fill();
+  x.fillStyle='#0ea5e9';x.font='700 11px '+FS;x.textAlign='left';
   x.fillText(hlAct(rt).toFixed(0)+' Bq',Math.min(rx+8,R-54),ry-8);}
 hlUpdate();
 

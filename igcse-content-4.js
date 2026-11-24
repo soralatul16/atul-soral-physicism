@@ -9,8 +9,8 @@
       { title:"Magnets and poles",
         html:"<p>Every magnet has a <b>north</b> and a <b>south</b> pole. <b>Like poles repel, unlike poles attract.</b></p>"+
              "<div style='text-align:center;margin:8px 0'><svg width='260' height='60' viewBox='0 0 260 60' style='max-width:100%'>"+
-             "<rect x='20' y='22' width='40' height='20' fill='#dc2626'/><rect x='60' y='22' width='40' height='20' fill='#2563eb'/><text x='35' y='37' font-size='11' fill='#fff'>N</text><text x='75' y='37' font-size='11' fill='#fff'>S</text>"+
-             "<rect x='160' y='22' width='40' height='20' fill='#2563eb'/><rect x='200' y='22' width='40' height='20' fill='#dc2626'/><text x='175' y='37' font-size='11' fill='#fff'>S</text><text x='215' y='37' font-size='11' fill='#fff'>N</text></svg></div>"+
+             "<rect x='20' y='22' width='40' height='20' fill='#dc2626'/><rect x='60' y='22' width='40' height='20' fill='#0ea5e9'/><text x='35' y='37' font-size='11' fill='#fff'>N</text><text x='75' y='37' font-size='11' fill='#fff'>S</text>"+
+             "<rect x='160' y='22' width='40' height='20' fill='#0ea5e9'/><rect x='200' y='22' width='40' height='20' fill='#dc2626'/><text x='175' y='37' font-size='11' fill='#fff'>S</text><text x='215' y='37' font-size='11' fill='#fff'>N</text></svg></div>"+
              "<div class='f'><p>Magnetic materials: iron, steel, nickel, cobalt.</p></div>" },
       { title:"Magnetic field lines",
         html:"<p>A magnetic <b>field</b> is the region where a magnet's force acts. Field lines run from <b>N to S</b> outside the magnet; closer lines = stronger field.</p>"+

@@ -256,7 +256,7 @@ window.ExperimentPanel = {
         h2{font-size:14px;color:#475569;font-weight:normal;margin-bottom:20px}
         .meta{font-size:12px;color:#94a3b8;margin-bottom:16px}
         .var-box{display:inline-block;padding:4px 12px;border-radius:6px;font-size:12px;font-weight:600;margin:2px 4px}
-        .iv{background:#dbeafe;color:#1d4ed8}.dv{background:#fee2e2;color:#991b1b}.cv{background:#dcfce7;color:#166534}
+        .iv{background:#dbeafe;color:#0284c7}.dv{background:#fee2e2;color:#991b1b}.cv{background:#dcfce7;color:#166534}
         table{width:100%;border-collapse:collapse;margin:16px 0;font-size:13px}
         th{background:#f1f5f9;padding:8px 12px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px;text-transform:uppercase;letter-spacing:.5px}
         td{padding:8px 12px;border-bottom:1px solid #f1f5f9}

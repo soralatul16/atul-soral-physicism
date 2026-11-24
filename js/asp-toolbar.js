@@ -46,7 +46,7 @@
       'background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);' +
       'border:1px solid rgba(255,255,255,.9);box-shadow:inset 0 1px 0 #fff,0 1px 2px rgba(26,26,46,.08),0 8px 24px rgba(26,26,46,.14);transition:transform .3s,opacity .3s}' +
     '.asp-tb.asp-hide{transform:translateY(-70px);opacity:0}' +
-    '.asp-tb a,.asp-top{display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 13px;border-radius:999px;color:#1a1a2e;text-decoration:none;white-space:nowrap;' +
+    '.asp-tb a,.asp-top{display:inline-flex;align-items:center;gap:5px;height:34px;padding:0 13px;border-radius:999px;color:#1f2228;text-decoration:none;white-space:nowrap;' +
       'background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.55));border:1px solid rgba(255,255,255,.9);box-shadow:inset 0 1px 0 #fff;transition:background .2s,transform .2s}' +
     '.asp-tb a,.asp-top{position:relative;isolation:isolate;overflow:hidden;-webkit-backdrop-filter:blur(14px) saturate(170%);backdrop-filter:blur(14px) saturate(170%)}' +
     '.asp-tb a::before,.asp-top::before{content:"";position:absolute;z-index:-1;left:8%;right:8%;top:1px;height:48%;border-radius:999px;background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0));pointer-events:none}' +

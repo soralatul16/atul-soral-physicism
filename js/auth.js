@@ -222,7 +222,7 @@ var PhysicismAuth = (function() {
     overlay.innerHTML = 
       '<div style="background:#fff;border-radius:16px;padding:32px;max-width:400px;width:90%;box-shadow:0 20px 60px rgba(0,0,0,.2);transform:translateY(20px);transition:transform .3s;" id="profileModal">' +
         '<div style="text-align:center;font-size:2.5rem;margin-bottom:8px">🎓</div>' +
-        '<h2 style="font-family:Georgia,serif;font-size:1.3rem;text-align:center;margin-bottom:4px;color:#1A1A2E">Welcome to <span style="color:#0B7285">Physicism</span></h2>' +
+        '<h2 style="font-family:Georgia,serif;font-size:1.3rem;text-align:center;margin-bottom:4px;color:#1f2228">Welcome to <span style="color:#0B7285">Physicism</span></h2>' +
         '<p style="text-align:center;font-size:.82rem;color:#6B7280;margin-bottom:24px">One last step — select your level to get started.</p>' +
         '<div style="margin-bottom:20px">' +
           '<label style="display:block;font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#9CA3AF;margin-bottom:6px">Your Level</label>' +
