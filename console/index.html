@@ -546,7 +546,7 @@ async function showMeetingFile(m){
   let rec=null;try{rec=await fileGet(meta.id);}catch(e){}
   if(!rec||!rec.blob){box.innerHTML='<p class="mini" style="padding:18px;margin:0">This file is not stored in this browser (it may have been added on another device, or restored from a backup made before files were included). Upload it again to see it here.</p>';return;}
   const url=meetFileURL=URL.createObjectURL(rec.blob);const n=(rec.name||'').toLowerCase(),t=rec.type||'';
-  const dlBtn=`<a class="btn sm" href="${url}" download="${esc(rec.name)}">⬇ Download</a><a class="btn sm" href="${url}" target="_blank" rel="noopener">↗ Open in new tab</a>`;
+  const dlBtn=`<a class="btn sm" href="${url}" download="${esc(rec.name)}">⬇ Download</a><a class="btn sm" href="${url}" target="_top" rel="noopener">↗ Open in new tab</a>`;
   const bar=`<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding:10px 12px;border-bottom:1px solid var(--line)"><b style="font-size:13.5px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${fileIcon(rec)} ${esc(rec.name)} <span class="mini">· ${fmtSize(rec.size)}</span></b>${dlBtn}</div>`;
   let body='';
   if(t==='application/pdf'||/\.pdf$/.test(n))body=`<iframe src="${url}" title="${esc(rec.name)}" style="display:block;width:100%;height:75vh;min-height:480px;border:0;background:#fff"></iframe>`;
@@ -1055,7 +1055,7 @@ function taskRow(t){
     </div>
     ${donePill}
     <span class="due ${dc}">${dueLabel(t.due)}</span>
-    ${t.due?`<a class="calx" href="${gcalLink(t.title+(t.grade?' ('+t.grade+')':''),t.due)}" target="_blank" rel="noopener" title="Add to Google Calendar" onclick="event.stopPropagation()">📅</a>`:''}
+    ${t.due?`<a class="calx" href="${gcalLink(t.title+(t.grade?' ('+t.grade+')':''),t.due)}" target="_top" rel="noopener" title="Add to Google Calendar" onclick="event.stopPropagation()">📅</a>`:''}
     <button class="row-del" data-del="${t.id}" title="Delete"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
   </div>`;
 }
@@ -1237,7 +1237,7 @@ function iaRow(i){
       </div>
     </div>
     <span class="pill ${s.k}"><span class="dot ${s.dot}"></span>${s.label}</span>
-    ${i.due?`<a class="calx" href="${gcalLink('IA · '+i.student+(i.topic?' — '+i.topic:''),i.due)}" target="_blank" rel="noopener" title="Add deadline to Google Calendar" onclick="event.stopPropagation()">📅</a>`:''}
+    ${i.due?`<a class="calx" href="${gcalLink('IA · '+i.student+(i.topic?' — '+i.topic:''),i.due)}" target="_top" rel="noopener" title="Add deadline to Google Calendar" onclick="event.stopPropagation()">📅</a>`:''}
     <button class="btn sm" data-iareview="${i.id}">Review</button>
     <button class="btn sm ghost" data-iaup="${i.id}">Upload</button>
     <button class="row-del" data-iadel="${i.id}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
@@ -2963,7 +2963,7 @@ function taskViewModal(t){
     </div>
     <div class="modal-foot" style="flex-wrap:wrap;gap:8px">
       <button class="btn" data-vdel>Delete</button>
-      ${t.due?`<a class="btn" href="${gcalLink(t.title+(t.grade?' ('+t.grade+')':''),t.due)}" target="_blank" rel="noopener">📅 Calendar</a>`:''}
+      ${t.due?`<a class="btn" href="${gcalLink(t.title+(t.grade?' ('+t.grade+')':''),t.due)}" target="_top" rel="noopener">📅 Calendar</a>`:''}
       <button class="btn" data-vedit>Edit</button>
       <button class="btn primary" data-vdone>${done?'Reopen':'Mark done'}</button>
     </div>
@@ -3402,7 +3402,7 @@ function iaModal(i){
   const edit=!!i;i=i||{grade:'Grade 11',stage:'Proposal',supervisor:'Atul Soral'};
   const teachOpts=state.settings.teachers;
   const files=edit?filesOf(i):[];
-  const fileList=files.length?files.map(f=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)">${f.thumb?`<img src="${f.thumb}" style="width:30px;height:30px;object-fit:cover;border-radius:5px">`:(f.link?'<span style="font-size:16px">🔗</span>':'<span style="font-size:16px">📄</span>')}<div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.link?`<a href="${esc(f.link)}" target="_blank" rel="noopener" style="color:var(--brand);text-decoration:none">${esc(f.name)} ↗</a>`:esc(f.name)}</div><div class="mini">${f.stage?esc(f.stage)+' · ':''}${f.note?esc(f.note):(f.link?'opens in Drive':'no note')}</div></div>${f.id!=='legacy'?`<button class="row-del" data-ifdel="${f.id}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`:''}</div>`).join(''):'<div class="mini">No files yet.</div>';
+  const fileList=files.length?files.map(f=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line)">${f.thumb?`<img src="${f.thumb}" style="width:30px;height:30px;object-fit:cover;border-radius:5px">`:(f.link?'<span style="font-size:16px">🔗</span>':'<span style="font-size:16px">📄</span>')}<div style="flex:1;min-width:0"><div style="font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.link?`<a href="${esc(f.link)}" target="_top" rel="noopener" style="color:var(--brand);text-decoration:none">${esc(f.name)} ↗</a>`:esc(f.name)}</div><div class="mini">${f.stage?esc(f.stage)+' · ':''}${f.note?esc(f.note):(f.link?'opens in Drive':'no note')}</div></div>${f.id!=='legacy'?`<button class="row-del" data-ifdel="${f.id}"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>`:''}</div>`).join(''):'<div class="mini">No files yet.</div>';
   modal(`
     <div class="modal-head"><h3>${edit?esc(i.student):'New student'}</h3><button class="x" data-close>×</button></div>
     <div class="modal-body">

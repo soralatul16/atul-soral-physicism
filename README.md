@@ -28,10 +28,17 @@ Static site on GitHub Pages. Accounts, assignments and question banks use Fireba
 | `js/asp-gallery.js` | Galleries: groups the simulators by topic |
 | `js/asp-toolbar.js` | Back / Home / course toolbar on sims and tool pages |
 | `js/asp-papers.js` | Keeps mark schemes away from students (see below) |
+| `js/asp-visual.js`, `css/asp-visual.css` | Pictionary cube, formula infographic tabs and the full-screen poster viewer |
+| `js/asp-helpers.js` | Floating helpers: GDC calculator, AI tutor and feedback |
+| `js/asp-math.js` | Typesets formulas (fractions, roots, italic symbols) and rearranges and solves them |
+| `js/asp-formula-bank.js`, `css/asp-tools.css` | DP and MYP formula banks with the formula studio; DP flashcards |
+| `js/dp-formulas.js` | Every DP data booklet equation. The Data Booklet and the DP Formula Bank both read it |
 
 ## Everyday tasks
 - **Add a simulator:** add an entry to `js/dp-sims.js` (`level: "IGCSE"` or `"MYP"`; no level means DP). It appears in the right gallery under the right topic.
 - **Add a "What's new" item:** add it at the top of `NEWS` in `js/asp-home.js`.
+- **Add a DP equation:** add it to the right theme in `js/dp-formulas.js`. It appears in the Data Booklet and the Formula Bank.
+- **Add an MYP formula:** add it to `FB_CONFIG` near the bottom of `myp-formula-bank.html` (optional `poster:` file name in `Images/`).
 - **Give a sims page the toolbar:** add `<script src="../js/asp-toolbar.js" defer></script>` before `</body>`.
 
 ## Assignments and mark schemes
