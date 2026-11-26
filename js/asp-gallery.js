@@ -18,12 +18,20 @@
   var DP_THEMES = { A: 'Space, Time and Motion', B: 'The Particulate Nature of Matter', C: 'Wave Behaviour', D: 'Fields', E: 'Nuclear and Quantum Physics' };
   var IG_TOPICS = { 1: 'Motion, Forces and Energy', 2: 'Thermal Physics', 3: 'Waves', 4: 'Electricity and Magnetism', 5: 'Nuclear Physics', 6: 'Space Physics' };
   var IG_WORDS = [[1, /motion|force|energy|measure|mass|weight|momentum|pressure|density/i], [2, /thermal|heat|temperature|particle/i], [3, /wave|light|sound|spectrum/i], [4, /electric|magnet|circuit/i], [5, /nuclear|radioactiv|atom/i], [6, /space|earth|star|solar|universe/i]];
-  var MYP_EXAM = {
-    'myp-waves': [['Light exam prep', 'sims/myp-light-exam.html'], ['Sound exam prep', 'sims/myp-sound-exam.html']],
-    'myp-astrophysics': [['Exam prep', 'sims/myp-astrophysics-exam.html']],
-    'myp-atomic-physics': [['Exam prep', 'sims/myp-atomic-exam.html']],
-    'myp-pressure-fluids': [['Exam prep', 'sims/myp-pressure-exam.html']]
-  };
+  /* EXAM PREP buttons at the bottom of each unit card. Add a new one as a line here.
+     [ unit page it belongs to, button label, exam prep page, title, date added ] */
+  var EXAMS = [
+    ['sims/myp-waves.html',               'Light exam prep', 'sims/myp-light-exam.html',        'Light',                '2026-10-01'],
+    ['sims/myp-waves.html',               'Sound exam prep', 'sims/myp-sound-exam.html',        'Sound',                '2026-10-01'],
+    ['sims/myp-pressure-fluids.html',     'Exam prep',       'sims/myp-pressure-exam.html',     'Pressure & fluids',    '2026-10-15'],
+    ['sims/myp-atomic-physics.html',      'Exam prep',       'sims/myp-atomic-exam.html',       'Atomic physics',       '2026-11-01'],
+    ['sims/myp-astrophysics.html',        'Exam prep',       'sims/myp-astrophysics-exam.html', 'Astrophysics',         '2026-11-10'],
+    ['sims/dp-e3-radioactive-decay.html', 'Exam prep',       'sims/dp-e3-exam.html',            'E.3 Radioactive decay', '2026-11-26'],
+    ['sims/dp-e4-fission.html',           'Exam prep',       'sims/dp-e4-exam.html',            'E.4 Fission',           '2026-11-26'],
+    ['sims/dp-e5-fusion-stars.html',      'Exam prep',       'sims/dp-e5-exam.html',            'E.5 Fusion and stars',  '2026-11-26']
+  ];
+  var EXAM_BY_UNIT = {};
+  EXAMS.forEach(function (x) { (EXAM_BY_UNIT[x[0]] = EXAM_BY_UNIT[x[0]] || []).push(x); });
   var TINT = ['bg-teal', 'bg-blue', 'bg-purple', 'bg-coral', 'bg-green', 'bg-amber', 'bg-pink', 'bg-violet'];
 
   function group(s) {
@@ -63,7 +71,7 @@
     var full = String(s.description || '').length > 380 || /^(dp-[a-e]\d|myp-)/.test(s.id || '');
     var desc = esc(s.description);
     var short = desc.length > 190 ? desc.slice(0, 185).replace(/\s+\S*$/, '') + '…' : desc;
-    var exam = (MYP_EXAM[s.id] || []).map(function (x) { return '<a class="gb gb--sm" href="' + x[1] + '">' + x[0] + '</a>'; }).join('');
+    var exam = (EXAM_BY_UNIT[s.file] || []).map(function (x) { return '<a class="gb gb--sm" href="' + attr(x[2]) + '">&#127919; ' + html(x[1]) + '</a>'; }).join('');
     var kw = [s.title, s.topic, s.topicName, s.description, s.id].map(esc).join(' ');
     return '<article class="card sim ' + TINT[i % TINT.length] + ' reveal" data-find-item="' + attr(kw) + '">' +
       '<div class="card__top"><span class="card__icon" aria-hidden="true">' + html(s.icon || '⚡') + '</span>' +
@@ -76,6 +84,7 @@
   }
 
   var out = '', idx = 0, chips = '';
+
   order.forEach(function (k) {
     var g = groups[k]; g.list.sort(codeSort);
     var id = 'g-' + k.replace(/[^a-z0-9]+/gi, '-').toLowerCase();
