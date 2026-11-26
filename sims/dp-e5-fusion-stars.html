@@ -1846,7 +1846,8 @@ const QZ=[
 {q:'The heaviest element that can be produced by fusion releasing energy in a star is about',o:['iron','carbon','helium','uranium'],a:0,e:'Fe-56 is near the peak of the binding energy per nucleon curve.'},
 {q:'A white dwarf is prevented from collapsing by',o:['electron degeneracy pressure','radiation pressure from fusion','neutron degeneracy pressure','its magnetic field'],a:0,e:'Fusion has stopped; the electrons resist compression.'},
 {q:'Which property of a star cannot be found from its spectrum alone?',o:['its distance','its surface temperature','its chemical composition','its spectral class'],a:0,e:'Distance needs parallax (or another method).'}];
-Quiz('#quizRoot',QZ);
+const mixO=q=>{const ans=q.o[q.a],o=shuf0(q.o.length).map(i=>q.o[i]);q.o=o;q.a=o.indexOf(ans);return q;};
+QZ.forEach(mixO);Quiz('#quizRoot',QZ);
 
 /* ---------- Calculation drill ---------- */
 const rnd=(a,b)=>a+Math.floor(Math.random()*(b-a+1)),rf=(a,b,d=2)=>+(a+Math.random()*(b-a)).toPrecision(d);
@@ -1959,6 +1960,7 @@ const NX=[
  {q:'A star has 50 times the Sun’s luminosity and half its surface temperature. Calculate its radius in units of R☉.',a:28.3,u:'R☉',s:'√50 / 0.5² = 7.07 / 0.25 = 28 R☉'},
  {q:'Estimate the main-sequence lifetime (years) of a 3.0 M☉ star, given 1.0 × 10¹⁰ years for the Sun and t ∝ M<sup>−2.5</sup>.',a:6.42e8,u:'years',s:'10¹⁰ × 3<sup>−2.5</sup> = 6.4 × 10⁸ years'},
  {q:'Calculate the mass lost by the Sun each second (kg), given L = 3.83 × 10²⁶ W.',a:4.26e9,u:'kg',s:'L/c² = 3.83 × 10²⁶ / 9.0 × 10¹⁶ = 4.3 × 10⁹ kg'}];
+MX.forEach(mixO);ESETS.forEach(s=>s.parts.forEach(p=>{if(p.type==='mcq')mixO(p);}));
 const MK={state:'intro',qs:[],end:0,tmr:null};
 const shuf=a=>a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(p=>p[1]);
 function mkIntro(){$('#mockRoot').innerHTML=`<h3>Timed mini-mock · 30 minutes · 24 marks</h3><p class="lead">12 multiple-choice questions (Paper 1A style, 1 mark each) and 6 calculations (2 marks each), chosen at random from the whole of E.5. Work without notes, then submit to see your score, the answers and the working. Your name and the time are stamped on the result.</p>
@@ -1992,5 +1994,4 @@ const hdr=document.querySelector("header");const setHH=()=>{if(hdr)document.docu
 [()=>bbSet(BB.lt,BB.lr),()=>pxSet(PX.lg),()=>rdSet(RD.lL,RD.lT),()=>plNew()].forEach(f=>safe(f));
 readColors();drawAll();
 </script>
-</main><script src="../js/asp-toolbar.js" defer></script>
-</body></html>
+</main></body></html>
