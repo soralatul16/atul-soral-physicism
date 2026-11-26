@@ -1679,11 +1679,11 @@ function drawCp(){if(!subOn('comp-lab'))return;const {ctx,w,h}=fit($('#cCp')),R=
  const tx=cx+Math.cos(-R.r)*L*1.05,ty=cy+Math.sin(-R.r)*L*1.05;txtB(ctx,'scattered: λ′ = '+fmtPm(R.lp),Math.max(90,Math.min(w-90,tx)),Math.max(18,ty-10),{a:'center',sz:12.5,b:1,c:col});
  if(CP.th>0)txtB(ctx,'electron: Eₖ = '+fmtE(R.Ek),Math.min(w-80,cx+Math.cos(R.phi)*L*.9),Math.min(h-120,cy+Math.sin(R.phi)*L*.9+22),{a:'center',sz:12.5,b:1,c:C.ep});
  /* momentum triangle */
- const bw=240,bh=136,bx=w-14-bw,by=h-14-bh,s=100/R.p,ax=bx+bw/2,ay=by+bh-18;ctx.fillStyle=C.panel2;ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.fillRect(bx,by,bw,bh);ctx.strokeRect(bx,by,bw,bh);
+ const bw=240,bh=136,bx=w-14-bw,by=h-14-bh,ks=100/R.p,ax=bx+bw/2,ay=by+bh-18;ctx.fillStyle=C.panel2;ctx.strokeStyle=C.line;ctx.lineWidth=1;ctx.fillRect(bx,by,bw,bh);ctx.strokeRect(bx,by,bw,bh);
  txt(ctx,'momentum: p = p′ + pₑ',bx+8,by+16,{sz:11.5,b:1});
- const fx=ax+Math.cos(-R.r)*R.pp*s,fy=ay+Math.sin(-R.r)*R.pp*s,ix=ax+R.p*s;
- arr(ctx,ax,ay,ix,ay,col,'',{w:2.5,hs:9});arr(ctx,ax,ay,fx,fy,'#a58be6','',{w:2.5,hs:9});if(R.pe*s>3)arr(ctx,fx,fy,ix,ay,C.ep,'',{w:2.5,hs:9});
- txt(ctx,'p',ax+R.p*s*.5,ay+15,{a:'center',sz:12,b:1,c:col});txt(ctx,'p′',(ax+fx)/2-10,(ay+fy)/2-4,{a:'center',sz:12,b:1,c:'#a58be6'});if(R.pe*s>3)txt(ctx,'pₑ',(fx+ix)/2+12,(fy+ay)/2,{a:'center',sz:12,b:1,c:C.ep});
+ const fx=ax+Math.cos(-R.r)*R.pp*ks,fy=ay+Math.sin(-R.r)*R.pp*ks,ix=ax+R.p*ks;
+ arr(ctx,ax,ay,ix,ay,col,'',{w:2.5,hs:9});arr(ctx,ax,ay,fx,fy,'#a58be6','',{w:2.5,hs:9});if(R.pe*ks>3)arr(ctx,fx,fy,ix,ay,C.ep,'',{w:2.5,hs:9});
+ txt(ctx,'p',ax+R.p*ks*.5,ay+15,{a:'center',sz:12,b:1,c:col});txt(ctx,'p′',(ax+fx)/2-10,(ay+fy)/2-4,{a:'center',sz:12,b:1,c:'#a58be6'});if(R.pe*ks>3)txt(ctx,'pₑ',(fx+ix)/2+12,(fy+ay)/2,{a:'center',sz:12,b:1,c:C.ep});
  wm(ctx,w,h);
  const fr=R.Ek/R.E*100;
  $('#cpMath').innerHTML=`Δλ = (h/m<sub>e</sub>c)(1 − cos θ) = 2.43 × 10⁻¹² × (1 − cos ${CP.th}°) = <b>${sci(R.dl*1e-12,3)} m</b><br>λ′ = λ + Δλ = ${fmtPm(CP.l)} + ${R.dl.toFixed(3)} pm = <span class="ans">${fmtPm(R.lp)}</span><br>E = hc/λ = <b>${fmtE(R.E)}</b>; E′ = hc/λ′ = <b>${fmtE(R.Ep)}</b><br>electron: E<sub>k</sub> = E − E′ = <span class="ans">${fmtE(R.Ek)}</span> (${fr<.01?sci(fr,1):fr.toPrecision(3)}% of the photon’s energy)<br>p = h/λ = ${sci(R.p,3)} kg m s⁻¹; p′ = ${sci(R.pp,3)} kg m s⁻¹<br>electron momentum p<sub>e</sub> = <b>${sci(R.pe,3)} kg m s⁻¹</b> at φ = <b>${CP.th>0?(R.phi*180/Math.PI).toFixed(1)+'°':'—'}</b> below the incident direction`;
